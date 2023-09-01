@@ -11,7 +11,7 @@
 	- Email: 
 - Karthika, Ankem
 	- Major: Computer Science
-	- Email: 
+	- Email: ankemka@mail.uc.edu
 - Emilio Sese
 	- Major: Computer Science
 	- Email: seseev@mail.uc.edu
