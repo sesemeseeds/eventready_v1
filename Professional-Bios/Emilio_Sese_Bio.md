@@ -23,12 +23,12 @@
 - Obstacle: a 3D obstacle course game using different fundamental and basic C# functions
 - Rocket Boost: a 2D rocket flight level-based videogame using C#
 
-#### Technical Skills:
+## Technical Skills:
 Programming:  Java, Python, C++, 
 Web Development: HTML, CSS, Javascript, Chrome Dev Tools
 Database Programming: SQL
 
-#### Areas of Interest
+## Areas of Interest
 - Artificial Intelligence and Machine Learning
 - PLM Applications and Tools
 - Self-Development, Business, and Leadership
