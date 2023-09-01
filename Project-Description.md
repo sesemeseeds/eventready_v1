@@ -14,7 +14,7 @@
 	- Email: 
 - Emilio Sese
 	- Major: Computer Science
-	- Email: 
+	- Email: seseev@mail.uc.edu
 
 ## Project Info: ##
 
