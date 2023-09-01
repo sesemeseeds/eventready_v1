@@ -18,4 +18,4 @@
 
 ## Project Info: ##
 
-### Topic Area: ###
+### Topic Area: ### Event Management Application.
