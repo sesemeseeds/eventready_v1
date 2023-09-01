@@ -18,4 +18,5 @@
 
 ## Project Info: ##
 
-### Topic Area: ### Event Management Application.
+### Topic Area: ### 
+Event Management Application for Student Organization.
