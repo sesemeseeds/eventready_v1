@@ -24,9 +24,9 @@
 - Rocket Boost: a 2D rocket flight level-based videogame using C#
 
 ## Technical Skills:
-Programming:  Java, Python, C++, 
-Web Development: HTML, CSS, Javascript, Chrome Dev Tools
-Database Programming: SQL
+- Programming:  Java, Python, C++
+- Web Development: HTML, CSS, Javascript, Chrome Dev Tools
+- Database Programming: SQL
 
 ## Areas of Interest
 - Artificial Intelligence and Machine Learning
