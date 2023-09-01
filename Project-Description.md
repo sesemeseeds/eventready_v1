@@ -8,7 +8,7 @@
 	- Email: nguye5tp@mail.uc.edu
 - Haneesha Dushara
 	- Major: Computer Science
-	- Email: 
+	- Email: dusharha@mail.uc.edu
 - Karthika, Ankem
 	- Major: Computer Science
 	- Email: ankemka@mail.uc.edu
