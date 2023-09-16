@@ -20,7 +20,7 @@ Part 2: Design Diagrams
 
 Design 0: 
 
-In this Diagram, the user is represented by first square, is using the web application to help the user host events for their defined scope which here is represented by the final square. 
+*Explanation*
 
 ![image](https://github.com/kbnguyen1423/Capstone-Project/assets/98423738/3f3d4410-2ab5-4f58-9143-1460b7c8a43f)
 
@@ -36,7 +36,9 @@ Design 1:
 
 
 
-Design 2:  User Authentication ---> Manage Events --> Create New Event--> (Set Goals/Tasks List, Budget, Feedback) --> Host successful event 
+Design 2:  
+
+*Explanation*
 
 ![image](https://github.com/kbnguyen1423/Capstone-Project/assets/98423738/99d54c24-63f8-427c-827d-91a076762529)
 
