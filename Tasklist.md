@@ -1,0 +1,12 @@
+[ES]
+1) Investigate gap features to add to the project, by creating a survey and sending it out to network [Project Manager/Developers]
+2) Determine what FE/BE languages to be used for our application [Developers]
+3) Collect and obtain all responses and determine which features to focus on within our scope [Developers]
+4) Specify and create {database} DB after research [BE Developer]
+5) Fill DB with mock user data for authentication [BE Developer]
+6) Design a FE UI/UX mock-up landing page to be approved by all team members [FE Developers & Developers]
+7) Draw out FE UI/UX mock-up budgeting feature [FE Developer]
+8) Implement FE budgeting feature [FE Developer]
+9) Implement BE budgeting feature [BE Developer]
+10) Validate FE/BE budgeting feature [Developers]
+   
