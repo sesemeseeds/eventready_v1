@@ -7,7 +7,7 @@
 6) Design out FE UI/UX mock-up marketing feature [Emilio]
 7) Design out FE UI/UX mock-up attendance/rsvp feature [Kevin]
 8) Design out FE UI/UX mock-up tasklist feature [Emilio]
-9) Implement FE/BE landing page [Kevin] 
+9) Implement FE/BE landing page [Kevin/Haneesha] 
 10) Implement FE/BE budgeting feature [Karthika/Haneesha]
 11) Implement FE/BE marketing feature [Emilio/Haneesha]
 12) Implement FE/BE attendance/rsvp feature [Kevin/Haneesha]
