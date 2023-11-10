@@ -16,7 +16,9 @@
 - Emilio Sese
 	- Major: Computer Science
 	- Email: seseev@mail.uc.edu
-
+- Ritika Joshi
+ 	- Major: Computer Science
+     	- Email: joshirk@mail.uc.edu
  
 ## Topic Area:
 Event Management Application for Student Organization.
