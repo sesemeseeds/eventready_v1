@@ -1,7 +1,8 @@
 # Capstone-Project
 
 
-### Project Description 
+## Project Abstract 
+This project is designed to assist newcomers to the event planning field. This web application offers an easy-to-use platform that simplifies event management and creation. It provides a range of tools and resources to help aspiring event planners become proficient at organizing and budgeting for various events, making their entry into event planning smoother and more successful.
 
 ## Team Info: ##
 **Team Name:** Team K^2EH
@@ -21,9 +22,6 @@
 	- Email: seseev@mail.uc.edu
 
 ## Project Info: ##
-
-### Project Abstract 
-This project is designed to assist newcomers to the event planning field. This web application offers an easy-to-use platform that simplifies event management and creation. It provides a range of tools and resources to help aspiring event planners become proficient at organizing and budgeting for various events, making their entry into event planning smoother and more successful.
 
 ### Topic Area: ### 
 Event Management Application for Student Organization.
