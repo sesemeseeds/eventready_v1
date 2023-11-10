@@ -52,12 +52,26 @@ At the moment there will be no expenses.
 
 ## Summary of Hours
 
-Kevin Nguyen
+**Kevin:**
 
-Haneesha Dushara
+Fall (45 Hours): Weekly project checkins to determine project and scope features, designed FE UI/UX mock up landing page, project documentation and scheduled team meetings. 
 
-Ritika Joshi
+**Emilio:**
 
-Emilio Sese
+Fall (45 Hours):Weekly project checkins to determine project and scope features, Investigate gap features and conduct survey, update project advisor with progress, and designed out FE UI/UX mock-up marketing page 
 
-Karthika Ankem
+**Haneesha:**
+
+Fall (45 Hours): Weekly project check-ins to determine project and scope features, Identify the Gaps based on the survey responses and create list of features that can be included, and designed out FE UI/UX mock-up budget page 
+
+**Ritika:** 
+
+Fall (45 Hours): Weekly project check-ins to determine project and scope features, Research methods to host the web application, canva integration to Event Ready and designed out FE UI/UX mock-up attendance RSVP 
+
+**Karthika:**
+
+Fall (45 Hours): Weekly project check-ins to determine project and scope features, Design and create database after research and designed out FE UI/UX mock-up Task List/Goals page, Document and monitor project progression 
+
+
+
+## References
