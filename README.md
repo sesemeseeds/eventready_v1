@@ -3,6 +3,7 @@
 
 # Budget
 
+At the moment there will be no expenses.
 
 # Appendix
 
