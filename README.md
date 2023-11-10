@@ -1,4 +1,4 @@
-# Capstone-Project
+# Event Ready
 
 
 ## Project Abstract 
