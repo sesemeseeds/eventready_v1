@@ -36,15 +36,15 @@ This project is designed to assist newcomers to the event planning field. This w
 
 ### [User Stories](User_Stories.md)
 
-### [Design Diagrams] (Design Diagram/Design Diagram.md)
+### [Design Diagrams](Design Diagram/Design Diagram.md)
 
-### [Project Tasks & Timeline] (ProjectMilestone-Timeline-EffortMatrix.pdf)
+### [Project Tasks & Timeline](ProjectMilestone-Timeline-EffortMatrix.pdf)
 
-### [PPT Slideshow] (PPT Slideshow.pptx)
+### [PPT Slideshow](PPT Slideshow.pptx)
 
-### [Self-Assessment Essays] (Team Homework Assignments)
+### [Self-Assessment Essays](Team Homework Assignments)
 
-### [Professional Biographies] (Professional-Bios)
+### [Professional Biographies](Professional-Bios)
 
 ### Budget
 
