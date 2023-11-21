@@ -64,7 +64,7 @@ Fall (45 Hours): Weekly project checkins to determine project and scope features
 
 Fall (45 Hours):Weekly project checkins to determine project and scope features, Investigate gap features and conduct survey, update project advisor with progress, and designed out FE UI/UX mock-up marketing page 
 
-####[Survey Responses](Campus%Event%Application%Survey%Responses.xlsx)
+[Survey Responses](Campus%Event%Application%Survey%Responses.xlsx)
 
 **Haneesha:**
 
