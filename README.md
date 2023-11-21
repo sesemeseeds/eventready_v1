@@ -46,7 +46,7 @@ This project is designed to assist newcomers to the event planning field. This w
 
 ### [Professional Biographies](Professional-Bios)
 
-### Budget
+## Budget
 
 At the moment there will be no expenses.
 
