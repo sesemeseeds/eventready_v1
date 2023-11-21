@@ -36,7 +36,7 @@ This project is designed to assist newcomers to the event planning field. This w
 
 ### [User Stories](User_Stories.md)
 
-### [Design Diagrams](Design%20Diagram/Design%Diagram.md)
+### [Design Diagrams](./"Design Diagram"/Design%Diagram.md)
 
 ### [Project Tasks & Timeline](ProjectMilestone-Timeline-EffortMatrix.pdf)
 
