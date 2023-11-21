@@ -40,7 +40,7 @@ This project is designed to assist newcomers to the event planning field. This w
 
 ### [Project Tasks & Timeline](ProjectMilestone-Timeline-EffortMatrix.pdf)
 
-### [ABET Essay) (Project%20Constraints.md)
+### [ABET Essay] (Project%20Constraints.md)
 
 ### [PPT Slideshow](PPT%Slideshow.pptx)
 
