@@ -44,7 +44,7 @@ This project is designed to assist newcomers to the event planning field. This w
 
 ### [PPT Slideshow](PPT%Slideshow.pptx)
 
-### [Self-Assessment Essays](Team%20Homework%20Assignments)
+### [Self-Assessment Essays](./"Team Homework Assignments")
 
 ### [Professional Biographies](Professional-Bios)
 
