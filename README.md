@@ -36,7 +36,7 @@ This project is designed to assist newcomers to the event planning field. This w
 
 ### [User Stories](User_Stories.md)
 
-### [Design Diagrams](/Design Diagram/Design%Diagram.md)
+### [Design Diagrams](/Design%20Diagram/Design%20Diagram.md)
 
 ### [Project Tasks & Timeline](ProjectMilestone-Timeline-EffortMatrix.pdf)
 
@@ -64,7 +64,7 @@ Fall (45 Hours): Weekly project checkins to determine project and scope features
 
 Fall (45 Hours):Weekly project checkins to determine project and scope features, Investigate gap features and conduct survey, update project advisor with progress, and designed out FE UI/UX mock-up marketing page 
 
-[Survey Responses](Campus%Event%Application%Survey%Responses.xlsx)
+[Survey Responses](Campus%20Event%20Application%20Survey%20Responses.xlsx)
 
 **Haneesha:**
 
