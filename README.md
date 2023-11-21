@@ -34,17 +34,17 @@ This project is designed to assist newcomers to the event planning field. This w
 
 
 
-# User Stories / Design Diagrams
+### [User Stories](User_Stories.md) / [Design Diagrams] (Design Diagram/Design Diagram.md)
 
-# Project Tasks & Timeline
+### Project Tasks & Timeline
 
-# PPT Slideshow
+### PPT Slideshow
 
-# Self-Assessment Essays
+### Self-Assessment Essays
 
-# Professional Biographies
+### Professional Biographies
 
-# Budget
+### Budget
 
 At the moment there will be no expenses.
 
