@@ -27,7 +27,7 @@ Design Diagram 1 elaborates the Design Diagram 0 and gives us an insight. In the
 
 Design Diagram 2 dives into a deeper explanation of how we want to include the features of our web application from design 1. Down below the user goes to the website and login/creates an account to authenticate who is working on planning the event, this is then stored in a database or if a user already exists it retrieves their information from the database asking them to sign in that is represented by a triangle here. Then it displays all the current events and gives an option for the user to create an event which includes budgeting, task/goal list, marketing, and an rsvp/attendance options that are indicated in the squares below in the flow chart, and then there comes the end of planning the event represented by the star (Plan event) which is later stored in the database again so when a user logs back in they have stored under display events.  
 
-![image](https://github.com/kbnguyen1423/Capstone-Project/assets/98423738/99d54c24-63f8-427c-827d-91a076762529)
+![image]![image](https://github.com/kbnguyen1423/Capstone-Project/assets/98423738/2eaeae98-4c13-4870-b6f2-c2edfc017526)
 
 
 
