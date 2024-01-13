@@ -5,7 +5,10 @@ import * as React from "react";
 import DialogActions from "@mui/material/DialogActions";
 import TextField from "@material-ui/core/TextField";
 import DialogContent from "@material-ui/core/DialogContent";
+import { Form, FormGroup, Input, Label } from "reactstrap";
 import DialogContentText from "@material-ui/core/DialogContentText";
+import GeneralInfoForm from "./GeneralInfoForm";
+
 // import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 // import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 // import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
@@ -25,7 +28,6 @@ export default function GeneralInfoComponent() {
     // Add your form submission logic here
     // e.g., make an API request, update state, etc.
     handleClose();
-    console.log();
   };
 
   const dialogStyle = {
@@ -74,60 +76,13 @@ export default function GeneralInfoComponent() {
       <>
         <Dialog onClose={handleClose} open={openDialog}>
           <DialogTitle> Edit Event Properties </DialogTitle>
-
-          <h3 style={dialogStyle}>
-            <DialogContent>
-              <TextField
-                autoFocus
-                style={{ float: "left" }}
-                margin="dense"
-                id="EventTitle"
-                label="Event Title"
-                type="text"
-                fullWidth
-              />
-              <TextField
-                autoFocus
-                margin="dense"
-                id="EventDate"
-                label="Date"
-                InputLabelProps={{ shrink: true, required: false }}
-                type="Date"
-                fullWidth
-              />
-              <TextField
-                autoFocus
-                margin="dense"
-                id="EventLocation"
-                label="Location"
-                InputLabelProps={{ shrink: true, required: false }}
-                type="text"
-                fullWidth
-              />
-              <TextField
-                autoFocus
-                margin="dense"
-                id="EventAddress"
-                label="Address"
-                InputLabelProps={{ shrink: true, required: false }}
-                type="text"
-                fullWidth
-              />
-              <TextField
-                autoFocus
-                margin="dense"
-                id="EventDescription"
-                label="Description"
-                InputLabelProps={{ shrink: true, required: false }}
-                type="text"
-                fullWidth
-              />
-            </DialogContent>
-          </h3>
+            <DialogContent> <GeneralInfoForm>
+                </GeneralInfoForm> </DialogContent>
+          
 
           <DialogActions>
             <Button onClick={handleClose} color="primary">
-              Cancel
+              Close
             </Button>
             <Button onClick={handleSubmit} color="primary">
               Submit
