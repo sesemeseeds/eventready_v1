@@ -2,7 +2,7 @@ import Button from "@mui/material/Button";
 import DialogTitle from "@mui/material/DialogTitle";
 import Dialog from "@mui/material/Dialog";
 import * as React from "react";
-import DialogActions from '@mui/material/DialogActions';
+import DialogActions from "@mui/material/DialogActions";
 import TextField from "@material-ui/core/TextField";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
@@ -25,7 +25,7 @@ export default function GeneralInfoComponent() {
     // Add your form submission logic here
     // e.g., make an API request, update state, etc.
     handleClose();
-    console.log()
+    console.log();
   };
 
   const dialogStyle = {
@@ -74,48 +74,55 @@ export default function GeneralInfoComponent() {
       <>
         <Dialog onClose={handleClose} open={openDialog}>
           <DialogTitle> Edit Event Properties </DialogTitle>
-          
+
           <h3 style={dialogStyle}>
-          <DialogContent>
-      
-          <TextField
-            autoFocus
-            style={{float: 'left'}}
-            margin="dense"
-            id="EventTitle"
-            label="Event Title"
-            type="text"
-            fullWidth
-          />
-          <TextField
-            autoFocus
-            margin="dense"
-            id="EventDate"
-            label="Date"
-            InputLabelProps={{ shrink: true, required: false }}
-            type="Date"
-            fullWidth
-          />
-             <TextField
-            autoFocus
-            margin="dense"
-            id="EventLocation"
-            label="Location"
-            InputLabelProps={{ shrink: true, required: false }}
-            type="text"
-            fullWidth
-          />
-             <TextField
-            autoFocus
-            
-            margin="dense"
-            id="EventAddress"
-            label="Address"
-            InputLabelProps={{ shrink: true, required: false }}
-            type="text"
-            width={{'50%'}}
-          />
-        </DialogContent>
+            <DialogContent>
+              <TextField
+                autoFocus
+                style={{ float: "left" }}
+                margin="dense"
+                id="EventTitle"
+                label="Event Title"
+                type="text"
+                fullWidth
+              />
+              <TextField
+                autoFocus
+                margin="dense"
+                id="EventDate"
+                label="Date"
+                InputLabelProps={{ shrink: true, required: false }}
+                type="Date"
+                fullWidth
+              />
+              <TextField
+                autoFocus
+                margin="dense"
+                id="EventLocation"
+                label="Location"
+                InputLabelProps={{ shrink: true, required: false }}
+                type="text"
+                fullWidth
+              />
+              <TextField
+                autoFocus
+                margin="dense"
+                id="EventAddress"
+                label="Address"
+                InputLabelProps={{ shrink: true, required: false }}
+                type="text"
+                fullWidth
+              />
+              <TextField
+                autoFocus
+                margin="dense"
+                id="EventDescription"
+                label="Description"
+                InputLabelProps={{ shrink: true, required: false }}
+                type="text"
+                fullWidth
+              />
+            </DialogContent>
           </h3>
 
           <DialogActions>
