@@ -1,6 +1,6 @@
 import React from 'react';
 import HelloWorld from './HelloWorld';
-import GeneralInfoComponent from './components/GeneralInfo';
+import GeneralInfoComponent from './components/GeneralInfoComponent';
 
 function App() {
   return (
