@@ -6,7 +6,9 @@ import DialogActions from '@mui/material/DialogActions';
 import TextField from "@material-ui/core/TextField";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
-
+// import { TimePicker } from '@mui/x-date-pickers/TimePicker';
+// import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+// import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 
 export default function GeneralInfoComponent() {
   const [openDialog, handleDisplay] = React.useState(false);
@@ -75,24 +77,43 @@ export default function GeneralInfoComponent() {
           
           <h3 style={dialogStyle}>
           <DialogContent>
-          <DialogContentText>
-            Please, edit the flat and the floor of your apartment.
-          </DialogContentText>
+      
           <TextField
             autoFocus
+            style={{float: 'left'}}
             margin="dense"
-            id="flat"
-            label="Flat"
+            id="EventTitle"
+            label="Event Title"
             type="text"
             fullWidth
           />
           <TextField
             autoFocus
             margin="dense"
-            id="floor"
-            label="Floor"
+            id="EventDate"
+            label="Date"
+            InputLabelProps={{ shrink: true, required: false }}
+            type="Date"
+            fullWidth
+          />
+             <TextField
+            autoFocus
+            margin="dense"
+            id="EventLocation"
+            label="Location"
+            InputLabelProps={{ shrink: true, required: false }}
             type="text"
             fullWidth
+          />
+             <TextField
+            autoFocus
+            
+            margin="dense"
+            id="EventAddress"
+            label="Address"
+            InputLabelProps={{ shrink: true, required: false }}
+            type="text"
+            width={{'50%'}}
           />
         </DialogContent>
           </h3>
