@@ -9,10 +9,7 @@ import DialogTitle from "@mui/material/DialogTitle";
 import axios from "axios";
 
 export default function GeneralInfoComponent() {
-
   const [open, setOpen] = React.useState(false);
-
-
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -20,7 +17,6 @@ export default function GeneralInfoComponent() {
   const handleClose = () => {
     setOpen(false);
   };
-
 
   return (
     <div>
@@ -68,25 +64,19 @@ export default function GeneralInfoComponent() {
               const EventAddress = formJson.EventAddress;
               const EventDescription = formJson.EventDescription;
 
-           
-              console.log(formJson)
+              console.log(formJson);
               handleClose();
 
-
-            //   axios.post(API_URL, this.state).then(() => {
-            //     this.props.resetState();
-            //     this.props.toggle();
-            //   });
-
+              //   axios.post(API_URL, this.state).then(() => {
+              //     this.props.resetState();
+              //     this.props.toggle();
+              //   });
             },
           }}
         >
           <DialogTitle>Edit Event Properties</DialogTitle>
           <DialogContent>
-            <DialogContentText>
-              To subscribe to this website, please enter your email address
-              here. We will send updates occasionally.
-            </DialogContentText>
+          
             <TextField
               autoFocus
               required
@@ -98,9 +88,8 @@ export default function GeneralInfoComponent() {
               fullWidth
               variant="outlined"
             />
-                 <TextField
+            <TextField
               autoFocus
-              required
               margin="dense"
               id="EventDate"
               name="EventDate"
@@ -110,9 +99,8 @@ export default function GeneralInfoComponent() {
               fullWidth
               variant="outlined"
             />
-                 <TextField
+            <TextField
               autoFocus
-              required
               margin="dense"
               id="EventTime"
               name="EventTime"
@@ -121,9 +109,8 @@ export default function GeneralInfoComponent() {
               fullWidth
               variant="outlined"
             />
-                 <TextField
+            <TextField
               autoFocus
-              required
               margin="dense"
               id="EventLocation"
               name="EventLocation"
@@ -132,9 +119,8 @@ export default function GeneralInfoComponent() {
               fullWidth
               variant="outlined"
             />
-                 <TextField
+            <TextField
               autoFocus
-              required
               margin="dense"
               id="EventAddress"
               name="EventAddress"
@@ -143,9 +129,8 @@ export default function GeneralInfoComponent() {
               fullWidth
               variant="outlined"
             />
-                 <TextField
+            <TextField
               autoFocus
-              required
               margin="dense"
               id="EventDescription"
               name="EventDescription"
