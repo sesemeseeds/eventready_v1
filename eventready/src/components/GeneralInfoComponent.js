@@ -7,9 +7,54 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import axios from "axios";
+import { Box } from "@mui/material";
+import { useForm } from "react-hook-form";
 
 export default function GeneralInfoComponent() {
   const [open, setOpen] = React.useState(false);
+  const [EventTitle, setEventTitle] = React.useState(String);
+  const [EventDate, setEventDate] = React.useState(String);
+  const [EventTime, setEventTime] = React.useState(String);
+  const [EventLocation, setEventLocation] = React.useState(String);
+  const [EventAddress, setEventAddress] = React.useState(String);
+  const [EventDescription, setEventDescription] = React.useState(String);
+
+  const defaultValues = {
+    EventTitle: "",
+    EventDescription: "",
+  };
+
+  const { register, handleSubmit, reset } = useForm({
+    defaultValues: defaultValues,
+  });
+
+  const onSubmit = async (data) => {
+    setEventTitle(data.EventTitle);
+    setEventDate(data.EventDate);
+    setEventTime(data.EventTime);
+    setEventLocation(data.EventLocation);
+    setEventAddress(data.EventAddress);
+    setEventDescription(data.EventDescription);
+    console.log(data);
+    handleClose();
+  };
+
+  const GetData = () => {
+    //this is where the GET request will go
+    setEventTitle("Tests");
+
+    setEventDate("Hardcoded Event Date");
+    setEventTime("Hardcoded Event Time");
+    setEventLocation("Hardcoded Event Location");
+    setEventAddress("Hardcoded Event Address");
+    setEventDescription(
+      "This is a test description I will make it kinda long hahahahahahahahhahahahahahahahahhaha"
+    );
+  };
+
+  React.useEffect(() => {
+    GetData();
+  }, []);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -21,16 +66,8 @@ export default function GeneralInfoComponent() {
   return (
     <div>
       <div style={{ width: "50%", float: "left" }}>
-        <h1>Event Title</h1>
-        <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-          minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-          aliquip ex ea commodo consequat. Duis aute irure dolor in
-          reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-          pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-          culpa qui officia deserunt mollit anim id est laborum.
-        </p>
+        <h1>{EventTitle} </h1>
+        <p>{EventDescription}</p>
       </div>
       <div style={{ width: "50%", float: "left" }}>
         <Button variant="contained" onClick={handleClickOpen}>
@@ -38,114 +75,90 @@ export default function GeneralInfoComponent() {
           Edit{" "}
         </Button>
         <h1> Side section</h1>
-        <div> Date of the Event</div>
-        <div> Time of the event </div>
+        <div> {EventDate}</div>
+        <div> {EventTime} </div>
         <div> Days until the event </div>
         <br></br>
 
-        <div>Location</div>
-        <div>Address</div>
+        <div>{EventLocation}</div>
+        <div>{EventAddress}</div>
       </div>
 
-      <React.Fragment>
-        <Dialog
-          open={open}
-          onClose={handleClose}
-          PaperProps={{
-            component: "form",
-            onSubmit: (event) => {
-              event.preventDefault();
-              const formData = new FormData(event.currentTarget);
-              const formJson = Object.fromEntries(formData.entries());
-              const EventTitle = formJson.EventTitle;
-              const EventDate = formJson.EventDate;
-              const EventTime = formJson.EventTime;
-              const EventLocation = formJson.EventLocation;
-              const EventAddress = formJson.EventAddress;
-              const EventDescription = formJson.EventDescription;
+      <Dialog open={open}>
+        <DialogContent>
+          <>
+            <form onSubmit={handleSubmit(onSubmit)}>
+              <TextField
+                margin="dense"
+                name="EventTitle"
+                label="Event Title"
+                type="text"
+                fullWidth
+                variant="outlined"
+                {...register("EventTitle")}
+              />
+              <TextField
+                autoFocus
+                margin="dense"
+                name="EventDate"
+                label="Event Date"
+                InputLabelProps={{ shrink: true, required: false }}
+                type="Date"
+                fullWidth
+                variant="outlined"
+                {...register("EventDate")}
+              />
+              <TextField
+                autoFocus
+                margin="dense"
+                name="EventTime"
+                label="Event Time"
+                type="text"
+                fullWidth
+                variant="outlined"
+                {...register("EventTime")}
+              />
+              <TextField
+                autoFocus
+                margin="dense"
+                name="EventLocation"
+                label="Event Location"
+                type="text"
+                fullWidth
+                variant="outlined"
+                {...register("EventLocation")}
+              />
+              <TextField
+                autoFocus
+                margin="dense"
+                name="EventAddress"
+                label="Event Address"
+                type="text"
+                fullWidth
+                variant="outlined"
+                {...register("EventAddress")}
+              />
+              <TextField
+                autoFocus
+                margin="dense"
+                name="EventDescription"
+                label="Event Description"
+                type="text"
+                fullWidth
+                variant="outlined"
+                {...register("EventDescription")}
+              />
 
-              console.log(formJson);
-              handleClose();
+              <DialogActions>
+                <Button onClick={handleClose}>Cancel</Button>
+                <Button type="submit">Subscribe</Button>
+              </DialogActions>
+            </form>
+          </>
+        </DialogContent>
+      </Dialog>
 
-              //   axios.post(API_URL, this.state).then(() => {
-              //     this.props.resetState();
-              //     this.props.toggle();
-              //   });
-            },
-          }}
-        >
-          <DialogTitle>Edit Event Properties</DialogTitle>
-          <DialogContent>
-          
-            <TextField
-              autoFocus
-              required
-              margin="dense"
-              id="EventTitle"
-              name="EventTitle"
-              label="Event Title"
-              type="text"
-              fullWidth
-              variant="outlined"
-            />
-            <TextField
-              autoFocus
-              margin="dense"
-              id="EventDate"
-              name="EventDate"
-              label="Event Date"
-              InputLabelProps={{ shrink: true, required: false }}
-              type="Date"
-              fullWidth
-              variant="outlined"
-            />
-            <TextField
-              autoFocus
-              margin="dense"
-              id="EventTime"
-              name="EventTime"
-              label="Event Time"
-              type="text"
-              fullWidth
-              variant="outlined"
-            />
-            <TextField
-              autoFocus
-              margin="dense"
-              id="EventLocation"
-              name="EventLocation"
-              label="Event Location"
-              type="text"
-              fullWidth
-              variant="outlined"
-            />
-            <TextField
-              autoFocus
-              margin="dense"
-              id="EventAddress"
-              name="EventAddress"
-              label="Event Address"
-              type="text"
-              fullWidth
-              variant="outlined"
-            />
-            <TextField
-              autoFocus
-              margin="dense"
-              id="EventDescription"
-              name="EventDescription"
-              label="Event Description"
-              type="text"
-              fullWidth
-              variant="outlined"
-            />
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={handleClose}>Cancel</Button>
-            <Button type="submit">Subscribe</Button>
-          </DialogActions>
-        </Dialog>
-      </React.Fragment>
+      
     </div>
   );
 }
