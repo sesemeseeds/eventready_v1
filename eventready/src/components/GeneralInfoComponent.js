@@ -18,17 +18,58 @@ export default function GeneralInfoComponent() {
   const [EventLocation, setEventLocation] = React.useState(String);
   const [EventAddress, setEventAddress] = React.useState(String);
   const [EventDescription, setEventDescription] = React.useState(String);
+  const [loading, setLoading] = React.useState(true);
 
-  const defaultValues = {
-    EventTitle: "",
-    EventDescription: "",
+  const GetData = () => {
+    //this is where the GET request will go
+
+    // Example
+
+    // AxiosInstance.get(`project/${MyId}`).then((res) =>{
+    //   console.log(res.data)
+    //   setValue('name',res.data.name)
+    //   setValue('status',res.data.status)
+    //   setValue('projectmanager',res.data.projectmanager)
+    //   setValue('comments',res.data.comments)
+    //   setValue('start_date',Dayjs(res.data.start_date))
+    //   setValue('end_date',Dayjs(res.data.end_date))
+    //   setLoading(false)
+    // })
+
+    const today = new Date()
+    setEventTitle("Tests");
+    setEventDate("Hardcoded Event Date");
+    setEventTime("Hardcoded Event Time");
+    setEventLocation("Hardcoded Event Location");
+    setEventAddress("Hardcoded Event Address");
+    setEventDescription(
+      "This is a test description I will make it kinda long hahahahahahahahhahahahahahahahahhaha"
+    );
+    setLoading(false);
   };
 
-  const { register, handleSubmit, reset } = useForm({
-    defaultValues: defaultValues,
+  React.useEffect(() => {
+    GetData();
+  }, []);
+
+  const { register, handleSubmit, setValue, control } = useForm({
+   
   });
 
   const onSubmit = async (data) => {
+    //this is where the PUT request will g
+
+    // Example
+
+    // AxiosInstance.put( `project/${MyId}/`,{
+    //   name: data.name,
+    //   projectmanager: data.projectmanager,
+    //   status: data.status,
+    //   comments: data.comments,
+    //   start_date: StartDate,
+    //   end_date: EndDate,
+    // })
+
     setEventTitle(data.EventTitle);
     setEventDate(data.EventDate);
     setEventTime(data.EventTime);
@@ -38,23 +79,6 @@ export default function GeneralInfoComponent() {
     console.log(data);
     handleClose();
   };
-
-  const GetData = () => {
-    //this is where the GET request will go
-    setEventTitle("Tests");
-
-    setEventDate("Hardcoded Event Date");
-    setEventTime("Hardcoded Event Time");
-    setEventLocation("Hardcoded Event Location");
-    setEventAddress("Hardcoded Event Address");
-    setEventDescription(
-      "This is a test description I will make it kinda long hahahahahahahahhahahahahahahahahhaha"
-    );
-  };
-
-  React.useEffect(() => {
-    GetData();
-  }, []);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -75,7 +99,7 @@ export default function GeneralInfoComponent() {
           Edit{" "}
         </Button>
         <h1> Side section</h1>
-        <div> {EventDate}</div>
+        <div> {EventDate} </div>
         <div> {EventTime} </div>
         <div> Days until the event </div>
         <br></br>
@@ -85,80 +109,89 @@ export default function GeneralInfoComponent() {
       </div>
 
       <Dialog open={open}>
+        <DialogTitle>Edit Event Properties</DialogTitle>
         <DialogContent>
           <>
-            <form onSubmit={handleSubmit(onSubmit)}>
-              <TextField
-                margin="dense"
-                name="EventTitle"
-                label="Event Title"
-                type="text"
-                fullWidth
-                variant="outlined"
-                {...register("EventTitle")}
-              />
-              <TextField
-                autoFocus
-                margin="dense"
-                name="EventDate"
-                label="Event Date"
-                InputLabelProps={{ shrink: true, required: false }}
-                type="Date"
-                fullWidth
-                variant="outlined"
-                {...register("EventDate")}
-              />
-              <TextField
-                autoFocus
-                margin="dense"
-                name="EventTime"
-                label="Event Time"
-                type="text"
-                fullWidth
-                variant="outlined"
-                {...register("EventTime")}
-              />
-              <TextField
-                autoFocus
-                margin="dense"
-                name="EventLocation"
-                label="Event Location"
-                type="text"
-                fullWidth
-                variant="outlined"
-                {...register("EventLocation")}
-              />
-              <TextField
-                autoFocus
-                margin="dense"
-                name="EventAddress"
-                label="Event Address"
-                type="text"
-                fullWidth
-                variant="outlined"
-                {...register("EventAddress")}
-              />
-              <TextField
-                autoFocus
-                margin="dense"
-                name="EventDescription"
-                label="Event Description"
-                type="text"
-                fullWidth
-                variant="outlined"
-                {...register("EventDescription")}
-              />
+            {loading ? (
+              <p>Loading data...</p>
+            ) : (
+              <form onSubmit={handleSubmit(onSubmit)}>
+                <TextField
+                  margin="dense"
+                  name="EventTitle"
+                  label="Event Title"
+                  type="text"
+                  fullWidth
+                  variant="outlined"
+                  defaultValue={EventTitle}
+                  {...register("EventTitle")}
+                />
+                <TextField
+                  autoFocus
+                  margin="dense"
+                  name="EventDate"
+                  label="Event Date"
+                  InputLabelProps={{ shrink: true, required: false }}
+                  type="Date"
+                  fullWidth
+                  variant="outlined"
+                  defaultValue={EventDate}
+                  {...register("EventDate")}
+                />
+                <TextField
+                  autoFocus
+                  margin="dense"
+                  name="EventTime"
+                  label="Event Time"
+                  type="text"
+                  fullWidth
+                  variant="outlined"
+                  defaultValue={EventTime}
+                  {...register("EventTime")}
+                />
+                <TextField
+                  autoFocus
+                  margin="dense"
+                  name="EventLocation"
+                  label="Event Location"
+                  type="text"
+                  fullWidth
+                  variant="outlined"
+                  defaultValue={EventLocation}
+                  {...register("EventLocation")}
+                />
+                <TextField
+                  autoFocus
+                  margin="dense"
+                  name="EventAddress"
+                  label="Event Address"
+                  type="text"
+                  fullWidth
+                  variant="outlined"
+                  defaultValue={EventAddress}
+                  {...register("EventAddress")}
+                />
+                <TextField
+                  autoFocus
+                  margin="dense"
+                  name="EventDescription"
+                  label="Event Description"
+                  type="text"
+                  fullWidth
+                  variant="outlined"
+                  defaultValue={EventDescription}
+                  {...register("EventDescription")}
+                />
 
-              <DialogActions>
-                <Button onClick={handleClose}>Cancel</Button>
-                <Button type="submit">Subscribe</Button>
-              </DialogActions>
-            </form>
+                <DialogActions>
+                  <Button onClick={handleClose}>Cancel</Button>
+                  <Button type="submit">Submit</Button>
+                </DialogActions>
+              </form>
+            )}
           </>
         </DialogContent>
       </Dialog>
-
-      
     </div>
   );
 }
