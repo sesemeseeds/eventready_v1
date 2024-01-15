@@ -7,7 +7,7 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import axios from "axios";
-import { Box } from "@mui/material";
+import { Box, Container } from "@mui/material";
 import { useForm } from "react-hook-form";
 
 export default function GeneralInfoComponent() {
@@ -36,14 +36,14 @@ export default function GeneralInfoComponent() {
     //   setLoading(false)
     // })
 
-    const today = new Date()
+    const today = new Date();
     setEventTitle("Tests");
     setEventDate("Hardcoded Event Date");
     setEventTime("Hardcoded Event Time");
     setEventLocation("Hardcoded Event Location");
     setEventAddress("Hardcoded Event Address");
     setEventDescription(
-      "This is a test description I will make it kinda long hahahahahahahahhahahahahahahahahhaha"
+      "Lorem ipsum dolor sit amet. Sed labore omnis et praesentium autem in amet autem eos doloribus voluptate ea architecto nulla? Vel internos quas At minima repellendus et itaque dolores. Ut expedita nihil non blanditiis asperiores eos eligendi explicabo? Sed explicabo veniam qui odio recusandae ut placeat praesentium id galisum doloribus. Et delectus assumenda ad voluptatem reiciendis sit provident nisi et nemo repellat et architecto delectus et voluptas perferendis sit adipisci enim"
     );
     setLoading(false);
   };
@@ -52,9 +52,7 @@ export default function GeneralInfoComponent() {
     GetData();
   }, []);
 
-  const { register, handleSubmit, setValue, control } = useForm({
-   
-  });
+  const { register, handleSubmit, setValue, control } = useForm({});
 
   const onSubmit = async (data) => {
     //this is where the PUT request will g
@@ -89,109 +87,132 @@ export default function GeneralInfoComponent() {
 
   return (
     <div>
-      <div style={{ width: "50%", float: "left" }}>
-        <h1>{EventTitle} </h1>
-        <p>{EventDescription}</p>
-      </div>
-      <div style={{ width: "50%", float: "left" }}>
-        <Button variant="contained" onClick={handleClickOpen}>
+      <Box style={{ padding: "2%" }}>
+        <div>
           {" "}
-          Edit{" "}
-        </Button>
-        <h1> Side section</h1>
-        <div> {EventDate} </div>
-        <div> {EventTime} </div>
-        <div> Days until the event </div>
-        <br></br>
+          <Box
+            style={{
+              height: "50vh",
+              width: "65%",
+              float: "left",
+              marginRight: "5%",
+            }}
+          >
+            <h1>{EventTitle} </h1>
+            <hr></hr>
+            <p>{EventDescription}</p>
+            <hr></hr>
+          </Box>
+          <Box style={{ width: "30%", float: "left" }}>
+            <Button
+              style={{ float: "right" }}
+              variant="contained"
+              onClick={handleClickOpen}
+            >
+              Edit
+            </Button>
+            <h1> Side section</h1>
+            <div> {EventDate} </div>
+            <div> {EventTime} </div>
+            <div> Days until the event </div>
+            <hr></hr>
+            <div>{EventLocation}</div>
+            <div>{EventAddress}</div>
+          
+          </Box>
+        </div>
+        <Box style={{float: "left", width: "100%"}}>
+          <hr></hr>
+            <h1>Cards</h1>
+          </Box>
 
-        <div>{EventLocation}</div>
-        <div>{EventAddress}</div>
-      </div>
+        <Dialog open={open}>
+          <DialogTitle>Edit Event Properties</DialogTitle>
+          <DialogContent>
+            <>
+              {loading ? (
+                <p>Loading data...</p>
+              ) : (
+                <form onSubmit={handleSubmit(onSubmit)}>
+                  <TextField
+                    margin="dense"
+                    name="EventTitle"
+                    label="Event Title"
+                    type="text"
+                    fullWidth
+                    variant="outlined"
+                    defaultValue={EventTitle}
+                    {...register("EventTitle")}
+                  />
+                  <TextField
+                    autoFocus
+                    margin="dense"
+                    name="EventDate"
+                    label="Event Date"
+                    InputLabelProps={{ shrink: true, required: false }}
+                    type="Date"
+                    fullWidth
+                    variant="outlined"
+                    defaultValue={EventDate}
+                    {...register("EventDate")}
+                  />
+                  <TextField
+                    autoFocus
+                    margin="dense"
+                    name="EventTime"
+                    label="Event Time"
+                    type="text"
+                    fullWidth
+                    variant="outlined"
+                    defaultValue={EventTime}
+                    {...register("EventTime")}
+                  />
+                  <TextField
+                    autoFocus
+                    margin="dense"
+                    name="EventLocation"
+                    label="Event Location"
+                    type="text"
+                    fullWidth
+                    variant="outlined"
+                    defaultValue={EventLocation}
+                    {...register("EventLocation")}
+                  />
+                  <TextField
+                    autoFocus
+                    margin="dense"
+                    name="EventAddress"
+                    label="Event Address"
+                    type="text"
+                    fullWidth
+                    variant="outlined"
+                    defaultValue={EventAddress}
+                    {...register("EventAddress")}
+                  />
+                  <TextField
+                    autoFocus
+                    margin="dense"
+                    name="EventDescription"
+                    label="Event Description"
+                    type="text"
+                    fullWidth
+                    variant="outlined"
+                    defaultValue={EventDescription}
+                    {...register("EventDescription")}
+                  />
 
-      <Dialog open={open}>
-        <DialogTitle>Edit Event Properties</DialogTitle>
-        <DialogContent>
-          <>
-            {loading ? (
-              <p>Loading data...</p>
-            ) : (
-              <form onSubmit={handleSubmit(onSubmit)}>
-                <TextField
-                  margin="dense"
-                  name="EventTitle"
-                  label="Event Title"
-                  type="text"
-                  fullWidth
-                  variant="outlined"
-                  defaultValue={EventTitle}
-                  {...register("EventTitle")}
-                />
-                <TextField
-                  autoFocus
-                  margin="dense"
-                  name="EventDate"
-                  label="Event Date"
-                  InputLabelProps={{ shrink: true, required: false }}
-                  type="Date"
-                  fullWidth
-                  variant="outlined"
-                  defaultValue={EventDate}
-                  {...register("EventDate")}
-                />
-                <TextField
-                  autoFocus
-                  margin="dense"
-                  name="EventTime"
-                  label="Event Time"
-                  type="text"
-                  fullWidth
-                  variant="outlined"
-                  defaultValue={EventTime}
-                  {...register("EventTime")}
-                />
-                <TextField
-                  autoFocus
-                  margin="dense"
-                  name="EventLocation"
-                  label="Event Location"
-                  type="text"
-                  fullWidth
-                  variant="outlined"
-                  defaultValue={EventLocation}
-                  {...register("EventLocation")}
-                />
-                <TextField
-                  autoFocus
-                  margin="dense"
-                  name="EventAddress"
-                  label="Event Address"
-                  type="text"
-                  fullWidth
-                  variant="outlined"
-                  defaultValue={EventAddress}
-                  {...register("EventAddress")}
-                />
-                <TextField
-                  autoFocus
-                  margin="dense"
-                  name="EventDescription"
-                  label="Event Description"
-                  type="text"
-                  fullWidth
-                  variant="outlined"
-                  defaultValue={EventDescription}
-                  {...register("EventDescription")}
-                />
+                  <DialogActions>
+                    <Button onClick={handleClose}>Cancel</Button>
+                    <Button type="submit">Submit</Button>
+                  </DialogActions>
+                </form>
+              )}
+            </>
+          </DialogContent>
+        </Dialog>
+      </Box>
 
-                <DialogActions>
-                  <Button onClick={handleClose}>Cancel</Button>
-                  <Button type="submit">Submit</Button>
-                </DialogActions>
-              </form>
-            )}
-          </>
-        </DialogContent>
-      </Dialog>
+  
     </div>
   );
 }
