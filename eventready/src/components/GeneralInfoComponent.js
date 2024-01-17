@@ -9,6 +9,8 @@ import DialogTitle from "@mui/material/DialogTitle";
 import axios from "axios";
 import { Box, Container } from "@mui/material";
 import { useForm } from "react-hook-form";
+import Footer  from "./Footer"
+import Header from "./Header"
 
 export default function GeneralInfoComponent() {
   const [open, setOpen] = React.useState(false);
@@ -86,7 +88,8 @@ export default function GeneralInfoComponent() {
   };
 
   return (
-    <div>
+       <div>
+     <Header></Header>
       <Box style={{ padding: "2%" }}>
         <div>
           {" "}
@@ -212,7 +215,7 @@ export default function GeneralInfoComponent() {
         </Dialog>
       </Box>
 
-  
+  <Footer></Footer>
     </div>
   );
 }
