@@ -11,7 +11,7 @@ import { Box, Container } from "@mui/material";
 import { useForm } from "react-hook-form";
 import Footer  from "../components/Footer"
 import Header from "../components/Header"
-import Test from "../components/Test"
+
 
 export default function GeneralInfoComponent() {
   const [open, setOpen] = React.useState(false);
