@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
-import axios from 'axios';
- 
+import Header from "../components/Header"
 const ReminderApp = () => {
   const [reminders, setReminders] = useState([]);
   const [newReminder, setNewReminder] = useState({
     name: '',
     time: ''
   });
- 
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setNewReminder({
@@ -15,7 +14,7 @@ const ReminderApp = () => {
       [name]: value
     });
   };
- 
+
   const handleAddReminder = () => {
     if (newReminder.name && newReminder.time) {
       setReminders([...reminders, newReminder]);
@@ -25,9 +24,9 @@ const ReminderApp = () => {
       });
     }
   };
- 
+
   return (
-    
+
     <div className="reminder-app">
       {/* Side Section */}
       <div className="side-section">
@@ -53,7 +52,7 @@ const ReminderApp = () => {
           <button onClick={handleAddReminder}>+</button>
         </div>
       </div>
- 
+
       {/* Displaying Reminders */}
       <div className="reminders">
         <h2>Reminders</h2>
@@ -68,4 +67,6 @@ const ReminderApp = () => {
     </div>
   );
 };
-export default MarketingPage;
+
+export default ReminderApp;
+
