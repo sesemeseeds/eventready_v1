@@ -1,72 +1,72 @@
 import React, { useState } from 'react';
-import Header from "../components/Header"
-const ReminderApp = () => {
+
+const EventPage = () => {
   const [reminders, setReminders] = useState([]);
-  const [newReminder, setNewReminder] = useState({
-    name: '',
-    time: ''
-  });
+  const [reminderName, setReminderName] = useState('');
+  const [reminderTime, setReminderTime] = useState('');
+  const [image, setImage] = useState(null);
+  const [caption, setCaption] = useState('');
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setNewReminder({
-      ...newReminder,
-      [name]: value
-    });
-  };
-
-  const handleAddReminder = () => {
-    if (newReminder.name && newReminder.time) {
-      setReminders([...reminders, newReminder]);
-      setNewReminder({
-        name: '',
-        time: ''
-      });
+  const addReminder = () => {
+    if (reminderName && reminderTime) {
+      setReminders([...reminders, { name: reminderName, time: reminderTime }]);
+      setReminderName('');
+      setReminderTime('');
     }
   };
 
+  const handleImageUpload = (event) => {
+    const selectedImage = event.target.files[0];
+    setImage(selectedImage);
+  };
+
+  const handleCaptionChange = (event) => {
+    setCaption(event.target.value);
+  };
+
   return (
+    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+      <h1>Event Ready!</h1>
 
-    <div className="reminder-app">
-      {/* Side Section */}
-      <div className="side-section">
-        <div>
-          <input
-            type="text"
-            name="name"
-            placeholder="Reminder Name"
-            value={newReminder.name}
-            onChange={handleInputChange}
-          />
+      <div style={{ display: 'flex', width: '80%' }}>
+        <div style={{ flex: 1, padding: '20px' }}>
+          <h2>Reminders</h2>
+          <div>
+            <input
+              type="text"
+              placeholder="Reminder Name"
+              value={reminderName}
+              onChange={(e) => setReminderName(e.target.value)}
+            />
+            <input
+              type="time"
+              value={reminderTime}
+              onChange={(e) => setReminderTime(e.target.value)}
+            />
+            <button onClick={addReminder}>Add Reminder</button>
+          </div>
+          <ul>
+            {reminders.map((reminder, index) => (
+              <li key={index}>
+                {reminder.name} at {reminder.time}
+              </li>
+            ))}
+          </ul>
         </div>
-        <div>
-          <input
-            type="text"
-            name="time"
-            placeholder="Reminding Time"
-            value={newReminder.time}
-            onChange={handleInputChange}
-          />
-        </div>
-        <div>
-          <button onClick={handleAddReminder}>+</button>
-        </div>
-      </div>
 
-      {/* Displaying Reminders */}
-      <div className="reminders">
-        <h2>Reminders</h2>
-        <ul>
-          {reminders.map((reminder, index) => (
-            <li key={index}>
-              <strong>{reminder.name}</strong> - {reminder.time}
-            </li>
-          ))}
-        </ul>
+        <div style={{ flex: 1, padding: '20px', textAlign: 'center' }}>
+          <h2>Image Upload</h2>
+          <input type="file" accept="image/*" onChange={handleImageUpload} />
+          {image && <img src={URL.createObjectURL(image)} alt="Uploaded" />}
+          <textarea
+            placeholder="Write a caption..."
+            value={caption}
+            onChange={handleCaptionChange}
+          ></textarea>
+        </div>
       </div>
     </div>
   );
 };
 
-export default ReminderApp;
-
+export default EventPage;
