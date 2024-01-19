@@ -64,6 +64,18 @@ const EventPage = () => {
             onChange={handleCaptionChange}
           ></textarea>
         </div>
+
+        <div style={{ flex: 1, padding: '20px' }}>
+          <h2>Helpful Section</h2>
+          <div>
+            <h3 style={{ fontSize: '14px' }}>Graphical Creation Sites</h3>
+            {/* Add content for graphical creation sites */}
+          </div>
+          <div style={{ marginTop: '20px' }}>
+            <h3 style={{ fontSize: '14px' }}>Share</h3>
+            {/* Add content for sharing */}
+          </div>
+        </div>
       </div>
     </div>
   );
