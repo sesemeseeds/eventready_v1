@@ -2,8 +2,8 @@ from django.db import models
 import uuid
 
 class Project(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-
+    id = models.IntegerField(primary_key=True, editable=False)
+    
     name = models.CharField("Name", unique=True, max_length=256)
     doe = models.DateField("Day of Event")
     start_time = models.TimeField("Start Time") 
