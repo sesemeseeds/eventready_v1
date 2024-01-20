@@ -19,7 +19,7 @@ const QRCodeGenerator = () => {
 
     return (
         <div>
-            <h1>QR Code Generator</h1>
+            <h1>QR Code</h1>
 
             {/* QR Code for the external form */}
             <QRCode value="URL_TO_EXTERNAL_FORM" />
@@ -45,6 +45,4 @@ const QRCodeGenerator = () => {
 };
 
 export default QRCodeGenerator;
-
-
 
