@@ -1,71 +1,95 @@
 import React, { useState } from 'react';
-import axios from 'axios';
- 
-const ReminderApp = () => {
+
+const EventPage = () => {
   const [reminders, setReminders] = useState([]);
-  const [newReminder, setNewReminder] = useState({
-    name: '',
-    time: ''
-  });
+  const [reminderName, setReminderName] = useState('');
+  const [reminderTime, setReminderTime] = useState('');
+  const [image, setImage] = useState(null);
+  const [caption, setCaption] = useState('');
  
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setNewReminder({
-      ...newReminder,
-      [name]: value
-    });
-  };
- 
-  const handleAddReminder = () => {
-    if (newReminder.name && newReminder.time) {
-      setReminders([...reminders, newReminder]);
-      setNewReminder({
-        name: '',
-        time: ''
-      });
+  const addReminder = () => {
+    if (reminderName && reminderTime) {
+      setReminders([...reminders, { name: reminderName, time: reminderTime }]);
+      setReminderName('');
+      setReminderTime('');
     }
   };
  
-  return (
-    
-    <div className="reminder-app">
-      {/* Side Section */}
-      <div className="side-section">
-        <div>
-          <input
-            type="text"
-            name="name"
-            placeholder="Reminder Name"
-            value={newReminder.name}
-            onChange={handleInputChange}
-          />
-        </div>
-        <div>
-          <input
-            type="text"
-            name="time"
-            placeholder="Reminding Time"
-            value={newReminder.time}
-            onChange={handleInputChange}
-          />
-        </div>
-        <div>
-          <button onClick={handleAddReminder}>+</button>
-        </div>
-      </div>
+  const handleImageUpload = (event) => {
+    const selectedImage = event.target.files[0];
+    setImage(selectedImage);
+  };
  
-      {/* Displaying Reminders */}
-      <div className="reminders">
-        <h2>Reminders</h2>
-        <ul>
-          {reminders.map((reminder, index) => (
-            <li key={index}>
-              <strong>{reminder.name}</strong> - {reminder.time}
-            </li>
-          ))}
-        </ul>
+  const handleCaptionChange = (event) => {
+    setCaption(event.target.value);
+  };
+ 
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', backgroundColor: '#F0E68C', padding: '20px' }}>
+      <h1 style={{ color: '#800000' }}>Event Ready!</h1>
+ 
+      <div style={{ display: 'flex', width: '80%', backgroundColor: '#FFFACD', padding: '20px', borderRadius: '10px' }}>
+        <div style={{ flex: 1, padding: '20px', backgroundColor: '#98FB98', borderRadius: '10px' }}>
+          <h2 style={{ color: '#2E8B57' }}>Reminders</h2>
+          <div>
+            <input
+              type="text"
+              placeholder="Reminder Name"
+              value={reminderName}
+              onChange={(e) => setReminderName(e.target.value)}
+            />
+            <input
+              type="time"
+              value={reminderTime}
+              onChange={(e) => setReminderTime(e.target.value)}
+            />
+            <button style={{ backgroundColor: '#008B8B', color: '#FFFFFF' }} onClick={addReminder}>
+              Add Reminder
+            </button>
+          </div>
+          <ul>
+            {reminders.map((reminder, index) => (
+              <li key={index}>
+                {reminder.name} at {reminder.time}
+              </li>
+            ))}
+          </ul>
+        </div>
+ 
+        <div style={{ flex: 1, padding: '20px', textAlign: 'center', backgroundColor: '#87CEEB', borderRadius: '10px' }}>
+          <h2 style={{ color: '#191970' }}>Image Upload</h2>
+          <label htmlFor="file-upload" className="custom-file-upload">
+            Choose File
+          </label>
+          <input
+            type="file"
+            id="file-upload"
+            accept="image/*"
+            onChange={handleImageUpload}
+            style={{ display: 'none' }}
+          />
+          {image && <img src={URL.createObjectURL(image)} alt="Uploaded" style={{ width: '100%', borderRadius: '5px', marginTop: '10px' }} />}
+          <textarea
+            placeholder="Write a caption..."
+            value={caption}
+            onChange={handleCaptionChange}
+          ></textarea>
+        </div>
+ 
+        <div style={{ flex: 1, padding: '20px', backgroundColor: '#FFD700', borderRadius: '10px' }}>
+          <h2 style={{ color: '#8B4513' }}>Helpful Section</h2>
+          <div>
+            <h3 style={{ fontSize: '14px', color: '#FF6347' }}>Graphical Creation Sites</h3>
+            {/* Add content for graphical creation sites */}
+          </div>
+          <div style={{ marginTop: '20px' }}>
+            <h3 style={{ fontSize: '14px', color: '#6A5ACD' }}>Share</h3>
+            {/* Add content for sharing */}
+          </div>
+        </div>
       </div>
     </div>
   );
 };
-export default MarketingPage;
+ 
+export default EventPage;
