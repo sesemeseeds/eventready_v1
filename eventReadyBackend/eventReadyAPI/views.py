@@ -10,13 +10,13 @@ from .models import *
 #     return Response({'message': 'Hello, world!'})
 # Create your views here.
 
-class ProjectViewset(viewsets.ViewSet):
+class EventViewset(viewsets.ViewSet):
     permission_classes = [permissions.AllowAny]
-    queryset = Project.objects.all()
-    serializer_class = ProjectSerializer
+    queryset = EventGeneralInfo.objects.all()
+    serializer_class = EventSerializer
 
     def list(self, request):
-        queryset = Project.objects.all()
+        queryset = EventGeneralInfo.objects.all()
         serializer = self.serializer_class(queryset, many=True)
         return Response(serializer.data)
     
@@ -29,13 +29,13 @@ class ProjectViewset(viewsets.ViewSet):
             return Response(serializer.errors, status=400)
 
     def retrieve(self, request, pk=None):
-        project = self.queryset.get(pk=pk)
-        serializer = self.serializer_class(project)
+        event = self.queryset.get(pk=pk)
+        serializer = self.serializer_class(event)
         return Response(serializer.data)
 
     def update(self, request, pk=None):
-        project = self.queryset.get(pk=pk)
-        serializer = self.serializer_class(project,data=request.data)
+        event = self.queryset.get(pk=pk)
+        serializer = self.serializer_class(event,data=request.data)
         if serializer.is_valid(): 
             serializer.save()
             return Response(serializer.data)
@@ -43,6 +43,6 @@ class ProjectViewset(viewsets.ViewSet):
             return Response(serializer.errors, status=400)
 
     def destroy(self, request, pk=None):
-        project = self.queryset.get(pk=pk)
-        project.delete()
+        event = self.queryset.get(pk=pk)
+        event.delete()
         return Response(status=204)

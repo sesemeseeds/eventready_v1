@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from .models import * 
 
-class ProjectSerializer(serializers.ModelSerializer):
+class EventSerializer(serializers.ModelSerializer):
     class Meta: 
-        model = Project
+        model = EventGeneralInfo
         fields = ('id', 'name', 'doe', 'start_time', 'end_time', 'location', 'description', 'created', 'active')

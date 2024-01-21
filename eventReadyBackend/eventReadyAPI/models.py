@@ -1,7 +1,6 @@
 from django.db import models
-import uuid
 
-class Project(models.Model):
+class EventGeneralInfo(models.Model):
     id = models.IntegerField(primary_key=True, editable=False)
     
     name = models.CharField("Name", unique=True, max_length=256)
