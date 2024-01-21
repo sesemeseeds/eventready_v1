@@ -12,42 +12,50 @@ import { useForm } from "react-hook-form";
 import Footer  from "../components/Footer"
 import Header from "../components/Header"
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
+import AxiosInstance from '../components/Axios'
 
 export default function GeneralInfoComponent() {
   const [open, setOpen] = React.useState(false);
   const [EventTitle, setEventTitle] = React.useState(String);
   const [EventDate, setEventDate] = React.useState(String);
-  const [EventTime, setEventTime] = React.useState(String);
+  const [EventStartTime, setEventStartTime] = React.useState(String);
+  const [EventEndTime, setEventEndTime] = React.useState(String);
   const [EventLocation, setEventLocation] = React.useState(String);
-  const [EventAddress, setEventAddress] = React.useState(String);
   const [EventDescription, setEventDescription] = React.useState(String);
+  const [EventCreationDate, setEventCreationDate] = React.useState(String);
+  const [EventActive, setEventActive] = React.useState(String);
   const [loading, setLoading] = React.useState(true);
 
   const GetData = () => {
     //this is where the GET request will go
 
     // Example
-
-    // AxiosInstance.get(`project/${MyId}`).then((res) =>{
-    //   console.log(res.data)
-    //   setValue('name',res.data.name)
-    //   setValue('status',res.data.status)
-    //   setValue('projectmanager',res.data.projectmanager)
-    //   setValue('comments',res.data.comments)
-    //   setValue('start_date',Dayjs(res.data.start_date))
-    //   setValue('end_date',Dayjs(res.data.end_date))
-    //   setLoading(false)
-    // })
+    // TODO: hardcoded as 1
+    // AxiosInstance.get(`event/${MyId}`).then((res) =>{
+    AxiosInstance.get(`event/1`).then((res) =>{
+      console.log(res.data)
+      setEventTitle(res.data.name)
+      setEventDate(res.data.date)
+      setEventStartTime(res.data.start_time)
+      setEventEndTime(res.data.end_time)
+      setEventLocation(res.data.location)
+      setEventDescription(res.data.description)
+      setEventCreationDate(res.data.created)
+      setEventActive(res.data.active)
+      setLoading(false)
+    })
 
     const today = new Date();
     setEventTitle("Tests");
     setEventDate("Hardcoded Event Date");
-    setEventTime("Hardcoded Event Time");
+    setEventStartTime ("Hardcoded Event Start Time");
+    setEventEndTime ("Hardcoded Event End Time");
     setEventLocation("Hardcoded Event Location");
-    setEventAddress("Hardcoded Event Address");
     setEventDescription(
       "Lorem ipsum dolor sit amet. Sed labore omnis et praesentium autem in amet autem eos doloribus voluptate ea architecto nulla? Vel internos quas At minima repellendus et itaque dolores. Ut expedita nihil non blanditiis asperiores eos eligendi explicabo? Sed explicabo veniam qui odio recusandae ut placeat praesentium id galisum doloribus. Et delectus assumenda ad voluptatem reiciendis sit provident nisi et nemo repellat et architecto delectus et voluptas perferendis sit adipisci enim"
     );
+    setEventCreationDate("Hardcoded Event Creation Date")
+    setEventActive("Hardcoded Event Active")
     setLoading(false);
   };
 
@@ -73,10 +81,12 @@ export default function GeneralInfoComponent() {
 
     setEventTitle(data.EventTitle);
     setEventDate(data.EventDate);
-    setEventTime(data.EventTime);
+    setEventStartTime(data.EventTime);
+    setEventEndTime(data.EventTime);
     setEventLocation(data.EventLocation);
-    setEventAddress(data.EventAddress);
     setEventDescription(data.EventDescription);
+    setEventCreationDate(data.EventDescription);
+    setEventActive(data.EventDescription);
     console.log(data);
     handleClose();
   };
@@ -120,11 +130,11 @@ export default function GeneralInfoComponent() {
             </EditOutlinedIcon>
             <h1> Side section</h1>
             <div> {EventDate} </div>
-            <div> {EventTime} </div>
+            <div> {EventStartTime} </div>
+            <div> {EventEndTime} </div>
             <div> Days until the event </div>
             <hr></hr>
             <div>{EventLocation}</div>
-            <div>{EventAddress}</div>
           
           </Box>
         </div>
@@ -166,13 +176,24 @@ export default function GeneralInfoComponent() {
                   <TextField
                     autoFocus
                     margin="dense"
-                    name="EventTime"
-                    label="Event Time"
+                    name="Event Start Time"
+                    label="Event Start Time"
                     type="text"
                     fullWidth
                     variant="outlined"
-                    defaultValue={EventTime}
-                    {...register("EventTime")}
+                    defaultValue={EventStartTime}
+                    {...register("EventStartTime")}
+                  />
+                  <TextField
+                    autoFocus
+                    margin="dense"
+                    name="Event End Time"
+                    label="Event End Time"
+                    type="text"
+                    fullWidth
+                    variant="outlined"
+                    defaultValue={EventEndTime}
+                    {...register("EventEndTime")}
                   />
                   <TextField
                     autoFocus
@@ -188,17 +209,6 @@ export default function GeneralInfoComponent() {
                   <TextField
                     autoFocus
                     margin="dense"
-                    name="EventAddress"
-                    label="Event Address"
-                    type="text"
-                    fullWidth
-                    variant="outlined"
-                    defaultValue={EventAddress}
-                    {...register("EventAddress")}
-                  />
-                  <TextField
-                    autoFocus
-                    margin="dense"
                     name="EventDescription"
                     label="Event Description"
                     type="text"
@@ -207,6 +217,7 @@ export default function GeneralInfoComponent() {
                     defaultValue={EventDescription}
                     {...register("EventDescription")}
                   />
+                  //TODO: change event activity?
 
                   <DialogActions>
                     <Button onClick={handleClose}>Cancel</Button>

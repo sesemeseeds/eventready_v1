@@ -11,6 +11,7 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Footer  from "../components/Footer"
 import Header from "../components/Header"
+import AxiosInstance from '../components/Axios'
 
 const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -26,112 +27,56 @@ const Item = styled(Paper)(({ theme }) => ({
 //   alignItems="stretch"> 
 
 export const LandingPage = () => {
+
+  const [allEvents, setAllEvents] = React.useState([]);
+  const [loading, setLoading] = React.useState(true)
+
+  const getAllEvents = () => {
+    AxiosInstance.get(`/event`).then((res) =>{
+      setAllEvents(res.data)
+      console.log(res.data)
+      setLoading(false)
+    })
+  }
+
+  React.useEffect(() => {
+    getAllEvents();
+  }, []);
+
     return (
         //<h1>Landing Page</h1>
-        <div>
+      <div>
         <Header></Header>
-        <Box sx={{ width: '50%' }}>
-        <Grid container 
-        direction="row"
-        justifyContent="center"
-        alignItems="stretch"
-        rowSpacing={4} 
-        columnSpacing={{ xs: 1, sm: 2 , md:3}}>
-          <Grid item xs={4}>
-        <Card sx={{ width: '100%' }}>
-        <CardMedia
-            // component="img"
-            // alt="green iguana"
-            // height="140"
-            // image="/static/images/cards/contemplative-reptile.jpg"
-        />
-        <CardContent>
-        <Typography gutterBottom variant="h5" component="div">
-          Event 1
-        </Typography>
-        <Typography variant="body2" color="text.secondary">
-          This is the meta data of Event 1. This will have event description.
-          This is the meta data of Event 1. This will have event description.
-          This is the meta data of Event 1. This will have event description.
-        </Typography>
-        </CardContent>
-        <CardActions>
-            <Button size="small">Edit Icon</Button>
-        </CardActions>
-        </Card>
-          </Grid>
-          <Grid item xs={4}>
-          <Card sx={{ width: '100%' }}>
-        <CardMedia
-            // component="img"
-            // alt="green iguana"
-            // height="140"
-            // image="/static/images/cards/contemplative-reptile.jpg"
-        />
-        <CardContent>
-        <Typography gutterBottom variant="h5" component="div">
-          Event 2
-        </Typography>
-        <Typography variant="body2" color="text.secondary">
-          This is the meta data of Event 2. This will have event description.
-          This is the meta data of Event 2. This will have event description.
-          This is the meta data of Event 2. This will have event description.
-        </Typography>
-        </CardContent>
-        <CardActions>
-            <Button size="small">Edit Icon</Button>
-        </CardActions>
-        </Card>
-          </Grid>
-          <Grid item xs={4}>
-          <Card sx={{ width: '100%' }}>
-        <CardMedia
-            // component="img"
-            // alt="green iguana"
-            // height="140"
-            // image="/static/images/cards/contemplative-reptile.jpg"
-        />
-        <CardContent>
-        <Typography gutterBottom variant="h5" component="div">
-          Event 3
-        </Typography>
-        <Typography variant="body2" color="text.secondary">
-          This is the meta data of Event 3. This will have event description.
-          This is the meta data of Event 3. This will have event description.
-          This is the meta data of Event 3. This will have event description.
-        </Typography>
-        </CardContent>
-        <CardActions>
-            <Button size="small">Edit Icon</Button>
-        </CardActions>
-        </Card>
-          </Grid>
-          <Grid item xs={4}>
-          <Card sx={{ width: '100%' }}>
-        <CardMedia
-            // component="img"
-            // alt="green iguana"
-            // height="140"
-            // image="/static/images/cards/contemplative-reptile.jpg"
-        />
-        <CardContent>
-        <Typography gutterBottom variant="h5" component="div">
-          Event 4
-        </Typography>
-        <Typography variant="body2" color="text.secondary">
-          This is the meta data of Event 4. This will have event description.
-          This is the meta data of Event 4. This will have event description.
-          This is the meta data of Event 4. This will have event description.
-        </Typography>
-        </CardContent>
-        <CardActions>
-            <Button size="small">Edit Icon</Button>
-        </CardActions>
-        </Card>
-          </Grid>
-        </Grid>
-      </Box>
-      <Footer></Footer>
+          <Box sx={{ width: '50%' }}>
+          <div>
+              <Grid container 
+                direction="row"
+                justifyContent="center"
+                alignItems="stretch"
+                rowSpacing={4} 
+                columnSpacing={{ xs: 1, sm: 2 , md:3}}>
+                   {allEvents && allEvents.map((event) => (
+                    <Grid item xs={4} key={event.id}>
+                      <Card sx={{ width: '100%' }}>
+                        <CardMedia/>
+                        <CardContent sx={{ height: '150px' }}>
+                          <Typography gutterBottom variant="h5" component="div">
+                            {event.name}
+                          </Typography>
+                          <Typography variant="body2" color="text.secondary" sx={{ maxHeight: '100px', overflow: 'hidden'}}>
+                            {event.description}
+                          </Typography>
+                        </CardContent>
+                        <CardActions>
+                          <Button size="small">Edit Icon</Button>
+                        </CardActions>
+                      </Card>
+                    </Grid>
+                  ))}
+              </Grid>
+          </div>
+          </Box>
+        <Footer></Footer>
       </div>
     )
 }
