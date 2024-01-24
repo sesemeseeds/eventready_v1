@@ -12,7 +12,12 @@ import { useForm } from "react-hook-form";
 import Footer  from "../components/Footer"
 import Header from "../components/Header"
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
-
+import "../styles/GeneralInfo.css";
+import AttendanceCard from "../components/general-info-cards/AttendanceCard";
+import GoalsCard from "../components/general-info-cards/GoalsCard";
+import TaskCard from "../components/general-info-cards/TaskCard";
+import BudgetCard from "../components/general-info-cards/BudgetCard";
+import MarketingCard from "../components/general-info-cards/MarketingCard";
 export default function GeneralInfoComponent() {
   const [open, setOpen] = React.useState(false);
   const [EventTitle, setEventTitle] = React.useState(String);
@@ -91,24 +96,19 @@ export default function GeneralInfoComponent() {
   return (
        <div>
  
-      <Box style={{ padding: "2%" }}>
+      <Box className="container">
 
         <div>
           {" "}
-          <Box
-            style={{
-              height: "50vh",
-              width: "65%",
-              float: "left",
-              marginRight: "5%",
-            }}
+          <Box className="main-section"
+      
           >
             <h1>{EventTitle} </h1>
             <hr></hr>
             <p>{EventDescription}</p>
             <hr></hr>
           </Box>
-          <Box style={{ width: "30%", float: "left" }}>
+          <Box className="side-section">
             <EditOutlinedIcon
               style={{ float: "right" }}
               variant="contained"
@@ -130,7 +130,15 @@ export default function GeneralInfoComponent() {
         </div>
         <Box style={{float: "left", width: "100%"}}>
           <hr></hr>
-            <h1>Cards</h1>
+            <h1>Dashboard</h1>
+            <Box className="dashboard">  
+            <GoalsCard></GoalsCard> 
+            <TaskCard></TaskCard>
+            <BudgetCard></BudgetCard>
+            <MarketingCard></MarketingCard>
+            <AttendanceCard></AttendanceCard>
+            </Box>
+          
           </Box>
 
         <Dialog open={open}>

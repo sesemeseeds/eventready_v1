@@ -1,0 +1,23 @@
+.main-section {
+    height: 50vh;
+    width: 65%;
+    float: left;
+    margin-right: 5%;
+}
+.side-section {
+    width: 30%; 
+    float: left;
+}
+.container {
+    margin-top: 2%;
+    padding: 2%;
+    background-color: white;
+    box-shadow: 3px 3px 10px 5px lightgray;
+    display: inline-block;
+    border-radius: 10px;
+    
+}
+.dashboard {
+    display: flex;
+    justify-content: space-between;
+}
