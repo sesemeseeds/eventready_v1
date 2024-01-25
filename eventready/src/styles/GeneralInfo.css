@@ -1,12 +1,12 @@
 .main-section {
-    height: 50vh;
+  
     width: 65%;
     float: left;
     margin-right: 5%;
 }
 .side-section {
-    width: 30%; 
-    float: left;
+    width: 20%; 
+    float: right;
 }
 .container {
     margin-top: 2%;
@@ -15,9 +15,19 @@
     box-shadow: 3px 3px 10px 5px lightgray;
     display: inline-block;
     border-radius: 10px;
-    
+    overflow: hidden;
+    height: 100%;
+    width: 100%;
+    margin-bottom: 4%;    
 }
+
+.section-container {
+    height: 500px;
+    width: 100%;
+}
+
 .dashboard {
+
     display: flex;
     justify-content: space-between;
 }

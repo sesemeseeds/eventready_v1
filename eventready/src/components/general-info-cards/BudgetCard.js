@@ -7,7 +7,7 @@ import { CardActionArea } from '@mui/material';
 
 export default function BudgetCard() {
   return (
-    <Card sx={{ maxWidth: 345 }}>
+    <Card sx={{boxShadow: 3, width: 300 }}>
       <CardActionArea>
         <CardContent>
           <Typography gutterBottom variant="h5" component="div">
