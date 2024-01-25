@@ -28,7 +28,6 @@ export default function GeneralInfoComponent() {
   const [EventDescription, setEventDescription] = React.useState(String);
   const [loading, setLoading] = React.useState(true);
 
-
   const StartTime = new Date(
     "1970-01-01T" + EventStartTime + "Z"
   ).toLocaleTimeString("en-US", {
@@ -47,15 +46,27 @@ export default function GeneralInfoComponent() {
     minute: "numeric",
   });
 
-  const ConvertedDate = new Date(
-   EventDate,
-  ).toLocaleDateString("en-US", {
+  const ConvertedDate = new Date(EventDate).toLocaleDateString("en-US", {
     timeZone: "UTC",
-    weekday: 'long',
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
+    weekday: "long",
+    year: "numeric",
+    month: "long",
+    day: "numeric",
   });
+
+  const getDaysDifference = (eventDate) => {
+    const today = new Date();
+    const eventdate = new Date(eventDate);
+
+    today.setUTCHours(0, 0, 0, 0);
+    eventdate.setUTCHours(0, 0, 0, 0);
+
+    const timeDifference = eventdate.getTime() - today.getTime();
+
+    const daysDifference = Math.round(timeDifference / (1000 * 60 * 60 * 24));
+
+    return daysDifference;
+  };
 
   const GetData = () => {
     //this is where the GET request will go
@@ -73,7 +84,6 @@ export default function GeneralInfoComponent() {
     //   setLoading(false)
     // })
 
-    const today = new Date();
     setEventTitle("Tests");
     setEventDate("2024-01-19");
     setEventStartTime("20:00");
@@ -91,6 +101,7 @@ export default function GeneralInfoComponent() {
   }, []);
 
   const { register, handleSubmit, setValue, control } = useForm({});
+  const daysRemaining = getDaysDifference(EventDate);
 
   const onSubmit = async (data) => {
     //this is where the PUT request will g
@@ -151,7 +162,7 @@ export default function GeneralInfoComponent() {
               {" "}
               {StartTime} - {EndTime}{" "}
             </div>
-            <div> Days until the event </div>
+            <div> {daysRemaining} Days Until the Event! </div>
             <hr></hr>
             <div>{EventLocation}</div>
             <div>{EventAddress}</div>
@@ -200,30 +211,33 @@ export default function GeneralInfoComponent() {
                     defaultValue={EventDate}
                     {...register("EventDate")}
                   />
-                  <div>  <TextField
-                    autoFocus
-                    margin="dense"
-                    name="EventStartTime"
-                    label="Event Start Time"
-                    type="time"
-            
-                    variant="outlined"
-                    InputLabelProps={{ shrink: true, required: false }}
-                    defaultValue={EventStartTime}
-                    {...register("EventStartTime")}
-                  />
-                  <TextField sx={{marginLeft: 5}}
-                    autoFocus
-                    margin="dense"
-                    name="EventEndTime"
-                    label="Event End Time"
-                    type="time"
-                    variant="outlined"
-                    InputLabelProps={{ shrink: true, required: false }}
-                    defaultValue={EventEndTime}
-                    {...register("EventEndTime")}
-                  /></div>
-                
+                  <div>
+                    {" "}
+                    <TextField
+                      autoFocus
+                      margin="dense"
+                      name="EventStartTime"
+                      label="Event Start Time"
+                      type="time"
+                      variant="outlined"
+                      InputLabelProps={{ shrink: true, required: false }}
+                      defaultValue={EventStartTime}
+                      {...register("EventStartTime")}
+                    />
+                    <TextField
+                      sx={{ marginLeft: 5 }}
+                      autoFocus
+                      margin="dense"
+                      name="EventEndTime"
+                      label="Event End Time"
+                      type="time"
+                      variant="outlined"
+                      InputLabelProps={{ shrink: true, required: false }}
+                      defaultValue={EventEndTime}
+                      {...register("EventEndTime")}
+                    />
+                  </div>
+
                   <TextField
                     autoFocus
                     margin="dense"
