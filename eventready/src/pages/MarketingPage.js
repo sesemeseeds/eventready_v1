@@ -233,7 +233,7 @@ const MarketingPage = () => {
             </Button>
             <Button
               variant="contained"
-              style={{ marginTop: '10px', backgroundColor: '#127CD6', color: '#FFFFFF' }}
+              style={{ marginTop: '10px', backgroundColor: '#1490DF', color: '#FFFFFF' }}
               onClick={openOutlook}
             >
               Outlook
