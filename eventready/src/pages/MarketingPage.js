@@ -179,14 +179,14 @@ const MarketingPage = () => {
             <Box display="flex" justifyContent="space-between">
             <Button
               variant="contained"
-              style={{ backgroundColor: '#8F00FF', color: '#FFFFFF', marginRight: '10px', marginTop: '30px' }}
+              style={{ backgroundColor: '#20C4CB', color: '#FFFFFF', marginRight: '10px', marginTop: '30px' }}
               onClick={() => window.open('https://www.canva.com/', '_blank')}
             >
               Canva
             </Button>
             <Button
               variant="contained"
-              style={{ backgroundColor: '#0acf83', color: '#FFFFFF', marginRight: '10px', marginTop: '30px' }}
+              style={{ backgroundColor: '#a259ff', color: '#FFFFFF', marginRight: '10px', marginTop: '30px' }}
               onClick={() => window.open('https://www.figma.com/', '_blank')}
             >
               Figma
@@ -219,7 +219,7 @@ const MarketingPage = () => {
           <Box display="flex" flexDirection="column">
             <Button
               variant="contained"
-              style={{ marginTop: '10px', backgroundColor: '#316FF6.', color: '#FFFFFF' }}
+              style={{ marginTop: '10px', backgroundColor: '#4267B2.', color: '#FFFFFF' }}
               onClick={openFacebook}
             >
               Facebook
@@ -233,7 +233,7 @@ const MarketingPage = () => {
             </Button>
             <Button
               variant="contained"
-              style={{ marginTop: '10px', backgroundColor: '#0072c6', color: '#FFFFFF' }}
+              style={{ marginTop: '10px', backgroundColor: '#127CD6', color: '#FFFFFF' }}
               onClick={openOutlook}
             >
               Outlook
