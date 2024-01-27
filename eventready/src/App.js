@@ -4,7 +4,7 @@ import { Routes, Route } from "react-router-dom";
 import { LandingPage } from "./pages/LandingPage";
 import { EventPage } from "./pages/EventPage";
 import GeneralInfoPage from "./pages/GeneralInfoPage";
-import Attendence from "./pages/Attendence";
+import Attendance from "./pages/Attendance";
 
 function App() {
   return (
@@ -14,7 +14,7 @@ function App() {
         <Route path="/event" element={<EventPage />} />
         <Route path="/helloworld" element={<HelloWorld />} />
         <Route path="/generalinfo" element={<GeneralInfoPage />} />
-        <Route path="/Attendence" element={<Attendence />} />
+        <Route path="/Attendance" element={<Attendance />} />
       </Routes>
     </>
   );
