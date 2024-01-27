@@ -159,7 +159,7 @@ const MarketingPage = () => {
       top: 0, left: 0, right: 0,
       paddingLeft: '20px'}}
   >
-    Upload Graphic
+    Upload Poster
   </Typography>
   <label htmlFor="file-upload" className="custom-file-upload" style={{ display: 'flex', alignItems: 'center', marginTop: '60px', justifyContent: 'space-between' }}>
   <div style={{ display: 'flex', alignItems: 'center' }}>
@@ -209,7 +209,6 @@ const MarketingPage = () => {
     </Button>
   </div>
 </Box>
-
 
           {/* Helpful Links Section */}
           <Box
