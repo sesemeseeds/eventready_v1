@@ -6,17 +6,32 @@ const AttendancePage = () => {
   const [attendanceLink, setAttendanceLink] = useState('');
   const [generatedQR, setGeneratedQR] = useState(null);
   const [shareDialogOpen, setShareDialogOpen] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
 
   const handleLinkChange = (event) => {
     setAttendanceLink(event.target.value);
   };
 
+  const isValidURL = (url) => {
+    try {
+      new URL(url);
+      return true;
+    } catch (error) {
+      return false;
+    }
+  };
+
   const generateQRCode = () => {
     // Generate QR code logic
-    if (attendanceLink) {
-      setGeneratedQR(<QRCode value={attendanceLink} />);
+    if (!attendanceLink) {
+      setGeneratedQR(null);
+      setErrorMessage('Link cannot be empty. Please enter a valid URL.');
+    } else if (isValidURL(attendanceLink)) {
+      setGeneratedQR(<QRCode value={attendanceLink} size={332} />);
+      setErrorMessage('');
     } else {
       setGeneratedQR(null);
+      setErrorMessage('Oops! Looks like an Invalid link. Please enter a valid URL.');
     }
   };
 
@@ -29,12 +44,17 @@ const AttendancePage = () => {
 
   const downloadQRCode = () => {
     // Download QR code logic
-    const canvas = document.querySelector('canvas'); // Assuming the QRCode is rendered as a canvas
-    const imageURL = canvas.toDataURL('image/png');
-    const downloadLink = document.createElement('a');
-    downloadLink.href = imageURL;
-    downloadLink.download = 'qrcode.png';
-    downloadLink.click();
+    if (isValidURL(attendanceLink)) {
+      const canvas = document.querySelector('canvas');
+      const imageURL = canvas.toDataURL('image/png');
+      const downloadLink = document.createElement('a');
+      downloadLink.href = imageURL;
+      downloadLink.download = 'qrcode.png';
+      downloadLink.click();
+      setErrorMessage('');
+    } else {
+      setErrorMessage('Invalid link. Please enter a valid URL.');
+    }
   };
 
   const openFacebook = () => {
@@ -55,6 +75,10 @@ const AttendancePage = () => {
 
   const closeShareDialog = () => {
     setShareDialogOpen(false);
+  };
+
+  const closeErrorMessage = () => {
+    setErrorMessage('');
   };
 
   return (
@@ -90,10 +114,10 @@ const AttendancePage = () => {
         </Box>
 
         {generatedQR && (
-  <Box mt={2}>
-    {generatedQR}
-  </Box>
-  )}
+          <Box mt={2}>
+            {generatedQR}
+          </Box>
+        )}
 
         {generatedQR && (
           <Box mt={2}>
@@ -125,8 +149,18 @@ const AttendancePage = () => {
             <Button onClick={closeShareDialog}>Close</Button>
           </DialogActions>
         </Dialog>
-      </div>
-    </div>
+
+        <Dialog open={Boolean(errorMessage)} onClose={closeErrorMessage}>
+          <DialogTitle style={{ backgroundColor: 'red', color: 'white', fontWeight: 'bold', paddingRight: '24px', paddingLeft: '24px' }}>Error</DialogTitle>
+          <DialogContent style={{ paddingTop: '16px', paddingBottom: '16px', paddingLeft: '24px', paddingRight: '24px',}}>
+            <Typography style={{ color: '#000000', marginBottom: '8px' }}>{errorMessage}</Typography>
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={closeErrorMessage} style={{ backgroundColor: 'red', color: 'white' }}>OK</Button>
+              </DialogActions>
+              </Dialog>
+              </div>
+              </div>
   );
 };
 
