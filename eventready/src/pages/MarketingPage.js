@@ -22,41 +22,34 @@ const MarketingPage = () => {
     const selectedImage = event.target.files[0];
     setImage(selectedImage);
   };
-
   const handleCaptionChange = (event) => {
     setCaption(event.target.value);
   };
-
   const openFacebook = () => {
     window.open('https://www.facebook.com/');
   };
-
   const openInstagram = () => {
     window.open('https://www.instagram.com/');
   };
-
   const openOutlook = () => {
     window.open('https://outlook.live.com/');
   };
-
   const openShareDialog = () => {
     setShareDialogOpen(true);
   };
-
   const closeShareDialog = () => {
     setShareDialogOpen(false);
   };
 
   return (
     <div>
-      <AppBar position="static" style={{ backgroundColor: 'red' }}>
+      <AppBar position="static" style={{ backgroundColor: 'red' , height : '80px'}}>
         <Toolbar>
-          <Typography variant="h5" style={{ color: 'white', fontWeight: 'bold', textAlign: 'center', width: '100%' }}>
+          <Typography variant="h4" style={{ color: 'white', fontWeight: 'bold', textAlign: 'center', width: '100%', marginTop: '20px' }}>
             Marketing
           </Typography>
         </Toolbar>
       </AppBar>
-
 
       <Container
         maxWidth="xl"
@@ -65,7 +58,7 @@ const MarketingPage = () => {
           flexDirection: 'column',
           alignItems: 'center',
           backgroundColor: 'white',
-          padding: '20px',
+          padding: '15px',
           minHeight: '100vh',
         }}
       >
@@ -82,7 +75,7 @@ const MarketingPage = () => {
               padding: '20px',
               marginRight: '20px',
               borderRadius: '10px',
-              backgroundColor: '#e5ffd2', // lighter color for Reminders
+              backgroundColor: '#e9ffda', // lighter color for Reminders
               position: 'relative',
               marginTop: '40px', // Further adjusted position
             }}
@@ -143,7 +136,7 @@ const MarketingPage = () => {
               padding: '20px',
               marginRight: '20px',
               borderRadius: '10px',
-              backgroundColor: '#f5e9ff', // lighter color for Upload Graphic
+              backgroundColor: '#f2ebff', // lighter color for Upload Graphic
               position: 'relative',
               marginTop: '40px', // Further adjusted position
             }}
@@ -194,7 +187,7 @@ const MarketingPage = () => {
               flex: 1,
               padding: '20px',
               borderRadius: '10px',
-              backgroundColor: '#ffe1d2', // lighter color for Helpful Links
+              backgroundColor: '#ffeee8', // lighter color for Helpful Links
               position: 'relative',
               marginTop: '40px', // Further adjusted position
             }}
