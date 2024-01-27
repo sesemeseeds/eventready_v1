@@ -85,7 +85,7 @@ export default function GeneralInfoComponent() {
     // })
 
     setEventTitle("Tests");
-    setEventDate("2024-01-19");
+    setEventDate("2024-03-19");
     setEventStartTime("20:00");
     setEventEndTime("22:00");
     setEventLocation("Hardcoded Event Location");
@@ -156,7 +156,7 @@ export default function GeneralInfoComponent() {
             >
               Edit
             </EditOutlinedIcon>
-            <h1> Side section</h1>
+            <h1> Event Information </h1>
             <div> {ConvertedDate} </div>
             <div>
               {" "}
@@ -195,6 +195,7 @@ export default function GeneralInfoComponent() {
                     type="text"
                     fullWidth
                     variant="outlined"
+                    required="true"
                     defaultValue={EventTitle}
                     {...register("EventTitle")}
                   />
