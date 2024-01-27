@@ -80,13 +80,24 @@ const MarketingPage = () => {
               flex: 1,
               padding: '20px',
               marginRight: '20px',
-              backgroundColor: '#e5ffd2',
               borderRadius: '10px',
+              backgroundColor: '#e5ffd2', // lighter color for Reminders
+              position: 'relative',
+              marginTop: '40px', // Further adjusted position
             }}
           >
             <Typography
               variant="h6"
-              style={{ color: '#006400', fontWeight: 'bold', marginBottom: '10px' }}
+              style={{ 
+                color: 'white', 
+                fontWeight: 'bold', 
+                marginBottom: '10px', 
+                backgroundColor: '#006400', 
+                padding: '10px', 
+                borderRadius: '5px', 
+                position: 'absolute', 
+                top: 0, left: 0, right: 0,
+                paddingLeft: '20px'}}
             >
               Reminders
             </Typography>
@@ -97,7 +108,7 @@ const MarketingPage = () => {
                 value={reminderName}
                 onChange={(e) => setReminderName(e.target.value)}
                 fullWidth
-                style={{ marginBottom: '10px' }}
+                style={{ marginTop: '60px' }}
               />
               <TextField
                 type="datetime-local"
@@ -105,13 +116,13 @@ const MarketingPage = () => {
                 onChange={(e) => setReminderDateTime(e.target.value)}
                 InputLabelProps={{ shrink: true }}
                 fullWidth
-                
+                style={{ marginTop: '20px' }}
+
               />
               <Button
-                style={{ backgroundColor: '#009822', color: '#FFFFFF', marginTop: '15px' }}
+                style={{ backgroundColor: '#009822', color: '#FFFFFF', marginTop: '20px' }}
                 variant="contained"
                 onClick={addReminder}
-                
               >
                 Add Reminder
               </Button>
@@ -130,14 +141,26 @@ const MarketingPage = () => {
               flex: 1,
               padding: '20px',
               marginRight: '20px',
-              backgroundColor: '#f5e9ff',
               borderRadius: '10px',
+              backgroundColor: '#f5e9ff', // lighter color for Upload Graphic
+              position: 'relative',
+              marginTop: '40px', // Further adjusted position
             }}
           >
-            <Typography variant="h6" style={{ color: '#8A2BE2', fontWeight: 'bold', marginBottom: '10px' }}>
+            <Typography 
+            variant="h6" 
+            style={{ color: 'white', 
+            fontWeight: 'bold', 
+            marginBottom: '10px', 
+            backgroundColor: '#8A2BE2', 
+            padding: '10px', 
+            borderRadius: '5px', 
+            position: 'absolute', 
+            top: 0, left: 0, right: 0,
+            paddingLeft: '20px'}}>
               Upload Graphic
             </Typography>
-            <label htmlFor="file-upload" className="custom-file-upload" style={{ display: 'block', marginBottom: '10px' }}>
+            <label htmlFor="file-upload" className="custom-file-upload" style={{ display: 'block', marginTop: '60px' }}>
               Choose File
             </label>
             <input
@@ -169,35 +192,48 @@ const MarketingPage = () => {
             style={{
               flex: 1,
               padding: '20px',
-              backgroundColor: '#ffe1d2',
               borderRadius: '10px',
+              backgroundColor: '#ffe1d2', // lighter color for Helpful Links
+              position: 'relative',
+              marginTop: '40px', // Further adjusted position
             }}
           >
-            <Typography variant="h6" style={{ color: '#FF0000', fontWeight: 'bold', marginBottom: '10px' }}>
+            <Typography 
+            variant="h6" 
+            style={{ 
+              color: 'white', 
+              fontWeight: 'bold', 
+              marginBottom: '10px', 
+              backgroundColor: '#ff5f08', 
+              padding: '10px', 
+              borderRadius: '5px', 
+              position: 'absolute', 
+              top: 0, left: 0, right: 0,
+              paddingLeft: '20px'}}>
               Helpful Links
             </Typography>
             <Box display="flex" justifyContent="space-between">
-            <Button
-              variant="contained"
-              style={{ backgroundColor: '#20C4CB', color: '#FFFFFF', marginRight: '10px', marginTop: '30px' }}
-              onClick={() => window.open('https://www.canva.com/', '_blank')}
-            >
-              Canva
-            </Button>
-            <Button
-              variant="contained"
-              style={{ backgroundColor: '#a259ff', color: '#FFFFFF', marginRight: '10px', marginTop: '30px' }}
-              onClick={() => window.open('https://www.figma.com/', '_blank')}
-            >
-              Figma
-            </Button>
-            <Button
-              variant="contained"
-              style={{ backgroundColor: '#FF0000', color: '#FFFFFF', marginTop: '30px' }}
-              onClick={() => window.open('https://www.adobe.com/', '_blank')}
-            >
-              Adobe
-            </Button>
+              <Button
+                variant="contained"
+                style={{ backgroundColor: '#20C4CB', color: '#FFFFFF', marginRight: '10px', marginTop: '70px' }}
+                onClick={() => window.open('https://www.canva.com/', '_blank')}
+              >
+                Canva
+              </Button>
+              <Button
+                variant="contained"
+                style={{ backgroundColor: '#a259ff', color: '#FFFFFF', marginRight: '10px', marginTop: '70px' }}
+                onClick={() => window.open('https://www.figma.com/', '_blank')}
+              >
+                Figma
+              </Button>
+              <Button
+                variant="contained"
+                style={{ backgroundColor: '#FF0000', color: '#FFFFFF', marginTop: '70px' }}
+                onClick={() => window.open('https://www.adobe.com/', '_blank')}
+              >
+                Adobe
+              </Button>
             </Box>
             <div style={{ marginTop: '20px' }}>
               <Button
@@ -214,7 +250,7 @@ const MarketingPage = () => {
 
       {/* Share Dialog */}
       <Dialog open={shareDialogOpen} onClose={closeShareDialog}>
-        <DialogTitle>Share Options</DialogTitle>
+        <DialogTitle style={{ backgroundColor: 'red', color: 'white', fontWeight: 'bold', paddingRight: '24px' }}>Share Options</DialogTitle>
         <DialogContent>
           <Box display="flex" flexDirection="column">
             <Button
@@ -241,10 +277,11 @@ const MarketingPage = () => {
           </Box>
         </DialogContent>
         <DialogActions>
-          <Button onClick={closeShareDialog}>Close</Button>
+          <Button style={{ backgroundColor: 'red', color: 'white' }} variant="contained" onClick={closeShareDialog}>OK</Button>
         </DialogActions>
       </Dialog>
     </div>
   );
 };
+
 export default MarketingPage;
