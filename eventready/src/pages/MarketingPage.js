@@ -22,21 +22,27 @@ const MarketingPage = () => {
     const selectedImage = event.target.files[0];
     setImage(selectedImage);
   };
+  
   const handleCaptionChange = (event) => {
     setCaption(event.target.value);
   };
+  
   const openFacebook = () => {
     window.open('https://www.facebook.com/');
   };
+  
   const openInstagram = () => {
     window.open('https://www.instagram.com/');
   };
+  
   const openOutlook = () => {
     window.open('https://outlook.live.com/');
   };
+  
   const openShareDialog = () => {
     setShareDialogOpen(true);
   };
+  
   const closeShareDialog = () => {
     setShareDialogOpen(false);
   };
@@ -69,6 +75,7 @@ const MarketingPage = () => {
             justifyContent: 'space-between',
           }}
         >
+          {/* Reminders Section */}
           <Box
             style={{
               flex: 1,
@@ -95,6 +102,9 @@ const MarketingPage = () => {
             >
               Reminders
             </Typography>
+            <Typography variant="body1" style={{ color: 'black', marginTop: '55px' }}>
+            Don't miss a beat with our nifty Reminders feature.             
+            </Typography>
             <div>
               <TextField
                 type="text"
@@ -102,7 +112,7 @@ const MarketingPage = () => {
                 value={reminderName}
                 onChange={(e) => setReminderName(e.target.value)}
                 fullWidth
-                style={{ marginTop: '60px' }}
+                style={{ marginTop: '30px' }}
               />
               <TextField
                 type="datetime-local"
@@ -111,7 +121,6 @@ const MarketingPage = () => {
                 InputLabelProps={{ shrink: true }}
                 fullWidth
                 style={{ marginTop: '20px' }}
-
               />
               <Button
                 style={{ backgroundColor: '#009822', color: '#FFFFFF', marginTop: '20px' }}
@@ -130,58 +139,79 @@ const MarketingPage = () => {
             </ul>
           </Box>
 
+          {/* Upload Graphic Section */}
           <Box
-            style={{
-              flex: 1,
-              padding: '20px',
-              marginRight: '20px',
-              borderRadius: '10px',
-              backgroundColor: '#f2ebff', // lighter color for Upload Graphic
-              position: 'relative',
-              marginTop: '40px', // Further adjusted position
-            }}
-          >
-            <Typography 
-            variant="h6" 
-            style={{ color: 'white', 
-            fontWeight: 'bold', 
-            marginBottom: '10px', 
-            backgroundColor: '#8A2BE2', 
-            padding: '10px', 
-            borderRadius: '5px', 
-            position: 'absolute', 
-            top: 0, left: 0, right: 0,
-            paddingLeft: '20px'}}>
-              Upload Graphic
-            </Typography>
-            <label htmlFor="file-upload" className="custom-file-upload" style={{ display: 'block', marginTop: '60px' }}>
-              Choose File
-            </label>
-            <input
-              type="file"
-              id="file-upload"
-              accept="image/*"
-              onChange={handleImageUpload}
-              style={{ display: 'none' }}
-            />
-            {image && (
-              <img
-                src={URL.createObjectURL(image)}
-                alt="Uploaded"
-                style={{ width: '100%', borderRadius: '5px', marginTop: '10px' }}
-              />
-            )}
-            <TextField
-              placeholder="Enter caption..."
-              value={caption}
-              onChange={handleCaptionChange}
-              multiline
-              rows={4}
-              style={{ marginTop: '10px' }}
-              fullWidth
-            />
-          </Box>
+          style={{ flex: 1, padding: '20px',marginRight: '20px',borderRadius: '10px',
+          backgroundColor: '#f2ebff', // lighter color for Upload Graphic
+          position: 'relative', marginTop: '40px', // Further adjusted position 
+          }}>
 
+  <Typography 
+    variant="h6" 
+    style={{ 
+      color: 'white', 
+      fontWeight: 'bold', 
+      marginBottom: '10px', 
+      backgroundColor: '#8A2BE2', 
+      padding: '10px', 
+      borderRadius: '5px', 
+      position: 'absolute', 
+      top: 0, left: 0, right: 0,
+      paddingLeft: '20px'}}
+  >
+    Upload Graphic
+  </Typography>
+  <label htmlFor="file-upload" className="custom-file-upload" style={{ display: 'flex', alignItems: 'center', marginTop: '60px', justifyContent: 'space-between' }}>
+  <div style={{ display: 'flex', alignItems: 'center' }}>
+    Choose File
+    <input
+      type="file"
+      id="file-upload"
+      accept="image/*"
+      onChange={handleImageUpload}
+      style={{ display: 'none' }}
+    />
+  </div>
+  {image && (
+     <Button
+     style={{ color: '#000000' }}  // Removed backgroundColor
+     onClick={() => setImage(null)}
+   >
+      Clear
+    </Button>
+  )}
+</label>
+
+  {image && (
+    <img
+      src={URL.createObjectURL(image)}
+      alt="Uploaded"
+      style={{ width: '100%', borderRadius: '5px', marginTop: '10px' }}
+    />
+  )}
+  <TextField
+    placeholder="Enter caption..."
+    value={caption}
+    onChange={handleCaptionChange}
+    multiline
+    rows={4}
+    style={{ marginTop: '10px' }}
+    fullWidth
+  />
+  {/* Share Graphic Button */}
+  <div style={{ marginTop: '20px' }}>
+    <Button
+      variant="contained"
+      style={{ backgroundColor: '#0000FF', color: '#FFFFFF' }}
+      onClick={openShareDialog}
+    >
+      Share Graphic
+    </Button>
+  </div>
+</Box>
+
+
+          {/* Helpful Links Section */}
           <Box
             style={{
               flex: 1,
@@ -193,51 +223,46 @@ const MarketingPage = () => {
             }}
           >
             <Typography 
-            variant="h6" 
-            style={{ 
-              color: 'white', 
-              fontWeight: 'bold', 
-              marginBottom: '10px', 
-              backgroundColor: '#ff5f08', 
-              padding: '10px', 
-              borderRadius: '5px', 
-              position: 'absolute', 
-              top: 0, left: 0, right: 0,
-              paddingLeft: '20px'}}>
+              variant="h6" 
+              style={{ 
+                color: 'white', 
+                fontWeight: 'bold', 
+                marginBottom: '10px', 
+                backgroundColor: '#ff5f08', 
+                padding: '10px', 
+                borderRadius: '5px', 
+                position: 'absolute', 
+                top: 0, left: 0, right: 0,
+                paddingLeft: '20px'}}
+            >
               Helpful Links
+            </Typography>
+            <Typography variant="body1" style={{ color: 'black', marginBottom: '10px', marginTop: '55px' }}>
+            Embarking on a creative journey with graphics? Dive into these fantastic resources to unleash your inner designer and craft amazing posters, vibrant flyers, eye-catching logos, and more for your spectacular event! Let your imagination run wild and bring your ideas to life!
             </Typography>
             <Box display="flex" justifyContent="space-between">
               <Button
                 variant="contained"
-                style={{ backgroundColor: '#20C4CB', color: '#FFFFFF', marginRight: '10px', marginTop: '70px' }}
+                style={{ backgroundColor: '#20C4CB', color: '#FFFFFF', marginRight: '10px', marginTop: '10px' }}
                 onClick={() => window.open('https://www.canva.com/', '_blank')}
               >
                 Canva
               </Button>
               <Button
                 variant="contained"
-                style={{ backgroundColor: '#a259ff', color: '#FFFFFF', marginRight: '10px', marginTop: '70px' }}
+                style={{ backgroundColor: '#a259ff', color: '#FFFFFF', marginRight: '10px', marginTop: '10px' }}
                 onClick={() => window.open('https://www.figma.com/', '_blank')}
               >
                 Figma
               </Button>
               <Button
                 variant="contained"
-                style={{ backgroundColor: '#FF0000', color: '#FFFFFF', marginTop: '70px' }}
+                style={{ backgroundColor: '#FF0000', color: '#FFFFFF', marginTop: '10px' }}
                 onClick={() => window.open('https://www.adobe.com/', '_blank')}
               >
                 Adobe
               </Button>
             </Box>
-            <div style={{ marginTop: '20px' }}>
-              <Button
-                variant="contained"
-                style={{ backgroundColor: '#0000FF', color: '#FFFFFF', marginTop: '50px' }}
-                onClick={openShareDialog}
-              >
-                Share Graphic
-              </Button>
-            </div>
           </Box>
         </Box>
       </Container>
