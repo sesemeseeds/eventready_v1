@@ -27,7 +27,7 @@ const AttendancePage = () => {
       setGeneratedQR(null);
       setErrorMessage('Link cannot be empty. Please enter a valid URL.');
     } else if (isValidURL(attendanceLink)) {
-      setGeneratedQR(<QRCode value={attendanceLink} size={332} />);
+      setGeneratedQR(<QRCode value={attendanceLink} size={300} />);
       setErrorMessage('');
     } else {
       setGeneratedQR(null);
@@ -121,12 +121,12 @@ const AttendancePage = () => {
         </Toolbar>
       </AppBar>
 
-      <Typography variant="subtitle1" style={{ padding: '10px', paddingTop: '10px', paddingLeft: '25px' }}>
+      <Typography variant="subtitle1" style={{ padding: '10px', paddingTop: '10px', paddingLeft: '25px', marginBottom: '20px' }}>
         This page facilitates attendance tracking for event organizers. Generate QR codes for your events and easily manage attendance on the go.
       </Typography>
 
-      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '10vh' }}>
-        <Box mt={3}>
+      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '30vh' }}>
+      <Box mt={3} style={{ width: '50%', margin: '0 auto' }}>
           <TextField
             label="Attendance Form Link"
             variant="outlined"
@@ -160,25 +160,25 @@ const AttendancePage = () => {
           </Box>
         )}
 
-        <Dialog open={shareDialogOpen} onClose={closeShareDialog}>
-          <DialogTitle>Share Options</DialogTitle>
-          <DialogContent>
-            <Box display="flex" flexDirection="column">
-              <Button variant="contained" color="primary" style={{ marginTop: '10px', backgroundColor: '#4267B2' }} onClick={openFacebook}>
-                Facebook
-              </Button>
-              <Button variant="contained" color="primary" style={{ marginTop: '10px', backgroundColor: '#E1306C' }} onClick={openInstagram}>
-                Instagram
-              </Button>
-              <Button variant="contained" color="primary" style={{ marginTop: '10px', backgroundColor: '#1490DF' }} onClick={openOutlook}>
-                Outlook
-              </Button>
-            </Box>
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={closeShareDialog}>Close</Button>
-          </DialogActions>
-        </Dialog>
+<Dialog open={shareDialogOpen} onClose={closeShareDialog}>
+  <DialogTitle style={{ backgroundColor: 'red', color: 'white', fontWeight: 'bold', paddingRight: '24px' }}>Share Options</DialogTitle>
+  <DialogContent>
+    <Box display="flex" flexDirection="column">
+      <Button variant="contained" color="primary" style={{ marginTop: '10px', backgroundColor: '#4267B2' }} onClick={openFacebook}>
+        Facebook
+      </Button>
+      <Button variant="contained" color="primary" style={{ marginTop: '10px', backgroundColor: '#E1306C' }} onClick={openInstagram}>
+        Instagram
+      </Button>
+      <Button variant="contained" color="primary" style={{ marginTop: '10px', backgroundColor: '#1490DF' }} onClick={openOutlook}>
+        Outlook
+      </Button>
+    </Box>
+  </DialogContent>
+  <DialogActions>
+    <Button onClick={closeShareDialog} style={{ backgroundColor: 'red', color: 'white' }}>OK</Button>
+  </DialogActions>
+</Dialog>
 
         <Dialog open={Boolean(errorMessage)} onClose={closeErrorMessage}>
           <DialogTitle style={{ backgroundColor: 'red', color: 'white', fontWeight: 'bold', paddingRight: '24px', paddingLeft: '24px' }}>Error</DialogTitle>
