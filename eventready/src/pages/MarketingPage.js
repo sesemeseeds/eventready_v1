@@ -219,7 +219,7 @@ const MarketingPage = () => {
           <Box display="flex" flexDirection="column">
             <Button
               variant="contained"
-              style={{ marginTop: '10px', backgroundColor: '#4267B2.', color: '#FFFFFF' }}
+              style={{ marginTop: '10px', backgroundColor: '#4267B2', color: '#FFFFFF' }}
               onClick={openFacebook}
             >
               Facebook
