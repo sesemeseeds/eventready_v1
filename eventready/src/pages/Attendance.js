@@ -27,7 +27,7 @@ const AttendancePage = () => {
       setGeneratedQR(null);
       setErrorMessage('Link cannot be empty. Please enter a valid URL.');
     } else if (isValidURL(attendanceLink)) {
-      setGeneratedQR(<QRCode value={attendanceLink} size={300} />);
+      setGeneratedQR(<QRCode value={attendanceLink} size={280} />);
       setErrorMessage('');
     } else {
       setGeneratedQR(null);
@@ -121,9 +121,8 @@ const AttendancePage = () => {
         </Toolbar>
       </AppBar>
 
-      <Typography variant="subtitle1" style={{ padding: '10px', paddingTop: '10px', paddingLeft: '25px', marginBottom: '20px' }}>
-        This page facilitates attendance tracking for event organizers. Generate QR codes for your events and easily manage attendance on the go.
-      </Typography>
+      <Typography variant="h6" style={{ padding: '10px', paddingTop: '10px', paddingLeft: '25px', marginBottom: '20px' }}>
+      Effortlessly track attendance for your events with our dedicated Attendance Page. Simply generate QR codes for your events, providing a convenient solution to efficiently manage attendance while on the move.      </Typography>
 
       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '30vh' }}>
       <Box mt={3} style={{ width: '50%', margin: '0 auto' }}>
