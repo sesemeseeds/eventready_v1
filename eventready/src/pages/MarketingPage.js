@@ -51,11 +51,12 @@ const MarketingPage = () => {
     <div>
       <AppBar position="static" style={{ backgroundColor: 'red' }}>
         <Toolbar>
-          <Typography variant="h5" style={{ color: 'white', fontWeight: 'bold' }}>
+          <Typography variant="h5" style={{ color: 'white', fontWeight: 'bold', textAlign: 'center', width: '100%' }}>
             Marketing
           </Typography>
         </Toolbar>
       </AppBar>
+
 
       <Container
         maxWidth="xl"
