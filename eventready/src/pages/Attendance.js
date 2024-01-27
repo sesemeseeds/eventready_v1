@@ -61,7 +61,7 @@ const AttendancePage = () => {
     <div>
       <AppBar position="static" style={{ backgroundColor: 'red' }}>
         <Toolbar>
-          <Typography variant="h6" style={{ color: 'white', fontWeight: 'bold' }}>
+          <Typography variant="h5" style={{ color: 'white', fontWeight: 'bold' }}>
             Attendance
           </Typography>
         </Toolbar>
