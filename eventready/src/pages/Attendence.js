@@ -74,7 +74,7 @@ const AttendancePage = () => {
       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '60vh' }}>
         <Box mt={3}>
           <TextField
-            label="Attendance Link"
+            label="Attendance Form Link"
             variant="outlined"
             fullWidth
             value={attendanceLink}
@@ -110,13 +110,13 @@ const AttendancePage = () => {
           <DialogTitle>Share Options</DialogTitle>
           <DialogContent>
             <Box display="flex" flexDirection="column">
-              <Button variant="contained" color="primary" style={{ marginTop: '10px', backgroundColor: '#316FF6' }} onClick={openFacebook}>
+              <Button variant="contained" color="primary" style={{ marginTop: '10px', backgroundColor: '#4267B2' }} onClick={openFacebook}>
                 Facebook
               </Button>
-              <Button variant="contained" color="primary" style={{ marginTop: '10px', backgroundColor: '#d62976' }} onClick={openInstagram}>
+              <Button variant="contained" color="primary" style={{ marginTop: '10px', backgroundColor: '#E1306C' }} onClick={openInstagram}>
                 Instagram
               </Button>
-              <Button variant="contained" color="primary" style={{ marginTop: '10px', backgroundColor: '#0078d4' }} onClick={openOutlook}>
+              <Button variant="contained" color="primary" style={{ marginTop: '10px', backgroundColor: '#1490DF' }} onClick={openOutlook}>
                 Outlook
               </Button>
             </Box>
