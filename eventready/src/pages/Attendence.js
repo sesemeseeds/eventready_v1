@@ -1,48 +1,133 @@
 import React, { useState } from 'react';
+import { Button, TextField, Typography, Box, AppBar, Toolbar, Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material';
 import QRCode from 'qrcode.react';
 
-const QRCodeGenerator = () => {
-    const [name, setName] = useState('');
-    const [userList, setUserList] = useState([]);
+const AttendancePage = () => {
+  const [attendanceLink, setAttendanceLink] = useState('');
+  const [generatedQR, setGeneratedQR] = useState(null);
+  const [shareDialogOpen, setShareDialogOpen] = useState(false);
 
-    const handleNameChange = (e) => {
-        setName(e.target.value);
-    };
+  const handleLinkChange = (event) => {
+    setAttendanceLink(event.target.value);
+  };
 
-    const handleFormSubmit = (e) => {
-        e.preventDefault();
-        // Update the user list with the new name
-        setUserList((prevList) => [...prevList, name]);
-        // Clear the input field
-        setName('');
-    };
+  const generateQRCode = () => {
+    // Generate QR code logic
+    if (attendanceLink) {
+      setGeneratedQR(<QRCode value={attendanceLink} />);
+    } else {
+      setGeneratedQR(null);
+    }
+  };
 
-    return (
-        <div>
-            <h1>QR Code</h1>
+  const handleKeyPress = (event) => {
+    // Trigger generateQRCode function on "Enter" key press
+    if (event.key === 'Enter') {
+      generateQRCode();
+    }
+  };
 
-            {/* QR Code for the external form */}
-            <QRCode value="URL_TO_EXTERNAL_FORM" />
+  const downloadQRCode = () => {
+    // Download QR code logic
+    const canvas = document.querySelector('canvas'); // Assuming the QRCode is rendered as a canvas
+    const imageURL = canvas.toDataURL('image/png');
+    const downloadLink = document.createElement('a');
+    downloadLink.href = imageURL;
+    downloadLink.download = 'qrcode.png';
+    downloadLink.click();
+  };
 
-            {/* User Input Form */}
-            <form onSubmit={handleFormSubmit}>
-                <label>
-                    Enter your name:
-                    <input type="text" value={name} onChange={handleNameChange} />
-                </label>
-                <button type="submit">Submit</button>
-            </form>
+  const openFacebook = () => {
+    window.open('https://www.facebook.com/');
+  };
 
-            {/* User List Display */}
-            <h2>User List</h2>
-            <ul>
-                {userList.map((user, index) => (
-                    <li key={index}>{user}</li>
-                ))}
-            </ul>
-        </div>
-    );
+  const openInstagram = () => {
+    window.open('https://www.instagram.com/');
+  };
+
+  const openOutlook = () => {
+    window.open('https://outlook.live.com/');
+  };
+
+  const openShareDialog = () => {
+    setShareDialogOpen(true);
+  };
+
+  const closeShareDialog = () => {
+    setShareDialogOpen(false);
+  };
+
+  return (
+    <div>
+      <AppBar position="static" style={{ backgroundColor: 'red' }}>
+        <Toolbar>
+          <Typography variant="h6" style={{ color: 'white', fontWeight: 'bold' }}>
+            Attendance
+          </Typography>
+        </Toolbar>
+      </AppBar>
+
+      <Typography variant="subtitle1" style={{ padding: '10px' }}>
+        This page facilitates attendance tracking for event organizers. Generate QR codes for your events and easily manage attendance on the go.
+      </Typography>
+
+      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '60vh', paddingTop: '20px' }}>
+        <Box mt={3}>
+          <TextField
+            label="Attendance Link"
+            variant="outlined"
+            fullWidth
+            value={attendanceLink}
+            onChange={handleLinkChange}
+            onKeyPress={handleKeyPress}
+          />
+        </Box>
+
+        <Box mt={2}>
+          <Button variant="contained" color="primary" style={{ backgroundColor: 'red' }} onClick={generateQRCode}>
+            Generate QR Code
+          </Button>
+        </Box>
+
+        {generatedQR && (
+  <Box mt={2}>
+    {generatedQR}
+  </Box>
+  )}
+
+        {generatedQR && (
+          <Box mt={2}>
+            <Button variant="contained" color="primary" style={{ backgroundColor: 'red' }} onClick={downloadQRCode}>
+              Download QR Code
+            </Button>
+            <Button variant="contained" color="primary" style={{ marginLeft: '10px', backgroundColor: 'red' }} onClick={openShareDialog}>
+              Share QR Code
+            </Button>
+          </Box>
+        )}
+
+        <Dialog open={shareDialogOpen} onClose={closeShareDialog}>
+          <DialogTitle>Share Options</DialogTitle>
+          <DialogContent>
+            <Box display="flex" flexDirection="column">
+              <Button variant="contained" color="primary" style={{ marginTop: '10px', backgroundColor: 'red' }} onClick={openFacebook}>
+                Facebook
+              </Button>
+              <Button variant="contained" color="primary" style={{ marginTop: '10px', backgroundColor: 'red' }} onClick={openInstagram}>
+                Instagram
+              </Button>
+              <Button variant="contained" color="primary" style={{ marginTop: '10px', backgroundColor: 'red' }} onClick={openOutlook}>
+                Outlook
+              </Button>
+            </Box>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={closeShareDialog}>Close</Button>
+          </DialogActions>
+        </Dialog>
+      </div>
+    </div>
+  );
 };
 
-export default QRCodeGenerator;
-
+export default AttendancePage;
