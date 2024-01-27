@@ -67,11 +67,11 @@ const AttendancePage = () => {
         </Toolbar>
       </AppBar>
 
-      <Typography variant="subtitle1" style={{ padding: '10px' }}>
+      <Typography variant="subtitle1" style={{ padding: '10px', paddingTop: '10px', paddingLeft: '25px' }}>
         This page facilitates attendance tracking for event organizers. Generate QR codes for your events and easily manage attendance on the go.
       </Typography>
 
-      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '60vh', paddingTop: '20px' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '60vh' }}>
         <Box mt={3}>
           <TextField
             label="Attendance Link"
@@ -110,13 +110,13 @@ const AttendancePage = () => {
           <DialogTitle>Share Options</DialogTitle>
           <DialogContent>
             <Box display="flex" flexDirection="column">
-              <Button variant="contained" color="primary" style={{ marginTop: '10px', backgroundColor: 'red' }} onClick={openFacebook}>
+              <Button variant="contained" color="primary" style={{ marginTop: '10px', backgroundColor: '#316FF6' }} onClick={openFacebook}>
                 Facebook
               </Button>
-              <Button variant="contained" color="primary" style={{ marginTop: '10px', backgroundColor: 'red' }} onClick={openInstagram}>
+              <Button variant="contained" color="primary" style={{ marginTop: '10px', backgroundColor: '#d62976' }} onClick={openInstagram}>
                 Instagram
               </Button>
-              <Button variant="contained" color="primary" style={{ marginTop: '10px', backgroundColor: 'red' }} onClick={openOutlook}>
+              <Button variant="contained" color="primary" style={{ marginTop: '10px', backgroundColor: '#0078d4' }} onClick={openOutlook}>
                 Outlook
               </Button>
             </Box>
