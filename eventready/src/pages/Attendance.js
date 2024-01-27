@@ -47,10 +47,40 @@ const AttendancePage = () => {
     if (isValidURL(attendanceLink)) {
       const canvas = document.querySelector('canvas');
       const imageURL = canvas.toDataURL('image/png');
+  
+      // Open the image in a new tab
+      const newTab = window.open();
+      
+      // Write HTML to the new tab with styles for centering
+      newTab.document.write(`
+        <html>
+          <head>
+            <style>
+              body {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                height: 100vh;
+                margin: 0;
+              }
+              img {
+                max-width: 100%;
+                max-height: 100%;
+              }
+            </style>
+          </head>
+          <body>
+            <img src="${imageURL}" alt="QR Code" />
+          </body>
+        </html>
+      `);
+  
+      // Download the image
       const downloadLink = document.createElement('a');
       downloadLink.href = imageURL;
       downloadLink.download = 'qrcode.png';
       downloadLink.click();
+  
       setErrorMessage('');
     } else {
       setErrorMessage('Invalid link. Please enter a valid URL.');
@@ -83,9 +113,9 @@ const AttendancePage = () => {
 
   return (
     <div>
-      <AppBar position="static" style={{ backgroundColor: 'red' }}>
+      <AppBar position="static" style={{ backgroundColor: 'red' , height : '80px'}}>
         <Toolbar>
-          <Typography variant="h5" style={{ color: 'white', fontWeight: 'bold' }}>
+          <Typography variant="h4" style={{ color: 'white', fontWeight: 'bold', textAlign: 'center', width: '100%', marginTop: '20px' }}>
             Attendance
           </Typography>
         </Toolbar>
@@ -95,7 +125,7 @@ const AttendancePage = () => {
         This page facilitates attendance tracking for event organizers. Generate QR codes for your events and easily manage attendance on the go.
       </Typography>
 
-      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '60vh' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '10vh' }}>
         <Box mt={3}>
           <TextField
             label="Attendance Form Link"
