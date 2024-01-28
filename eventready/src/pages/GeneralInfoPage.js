@@ -11,7 +11,7 @@ import { Box, Container } from "@mui/material";
 import { useForm } from "react-hook-form";
 import Footer from "../components/Footer"
 import Header from "../components/Header"
-
+import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 
 export default function GeneralInfoComponent() {
   const [open, setOpen] = React.useState(false);
@@ -89,9 +89,8 @@ export default function GeneralInfoComponent() {
   };
 
   return (
-    <div>
-      <Header></Header>
-
+       <div>
+ 
       <Box style={{ padding: "2%" }}>
 
         <div>
@@ -110,13 +109,15 @@ export default function GeneralInfoComponent() {
             <hr></hr>
           </Box>
           <Box style={{ width: "30%", float: "left" }}>
-            <Button
+            <EditOutlinedIcon
               style={{ float: "right" }}
               variant="contained"
               onClick={handleClickOpen}
+              fontSize="large"
+              cursor="pointer"
             >
               Edit
-            </Button>
+            </EditOutlinedIcon>
             <h1> Side section</h1>
             <div> {EventDate} </div>
             <div> {EventTime} </div>
@@ -217,8 +218,6 @@ export default function GeneralInfoComponent() {
           </DialogContent>
         </Dialog>
       </Box>
-
-      <Footer></Footer>
     </div>
   );
 }
