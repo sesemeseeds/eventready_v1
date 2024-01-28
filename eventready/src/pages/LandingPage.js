@@ -43,6 +43,8 @@ export const LandingPage = () => {
   const getAllEvents = () => {
     AxiosInstance.get(`/event`).then((res) =>{
       setAllEvents(res.data)
+      // setEventTitle(res.data.name)
+      // setEventDescription(res.data.description)
       console.log(res.data)
       setLoading(false)
     })
@@ -55,8 +57,8 @@ export const LandingPage = () => {
   const { register, handleSubmit, setValue, control } = useForm({});
 
   const onSubmit = async (data) => {
-    //setEventTitle(event.name);
-    //setEventCreationDate(event.description);
+    // setEventTitle(data.name);
+    // setEventDescription(data.description);
     handleClose();
   };
 
@@ -82,6 +84,46 @@ export const LandingPage = () => {
                     <Grid item xs={4} key={event.id}>
                       <Card sx={{ width: '100%' }}>
                         <CardMedia/>
+                        {/* Dialog Box */}
+                        {/* TODO: Fix to get each event in the TextField */}
+                        <Dialog open={open}>
+                        <DialogTitle>Edit Event Properties</DialogTitle>
+                        <DialogContent>
+                          <>
+                            {loading ? (
+                              <p>Loading data...</p>
+                            ) : (
+                              <form onSubmit={handleSubmit(onSubmit)}>
+                                <TextField
+                                  margin="dense"
+                                  name="EventTitle"
+                                  label="Event Title"
+                                  type="text"
+                                  fullWidth
+                                  variant="outlined"
+                                  defaultValue={event.name}
+                                  {...register("EventTitle")}
+                                />
+                                <TextField
+                                  autoFocus
+                                  margin="dense"
+                                  name="EventDescription"
+                                  label="Event Description"
+                                  type="text"
+                                  fullWidth
+                                  variant="outlined"
+                                  defaultValue={event.description}
+                                  {...register("EventDescription")}
+                                />
+                                <DialogActions>
+                                  <Button onClick={handleClose}>Cancel</Button>
+                                  <Button type="submit">Submit</Button>
+                                </DialogActions>
+                              </form>
+                            )}
+                          </>
+                        </DialogContent>
+                        </Dialog>
                         <CardContent sx={{ height: '150px' }}>
                           <Typography gutterBottom variant="h5" component="div">
                             {event.name}
@@ -98,44 +140,6 @@ export const LandingPage = () => {
                           >
                           Edit Icon
                           </Button>
-                          <Dialog open={open}>
-          <DialogTitle>Edit Event Properties</DialogTitle>
-          <DialogContent>
-            <>
-              {loading ? (
-                <p>Loading data...</p>
-              ) : (
-                <form onSubmit={handleSubmit(onSubmit)}>
-                  <TextField
-                    margin="dense"
-                    name="EventTitle"
-                    label="Event Title"
-                    type="text"
-                    fullWidth
-                    variant="outlined"
-                    defaultValue={event.name}
-                    {...register("EventTitle")}
-                  />
-                  <TextField
-                    autoFocus
-                    margin="dense"
-                    name="EventDescription"
-                    label="Event Description"
-                    type="text"
-                    fullWidth
-                    variant="outlined"
-                    defaultValue={event.description}
-                    {...register("EventDescription")}
-                  />
-                  <DialogActions>
-                    <Button onClick={handleClose}>Cancel</Button>
-                    <Button type="submit">Submit</Button>
-                  </DialogActions>
-                </form>
-              )}
-            </>
-          </DialogContent>
-        </Dialog>
                         </CardActions>
                       </Card>
                     </Grid>
@@ -143,7 +147,7 @@ export const LandingPage = () => {
               </Grid>
           </div>
           </Box>
-        {/* <Footer></Footer> */}
+        <Footer></Footer>
       </div>
     )
 }
