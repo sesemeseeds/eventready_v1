@@ -187,7 +187,7 @@ const AttendancePage = () => {
         Share Options
         </DialogTitle>
         <DialogContent>
-        <Box display="flex" flexDirection="column" style={{ marginTop: '10px' }}>
+        <Box display="flex" flexDirection="column" style={{ marginTop: '20px' }}>
               <Button variant="contained" color="primary" style={{ marginTop: '10px', backgroundColor: '#4267B2' }} onClick={openFacebook}>
                 Facebook
               </Button>
