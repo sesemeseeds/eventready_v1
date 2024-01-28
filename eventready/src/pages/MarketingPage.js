@@ -110,18 +110,18 @@ const MarketingPage = () => {
             >
               Reminders
             </Typography>
-            <Typography variant="body1" style={{ color: 'black', marginTop: '55px' }}>
+            <Typography variant="body1" style={{ color: 'black', marginTop: '60px' }}>
               Don't miss a beat with our nifty Reminders feature.             
             </Typography>
             <div>
-              <TextField
-                type="text"
-                placeholder="Reminder Name"
-                value={reminderName}
-                onChange={(e) => setReminderName(e.target.value)}
-                fullWidth
-                style={{ marginTop: '30px' }}
-              />
+            <TextField
+              type="text"
+              placeholder="Reminder Name"
+              value={reminderName}
+              onChange={(e) => setReminderName(e.target.value)}
+              fullWidth
+              style={{ marginTop: '20px', maxWidth: '145px' }}
+            />
               <TextField
                 type="datetime-local"
                 value={reminderDateTime}
@@ -147,6 +147,7 @@ const MarketingPage = () => {
             </ul>
           </Box>
 
+
           {/* Upload Graphic Section */}
           <Box
             style={{
@@ -157,6 +158,7 @@ const MarketingPage = () => {
               backgroundColor: '#f8e7ff',
               position: 'relative',
               marginTop: '40px',
+              marginBottom: '70px',
             }}
           >
             <Typography 
@@ -207,12 +209,12 @@ const MarketingPage = () => {
               value={caption}
               onChange={handleCaptionChange}
               multiline
-              rows={4}
-              style={{ marginTop: '10px' }}
+              rows={2}
+              style={{ marginTop: '20px' }}
               fullWidth
             />
             {/* Share Graphic Button */}
-            <div style={{ marginTop: '20px' }}>
+            <div style={{ marginTop: '40px' }}>
               <Button
                 variant="contained"
                 style={{ backgroundColor: '#d056ff', color: '#FFFFFF' }}
@@ -223,6 +225,7 @@ const MarketingPage = () => {
             </div>
           </Box>
 
+
           {/* Helpful Links Section */}
           <Box
             style={{
@@ -232,6 +235,7 @@ const MarketingPage = () => {
               backgroundColor: '#ffeec5',
               position: 'relative',
               marginTop: '40px',
+              marginBottom: '70px'
             }}
           >
             <Typography 
