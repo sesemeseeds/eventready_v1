@@ -115,6 +115,11 @@ const AttendancePage = () => {
         </Toolbar>
       </AppBar>
 
+      {/* Organizer's Guide Section */}
+      <Typography variant="body1" style={{ marginBottom: '20px', marginLeft:'20px' }}>
+        Simplify attendance tracking for your event! Enter the form link, generate a QR code, and effortlessly manage participant data. Make your event hassle-free with our Attendance page.
+      </Typography>
+
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%', marginBottom: '20px' }}>
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', width: '50%' }}>
           <Box mt={3}>
@@ -135,7 +140,7 @@ const AttendancePage = () => {
           </Box>
 
           {generatedQR && (
-            <Box mt={2}>
+            <Box mt={2} style={{ height: '300px', overflow: 'hidden' }}>
               {generatedQR}
             </Box>
           )}
@@ -152,7 +157,7 @@ const AttendancePage = () => {
           )}
         </div>
 
-        <Box style={{ marginLeft: '20px' }}>
+        <Box style={{ marginLeft: '90px', height: '400px', position: 'relative' }}>
           <Typography variant="h6" style={{ marginBottom: '10px' }}>
             Attendance List
             <Button variant="outlined" style={{ marginLeft: '10px' }}>
