@@ -200,9 +200,11 @@ const AttendancePage = () => {
             </Box>
           </DialogContent>
           <DialogActions>
-            <Button onClick={closeShareDialog}>Close</Button>
+            <Button style={{ backgroundColor: 'white', color: 'black' }} onClick={closeShareDialog}>
+              Close
+            </Button>
           </DialogActions>
-        </Dialog>
+      </Dialog>
 
 
 
@@ -214,11 +216,11 @@ const AttendancePage = () => {
               <Typography>{errorMessage}</Typography>
               </DialogContent>
               <DialogActions>
-                <Button onClick={closeErrorMessage} color="primary">
-                  OK
-                  </Button>
-                  </DialogActions>
-                  </Dialog>
+                <Button onClick={closeErrorMessage} style={{ backgroundColor: 'white', color: 'black'}}>
+                  Close
+                </Button>
+              </DialogActions>
+          </Dialog>
 
     </div>
   );
