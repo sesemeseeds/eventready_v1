@@ -20,8 +20,10 @@ import MailIcon from '@mui/icons-material/Mail';
 import { BrowserRouter, Link, Route, Routes, useNavigate } from "react-router-dom";
 import GeneralInfoPage from "../pages/GeneralInfoPage";
 import HelloWorld from "../HelloWorld";
+import MarketingPage from "../pages/MarketingPage";
 import "../styles/Navigation.css";
 import Footer from "./Footer";
+import AttendancePage from "../pages/Attendance";
 
 const drawerWidth = 240;
 
@@ -133,7 +135,7 @@ export default function PersistentDrawerLeft() {
           }}
         >
           <div className={classes.drawerHeader}>
-          <h1> <Link class="navigationHeader" to="/">Event Ready!</Link></h1> 
+          <h1> <Link className="navigationHeader" to="/">Event Ready!</Link></h1> 
             <IconButton onClick={handleDrawerClose}>
               {theme.direction === "ltr" ? (
                 <ChevronLeftIcon style={{color: "white", fontSize: "larger"}}/>
@@ -180,11 +182,20 @@ export default function PersistentDrawerLeft() {
           </List>
           <Divider />
           <List>
-            <ListItem button key="hello" to="helloworld" component={Link} onClick={()=>{setHeaderName("Marketing")}}>
+            <ListItem button key="marketing" to="marketing" component={Link} onClick={()=>{setHeaderName("Marketing")}}>
               <ListItemIcon>
                 <InboxIcon />
               </ListItemIcon>
               <ListItemText primary="Marketing" />
+            </ListItem>
+          </List>
+          <Divider />
+          <List>
+            <ListItem button key="attendance" to="attendance" component={Link} onClick={()=>{setHeaderName("Attendance")}}>
+              <ListItemIcon>
+                <InboxIcon />
+              </ListItemIcon>
+              <ListItemText primary="Attendance" />
             </ListItem>
           </List>
         </Drawer>
@@ -197,6 +208,8 @@ export default function PersistentDrawerLeft() {
           <Routes>                  
           <Route path="generalinfo" element={<GeneralInfoPage />} />
           <Route path="helloworld" element={<HelloWorld />} />
+          <Route path="marketing" element={<MarketingPage />} />
+          <Route path="Attendance" element={<AttendancePage />} />
           </Routes>
  
         </main>
