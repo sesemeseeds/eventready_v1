@@ -197,8 +197,8 @@ const AttendancePage = () => {
               <Button variant="contained" color="primary" style={{ marginTop: '10px', backgroundColor: '#1490DF' }} onClick={openOutlook}>
                 Outlook
               </Button>
-            </Box>
-          </DialogContent>
+        </Box>
+        </DialogContent>
           <DialogActions>
             <Button style={{ backgroundColor: 'white', color: 'black' }} onClick={closeShareDialog}>
               Close
