@@ -4,6 +4,7 @@ import {Routes, Route, BrowserRouter } from "react-router-dom";
 import { LandingPage } from "./pages/LandingPage";
 import { EventPage } from "./pages/EventPage";
 import GeneralInfoPage from "./pages/GeneralInfoPage";
+import MarketingPage from "./pages/MarketingPage";
 import Navigation from "./components/Navigation";
 
 function App() {
@@ -17,12 +18,14 @@ function App() {
         </Route>
         
         <Route path="/" element={<LandingPage />} />
-        
-    
-        
+        <Route path="/event" element={<EventPage />} />
+        <Route path="/helloworld" element={<HelloWorld />} />
+        <Route path="/generalinfo" element={<GeneralInfoPage />} />
+        <Route path="/marketing" element={<MarketingPage />} />
       </Routes>
     </>
   );
 }
 
 export default App;
+
