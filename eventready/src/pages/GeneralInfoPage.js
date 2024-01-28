@@ -29,7 +29,11 @@ export default function GeneralInfoComponent() {
   const [EventDescription, setEventDescription] = React.useState(String);
   const [EventCreationDate, setEventCreationDate] = React.useState(String);
   const [EventActive, setEventActive] = React.useState(String);
+  const [EventAddress, setEventAddress] = React.useState(String);
   const [loading, setLoading] = React.useState(true);
+
+  const MyParam = useParams()
+  const MyId = MyParam.id
 
   const StartTime = new Date(
     "1970-01-01T" + EventStartTime + "Z"
@@ -71,15 +75,11 @@ export default function GeneralInfoComponent() {
     return daysDifference;
   };
 
-  const MyParam = useParams()
-  const MyId = MyParam.id
-
-
   const GetData = () => {
     AxiosInstance.get(`event/${MyId}`).then((res) =>{
       console.log(res.data)
       setEventTitle(res.data.name)
-      setEventDate(res.data.date)
+      setEventDate(res.data.doe)
       setEventStartTime(res.data.start_time)
       setEventEndTime(res.data.end_time)
       setEventLocation(res.data.location)
@@ -89,17 +89,6 @@ export default function GeneralInfoComponent() {
       setLoading(false)
     })
 
-    setEventTitle("Tests");
-    setEventDate("2024-03-19");
-    setEventStartTime("20:00");
-    setEventEndTime("22:00");
-    setEventLocation("Hardcoded Event Location");
-    setEventDescription(
-      "Lorem ipsum dolor sit amet. Sed labore omnis et praesentium autem in amet autem eos doloribus voluptate ea architecto nulla? Vel internos quas At minima repellendus et itaque dolores. Ut expedita nihil non blanditiis asperiores eos eligendi explicabo? Sed explicabo veniam qui odio recusandae ut placeat praesentium id galisum doloribus. Et delectus assumenda ad voluptatem reiciendis sit provident nisi et nemo repellat et architecto delectus et voluptas perferendis sit adipisci enim"
-    );
-    setEventCreationDate("Hardcoded Event Creation Date")
-    setEventActive("Hardcoded Event Active")
-    setLoading(false);
   };
 
   React.useEffect(() => {

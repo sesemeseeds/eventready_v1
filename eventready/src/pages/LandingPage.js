@@ -60,17 +60,14 @@ export const LandingPage = () => {
 
   const onSubmit = async (data) => {
     AxiosInstance.post( `/event/`,{
-      name: data.name,
-      description: data.description,
-      start_time: null,
-      end_time: null,
-      location: null,
-      doe: null,
+      name: data.EventTitle,
+      description: data.EventDescription,
 
     })
     // .then((res) =>{
     //   navigate(`/`)
     // })
+    getAllEvents();
     handleClose();
   };
 
