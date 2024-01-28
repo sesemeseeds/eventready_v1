@@ -134,7 +134,7 @@ export default function PersistentDrawerLeft() {
           }}
         >
           <div className={classes.drawerHeader}>
-          <h1> <Link class="navigationHeader" to="/">Event Ready!</Link></h1> 
+          <h1> <Link className="navigationHeader" to="/">Event Ready!</Link></h1> 
             <IconButton onClick={handleDrawerClose}>
               {theme.direction === "ltr" ? (
                 <ChevronLeftIcon style={{color: "white", fontSize: "larger"}}/>

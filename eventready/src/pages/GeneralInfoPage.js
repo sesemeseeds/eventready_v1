@@ -9,19 +9,64 @@ import DialogTitle from "@mui/material/DialogTitle";
 import axios from "axios";
 import { Box, Container } from "@mui/material";
 import { useForm } from "react-hook-form";
-import Footer from "../components/Footer"
-import Header from "../components/Header"
-import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
+import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
+import "../styles/GeneralInfo.css";
+import AttendanceCard from "../components/general-info-cards/AttendanceCard";
+import GoalsCard from "../components/general-info-cards/GoalsCard";
+import TaskCard from "../components/general-info-cards/TaskCard";
+import BudgetCard from "../components/general-info-cards/BudgetCard";
+import MarketingCard from "../components/general-info-cards/MarketingCard";
 
 export default function GeneralInfoComponent() {
   const [open, setOpen] = React.useState(false);
   const [EventTitle, setEventTitle] = React.useState(String);
   const [EventDate, setEventDate] = React.useState(String);
-  const [EventTime, setEventTime] = React.useState(String);
+  const [EventStartTime, setEventStartTime] = React.useState(String);
+  const [EventEndTime, setEventEndTime] = React.useState(String);
   const [EventLocation, setEventLocation] = React.useState(String);
   const [EventAddress, setEventAddress] = React.useState(String);
   const [EventDescription, setEventDescription] = React.useState(String);
   const [loading, setLoading] = React.useState(true);
+
+  const StartTime = new Date(
+    "1970-01-01T" + EventStartTime + "Z"
+  ).toLocaleTimeString("en-US", {
+    timeZone: "UTC",
+    hour12: true,
+    hour: "numeric",
+    minute: "numeric",
+  });
+
+  const EndTime = new Date(
+    "1970-01-01T" + EventEndTime + "Z"
+  ).toLocaleTimeString("en-US", {
+    timeZone: "UTC",
+    hour12: true,
+    hour: "numeric",
+    minute: "numeric",
+  });
+
+  const ConvertedDate = new Date(EventDate).toLocaleDateString("en-US", {
+    timeZone: "UTC",
+    weekday: "long",
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+
+  const getDaysDifference = (eventDate) => {
+    const today = new Date();
+    const eventdate = new Date(eventDate);
+
+    today.setUTCHours(0, 0, 0, 0);
+    eventdate.setUTCHours(0, 0, 0, 0);
+
+    const timeDifference = eventdate.getTime() - today.getTime();
+
+    const daysDifference = Math.round(timeDifference / (1000 * 60 * 60 * 24));
+
+    return daysDifference;
+  };
 
   const GetData = () => {
     //this is where the GET request will go
@@ -39,10 +84,10 @@ export default function GeneralInfoComponent() {
     //   setLoading(false)
     // })
 
-    const today = new Date();
     setEventTitle("Tests");
-    setEventDate("Hardcoded Event Date");
-    setEventTime("Hardcoded Event Time");
+    setEventDate("2024-03-19");
+    setEventStartTime("20:00");
+    setEventEndTime("22:00");
     setEventLocation("Hardcoded Event Location");
     setEventAddress("Hardcoded Event Address");
     setEventDescription(
@@ -56,6 +101,7 @@ export default function GeneralInfoComponent() {
   }, []);
 
   const { register, handleSubmit, setValue, control } = useForm({});
+  const daysRemaining = getDaysDifference(EventDate);
 
   const onSubmit = async (data) => {
     //this is where the PUT request will g
@@ -73,7 +119,8 @@ export default function GeneralInfoComponent() {
 
     setEventTitle(data.EventTitle);
     setEventDate(data.EventDate);
-    setEventTime(data.EventTime);
+    setEventStartTime(data.EventStartTime);
+    setEventEndTime(data.EventEndTime);
     setEventLocation(data.EventLocation);
     setEventAddress(data.EventAddress);
     setEventDescription(data.EventDescription);
@@ -89,26 +136,17 @@ export default function GeneralInfoComponent() {
   };
 
   return (
-       <div>
- 
-      <Box style={{ padding: "2%" }}>
-
-        <div>
+    <div>
+      <Box className="container">
+        <div className="section-container">
           {" "}
-          <Box
-            style={{
-              height: "50vh",
-              width: "65%",
-              float: "left",
-              marginRight: "5%",
-            }}
-          >
+          <Box className="main-section">
             <h1>{EventTitle} </h1>
             <hr></hr>
             <p>{EventDescription}</p>
             <hr></hr>
           </Box>
-          <Box style={{ width: "30%", float: "left" }}>
+          <Box className="side-section">
             <EditOutlinedIcon
               style={{ float: "right" }}
               variant="contained"
@@ -118,19 +156,28 @@ export default function GeneralInfoComponent() {
             >
               Edit
             </EditOutlinedIcon>
-            <h1> Side section</h1>
-            <div> {EventDate} </div>
-            <div> {EventTime} </div>
-            <div> Days until the event </div>
+            <h1> Event Information </h1>
+            <div> {ConvertedDate} </div>
+            <div>
+              {" "}
+              {StartTime} - {EndTime}{" "}
+            </div>
+            <div> {daysRemaining} Days Until the Event! </div>
             <hr></hr>
             <div>{EventLocation}</div>
             <div>{EventAddress}</div>
-
           </Box>
         </div>
         <Box style={{ float: "left", width: "100%" }}>
           <hr></hr>
-          <h1>Cards</h1>
+          <h1>Dashboard</h1>
+          <Box className="dashboard">
+            <GoalsCard></GoalsCard>
+            <TaskCard></TaskCard>
+            <BudgetCard></BudgetCard>
+            <MarketingCard></MarketingCard>
+            <AttendanceCard></AttendanceCard>
+          </Box>
         </Box>
 
         <Dialog open={open}>
@@ -148,6 +195,7 @@ export default function GeneralInfoComponent() {
                     type="text"
                     fullWidth
                     variant="outlined"
+                    required="true"
                     defaultValue={EventTitle}
                     {...register("EventTitle")}
                   />
@@ -159,21 +207,38 @@ export default function GeneralInfoComponent() {
                     InputLabelProps={{ shrink: true, required: false }}
                     type="Date"
                     fullWidth
+                    format="mm/dd/yyyy"
                     variant="outlined"
                     defaultValue={EventDate}
                     {...register("EventDate")}
                   />
-                  <TextField
-                    autoFocus
-                    margin="dense"
-                    name="EventTime"
-                    label="Event Time"
-                    type="text"
-                    fullWidth
-                    variant="outlined"
-                    defaultValue={EventTime}
-                    {...register("EventTime")}
-                  />
+                  <div>
+                    {" "}
+                    <TextField
+                      autoFocus
+                      margin="dense"
+                      name="EventStartTime"
+                      label="Event Start Time"
+                      type="time"
+                      variant="outlined"
+                      InputLabelProps={{ shrink: true, required: false }}
+                      defaultValue={EventStartTime}
+                      {...register("EventStartTime")}
+                    />
+                    <TextField
+                      sx={{ marginLeft: 5 }}
+                      autoFocus
+                      margin="dense"
+                      name="EventEndTime"
+                      label="Event End Time"
+                      type="time"
+                      variant="outlined"
+                      InputLabelProps={{ shrink: true, required: false }}
+                      defaultValue={EventEndTime}
+                      {...register("EventEndTime")}
+                    />
+                  </div>
+
                   <TextField
                     autoFocus
                     margin="dense"
