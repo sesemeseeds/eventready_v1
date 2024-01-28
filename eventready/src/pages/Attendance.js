@@ -207,17 +207,20 @@ const AttendancePage = () => {
 
 
 
-      <Dialog open={Boolean(errorMessage)} onClose={closeErrorMessage}>
-        <DialogTitle>Error</DialogTitle>
-        <DialogContent>
-          <Typography>{errorMessage}</Typography>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={closeErrorMessage} color="primary">
-            OK
-          </Button>
-        </DialogActions>
-      </Dialog>
+        <Dialog open={Boolean(errorMessage)} onClose={closeErrorMessage}>
+  <DialogTitle style={{ backgroundColor: 'red', color: 'white', fontWeight: 'bold' }}>
+    Error
+  </DialogTitle>
+  <DialogContent style={{ marginTop: '10px' }}>
+    <Typography>{errorMessage}</Typography>
+  </DialogContent>
+  <DialogActions>
+    <Button onClick={closeErrorMessage} color="primary">
+      OK
+    </Button>
+  </DialogActions>
+</Dialog>
+
     </div>
   );
 };
