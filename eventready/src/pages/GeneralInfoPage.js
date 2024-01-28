@@ -9,9 +9,9 @@ import DialogTitle from "@mui/material/DialogTitle";
 import axios from "axios";
 import { Box, Container } from "@mui/material";
 import { useForm } from "react-hook-form";
-import Footer  from "../components/Footer"
+import Footer from "../components/Footer"
 import Header from "../components/Header"
-
+import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 
 export default function GeneralInfoComponent() {
   const [open, setOpen] = React.useState(false);
@@ -90,7 +90,6 @@ export default function GeneralInfoComponent() {
 
   return (
        <div>
-     <Header></Header>
  
       <Box style={{ padding: "2%" }}>
 
@@ -110,13 +109,15 @@ export default function GeneralInfoComponent() {
             <hr></hr>
           </Box>
           <Box style={{ width: "30%", float: "left" }}>
-            <Button
+            <EditOutlinedIcon
               style={{ float: "right" }}
               variant="contained"
               onClick={handleClickOpen}
+              fontSize="large"
+              cursor="pointer"
             >
               Edit
-            </Button>
+            </EditOutlinedIcon>
             <h1> Side section</h1>
             <div> {EventDate} </div>
             <div> {EventTime} </div>
@@ -124,13 +125,13 @@ export default function GeneralInfoComponent() {
             <hr></hr>
             <div>{EventLocation}</div>
             <div>{EventAddress}</div>
-          
+
           </Box>
         </div>
-        <Box style={{float: "left", width: "100%"}}>
+        <Box style={{ float: "left", width: "100%" }}>
           <hr></hr>
-            <h1>Cards</h1>
-          </Box>
+          <h1>Cards</h1>
+        </Box>
 
         <Dialog open={open}>
           <DialogTitle>Edit Event Properties</DialogTitle>
@@ -217,8 +218,6 @@ export default function GeneralInfoComponent() {
           </DialogContent>
         </Dialog>
       </Box>
-
-  <Footer></Footer>
     </div>
   );
 }
