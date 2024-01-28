@@ -1,16 +1,5 @@
 import React, { useState } from 'react';
-import {
-  Button,
-  TextField,
-  Typography,
-  Box,
-  AppBar,
-  Toolbar,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogActions,
-} from '@mui/material';
+import {Button,TextField,Typography,Box,AppBar,Toolbar,Dialog,DialogTitle,DialogContent,DialogActions,} from '@mui/material';
 import QRCode from 'qrcode.react';
 
 const AttendancePage = () => {
@@ -97,27 +86,21 @@ const AttendancePage = () => {
       setErrorMessage('Invalid link. Please enter a valid URL.');
     }
   };
-
   const openFacebook = () => {
     window.open('https://www.facebook.com/');
   };
-
   const openInstagram = () => {
     window.open('https://www.instagram.com/');
   };
-
   const openOutlook = () => {
     window.open('https://outlook.live.com/');
   };
-
   const openShareDialog = () => {
     setShareDialogOpen(true);
   };
-
   const closeShareDialog = () => {
     setShareDialogOpen(false);
   };
-
   const closeErrorMessage = () => {
     setErrorMessage('');
   };
@@ -194,8 +177,10 @@ const AttendancePage = () => {
         </Box>
       </div>
 
+
       {/* Rest of your components/dialogs go here */}
-<Dialog open={shareDialogOpen} onClose={closeShareDialog}>
+
+      <Dialog open={shareDialogOpen} onClose={closeShareDialog}>
           <DialogTitle>Share Options</DialogTitle>
           <DialogContent>
             <Box display="flex" flexDirection="column">
