@@ -183,9 +183,11 @@ const AttendancePage = () => {
       {/* Components/dialogs*/}
 
       <Dialog open={shareDialogOpen} onClose={closeShareDialog}>
-          <DialogTitle>Share Options</DialogTitle>
-          <DialogContent>
-            <Box display="flex" flexDirection="column">
+      <DialogTitle style={{ backgroundColor: 'red', color: 'white', fontWeight: 'bold' }}>
+        Share Options
+        </DialogTitle>
+        <DialogContent>
+        <Box display="flex" flexDirection="column" style={{ marginTop: '10px' }}>
               <Button variant="contained" color="primary" style={{ marginTop: '10px', backgroundColor: '#4267B2' }} onClick={openFacebook}>
                 Facebook
               </Button>
