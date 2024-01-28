@@ -326,7 +326,6 @@ const MarketingPage = () => {
             position: 'relative',
             marginTop: '-15px',
             width: '97%',  // Spread to bottom width
-            
           }}
         >
           <Typography
