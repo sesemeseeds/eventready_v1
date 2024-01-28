@@ -9,8 +9,7 @@ const AttendancePage = () => {
   const [errorMessage, setErrorMessage] = useState('');
 
   const handleLinkChange = (event) => {
-    setAttendanceLink(event.target.value);
-  };
+    setAttendanceLink(event.target.value);};
 
   const isValidURL = (url) => {
     try {
@@ -18,8 +17,7 @@ const AttendancePage = () => {
       return true;
     } catch (error) {
       return false;
-    }
-  };
+    }};
 
   const generateQRCode = () => {
     // Generate QR code logic
@@ -32,15 +30,13 @@ const AttendancePage = () => {
     } else {
       setGeneratedQR(null);
       setErrorMessage('Oops! Looks like an Invalid link. Please enter a valid URL.');
-    }
-  };
+    }};
 
   const handleKeyPress = (event) => {
     // Trigger generateQRCode function on "Enter" key press
     if (event.key === 'Enter') {
       generateQRCode();
-    }
-  };
+    }};
 
   const downloadQRCode = () => {
     // Download QR code logic
@@ -116,9 +112,10 @@ const AttendancePage = () => {
       </AppBar>
 
       {/* Organizer's Guide Section */}
-      <Typography variant="body1" style={{ marginBottom: '20px', marginLeft:'20px' }}>
-        Simplify attendance tracking for your event! Enter the form link, generate a QR code, and effortlessly manage participant data. Make your event hassle-free with our Attendance page.
-      </Typography>
+      <Typography variant="body1" style={{ marginBottom: '20px', marginRight: '320px', textAlign: 'left' }}>
+        Simplify attendance tracking for your event! Enter the form link, generate a QR code, and effortlessly manage participant data.
+        </Typography>
+
 
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%', marginBottom: '20px' }}>
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', width: '50%' }}>
@@ -183,7 +180,7 @@ const AttendancePage = () => {
       </div>
 
 
-      {/* Rest of your components/dialogs go here */}
+      {/* Components/dialogs*/}
 
       <Dialog open={shareDialogOpen} onClose={closeShareDialog}>
           <DialogTitle>Share Options</DialogTitle>
@@ -208,18 +205,18 @@ const AttendancePage = () => {
 
 
         <Dialog open={Boolean(errorMessage)} onClose={closeErrorMessage}>
-  <DialogTitle style={{ backgroundColor: 'red', color: 'white', fontWeight: 'bold' }}>
-    Error
-  </DialogTitle>
-  <DialogContent style={{ marginTop: '10px' }}>
-    <Typography>{errorMessage}</Typography>
-  </DialogContent>
-  <DialogActions>
-    <Button onClick={closeErrorMessage} color="primary">
-      OK
-    </Button>
-  </DialogActions>
-</Dialog>
+          <DialogTitle style={{ backgroundColor: 'red', color: 'white', fontWeight: 'bold' }}>
+            Error
+            </DialogTitle>
+            <DialogContent style={{ marginTop: '10px' }}>
+              <Typography>{errorMessage}</Typography>
+              </DialogContent>
+              <DialogActions>
+                <Button onClick={closeErrorMessage} color="primary">
+                  OK
+                  </Button>
+                  </DialogActions>
+                  </Dialog>
 
     </div>
   );
