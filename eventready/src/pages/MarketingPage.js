@@ -93,6 +93,7 @@ const MarketingPage = () => {
               backgroundColor: '#e9ffda',
               position: 'relative',
               marginTop: '40px',
+              marginBottom: '70px',
             }}
           >
             <Typography
@@ -110,9 +111,7 @@ const MarketingPage = () => {
             >
               Reminders
             </Typography>
-            <Typography variant="body1" style={{ color: 'black', marginTop: '60px' }}>
-              Don't miss a beat with our nifty Reminders feature.             
-            </Typography>
+            
             <div>
             <TextField
               type="text"
@@ -120,7 +119,7 @@ const MarketingPage = () => {
               value={reminderName}
               onChange={(e) => setReminderName(e.target.value)}
               fullWidth
-              style={{ marginTop: '20px', maxWidth: '145px' }}
+              style={{ marginTop: '65px', maxWidth: '145px' }}
             />
               <TextField
                 type="datetime-local"
@@ -323,7 +322,7 @@ const MarketingPage = () => {
             borderRadius: '10px',
             backgroundColor: '#d1e9ff', // Light Pink
             position: 'relative',
-            marginTop: '40px',
+            marginTop: '-15px',
             width: '97%',  // Spread to bottom width
             
           }}
