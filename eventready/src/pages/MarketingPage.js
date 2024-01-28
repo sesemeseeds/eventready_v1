@@ -119,7 +119,7 @@ const MarketingPage = () => {
               value={reminderName}
               onChange={(e) => setReminderName(e.target.value)}
               fullWidth
-              style={{ marginTop: '65px', maxWidth: '145px' }}
+              style={{ marginTop: '65px' }}
             />
               <TextField
                 type="datetime-local"
@@ -320,7 +320,7 @@ const MarketingPage = () => {
             flex: 1,
             padding: '20px',
             borderRadius: '10px',
-            backgroundColor: '#d1e9ff', // Light Pink
+            backgroundColor: '#d1e9ff', 
             position: 'relative',
             marginTop: '-15px',
             width: '97%',  // Spread to bottom width
@@ -333,7 +333,7 @@ const MarketingPage = () => {
               color: 'white',
               fontWeight: 'bold',
               marginBottom: '10px',
-              backgroundColor: '#1f92ff', // Darker Pink
+              backgroundColor: '#1f92ff', 
               padding: '10px',
               borderRadius: '5px',
               position: 'absolute',
