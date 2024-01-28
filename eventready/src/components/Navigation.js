@@ -20,6 +20,7 @@ import MailIcon from '@mui/icons-material/Mail';
 import { BrowserRouter, Link, Route, Routes, useNavigate } from "react-router-dom";
 import GeneralInfoPage from "../pages/GeneralInfoPage";
 import HelloWorld from "../HelloWorld";
+import MarketingPage from "../pages/MarketingPage";
 import "../styles/Navigation.css";
 import Footer from "./Footer";
 
@@ -180,7 +181,7 @@ export default function PersistentDrawerLeft() {
           </List>
           <Divider />
           <List>
-            <ListItem button key="hello" to="helloworld" component={Link} onClick={()=>{setHeaderName("Marketing")}}>
+            <ListItem button key="marketing" to="marketing" component={Link} onClick={()=>{setHeaderName("Marketing")}}>
               <ListItemIcon>
                 <InboxIcon />
               </ListItemIcon>
@@ -197,6 +198,7 @@ export default function PersistentDrawerLeft() {
           <Routes>                  
           <Route path="generalinfo" element={<GeneralInfoPage />} />
           <Route path="helloworld" element={<HelloWorld />} />
+          <Route path="marketing" element={<MarketingPage />} />
           </Routes>
  
         </main>
