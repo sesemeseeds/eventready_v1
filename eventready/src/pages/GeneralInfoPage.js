@@ -13,6 +13,7 @@ import Footer  from "../components/Footer"
 import Header from "../components/Header"
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import AxiosInstance from '../components/Axios'
+import {useParams}  from 'react-router-dom'
 
 export default function GeneralInfoComponent() {
   const [open, setOpen] = React.useState(false);
@@ -26,13 +27,12 @@ export default function GeneralInfoComponent() {
   const [EventActive, setEventActive] = React.useState(String);
   const [loading, setLoading] = React.useState(true);
 
-  const GetData = () => {
-    //this is where the GET request will go
+  const MyParam = useParams()
+  const MyId = MyParam.id
 
-    // Example
-    // TODO: hardcoded as 1
-    // AxiosInstance.get(`event/${MyId}`).then((res) =>{
-    AxiosInstance.get(`event/1`).then((res) =>{
+
+  const GetData = () => {
+    AxiosInstance.get(`event/${MyId}`).then((res) =>{
       console.log(res.data)
       setEventTitle(res.data.name)
       setEventDate(res.data.date)
@@ -66,28 +66,15 @@ export default function GeneralInfoComponent() {
   const { register, handleSubmit, setValue, control } = useForm({});
 
   const onSubmit = async (data) => {
-    //this is where the PUT request will g
-
-    // Example
-
-    // AxiosInstance.put( `project/${MyId}/`,{
-    //   name: data.name,
-    //   projectmanager: data.projectmanager,
-    //   status: data.status,
-    //   comments: data.comments,
-    //   start_date: StartDate,
-    //   end_date: EndDate,
-    // })
-
-    setEventTitle(data.EventTitle);
-    setEventDate(data.EventDate);
-    setEventStartTime(data.EventTime);
-    setEventEndTime(data.EventTime);
-    setEventLocation(data.EventLocation);
-    setEventDescription(data.EventDescription);
-    setEventCreationDate(data.EventDescription);
-    setEventActive(data.EventDescription);
-    console.log(data);
+    AxiosInstance.put(`event/${MyId}/`,{
+      name: data.EventTitle,
+      doe: data.EventDate,
+      start_time: data.EventStartTime,
+      end_time: data.EventEndTime,
+      description: data.EventDescription,
+      location: data.EventLocation,
+    })
+    GetData()
     handleClose();
   };
 
@@ -176,7 +163,7 @@ export default function GeneralInfoComponent() {
                   <TextField
                     autoFocus
                     margin="dense"
-                    name="Event Start Time"
+                    name="EventStartTime"
                     label="Event Start Time"
                     type="text"
                     fullWidth
@@ -187,7 +174,7 @@ export default function GeneralInfoComponent() {
                   <TextField
                     autoFocus
                     margin="dense"
-                    name="Event End Time"
+                    name="EventEndTime"
                     label="Event End Time"
                     type="text"
                     fullWidth

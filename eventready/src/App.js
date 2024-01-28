@@ -11,7 +11,7 @@ function App() {
     <>
 
       <Routes>
-        <Route path="/event" element={<Navigation />}>
+        <Route path="/event/:id" element={<Navigation />}>
           <Route path="generalinfo" element={<GeneralInfoPage />} />
           <Route path="helloworld" element={<HelloWorld />} />
         </Route>
