@@ -1,5 +1,16 @@
 import React, { useState } from 'react';
-import { Button, TextField, Typography, Box, AppBar, Toolbar, Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material';
+import {
+  Button,
+  TextField,
+  Typography,
+  Box,
+  AppBar,
+  Toolbar,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+} from '@mui/material';
 import QRCode from 'qrcode.react';
 
 const AttendancePage = () => {
@@ -112,8 +123,8 @@ const AttendancePage = () => {
   };
 
   return (
-    <div>
-      <AppBar position="static" style={{ backgroundColor: 'red', height: '80px' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '10vh' }}>
+      <AppBar position="static" style={{ backgroundColor: 'red', height: '80px', marginBottom: '20px' }}>
         <Toolbar>
           <Typography variant="h4" style={{ color: 'white', fontWeight: 'bold', textAlign: 'center', width: '100%', marginTop: '20px' }}>
             Attendance
@@ -121,46 +132,71 @@ const AttendancePage = () => {
         </Toolbar>
       </AppBar>
 
-      <Typography variant="h6" style={{ padding: '10px', paddingTop: '10px', paddingLeft: '25px', marginBottom: '20px' }}>
-        Effortlessly track attendance for your events with our dedicated Attendance Page. Simply generate QR codes for your events, providing a convenient solution to efficiently manage attendance while on the move.      </Typography>
-
-      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '30vh' }}>
-        <Box mt={3} style={{ width: '50%', margin: '0 auto' }}>
-          <TextField
-            label="Attendance Form Link"
-            variant="outlined"
-            fullWidth
-            value={attendanceLink}
-            onChange={handleLinkChange}
-            onKeyPress={handleKeyPress}
-          />
-        </Box>
-
-        <Box mt={2}>
-          <Button variant="contained" color="primary" style={{ backgroundColor: 'red' }} onClick={generateQRCode}>
-            Generate QR Code
-          </Button>
-        </Box>
-
-        {generatedQR && (
-          <Box mt={2}>
-            {generatedQR}
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%', marginBottom: '20px' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', width: '50%' }}>
+          <Box mt={3}>
+            <TextField
+              label="Attendance Form Link"
+              variant="outlined"
+              fullWidth
+              value={attendanceLink}
+              onChange={handleLinkChange}
+              onKeyPress={handleKeyPress}
+            />
           </Box>
-        )}
 
-        {generatedQR && (
           <Box mt={2}>
-            <Button variant="contained" color="primary" style={{ backgroundColor: 'red' }} onClick={downloadQRCode}>
-              Download QR Code
-            </Button>
-            <Button variant="contained" color="primary" style={{ marginLeft: '10px', backgroundColor: 'red' }} onClick={openShareDialog}>
-              Share QR Code
+            <Button variant="contained" color="primary" style={{ backgroundColor: 'red' }} onClick={generateQRCode}>
+              Generate QR Code
             </Button>
           </Box>
-        )}
 
-        <Dialog open={shareDialogOpen} onClose={closeShareDialog}>
-          <DialogTitle style={{ backgroundColor: 'red', color: 'white', fontWeight: 'bold', paddingRight: '24px' }}>Share Options</DialogTitle>
+          {generatedQR && (
+            <Box mt={2}>
+              {generatedQR}
+            </Box>
+          )}
+
+          {generatedQR && (
+            <Box mt={2}>
+              <Button variant="contained" color="primary" style={{ backgroundColor: 'red' }} onClick={downloadQRCode}>
+                Download QR Code
+              </Button>
+              <Button variant="contained" color="primary" style={{ marginLeft: '10px', backgroundColor: 'red' }} onClick={openShareDialog}>
+                Share QR Code
+              </Button>
+            </Box>
+          )}
+        </div>
+
+        <Box style={{ marginLeft: '20px' }}>
+          <Typography variant="h6" style={{ marginBottom: '10px' }}>
+            Attendance List
+            <Button variant="outlined" style={{ marginLeft: '10px' }}>
+              Filter
+            </Button>
+          </Typography>
+
+          {/* Your live updating table goes here */}
+          {/* Example: */}
+          <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Phone</th>
+                <th>Email</th>
+              </tr>
+            </thead>
+            <tbody>
+              {/* Map through your attendees and render rows */}
+            </tbody>
+          </table>
+        </Box>
+      </div>
+
+      {/* Rest of your components/dialogs go here */}
+<Dialog open={shareDialogOpen} onClose={closeShareDialog}>
+          <DialogTitle>Share Options</DialogTitle>
           <DialogContent>
             <Box display="flex" flexDirection="column">
               <Button variant="contained" color="primary" style={{ marginTop: '10px', backgroundColor: '#4267B2' }} onClick={openFacebook}>
@@ -175,20 +211,23 @@ const AttendancePage = () => {
             </Box>
           </DialogContent>
           <DialogActions>
-            <Button onClick={closeShareDialog} style={{ backgroundColor: 'red', color: 'white' }}>OK</Button>
+            <Button onClick={closeShareDialog}>Close</Button>
           </DialogActions>
         </Dialog>
 
-        <Dialog open={Boolean(errorMessage)} onClose={closeErrorMessage}>
-          <DialogTitle style={{ backgroundColor: 'red', color: 'white', fontWeight: 'bold', paddingRight: '24px', paddingLeft: '24px' }}>Error</DialogTitle>
-          <DialogContent style={{ paddingTop: '16px', paddingBottom: '16px', paddingLeft: '24px', paddingRight: '24px', }}>
-            <Typography style={{ color: '#000000', marginBottom: '8px' }}>{errorMessage}</Typography>
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={closeErrorMessage} style={{ backgroundColor: 'red', color: 'white' }}>OK</Button>
-          </DialogActions>
-        </Dialog>
-      </div>
+
+
+      <Dialog open={Boolean(errorMessage)} onClose={closeErrorMessage}>
+        <DialogTitle>Error</DialogTitle>
+        <DialogContent>
+          <Typography>{errorMessage}</Typography>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={closeErrorMessage} color="primary">
+            OK
+          </Button>
+        </DialogActions>
+      </Dialog>
     </div>
   );
 };
