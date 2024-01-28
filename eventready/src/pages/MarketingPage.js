@@ -224,6 +224,39 @@ const MarketingPage = () => {
             </div>
           </Box>
 
+      {/* Share Dialog */}
+      <Dialog open={shareDialogOpen} onClose={closeShareDialog}>
+        <DialogTitle style={{ backgroundColor: 'red', color: 'white', fontWeight: 'bold', paddingRight: '24px' }}>Share Options</DialogTitle>
+        <DialogContent>
+        <Box display="flex" flexDirection="column" style={{ marginTop: '20px' }}>
+            <Button
+              variant="contained"
+              style={{ marginTop: '10px', backgroundColor: '#4267B2', color: '#FFFFFF' }}
+              onClick={openFacebook}
+            >
+              Facebook
+            </Button>
+            <Button
+              variant="contained"
+              style={{ marginTop: '10px', backgroundColor: '#d62976', color: '#FFFFFF' }}
+              onClick={openInstagram}
+            >
+              Instagram
+            </Button>
+            <Button
+              variant="contained"
+              style={{ marginTop: '10px', backgroundColor: '#1490DF', color: '#FFFFFF' }}
+              onClick={openOutlook}
+            >
+              Outlook
+            </Button>
+          </Box>
+        </DialogContent>
+        <DialogActions>
+          <Button style={{ backgroundColor: 'white', color: 'black' }} onClick={closeShareDialog}>Close</Button>
+        </DialogActions>
+      </Dialog>
+
 
           {/* Helpful Links Section */}
           <Box
@@ -281,38 +314,7 @@ const MarketingPage = () => {
           </Box>
         </Box>
 
-        {/* Share Dialog */}
-      <Dialog open={shareDialogOpen} onClose={closeShareDialog}>
-        <DialogTitle style={{ backgroundColor: 'red', color: 'white', fontWeight: 'bold', paddingRight: '24px' }}>Share Options</DialogTitle>
-        <DialogContent>
-          <Box display="flex" flexDirection="column">
-            <Button
-              variant="contained"
-              style={{ marginTop: '10px', backgroundColor: '#4267B2', color: '#FFFFFF' }}
-              onClick={openFacebook}
-            >
-              Facebook
-            </Button>
-            <Button
-              variant="contained"
-              style={{ marginTop: '10px', backgroundColor: '#d62976', color: '#FFFFFF' }}
-              onClick={openInstagram}
-            >
-              Instagram
-            </Button>
-            <Button
-              variant="contained"
-              style={{ marginTop: '10px', backgroundColor: '#1490DF', color: '#FFFFFF' }}
-              onClick={openOutlook}
-            >
-              Outlook
-            </Button>
-          </Box>
-        </DialogContent>
-        <DialogActions>
-          <Button style={{ backgroundColor: 'red', color: 'white' }} variant="contained" onClick={closeShareDialog}>OK</Button>
-        </DialogActions>
-      </Dialog>
+
 
         {/* Upload Recap Images Section */}
         <Box
