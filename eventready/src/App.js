@@ -6,6 +6,7 @@ import { EventPage } from "./pages/EventPage";
 import GeneralInfoPage from "./pages/GeneralInfoPage";
 import MarketingPage from "./pages/MarketingPage";
 import Navigation from "./components/Navigation";
+import Attendance from "./pages/Attendance";
 
 function App() {
   return (
