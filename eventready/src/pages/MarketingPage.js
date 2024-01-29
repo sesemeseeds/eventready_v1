@@ -86,13 +86,13 @@ const MarketingPage = () => {
 
   return (
     <div>
-      <AppBar position="static" style={{ backgroundColor: 'red', height: '80px' }}>
+      {/* <AppBar position="static" style={{ backgroundColor: 'red', height: '80px' }}>
         <Toolbar>
           <Typography variant="h4" style={{ color: 'white', fontWeight: 'bold', textAlign: 'center', width: '100%', marginTop: '20px' }}>
             Marketing
           </Typography>
         </Toolbar>
-      </AppBar>
+      </AppBar> */}
 
       <Container
         maxWidth="xl"
