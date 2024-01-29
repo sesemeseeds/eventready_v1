@@ -16,8 +16,8 @@ import GoalsCard from "../components/general-info-cards/GoalsCard";
 import TaskCard from "../components/general-info-cards/TaskCard";
 import BudgetCard from "../components/general-info-cards/BudgetCard";
 import MarketingCard from "../components/general-info-cards/MarketingCard";
-import AxiosInstance from '../components/Axios'
-import {useParams}  from 'react-router-dom'
+import AxiosInstance from "../components/Axios";
+import { useParams } from "react-router-dom";
 
 export default function GeneralInfoComponent() {
   const [open, setOpen] = React.useState(false);
@@ -32,8 +32,8 @@ export default function GeneralInfoComponent() {
   const [EventAddress, setEventAddress] = React.useState(String);
   const [loading, setLoading] = React.useState(true);
 
-  const MyParam = useParams()
-  const MyId = MyParam.id
+  const MyParam = useParams();
+  const MyId = MyParam.id;
 
   const StartTime = new Date(
     "1970-01-01T" + EventStartTime + "Z"
@@ -76,19 +76,18 @@ export default function GeneralInfoComponent() {
   };
 
   const GetData = () => {
-    AxiosInstance.get(`event/${MyId}`).then((res) =>{
-      console.log(res.data)
-      setEventTitle(res.data.name)
-      setEventDate(res.data.doe)
-      setEventStartTime(res.data.start_time)
-      setEventEndTime(res.data.end_time)
-      setEventLocation(res.data.location)
-      setEventDescription(res.data.description)
-      setEventCreationDate(res.data.created)
-      setEventActive(res.data.active)
-      setLoading(false)
-    })
-
+    AxiosInstance.get(`event/${MyId}`).then((res) => {
+      console.log(res.data);
+      setEventTitle(res.data.name);
+      setEventDate(res.data.doe);
+      setEventStartTime(res.data.start_time);
+      setEventEndTime(res.data.end_time);
+      setEventLocation(res.data.location);
+      setEventDescription(res.data.description);
+      setEventCreationDate(res.data.created);
+      setEventActive(res.data.active);
+      setLoading(false);
+    });
   };
 
   React.useEffect(() => {
@@ -99,15 +98,15 @@ export default function GeneralInfoComponent() {
   const daysRemaining = getDaysDifference(EventDate);
 
   const onSubmit = async (data) => {
-    AxiosInstance.put(`event/${MyId}/`,{
+    AxiosInstance.put(`event/${MyId}/`, {
       name: data.EventTitle,
       doe: data.EventDate,
       start_time: data.EventStartTime,
       end_time: data.EventEndTime,
       description: data.EventDescription,
       location: data.EventLocation,
-    })
-    GetData()
+    });
+    GetData();
     handleClose();
   };
 
@@ -140,12 +139,25 @@ export default function GeneralInfoComponent() {
               Edit
             </EditOutlinedIcon>
             <h1> Event Information </h1>
-            <div> {ConvertedDate} </div>
+            {}
+            <div>
+          
+              {ConvertedDate ==
+              new Date("1970-01-01").toLocaleDateString("en-US", {
+                timeZone: "UTC",
+                weekday: "long",
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+              })
+                ? ' '
+                : ConvertedDate}
+            </div>
             <div>
               {" "}
-              {StartTime} - {EndTime}{" "}
+              {StartTime == "Invalid Date" ? ' ' : StartTime} - {EndTime == "Invalid Date" ? ' ' : EndTime}{" "}
             </div>
-            <div> {daysRemaining} Days Until the Event! </div>
+            <div> {daysRemaining < 0 ? '' : daysRemaining} Days Until the Event! </div>
             <hr></hr>
             <div>{EventLocation}</div>
             <div>{EventAddress}</div>
@@ -221,7 +233,6 @@ export default function GeneralInfoComponent() {
                       {...register("EventEndTime")}
                     />
                   </div>
-
                   <TextField
                     autoFocus
                     margin="dense"
@@ -245,7 +256,6 @@ export default function GeneralInfoComponent() {
                     {...register("EventDescription")}
                   />
                   //TODO: change event activity?
-
                   <DialogActions>
                     <Button onClick={handleClose}>Cancel</Button>
                     <Button type="submit">Submit</Button>
