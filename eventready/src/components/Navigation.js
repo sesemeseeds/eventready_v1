@@ -23,6 +23,7 @@ import HelloWorld from "../HelloWorld";
 import MarketingPage from "../pages/MarketingPage";
 import "../styles/Navigation.css";
 import Footer from "./Footer";
+import AttendancePage from "../pages/Attendance";
 
 const drawerWidth = 240;
 
@@ -134,7 +135,7 @@ export default function PersistentDrawerLeft() {
           }}
         >
           <div className={classes.drawerHeader}>
-          <h1> <Link class="navigationHeader" to="/">Event Ready!</Link></h1> 
+          <h1> <Link className="navigationHeader" to="/">Event Ready!</Link></h1> 
             <IconButton onClick={handleDrawerClose}>
               {theme.direction === "ltr" ? (
                 <ChevronLeftIcon style={{color: "white", fontSize: "larger"}}/>
@@ -188,6 +189,15 @@ export default function PersistentDrawerLeft() {
               <ListItemText primary="Marketing" />
             </ListItem>
           </List>
+          <Divider />
+          <List>
+            <ListItem button key="attendance" to="attendance" component={Link} onClick={()=>{setHeaderName("Attendance")}}>
+              <ListItemIcon>
+                <InboxIcon />
+              </ListItemIcon>
+              <ListItemText primary="Attendance" />
+            </ListItem>
+          </List>
         </Drawer>
         <main
           className={clsx(classes.content, {
@@ -199,6 +209,7 @@ export default function PersistentDrawerLeft() {
           <Route path="generalinfo" element={<GeneralInfoPage />} />
           <Route path="helloworld" element={<HelloWorld />} />
           <Route path="marketing" element={<MarketingPage />} />
+          <Route path="Attendance" element={<AttendancePage />} />
           </Routes>
  
         </main>
