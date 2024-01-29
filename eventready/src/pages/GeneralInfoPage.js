@@ -16,6 +16,8 @@ import GoalsCard from "../components/general-info-cards/GoalsCard";
 import TaskCard from "../components/general-info-cards/TaskCard";
 import BudgetCard from "../components/general-info-cards/BudgetCard";
 import MarketingCard from "../components/general-info-cards/MarketingCard";
+import AxiosInstance from "../components/Axios";
+import { useParams } from "react-router-dom";
 
 export default function GeneralInfoComponent() {
   const [open, setOpen] = React.useState(false);
@@ -24,9 +26,14 @@ export default function GeneralInfoComponent() {
   const [EventStartTime, setEventStartTime] = React.useState(String);
   const [EventEndTime, setEventEndTime] = React.useState(String);
   const [EventLocation, setEventLocation] = React.useState(String);
-  const [EventAddress, setEventAddress] = React.useState(String);
   const [EventDescription, setEventDescription] = React.useState(String);
+  const [EventCreationDate, setEventCreationDate] = React.useState(String);
+  const [EventActive, setEventActive] = React.useState(String);
+  const [EventAddress, setEventAddress] = React.useState(String);
   const [loading, setLoading] = React.useState(true);
+
+  const MyParam = useParams();
+  const MyId = MyParam.id;
 
   const StartTime = new Date(
     "1970-01-01T" + EventStartTime + "Z"
@@ -69,31 +76,18 @@ export default function GeneralInfoComponent() {
   };
 
   const GetData = () => {
-    //this is where the GET request will go
-
-    // Example
-
-    // AxiosInstance.get(`project/${MyId}`).then((res) =>{
-    //   console.log(res.data)
-    //   setValue('name',res.data.name)
-    //   setValue('status',res.data.status)
-    //   setValue('projectmanager',res.data.projectmanager)
-    //   setValue('comments',res.data.comments)
-    //   setValue('start_date',Dayjs(res.data.start_date))
-    //   setValue('end_date',Dayjs(res.data.end_date))
-    //   setLoading(false)
-    // })
-
-    setEventTitle("Tests");
-    setEventDate("2024-03-19");
-    setEventStartTime("20:00");
-    setEventEndTime("22:00");
-    setEventLocation("Hardcoded Event Location");
-    setEventAddress("Hardcoded Event Address");
-    setEventDescription(
-      "Lorem ipsum dolor sit amet. Sed labore omnis et praesentium autem in amet autem eos doloribus voluptate ea architecto nulla? Vel internos quas At minima repellendus et itaque dolores. Ut expedita nihil non blanditiis asperiores eos eligendi explicabo? Sed explicabo veniam qui odio recusandae ut placeat praesentium id galisum doloribus. Et delectus assumenda ad voluptatem reiciendis sit provident nisi et nemo repellat et architecto delectus et voluptas perferendis sit adipisci enim"
-    );
-    setLoading(false);
+    AxiosInstance.get(`event/${MyId}`).then((res) => {
+      console.log(res.data);
+      setEventTitle(res.data.name);
+      setEventDate(res.data.doe);
+      setEventStartTime(res.data.start_time);
+      setEventEndTime(res.data.end_time);
+      setEventLocation(res.data.location);
+      setEventDescription(res.data.description);
+      setEventCreationDate(res.data.created);
+      setEventActive(res.data.active);
+      setLoading(false);
+    });
   };
 
   React.useEffect(() => {
@@ -104,27 +98,15 @@ export default function GeneralInfoComponent() {
   const daysRemaining = getDaysDifference(EventDate);
 
   const onSubmit = async (data) => {
-    //this is where the PUT request will g
-
-    // Example
-
-    // AxiosInstance.put( `project/${MyId}/`,{
-    //   name: data.name,
-    //   projectmanager: data.projectmanager,
-    //   status: data.status,
-    //   comments: data.comments,
-    //   start_date: StartDate,
-    //   end_date: EndDate,
-    // })
-
-    setEventTitle(data.EventTitle);
-    setEventDate(data.EventDate);
-    setEventStartTime(data.EventStartTime);
-    setEventEndTime(data.EventEndTime);
-    setEventLocation(data.EventLocation);
-    setEventAddress(data.EventAddress);
-    setEventDescription(data.EventDescription);
-    console.log(data);
+    AxiosInstance.put(`event/${MyId}/`, {
+      name: data.EventTitle,
+      doe: data.EventDate,
+      start_time: data.EventStartTime,
+      end_time: data.EventEndTime,
+      description: data.EventDescription,
+      location: data.EventLocation,
+    });
+    GetData();
     handleClose();
   };
 
@@ -157,12 +139,25 @@ export default function GeneralInfoComponent() {
               Edit
             </EditOutlinedIcon>
             <h1> Event Information </h1>
-            <div> {ConvertedDate} </div>
+            {}
+            <div>
+          
+              {ConvertedDate ==
+              new Date("1970-01-01").toLocaleDateString("en-US", {
+                timeZone: "UTC",
+                weekday: "long",
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+              })
+                ? ' '
+                : ConvertedDate}
+            </div>
             <div>
               {" "}
-              {StartTime} - {EndTime}{" "}
+              {StartTime == "Invalid Date" ? ' ' : StartTime} - {EndTime == "Invalid Date" ? ' ' : EndTime}{" "}
             </div>
-            <div> {daysRemaining} Days Until the Event! </div>
+            <div> {daysRemaining < 0 ? '' : daysRemaining} Days Until the Event! </div>
             <hr></hr>
             <div>{EventLocation}</div>
             <div>{EventAddress}</div>
@@ -238,7 +233,6 @@ export default function GeneralInfoComponent() {
                       {...register("EventEndTime")}
                     />
                   </div>
-
                   <TextField
                     autoFocus
                     margin="dense"
@@ -253,17 +247,6 @@ export default function GeneralInfoComponent() {
                   <TextField
                     autoFocus
                     margin="dense"
-                    name="EventAddress"
-                    label="Event Address"
-                    type="text"
-                    fullWidth
-                    variant="outlined"
-                    defaultValue={EventAddress}
-                    {...register("EventAddress")}
-                  />
-                  <TextField
-                    autoFocus
-                    margin="dense"
                     name="EventDescription"
                     label="Event Description"
                     type="text"
@@ -272,7 +255,7 @@ export default function GeneralInfoComponent() {
                     defaultValue={EventDescription}
                     {...register("EventDescription")}
                   />
-
+                  //TODO: change event activity?
                   <DialogActions>
                     <Button onClick={handleClose}>Cancel</Button>
                     <Button type="submit">Submit</Button>

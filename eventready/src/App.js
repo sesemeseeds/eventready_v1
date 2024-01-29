@@ -13,7 +13,7 @@ function App() {
     <>
 
       <Routes>
-        <Route path="/event" element={<Navigation />}>
+        <Route path="/event/:id" element={<Navigation />}>
           <Route path="marketing" element={<MarketingPage />} />
           <Route path="generalinfo" element={<GeneralInfoPage />} />
           <Route path="helloworld" element={<HelloWorld />} />
