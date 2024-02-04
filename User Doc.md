@@ -2,25 +2,33 @@
 
 1. Install Python3 ([https://www.python.org/downloads/](https://www.python.org/downloads/)) and latest version of Node.js ([https://nodejs.org/en](https://nodejs.org/en))
 2. Open a terminal within VS Code and use this line to clone repository.
-   1. git clone [https://github.com/kbnguyen1423/Capstone-Project.git](https://github.com/kbnguyen1423/Capstone-Project.git)
+   ```bash
+   git clone https://github.com/kbnguyen1423/Capstone-Project.git
+   ```
 3. In the terminal run the following commands to set up necessary plug-ins:
-   1. py -m install Django
-   2. pip install djangorestframework django-cors-headers
+   ```bash
+   py -m install Django
+   pip install djangorestframework django-cors-headers
+   ```
 4. Open the root project folder **Capstone-Project**
 
 ## Starting the project backend
 
 1. In a new terminal run the following:
-   1. **cd .\eventReadyBackend\***  to move to backend folder
-   2. **py manage.py runserver** to start the backend server.
+   ```bash
+   cd .\eventReadyBackend\  # to move to the backend folder
+   py manage.py runserver   # to start the backend server
+   ```
 2. Leave the terminal open while running the project
 
 ## Starting the project frontend
 
 1. In a new terminal run the following
-   1. **cd .\eventready\***  **to move to the frontend folder.
-   2. **npm install** to install all required packages.
-   3. **npm start** to start the frontend server.
+   ```bash
+   cd .\eventready\  # to move to the frontend folder
+   npm install        # to install all required packages
+   npm start          # to start the frontend server
+   ```
 2. Web app will be opened on [http://localhost:3000/](http://localhost:3000/) and ready to be used.
 
 # Using the project
