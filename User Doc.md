@@ -78,3 +78,12 @@ Will be added in the future
 
 1. A QR Code that can be scanned to fill out attendance list. ![image](https://github.com/kbnguyen1423/Capstone-Project/assets/98423738/60f6852c-937c-4851-9380-3e95901a293f)
 
+
+## FAQ
+
+1. **Q: How do I install Python and Node.js for the project?**
+   - **A:** Follow the installation instructions provided on their official websites: [Python](https://www.python.org/downloads/) and [Node.js](https://nodejs.org/en).
+
+2. **Q: What is the purpose of cloning the repository?**
+   - **A:** Cloning the repository is essential to get the project's source code on your local machine. It provides you with the necessary files to run and modify the project.
+
