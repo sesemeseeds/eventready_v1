@@ -12,7 +12,7 @@
    ```
 4. Open the root project folder **Capstone-Project**
 
-## Starting the project backend
+## Starting the Project Backend
 
 1. In a new terminal run the following:
    ```bash
@@ -21,7 +21,7 @@
    ```
 2. Leave the terminal open while running the project
 
-## Starting the project frontend
+## Starting the Project Frontend
 
 1. In a new terminal run the following
    ```bash
@@ -31,7 +31,8 @@
    ```
 2. Web app will be opened on [http://localhost:3000/](http://localhost:3000/) and ready to be used.
 
-# Using the project
+# Using the Project
+
 
 ## User Authentication (WIP)
 
