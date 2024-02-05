@@ -39,7 +39,6 @@ const MarketingPage = () => {
     setShowUploadRecapImages(!showUploadRecapImages);
   };
 
-
   const handleImageUpload = (event) => {
     const selectedImage = event.target.files[0];
     setImage(selectedImage);
@@ -49,8 +48,6 @@ const MarketingPage = () => {
     setCaption(e.target.value);
   };
   
-  
-
   const openFacebook = () => {
     window.open('https://www.facebook.com/');
   };
