@@ -4,7 +4,6 @@ import canvaLogo from '../images/canva-logo.png';
 import figmaLogo from '../images/figma-logo.png';
 import adobeLogo from '../images/adobe-logo.png';
 
-
 const MarketingPage = () => {
   const [reminders, setReminders] = useState([]);
   const [reminderName, setReminderName] = useState('');
@@ -18,10 +17,6 @@ const MarketingPage = () => {
   const [showHelpfulLinks, setShowHelpfulLinks] = useState(true);
   const [showUploadRecapImages, setShowUploadRecapImages] = useState(true);
   
-  const toggleReminder = () => {
-    setShowReminder(!showReminder);
-  };
-
   const addReminder = () => {
     if (reminderName && reminderDateTime) {
       setReminders([...reminders, { name: reminderName, dateTime: reminderDateTime }]);
@@ -29,60 +24,59 @@ const MarketingPage = () => {
       setReminderDateTime('');
     }
   };
-  
-  const toggleUploadPoster = () => {
-    setShowUploadPoster(!showUploadPoster);
 
-  };
-  
-  const toggleHelpfulLinks = () => {
-    setShowHelpfulLinks(!showHelpfulLinks);
-  };
+    const toggleReminder = () => {
+      setShowReminder(!showReminder);
+    };
 
-  const toggleUploadRecapImages = () => {
-    setShowUploadRecapImages(!showUploadRecapImages);
-  };
+    const toggleUploadPoster = () => {
+      setShowUploadPoster(!showUploadPoster);
+    };
+    const toggleHelpfulLinks = () => {
+      setShowHelpfulLinks(!showHelpfulLinks);
+    };
+    const toggleUploadRecapImages = () => {
+      setShowUploadRecapImages(!showUploadRecapImages);
+    };
 
-  const handleImageUpload = (event) => {
-    const selectedImage = event.target.files[0];
-    setImage(selectedImage);
-  };
+    const handleImageUpload = (event) => {
+      const selectedImage = event.target.files[0];
+      setImage(selectedImage);
+    };
+    const handleCaptionChange = (e) => {
+      setCaption(e.target.value);
+    };
+    
+    const openFacebook = () => {
+      window.open('https://www.facebook.com/');
+    };
+    const openInstagram = () => {
+      window.open('https://www.instagram.com/');
+    };
+    const openOutlook = () => {
+      window.open('https://outlook.live.com/');
+    };
 
-  const handleCaptionChange = (e) => {
-    setCaption(e.target.value);
-  };
-  
-  const openFacebook = () => {
-    window.open('https://www.facebook.com/');
-  };
-  const openInstagram = () => {
-    window.open('https://www.instagram.com/');
-  };
-  const openOutlook = () => {
-    window.open('https://outlook.live.com/');
-  };
+    const openShareDialog = () => {
+      setShareDialogOpen(true);
+    };
+    const closeShareDialog = () => {
+      setShareDialogOpen(false);
+    };
 
-  const openShareDialog = () => {
-    setShareDialogOpen(true);
-  };
-  const closeShareDialog = () => {
-    setShareDialogOpen(false);
-  };
+    // State and functions for Recap Images Section
+    const [recapImages, setRecapImages] = useState([]);
 
-  // State and functions for Recap Images Section
-  const [recapImages, setRecapImages] = useState([]);
+    const handleRecapImageUpload = (event) => {
+      const selectedImages = event.target.files;
+      setRecapImages([...recapImages, ...Array.from(selectedImages)]);
+    };
 
-  const handleRecapImageUpload = (event) => {
-    const selectedImages = event.target.files;
-    setRecapImages([...recapImages, ...Array.from(selectedImages)]);
-  };
-
-  const handleRecapImageClear = (index) => {
-    const updatedImages = [...recapImages];
-    updatedImages.splice(index, 1);
-    setRecapImages(updatedImages);
-  };
-
+    const handleRecapImageClear = (index) => {
+      const updatedImages = [...recapImages];
+      updatedImages.splice(index, 1);
+      setRecapImages(updatedImages);
+    };
 
 
   return (
@@ -119,6 +113,7 @@ const MarketingPage = () => {
             style={{
               flex: 1,
               marginRight: '20px',
+              marginLeft: '20px',
               marginTop: '40px',
               marginBottom: '70px',
               
@@ -429,7 +424,6 @@ const MarketingPage = () => {
           <Typography variant="body1" style={{ color: 'black', marginTop: '55px' }}>
             Relive the magic of your events by uploading recap images. Let the pictures tell the story and showcase the vibrant essence of your organization.
           </Typography>
-
           
           {/* File input and label */}
           <label htmlFor="recap-image-upload" className="custom-file-upload">
