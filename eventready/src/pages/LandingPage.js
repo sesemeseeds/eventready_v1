@@ -7,7 +7,7 @@ import Card from "@mui/material/Card";
 import { Menu, MenuItem } from "@mui/material";
 import CardContent from "@mui/material/CardContent";
 import CardActionArea from "@mui/material/CardActionArea";
-import CardMedia from "@mui/material/CardMedia";
+import CardActions from "@mui/material/CardActions";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Footer from "../components/Footer";
@@ -19,6 +19,7 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import AddIcon from "@mui/icons-material/Add";
 import DialogTitle from "@mui/material/DialogTitle";
+import DeleteIcon from "@mui/icons-material/Delete";
 import {
   BrowserRouter,
   Link,
@@ -103,8 +104,10 @@ export const LandingPage = () => {
     setContextMenu(null);
   };
 
-  const handleDeleteOpen = (e) => {
+  const handleDeleteOpen = (event, id) => {
     setOpenDelete(true);
+    event.preventDefault();
+    setDeleteID(id);
   };
   const handleDeleteClose = () => {
     setOpenDelete(false);
@@ -138,14 +141,14 @@ export const LandingPage = () => {
                 <Grid item xs={4} key={event.id} id={event}>
                   <Card
                     className="event-card"
-                    onContextMenu={(e) => handleContextMenu(e, event.id)}
+                    // onContextMenu={(e) => handleContextMenu(e, event.id)}
                     style={{ cursor: "context-menu" }}
                   >
                     <CardActionArea
                       component={Link}
                       to={`event/${event.id}/generalinfo`}
                     >
-                      <CardContent sx={{ height: "250px" }}>
+                      <CardContent sx={{ height: "175px" }}>
                         <Typography gutterBottom variant="h5" component="div">
                           {event.name}
                         </Typography>
@@ -158,6 +161,15 @@ export const LandingPage = () => {
                         </Typography>
                       </CardContent>
                     </CardActionArea>
+                    <CardActions  sx={{ display: "contents"}}>
+                      <Button
+                        sx={{ float: "right"}}
+                        size="medium"
+                        onClick={(e) => handleDeleteOpen(e, event.id)}
+                        cursor="pointer"
+                        startIcon={<DeleteIcon />}
+                      ></Button>
+                    </CardActions>
                   </Card>
                   <Menu
                     open={contextMenu !== null}
