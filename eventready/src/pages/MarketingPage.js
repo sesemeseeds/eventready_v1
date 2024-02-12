@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 import { Button, TextField, Typography, Box, AppBar, Toolbar, Dialog, DialogTitle, DialogContent, DialogActions, Container } from '@mui/material';
+import canvaLogo from '../images/canva-logo.png';
+import figmaLogo from '../images/figma-logo.png';
+import adobeLogo from '../images/adobe-logo.png';
 import { useForm } from "react-hook-form";
 import axios from 'axios';
 import AxiosInstance from "../components/Axios";
@@ -129,7 +132,7 @@ const MarketingPage = () => {
   const toggleUploadPoster = () => {
     setShowUploadPoster(!showUploadPoster);
   };
-  
+
   const toggleHelpfulLinks = () => {
     setShowHelpfulLinks(!showHelpfulLinks);
   };
@@ -137,7 +140,6 @@ const MarketingPage = () => {
   const toggleUploadRecapImages = () => {
     setShowUploadRecapImages(!showUploadRecapImages);
   };
-
 
   const handleImageUpload = (e) => {
     const selectedImage = e.target.files[0];
@@ -171,21 +173,30 @@ const MarketingPage = () => {
   };
   const openInstagram = () => {
     window.open('https://www.instagram.com/');
-  };
+  };  
   const openOutlook = () => {
     window.open('https://outlook.live.com/');
   };
+  
+  // const openShareDialog = () => {
+  //   setShareDialogOpen(true);
+  // };
+  
+  // const closeShareDialog = () => {
+  //   setShareDialogOpen(false);
+  // };
 
-  const handleRecapImageUpload = (e) => {
-    const selectedImages = e.target.files;
+  const handleRecapImageUpload = (event) => {
+    const selectedImages = event.target.files;
     setRecapImages([...recapImages, ...Array.from(selectedImages)]);
   };
-
+  
   const handleRecapImageClear = (index) => {
     const updatedImages = [...recapImages];
     updatedImages.splice(index, 1);
     setRecapImages(updatedImages);
   };
+
 
   return (
     <div>
@@ -216,11 +227,13 @@ const MarketingPage = () => {
           }}
         >
 
+
           {/* Reminders Section */}
           <Box
             style={{
               flex: 1,
               marginRight: '20px',
+              marginLeft: '20px',
               marginTop: '40px',
               marginBottom: '70px',
               
@@ -298,7 +311,6 @@ const MarketingPage = () => {
               )}
             </Box>
           </Box>
-
 
           {/* Upload Graphic Section */}
 
@@ -399,7 +411,9 @@ const MarketingPage = () => {
             style={{
               flex: 1,
               marginRight: '20px',
+              marginRight: '20px',
               marginTop: '40px',
+              marginBottom: '70px',
               marginBottom: '70px',
             }}
           >
@@ -429,43 +443,58 @@ const MarketingPage = () => {
 
               {/* Light yellow content */}
               {showHelpfulLinks && (
-                <Box
-                  style={{
-                    padding: '20px',
-                    marginTop: '-10px',
-                    backgroundColor: '#ffeec5',
-                    borderRadius: '5px 5px 10px 10px',
-                    display: showHelpfulLinks ? 'block' : 'none',
-                  }}
-                >
-                  <Typography variant="body1" style={{ color: 'black', marginBottom: '10px', marginTop: '5px' }}>
-                    Embarking on a creative journey with graphics? Dive into these fantastic resources to unleash your inner designer and craft amazing posters, vibrant flyers, eye-catching logos, and more for your spectacular event! Let your imagination run wild and bring your ideas to life!
-                  </Typography>
-                  <Box display="flex" justifyContent="space-between">
-                    <Button
-                      variant="contained"
-                      style={{ backgroundColor: '#20C4CB', color: '#FFFFFF', marginRight: '10px', marginTop: '10px' }}
-                      onClick={() => window.open('https://www.canva.com/', '_blank')}
-                    >
-                      Canva
-                    </Button>
-                    <Button
-                      variant="contained"
-                      style={{ backgroundColor: '#a259ff', color: '#FFFFFF', marginRight: '10px', marginTop: '10px' }}
-                      onClick={() => window.open('https://www.figma.com/', '_blank')}
-                    >
-                      Figma
-                    </Button>
-                    <Button
-                      variant="contained"
-                      style={{ backgroundColor: '#FF0000', color: '#FFFFFF', marginTop: '10px' }}
-                      onClick={() => window.open('https://www.adobe.com/', '_blank')}
-                    >
-                      Adobe
-                    </Button>
-                  </Box>
+              <Box
+                style={{
+                  padding: '20px',
+                  marginTop: '-10px',
+                  backgroundColor: '#ffeec5',
+                  borderRadius: '5px 5px 10px 10px',
+                  display: showHelpfulLinks ? 'block' : 'none',
+                }}
+              >
+                <Typography variant="body1" style={{ color: 'black', marginBottom: '10px', marginTop: '5px' }}>
+                  Embarking on a creative journey with graphics? Dive into these fantastic resources to unleash your inner designer and craft amazing posters, vibrant flyers, eye-catching logos, and more for your spectacular event! Let your imagination run wild and bring your ideas to life!
+                </Typography>
+                <Box display="flex" justifyContent="space-between">
+                  <Button
+                    style={{
+                      backgroundImage: `url(${canvaLogo})`,
+                      backgroundSize: 'cover',
+                      backgroundRepeat: 'no-repeat',
+                      width: '40px',
+                      height: '64px',
+                    }}
+                    onClick={() => window.open('https://www.canva.com/', '_blank')}
+                  >
+                  </Button>
+
+                  <Button
+                    style={{
+                      backgroundImage: `url(${figmaLogo})`,
+                      backgroundSize: 'cover',
+                      backgroundRepeat: 'no-repeat',
+                      width: '20px',
+                      height: '96px',
+                    }}
+                    onClick={() => window.open('https://www.figma.com/', '_blank')}
+                  >
+                  </Button>
+
+                  <Button
+                    style={{
+                      backgroundImage: `url(${adobeLogo})`,
+                      backgroundSize: 'cover',
+                      backgroundRepeat: 'no-repeat',
+                      width: '10px',
+                      height: '62px',
+                    }}
+                    onClick={() => window.open('https://www.adobe.com/', '_blank')}
+                  >
+                  </Button>
                 </Box>
-              )}
+              </Box>
+            )}
+
             </Box>
           </Box>
         </Box>
@@ -517,7 +546,6 @@ const MarketingPage = () => {
           <Typography variant="body1" style={{ color: 'black', marginTop: '55px' }}>
             Relive the magic of your events by uploading recap images. Let the pictures tell the story and showcase the vibrant essence of your organization.
           </Typography>
-
           
           {/* File input and label */}
           <label htmlFor="recap-image-upload" className="custom-file-upload">
@@ -550,13 +578,12 @@ const MarketingPage = () => {
                   onClick={() => handleRecapImageClear(index)}>
                   X
                 </Button>
-
               </div>
-            ))}
+              ))}
           </div>
         </Box>
         )}
-        </Box>
+      </Box>
       </Container>
     </div>
   );
