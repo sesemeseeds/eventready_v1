@@ -7,17 +7,18 @@ import GeneralInfoPage from "./pages/GeneralInfoPage";
 import MarketingPage from "./pages/MarketingPage";
 import Navigation from "./components/Navigation";
 import Attendance from "./pages/Attendance";
+import BudgetPage from "./pages/BudgetPage";
 
 function App() {
   return (
     <>
-
       <Routes>
         <Route path="/event/:id" element={<Navigation />}>
           <Route path="marketing" element={<MarketingPage />} />
           <Route path="generalinfo" element={<GeneralInfoPage />} />
           <Route path="helloworld" element={<HelloWorld />} />
           <Route path="attendance" element={<Attendance />} />
+          <Route path="budget" element={<BudgetPage />} />
         </Route>
         
         <Route path="/" element={<LandingPage />} />
@@ -26,6 +27,7 @@ function App() {
         <Route path="/generalinfo" element={<GeneralInfoPage />} />
         <Route path="/attendance" element={<Attendance />} />
         <Route path="/marketing" element={<MarketingPage />} />
+        <Route path="/budget" element={<BudgetPage />} />
       </Routes>
     </>
   );
