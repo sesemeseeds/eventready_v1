@@ -16,6 +16,8 @@ class EventGeneralInfo(models.Model):
         return self.name    
     
 class MarketingPoster(models.Model):
+    # TODO: event_id = models.IntegerField(primary_key=True, editable=False)
+    # TODO: need a way to link each model in the repository to the root event_id
     id = models.IntegerField(primary_key=True, editable=False)
 
     name = models.CharField("Name", max_length=256)
@@ -26,6 +28,7 @@ class MarketingPoster(models.Model):
         return self.name
 
 class MarketingReminders(models.Model):
+    # TODO: event_id = models.IntegerField(primary_key=True, editable=False)
     id = models.IntegerField(primary_key=True, editable=False)
 
     name = models.CharField("Name", max_length=256)
