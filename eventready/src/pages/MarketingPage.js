@@ -1,19 +1,73 @@
 import React, { useState } from 'react';
 import { Button, TextField, Typography, Box, AppBar, Toolbar, Dialog, DialogTitle, DialogContent, DialogActions, Container } from '@mui/material';
+import { useForm } from "react-hook-form";
+import axios from 'axios';
+import AxiosInstance from "../components/Axios";
+import { useParams } from "react-router-dom";
 
 const MarketingPage = () => {
   const [reminders, setReminders] = useState([]);
-  const [reminderName, setReminderName] = useState('');
-  const [reminderDateTime, setReminderDateTime] = useState('');
+  const [reminderName, setReminderName] = React.useState(String);
+  const [reminderDateTime, setReminderDateTime] = React.useState(String);
   const [image, setImage] = useState(null);
-  const [caption, setCaption] = useState('');
-  const [shareDialogOpen, setShareDialogOpen] = useState(false);
+  const [caption, setCaption] = React.useState(String);
+  const [recapImages, setRecapImages] = useState([]);
 
+  // const [shareDialogOpen, setShareDialogOpen] = useState(false);
   const [showReminder, setShowReminder] = useState(true);
+  //TODO: recap images linked to backend database
   const [showUploadPoster, setShowUploadPoster] = useState(true);
   const [showHelpfulLinks, setShowHelpfulLinks] = useState(true);
   const [showUploadRecapImages, setShowUploadRecapImages] = useState(true);
   
+  // get the root poster image, latest one uploaded from database to show to user on load
+  const getPosterImage = () => {   
+    axios.get(`http://localhost:8000/api/marketingPoster`)        // get request to get the marketing poster
+      .then(response => {                                         // response.data shows all the posters uploaded
+        if (!response.data) {                                     // if there is no poster uploaded, just sets the caption and image to null
+          setImage(null)
+          setCaption(null)
+        } else {
+          const lastPoster = response.data[response.data.length - 1]      // gets the last poster
+          setImage(`http://localhost:8000${lastPoster.image}`)            // setImage to the url of the last poster
+          setCaption(lastPoster.caption)                                  // setCaption of caption of the last poster
+        }      
+      })
+      .catch(error => {
+        console.error('Error:', error);                           // Handle errors here
+      });
+  };
+
+  // get the reminders of the repository
+  const getReminders = () => {
+    axios.get(`http://localhost:8000/api/marketingReminders`)
+      .then(response => {
+        const remindersData = response.data;                          // redeclare reminder data
+        if (!remindersData || !Array.isArray(remindersData)) {        // if payload is nothing, set the reminderData to an empty array
+          setReminders([]);
+        } else {
+          const formattedReminders = remindersData.map(reminder => ({       // format the reminders: id, name, datetime to present in client-side
+            id: reminder.id,
+            name: reminder.name,
+            dateTime: combineDateTime({                         // combine the data into the readable client-side data
+              date: reminder.date,
+              time: reminder.time
+            })
+          }));
+          setReminders(formattedReminders);                    // setReminders called using the formattedReminders
+        }      
+      })
+      .catch(error => {
+        console.error('Error:', error);                       // Handle errors here
+      });
+  };
+
+  // on load, call these functions to get latest data
+  React.useEffect(() => {
+    getPosterImage();
+    getReminders();
+  }, []);
+
   const toggleReminder = () => {
     setShowReminder(!showReminder);
   };
@@ -21,14 +75,59 @@ const MarketingPage = () => {
   const addReminder = () => {
     if (reminderName && reminderDateTime) {
       setReminders([...reminders, { name: reminderName, dateTime: reminderDateTime }]);
-      setReminderName('');
-      setReminderDateTime('');
-    }
+      const dateTime = splitDateTime(reminderDateTime)
+      const data = {}
+      data['name'] = reminderName
+      data['date'] = dateTime.date
+      data['time'] = dateTime.time
+      let url = 'http://localhost:8000/api/marketingReminders/';
+      axios.post(url, data, {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+        .then(res => {
+          // console.log(res.data);
+        })
+        .catch(err => console.log(err))
+    };
+    setReminderName('');
+    setReminderDateTime('');
+  };
+
+  const splitDateTime = (dateTimeString) => {
+    var dateTimeArray = dateTimeString.split('T');
+
+    var dateComponent = dateTimeArray[0];
+    var timeComponent = dateTimeArray[1];
+
+    var dateParts = dateComponent.split('-');
+    var year = dateParts[0];
+    var month = dateParts[1];
+    var day = dateParts[2];
+
+    var timeParts = timeComponent.split(':');
+    var hour = timeParts[0];
+    var minute = timeParts[1];
+
+    return {
+        date: year + '-' + month + '-' + day,
+        time: hour + ':' + minute
+    };
+  }
+
+  const combineDateTime = (dateTimeObject) => {
+    const { date, time } = dateTimeObject;
+    const [year, month, day] = date.split('-');
+    const [hour, minute] = time.split(':');
+
+    const combinedDateTimeString = `${year}-${month}-${day}T${hour}:${minute}`;
+
+    return combinedDateTimeString;
   };
   
   const toggleUploadPoster = () => {
     setShowUploadPoster(!showUploadPoster);
-
   };
   
   const toggleHelpfulLinks = () => {
@@ -40,8 +139,8 @@ const MarketingPage = () => {
   };
 
 
-  const handleImageUpload = (event) => {
-    const selectedImage = event.target.files[0];
+  const handleImageUpload = (e) => {
+    const selectedImage = e.target.files[0];
     setImage(selectedImage);
   };
 
@@ -49,7 +148,23 @@ const MarketingPage = () => {
     setCaption(e.target.value);
   };
   
-  
+  const submitPosterImage = (e) => {
+    e.preventDefault();
+    let form_data = new FormData();
+    form_data.append('name', image.name);
+    form_data.append('image', image, image.name);
+    form_data.append('caption', caption);
+    let url = 'http://localhost:8000/api/marketingPoster/';
+    axios.post(url, form_data, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    })
+        .then(res => {
+          // console.log(res.data);
+        })
+        .catch(err => console.log(err))
+  };
 
   const openFacebook = () => {
     window.open('https://www.facebook.com/');
@@ -61,18 +176,8 @@ const MarketingPage = () => {
     window.open('https://outlook.live.com/');
   };
 
-  const openShareDialog = () => {
-    setShareDialogOpen(true);
-  };
-  const closeShareDialog = () => {
-    setShareDialogOpen(false);
-  };
-
-  // State and functions for Recap Images Section
-  const [recapImages, setRecapImages] = useState([]);
-
-  const handleRecapImageUpload = (event) => {
-    const selectedImages = event.target.files;
+  const handleRecapImageUpload = (e) => {
+    const selectedImages = e.target.files;
     setRecapImages([...recapImages, ...Array.from(selectedImages)]);
   };
 
@@ -81,8 +186,6 @@ const MarketingPage = () => {
     updatedImages.splice(index, 1);
     setRecapImages(updatedImages);
   };
-
-
 
   return (
     <div>
@@ -199,95 +302,96 @@ const MarketingPage = () => {
 
           {/* Upload Graphic Section */}
 
-             <Box
+          <Box
              style={{
                flex: 1,
                marginRight: '20px',
                marginTop: '40px',
                marginBottom: '70px',
              }}
-            >
+          >
             {/* Dark purple header */}
             <Typography
-            variant="h6"
-            style={{
-            color: 'white',
-            fontWeight: 'bold',
-            marginBottom: '10px',
-            backgroundColor: '#b54fdc',
-            padding: '10px',
-            borderRadius: '5px',
-            paddingLeft: '20px',
-            }}
-            onClick={toggleUploadPoster}
+              variant="h6"
+              style={{
+                color: 'white',
+                fontWeight: 'bold',
+                marginBottom: '10px',
+                backgroundColor: '#b54fdc',
+                padding: '10px',
+                borderRadius: '5px',
+                paddingLeft: '20px',
+                }}
+              onClick={toggleUploadPoster}
             >
-             Upload Poster
-             </Typography>
+            Upload Poster
+            </Typography>
 
-               {/* Light purple header */}
-             {showUploadPoster && (
-             <Box style={{
-              flex: 1,
-              padding: '20px',
-              borderRadius: '5px 5px 10px 10px',
-              backgroundColor: '#f8e7ff',
-              marginTop: '-10px',
-              
-              }}
+            {/* Light purple header */}
+            {showUploadPoster && (
+              <Box 
+                style={{
+                  flex: 1,
+                  padding: '20px',
+                  borderRadius: '5px 5px 10px 10px',
+                  backgroundColor: '#f8e7ff',
+                  marginTop: '-10px',
+                }}
               >
 
-      <div style={{ display: 'block' }}>
-      <label htmlFor="file-upload" className="custom-file-upload" style={{ display: 'flex', alignItems: 'center', marginTop: '10px', justifyContent: 'space-between' }}>
-        <div style={{ display: 'flex', alignItems: 'center' }}>
-          Choose File
-          <input
-            type="file"
-            id="file-upload"
-            accept="image/*"
-            onChange={handleImageUpload}
-            style={{ display: 'none' }}
-          />
-        </div>
-        {image && (
-          <Button
-            style={{ color: '#000000' }}
-            onClick={() => setImage(null)}
-          >
-            Clear
-          </Button>
-        )}
-      </label>
-
-      {image && (
-        <img
-          src={URL.createObjectURL(image)}
-          alt="Uploaded"
-          style={{ width: '100%', borderRadius: '5px', marginTop: '10px' }}
-        />
-      )}
-      <TextField
-        placeholder="Enter caption..."
-        value={caption}
-        onChange={handleCaptionChange}
-        multiline
-        rows={2}
-        style={{ marginTop: '20px' }}
-        fullWidth
-      />
-      {/* Share Graphic Button */}
-      <div style={{ marginTop: '40px' }}>
-        <Button
-          variant="contained"
-          style={{ backgroundColor: '#d056ff', color: '#FFFFFF' }}
-          onClick={openShareDialog}
-        >
-          Share Graphic
-        </Button>
-      </div>
-    </div>
-    </Box>
-  )}
-  </Box>
+                <div style={{ display: 'block' }}>
+                  <label htmlFor="file-upload" className="custom-file-upload" style={{ display: 'flex', alignItems: 'center', marginTop: '10px', justifyContent: 'space-between' }}>
+                    <div style={{ display: 'flex', alignItems: 'center' }}>
+                      Choose File
+                      <input
+                        type="file"
+                        id="file-upload"
+                        accept="image/*"
+                        onChange={handleImageUpload}
+                        style={{ display: 'none' }}
+                      />
+                    </div>
+                  </label>
+                  <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                  {image && (
+                      <Button
+                        style={{ color: '#000000' }}
+                        onClick={() => setImage(null)}
+                      >
+                        Clear
+                      </Button>
+                    )}
+                  </div>
+                  {image && (
+                    <img
+                      src={image instanceof Blob ? URL.createObjectURL(image) : image}
+                      alt="Uploaded"
+                      style={{ width: '100%', borderRadius: '5px', marginTop: '10px' }}
+                    />
+                  )}
+                  <TextField
+                    placeholder="Enter caption..."
+                    value={caption}
+                    onChange={handleCaptionChange}
+                    multiline
+                    rows={2}
+                    style={{ marginTop: '20px' }}
+                    fullWidth
+                  />
+                  {/* Share Graphic Button */}
+                  <div style={{ marginTop: '40px' }}>
+                    <Button
+                      variant="contained"
+                      style={{ backgroundColor: '#d056ff', color: '#FFFFFF' }}
+                      onClick={submitPosterImage}
+                    >
+                    Share Graphic
+                    </Button>
+                  </div>
+                </div>
+              </Box>
+            )}
+          </Box>
 
 
           {/* Helpful Links Section */}

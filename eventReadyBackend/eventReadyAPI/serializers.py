@@ -5,3 +5,19 @@ class EventSerializer(serializers.ModelSerializer):
     class Meta: 
         model = EventGeneralInfo
         fields = ('id', 'name', 'doe', 'start_time', 'end_time', 'location', 'description', 'created', 'active')
+        
+class MarketingPosterSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = MarketingPoster
+        fields = ('id', 'name', 'caption', 'image')
+        
+class MarketingRemindersSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = MarketingReminders
+        fields = ('id', 'name', 'date', 'time')
+        
+class MarketingRecapPhotoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = MarketingRecapPhotos
+        fields = ('id', 'name', 'image')
+        
