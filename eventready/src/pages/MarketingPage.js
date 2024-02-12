@@ -257,6 +257,7 @@ const MarketingPage = () => {
                   borderRadius: '5px',
                   paddingLeft: '20px',
                   cursor: 'pointer',
+                  userSelect: 'none',
                 }}
                 onClick={toggleReminder}
               >
@@ -333,6 +334,8 @@ const MarketingPage = () => {
                 padding: '10px',
                 borderRadius: '5px',
                 paddingLeft: '20px',
+                cursor: 'pointer',
+                userSelect: 'none',
                 }}
               onClick={toggleUploadPoster}
             >
@@ -422,9 +425,7 @@ const MarketingPage = () => {
               style={{
                 borderRadius: '10px',
                 position: 'relative',
-                cursor: 'pointer',
               }}
-              onClick={toggleHelpfulLinks}
             >
               <Typography
                 variant="h6"
@@ -436,7 +437,10 @@ const MarketingPage = () => {
                   padding: '10px',
                   borderRadius: '5px',
                   paddingLeft: '20px',
+                  cursor: 'pointer',
+                  userSelect: 'none',
                 }}
+                onClick={toggleHelpfulLinks}
               >
                 Helpful Links
               </Typography>
@@ -526,6 +530,7 @@ const MarketingPage = () => {
               position: 'absolute',
               top: 0, left: 0, right: 0,
               paddingLeft: '20px',
+              userSelect: 'none',
             }}
             onClick={toggleUploadRecapImages}
           >
