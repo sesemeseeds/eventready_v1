@@ -76,7 +76,7 @@ export default function GeneralInfoComponent() {
   };
 
   const GetData = () => {
-    AxiosInstance.get(`event/${MyId}`).then((res) => {
+    AxiosInstance.get(`event/${MyId}/`).then((res) => {
       console.log(res.data);
       setEventTitle(res.data.name);
       setEventDate(res.data.doe);
