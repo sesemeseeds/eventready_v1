@@ -4,9 +4,43 @@ import TaskColumn from "../components/tasks-components/TaskColumn";
 
 
 export default function TasksPage() {
+   const cards = [{
+    "id": 1,
+    "title": "Campaigns",
+    "order": 0,
+    "description": "Create a new landing page for campaign",
+    "status": "todo",
+    "priority": {
+      "color": "orange",
+      "priority": "Urgent"
+    },
+
+  }, {
+    "id": 2,
+    "title": "Newsletters",
+    "order": 2,
+    "description": "Send newsletter",
+    "status": "todo",
+    "priority": {
+      "color": "orange",
+      "priority": "Urgent"
+    },
+
+  }, {
+    "id": 3,
+    "title": "Ads Analytics",
+    "order": 1,
+    "description": "Review ads performance",
+    "status": "todo",
+    "priority": {
+      "color": "orange",
+      "priority": "Urgent"
+    },
+  }, 
+];
   const [completed, setCompleted] = useState([]);
   const [incomplete, setIncomplete] = useState([]);
-
+  
   useEffect(() => {
     fetch("https://jsonplaceholder.typicode.com/todos")
       .then((response) => response.json())
