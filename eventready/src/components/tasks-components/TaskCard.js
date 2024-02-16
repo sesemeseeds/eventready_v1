@@ -29,7 +29,11 @@ export default function TaskCard({ task, index }) {
             style={{ display: "flex", justifyContent: "center", padding: 2 }}
           >
             <div>{task.title}</div>
+            
           </div>
+          <div>{task.description}</div>
+          <div>{task.status}</div>
+          <div>{task.priority}</div>
           {/* <Card sx={{ boxShadow: 3, width: 300 }}>
             <CardContent>   
               <Typography gutterBottom variant="h5" component="div">

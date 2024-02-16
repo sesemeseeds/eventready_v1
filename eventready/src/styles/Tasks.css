@@ -30,3 +30,6 @@
   background-color: "lightblue";
   position: "stick",
 }
+.task-list {
+  min-height: 200px;
+}
