@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { DragDropContext } from "react-beautiful-dnd";
 import TaskColumn from "../components/tasks-components/TaskColumn";
+import AddTaskDialog from "../components/tasks-components/AddTaskDialog";
 
 export default function TasksPage() {
   const cards = [
@@ -29,6 +30,7 @@ export default function TasksPage() {
   const [completed, setCompleted] = useState([]);
   const [inprogress, setInProgress] = useState([]);
   const [todo, setToDo] = useState([]);
+  const [addDialogOpen, setAddDialogOpen] = useState(false);
 
   useEffect(() => {
     // fetch("https://jsonplaceholder.typicode.com/todos")
@@ -44,17 +46,26 @@ export default function TasksPage() {
     });
   }, []);
 
+  const handleAddTask = (newTask) => {
+    setToDo([newTask, ...todo]); // Adding the new task to the TO DO column
+  };
+
   const handleDragEnd = (result) => {
     const { destination, source, draggableId } = result;
 
-    if (!destination ) return;
+    if (!destination) return;
 
     if (source.droppableId === destination.droppableId) {
-      const columnTasks = source.droppableId === "1" ? todo : source.droppableId === "2" ? completed : inprogress;
+      const columnTasks =
+        source.droppableId === "1"
+          ? todo
+          : source.droppableId === "2"
+          ? completed
+          : inprogress;
       const reorderedTasks = Array.from(columnTasks);
       const [reorderedItem] = reorderedTasks.splice(source.index, 1);
       reorderedTasks.splice(destination.index, 0, reorderedItem);
-  
+
       switch (source.droppableId) {
         case "1": // TO DO
           setToDo(reorderedTasks);
@@ -71,10 +82,13 @@ export default function TasksPage() {
       return;
     }
 
-
     deletePreviousState(source.droppableId, draggableId);
 
-    const task = findItemById(draggableId, [...todo, ...completed, ...inprogress]);
+    const task = findItemById(draggableId, [
+      ...todo,
+      ...completed,
+      ...inprogress,
+    ]);
 
     switch (destination.droppableId) {
       case "1": // TO DO
@@ -104,8 +118,6 @@ export default function TasksPage() {
       default:
         break;
     }
-
- 
   };
 
   function deletePreviousState(sourceDroppableId, taskId) {
@@ -142,13 +154,25 @@ export default function TasksPage() {
           flexDirection: "row",
         }}
       >
-             
         <TaskColumn title={"TO DO"} tasks={todo} id={"1"} />
         <TaskColumn title={"IN PROGRESS"} tasks={inprogress} id={"3"} />
-        <TaskColumn title={"DONE"} tasks={completed} id={"2"} />
-
-
+        <TaskColumn
+          title={"DONE"}
+          tasks={completed}
+          id={"2"}
+  
+        />
       </div>
+      {/* Button to open the dialog */}
+      <button onClick={() => setAddDialogOpen(true)}>Add Task</button>
+
+      {/* AddTaskDialog component as a dialog */}
+      <AddTaskDialog
+        open={addDialogOpen}
+        onClose={() => setAddDialogOpen(false)}
+        addTask={handleAddTask}
+      />
+
     </DragDropContext>
   );
 }
