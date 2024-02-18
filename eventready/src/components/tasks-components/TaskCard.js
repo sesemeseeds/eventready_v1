@@ -28,7 +28,7 @@ export default function TaskCard({ task, index }) {
           <div
             style={{ display: "flex", justifyContent: "center", padding: 2 }}
           >
-            <div>{task.title}</div>
+            <div style={{fontWeight: "bold"}}>{task.title}</div>
             
           </div>
           <div>{task.description}</div>

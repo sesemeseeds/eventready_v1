@@ -2,7 +2,8 @@ import React, { useState, useEffect } from "react";
 import { DragDropContext } from "react-beautiful-dnd";
 import TaskColumn from "../components/tasks-components/TaskColumn";
 import AddTaskDialog from "../components/tasks-components/AddTaskDialog";
-
+import "../styles/Tasks.css";
+import { Box } from "@mui/material";
 export default function TasksPage() {
   const cards = [
     {
@@ -21,6 +22,27 @@ export default function TasksPage() {
     },
     {
       id: 3,
+      title: "Ads Analytics",
+      description: "Review ads performance",
+      status: "in progress",
+      priority: "Urgent",
+    },
+    {
+      id: 4,
+      title: "Campaigns",
+      description: "Create a new landing page for campaign",
+      status: "todo",
+      priority: "Urgent",
+    },
+    {
+      id: 5,
+      title: "Newsletters",
+      description: "Send newsletter",
+      status: "done",
+      priority: "Urgent",
+    },
+    {
+      id: 6,
       title: "Ads Analytics",
       description: "Review ads performance",
       status: "in progress",
@@ -143,36 +165,25 @@ export default function TasksPage() {
   }
 
   return (
-    <DragDropContext onDragEnd={handleDragEnd}>
-      <h2 style={{ textAlign: "center" }}>PROGRESS BOARD</h2>
+    <Box className="task-board-container">
+      <DragDropContext onDragEnd={handleDragEnd}>
+        <h2 style={{ textAlign: "center" }}>TASK BOARD</h2>
 
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          flexDirection: "row",
-        }}
-      >
-        <TaskColumn title={"TO DO"} tasks={todo} id={"1"} />
-        <TaskColumn title={"IN PROGRESS"} tasks={inprogress} id={"3"} />
-        <TaskColumn
-          title={"DONE"}
-          tasks={completed}
-          id={"2"}
-  
+        <div className="task-board">
+          <TaskColumn title={"TO DO"} tasks={todo} id={"1"} />
+          <TaskColumn title={"IN PROGRESS"} tasks={inprogress} id={"3"} />
+          <TaskColumn title={"DONE"} tasks={completed} id={"2"} />
+        </div>
+        {/* Button to open the dialog */}
+        <button onClick={() => setAddDialogOpen(true)}>Add Task</button>
+
+        {/* AddTaskDialog component as a dialog */}
+        <AddTaskDialog
+          open={addDialogOpen}
+          onClose={() => setAddDialogOpen(false)}
+          addTask={handleAddTask}
         />
-      </div>
-      {/* Button to open the dialog */}
-      <button onClick={() => setAddDialogOpen(true)}>Add Task</button>
-
-      {/* AddTaskDialog component as a dialog */}
-      <AddTaskDialog
-        open={addDialogOpen}
-        onClose={() => setAddDialogOpen(false)}
-        addTask={handleAddTask}
-      />
-
-    </DragDropContext>
+      </DragDropContext>
+    </Box>
   );
 }
