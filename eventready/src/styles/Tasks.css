@@ -27,9 +27,11 @@
   background-color: #009CDF;
   text-align: center;
   background-color: "lightblue";
-  position: "stick";
   font-size: 24px;
   color: white;
+  position: sticky; /* Make the title sticky */
+  top: 0; /* Position at the top of the container */
+  z-index: 1; /* Ensure title is above content */
 }
 
 .task-list {
