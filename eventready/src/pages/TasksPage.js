@@ -4,75 +4,37 @@ import TaskColumn from "../components/tasks-components/TaskColumn";
 import AddTaskDialog from "../components/tasks-components/AddTaskDialog";
 import "../styles/Tasks.css";
 import { Box } from "@mui/material";
+import AxiosInstance from "../components/Axios";
+import { useParams } from "react-router-dom";
 export default function TasksPage() {
-  const cards = [
-    {
-      id: 1,
-      title: "Campaigns",
-      description: "Create a new landing page for campaign",
-      status: "todo",
-      priority: "Urgent",
-    },
-    {
-      id: 2,
-      title: "Newsletters",
-      description: "Send newsletter",
-      status: "done",
-      priority: "Urgent",
-    },
-    {
-      id: 3,
-      title: "Ads Analytics",
-      description: "Review ads performance",
-      status: "in progress",
-      priority: "Urgent",
-    },
-    {
-      id: 4,
-      title: "Campaigns",
-      description: "Create a new landing page for campaign",
-      status: "todo",
-      priority: "Urgent",
-    },
-    {
-      id: 5,
-      title: "Newsletters",
-      description: "Send newsletter",
-      status: "done",
-      priority: "Urgent",
-    },
-    {
-      id: 6,
-      title: "Ads Analytics",
-      description: "Review ads performance",
-      status: "in progress",
-      priority: "Urgent",
-    },
-  ];
+  const [tasksData, setTasksData] = useState([]);
   const [completed, setCompleted] = useState([]);
   const [inprogress, setInProgress] = useState([]);
   const [todo, setToDo] = useState([]);
   const [addDialogOpen, setAddDialogOpen] = useState(false);
 
+  const MyParam = useParams();
+  const MyId = MyParam.id;
+
   useEffect(() => {
-    // fetch("https://jsonplaceholder.typicode.com/todos")
-    // .then((response) => response.json())
-    // .then((json) => {
-    //     setCompleted(json.filter((task) => task.completed));
-    //     setIncomplete(json.filter((task) => !task.completed));
-    // });
-    fetch(cards).then(() => {
-      setToDo(cards.filter((p) => p.status === "todo"));
-      setCompleted(cards.filter((p) => p.status === "done"));
-      setInProgress(cards.filter((p) => p.status === "in progress"));
-    });
+    const fetchTasksData = async () => {
+      try {
+        const response = await AxiosInstance.get(`tasks/?event=${MyId}`); 
+        setToDo(response.data.filter((p) => p.status === "to_do"));
+        setCompleted(response.data.filter((p) => p.status === "done"));
+        setInProgress(response.data.filter((p) => p.status === "in_progress"));
+      } catch (error) {
+        console.error("Error fetching tasks:", error);
+      }
+    };
+    fetchTasksData();
   }, []);
 
   const handleAddTask = (newTask) => {
     setToDo([newTask, ...todo]); // Adding the new task to the TO DO column
   };
 
-  const handleDragEnd = (result) => {
+  const handleDragEnd = async (result) => {
     const { destination, source, draggableId } = result;
 
     if (!destination) return;
@@ -114,12 +76,13 @@ export default function TasksPage() {
 
     switch (destination.droppableId) {
       case "1": // TO DO
-        task.status = "todo";
+        task.status = "to_do";
         setToDo((prevToDo) => {
           const newToDo = Array.from(prevToDo);
           newToDo.splice(destination.index, 0, task);
           return newToDo;
         });
+        await AxiosInstance.patch(`tasks/${draggableId}/`, { status: "to_do" });
         break;
       case "2": // DONE
         task.status = "done";
@@ -128,13 +91,17 @@ export default function TasksPage() {
           newCompleted.splice(destination.index, 0, task);
           return newCompleted;
         });
+        await AxiosInstance.patch(`tasks/${draggableId}/`, { status: "done" });
         break;
       case "3": // BACKLOG
-        task.status = "in progress";
+        task.status = "in_progress";
         setInProgress((prevBacklog) => {
           const newBacklog = Array.from(prevBacklog);
           newBacklog.splice(destination.index, 0, task);
           return newBacklog;
+        });
+        await AxiosInstance.patch(`tasks/${draggableId}/`, {
+          status: "in_progress",
         });
         break;
       default:
@@ -174,10 +141,9 @@ export default function TasksPage() {
           <TaskColumn title={"IN PROGRESS"} tasks={inprogress} id={"3"} />
           <TaskColumn title={"DONE"} tasks={completed} id={"2"} />
         </div>
-        {/* Button to open the dialog */}
+
         <button onClick={() => setAddDialogOpen(true)}>Add Task</button>
 
-        {/* AddTaskDialog component as a dialog */}
         <AddTaskDialog
           open={addDialogOpen}
           onClose={() => setAddDialogOpen(false)}

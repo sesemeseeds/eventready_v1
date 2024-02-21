@@ -46,3 +46,12 @@ class EventViewset(viewsets.ViewSet):
         event = self.queryset.get(pk=pk)
         event.delete()
         return Response(status=204)
+    
+class TaskViewSet(viewsets.ModelViewSet):
+    serializer_class = TaskSerializer
+
+    def get_queryset(self):
+        event_id = self.request.query_params.get('event')
+        if event_id:
+            return Task.objects.filter(event_id=event_id)
+        return Task.objects.all()
