@@ -19,6 +19,7 @@ class MarketingPoster(models.Model):
     # TODO: event_id = models.IntegerField(primary_key=True, editable=False)
     # TODO: need a way to link each model in the repository to the root event_id
     id = models.IntegerField(primary_key=True, editable=False)
+    event = models.ForeignKey(EventGeneralInfo, related_name='marketingPosters', on_delete=models.CASCADE)
 
     name = models.CharField("Name", max_length=256)
     caption = models.CharField("Caption", max_length=1024, null=True, blank=True)
@@ -30,6 +31,7 @@ class MarketingPoster(models.Model):
 class MarketingReminders(models.Model):
     # TODO: event_id = models.IntegerField(primary_key=True, editable=False)
     id = models.IntegerField(primary_key=True, editable=False)
+    event = models.ForeignKey(EventGeneralInfo, related_name='marketingReminders', on_delete=models.CASCADE)
 
     name = models.CharField("Name", max_length=256)
     date = models.DateField("Date", null=True, blank=True)
@@ -40,6 +42,7 @@ class MarketingReminders(models.Model):
     
 class MarketingRecapPhotos(models.Model):
     id = models.IntegerField(primary_key=True, editable=False)
+    event = models.ForeignKey(EventGeneralInfo, related_name='marketingRecapPhotos', on_delete=models.CASCADE)
 
     name = models.CharField("Name", max_length=256)
     image = models.ImageField(upload_to='images/recap')
