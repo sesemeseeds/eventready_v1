@@ -7,31 +7,32 @@ import { Box } from "@mui/material";
 import AxiosInstance from "../components/Axios";
 import { useParams } from "react-router-dom";
 export default function TasksPage() {
-  const [tasksData, setTasksData] = useState([]);
+
   const [completed, setCompleted] = useState([]);
   const [inprogress, setInProgress] = useState([]);
   const [todo, setToDo] = useState([]);
-  const [addDialogOpen, setAddDialogOpen] = useState(false);
 
   const MyParam = useParams();
   const MyId = MyParam.id;
 
+
+const fetchTasksData = async () => {
+  try {
+    const response = await AxiosInstance.get(`tasks/?event=${MyId}`); 
+    setToDo(response.data.filter((p) => p.status === "to_do"));
+    setCompleted(response.data.filter((p) => p.status === "done"));
+    setInProgress(response.data.filter((p) => p.status === "in_progress"));
+  } catch (error) {
+    console.error("Error fetching tasks:", error);
+  }
+};
+
   useEffect(() => {
-    const fetchTasksData = async () => {
-      try {
-        const response = await AxiosInstance.get(`tasks/?event=${MyId}`); 
-        setToDo(response.data.filter((p) => p.status === "to_do"));
-        setCompleted(response.data.filter((p) => p.status === "done"));
-        setInProgress(response.data.filter((p) => p.status === "in_progress"));
-      } catch (error) {
-        console.error("Error fetching tasks:", error);
-      }
-    };
     fetchTasksData();
   }, []);
 
-  const handleAddTask = (newTask) => {
-    setToDo([newTask, ...todo]); // Adding the new task to the TO DO column
+  const handleAddTask = async () => {
+    fetchTasksData();
   };
 
   const handleDragEnd = async (result) => {
@@ -75,7 +76,7 @@ export default function TasksPage() {
     ]);
 
     switch (destination.droppableId) {
-      case "1": // TO DO
+      case "1": 
         task.status = "to_do";
         setToDo((prevToDo) => {
           const newToDo = Array.from(prevToDo);
@@ -84,7 +85,7 @@ export default function TasksPage() {
         });
         await AxiosInstance.patch(`tasks/${draggableId}/`, { status: "to_do" });
         break;
-      case "2": // DONE
+      case "2": 
         task.status = "done";
         setCompleted((prevCompleted) => {
           const newCompleted = Array.from(prevCompleted);
@@ -93,7 +94,7 @@ export default function TasksPage() {
         });
         await AxiosInstance.patch(`tasks/${draggableId}/`, { status: "done" });
         break;
-      case "3": // BACKLOG
+      case "3": 
         task.status = "in_progress";
         setInProgress((prevBacklog) => {
           const newBacklog = Array.from(prevBacklog);
@@ -137,18 +138,10 @@ export default function TasksPage() {
         <h2 style={{ textAlign: "center" }}>TASK BOARD</h2>
 
         <div className="task-board">
-          <TaskColumn title={"TO DO"} tasks={todo} id={"1"} />
-          <TaskColumn title={"IN PROGRESS"} tasks={inprogress} id={"3"} />
-          <TaskColumn title={"DONE"} tasks={completed} id={"2"} />
+          <TaskColumn title={"TO DO"} tasks={todo} columnId={"1"} addTask={handleAddTask} />
+          <TaskColumn title={"IN PROGRESS"} tasks={inprogress} columnId={"3"} addTask={handleAddTask} />
+          <TaskColumn title={"DONE"} tasks={completed} columnId={"2"} addTask={handleAddTask} />
         </div>
-
-        <button onClick={() => setAddDialogOpen(true)}>Add Task</button>
-
-        <AddTaskDialog
-          open={addDialogOpen}
-          onClose={() => setAddDialogOpen(false)}
-          addTask={handleAddTask}
-        />
       </DragDropContext>
     </Box>
   );

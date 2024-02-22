@@ -9,28 +9,56 @@ import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
+import AxiosInstance from "../Axios";
 
-export default function AddTaskDialog({ open, onClose, addTask }) {
+export default function AddTaskDialog({
+  open,
+  onClose,
+  addTask,
+  eventId,
+  columnId,
+}) {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [priority, setPriority] = useState("");
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (!title.trim() || !description.trim() || !priority.trim()) {
       return;
     }
+
     const newTask = {
-      id: Date.now(), // You can use a more robust method to generate IDs
+      event: eventId,
       title,
       description,
-      status: "todo", // Assuming the task is initially added to the "TO DO" column
+      status: "",
       priority,
     };
-    addTask(newTask);
-    setTitle("");
-    setDescription("");
-    setPriority("");
-    onClose();
+
+    switch (columnId) {
+      case "1":
+        newTask.status = "to_do";
+        break;
+      case "2":
+        newTask.status = "done";
+        break;
+      case "3":
+        newTask.status = "in_progress";
+        break;
+      default:
+        break;
+    }
+
+    try {
+      await AxiosInstance.post("tasks/", newTask);
+      addTask();
+      setTitle("");
+      setDescription("");
+      setPriority("");
+      onClose();
+    } catch (error) {
+      console.error("Error adding task:", error);
+    }
   };
 
   const handleClose = () => {
@@ -67,9 +95,9 @@ export default function AddTaskDialog({ open, onClose, addTask }) {
             value={priority}
             onChange={(e) => setPriority(e.target.value)}
           >
-            <MenuItem value={"Low"}>Low</MenuItem>
-            <MenuItem value={"Medium"}>Medium</MenuItem>
-            <MenuItem value={"High"}>High</MenuItem>
+            <MenuItem value={"low"}>Low</MenuItem>
+            <MenuItem value={"medium"}>Medium</MenuItem>
+            <MenuItem value={"high"}>High</MenuItem>
           </Select>
         </FormControl>
       </DialogContent>
