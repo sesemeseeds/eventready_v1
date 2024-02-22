@@ -1,7 +1,5 @@
 import React from "react";
-// import styled from "styled-components";
 import TaskCard from "./TaskCard";
-// import "./scroll.css";
 import { Droppable } from "react-beautiful-dnd";
 import { Container } from "@mui/material";
 import { useParams } from "react-router-dom";

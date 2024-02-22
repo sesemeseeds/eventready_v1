@@ -58,7 +58,7 @@ const fetchTasksData = async () => {
         case "2": // DONE
           setCompleted(reorderedTasks);
           break;
-        case "3": // BACKLOG
+        case "3": // IN PROGRESS
           setInProgress(reorderedTasks);
           break;
         default:
