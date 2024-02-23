@@ -56,7 +56,7 @@ class TaskViewSet(viewsets.ModelViewSet):
             return Task.objects.filter(event_id=event_id)
         return Task.objects.all()
     
-    def create_task(request):
+    def create(self, request):
         # Include the eventId from request data
         event_id = request.data.get('event')
 
@@ -64,7 +64,7 @@ class TaskViewSet(viewsets.ModelViewSet):
         task_data = request.data
         task_data['event'] = event_id
 
-        serializer = TaskSerializer(data=task_data)
+        serializer = self.serializer_class(data=task_data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=201)
