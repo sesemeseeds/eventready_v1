@@ -24,6 +24,7 @@ import MarketingPage from "../pages/MarketingPage";
 import "../styles/Navigation.css";
 import Footer from "./Footer";
 import AttendancePage from "../pages/Attendance";
+import TasksPage from "../pages/TasksPage";
 
 const drawerWidth = 240;
 
@@ -164,7 +165,7 @@ export default function PersistentDrawerLeft() {
           </List>
           <Divider />
           <List>
-            <ListItem button key="hello" to="helloworld" component={Link} onClick={()=>{setHeaderName("Tasks")}}>
+            <ListItem button key="hello" to="tasks" component={Link} onClick={()=>{setHeaderName("Tasks")}}>
               <ListItemIcon>
                 <InboxIcon />
               </ListItemIcon>
@@ -210,6 +211,7 @@ export default function PersistentDrawerLeft() {
           <Route path="helloworld" element={<HelloWorld />} />
           <Route path="marketing" element={<MarketingPage />} />
           <Route path="Attendance" element={<AttendancePage />} />
+          <Route path="tasks" element={<TasksPage />} />
           </Routes>
  
         </main>

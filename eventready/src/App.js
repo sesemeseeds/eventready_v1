@@ -7,6 +7,7 @@ import GeneralInfoPage from "./pages/GeneralInfoPage";
 import MarketingPage from "./pages/MarketingPage";
 import Navigation from "./components/Navigation";
 import Attendance from "./pages/Attendance";
+import TasksPage from "./pages/TasksPage";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
           <Route path="generalinfo" element={<GeneralInfoPage />} />
           <Route path="helloworld" element={<HelloWorld />} />
           <Route path="attendance" element={<Attendance />} />
+          <Route path="tasks" element={<TasksPage />} />
         </Route>
         
         <Route path="/" element={<LandingPage />} />
