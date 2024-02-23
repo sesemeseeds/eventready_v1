@@ -9,15 +9,15 @@ class EventSerializer(serializers.ModelSerializer):
 class MarketingPosterSerializer(serializers.ModelSerializer):
     class Meta:
         model = MarketingPoster
-        fields = ('id', 'name', 'caption', 'image')
+        fields = ('event_id', 'id', 'name', 'caption', 'image')
         
 class MarketingRemindersSerializer(serializers.ModelSerializer):
     class Meta:
         model = MarketingReminders
-        fields = ('id', 'name', 'date', 'time')
+        fields = ('event_id', 'id', 'name', 'date', 'time')
         
 class MarketingRecapPhotoSerializer(serializers.ModelSerializer):
     class Meta:
         model = MarketingRecapPhotos
-        fields = ('id', 'name', 'image')
+        fields = ('event_id', 'id', 'name', 'image')
         
