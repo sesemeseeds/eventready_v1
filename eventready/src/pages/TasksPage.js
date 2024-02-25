@@ -18,7 +18,7 @@ export default function TasksPage() {
 
 const fetchTasksData = async () => {
   try {
-    const response = await AxiosInstance.get(`tasks/?event=${MyId}`); 
+    const response = await AxiosInstance.get(`tasks/?event_id=${MyId}`); 
     setToDo(response.data.filter((p) => p.status === "to_do"));
     setCompleted(response.data.filter((p) => p.status === "done"));
     setInProgress(response.data.filter((p) => p.status === "in_progress"));
@@ -30,10 +30,6 @@ const fetchTasksData = async () => {
   useEffect(() => {
     fetchTasksData();
   }, []);
-
-  const handleAddTask = async () => {
-    fetchTasksData();
-  };
 
   const handleDragEnd = async (result) => {
     const { destination, source, draggableId } = result;
@@ -138,9 +134,9 @@ const fetchTasksData = async () => {
         <h2 style={{ textAlign: "center" }}>TASK BOARD</h2>
 
         <div className="task-board">
-          <TaskColumn title={"TO DO"} tasks={todo} columnId={"1"} addTask={handleAddTask} />
-          <TaskColumn title={"IN PROGRESS"} tasks={inprogress} columnId={"3"} addTask={handleAddTask} />
-          <TaskColumn title={"DONE"} tasks={completed} columnId={"2"} addTask={handleAddTask} />
+          <TaskColumn title={"TO DO"} tasks={todo} columnId={"1"} refreshTasks={fetchTasksData}/>
+          <TaskColumn title={"IN PROGRESS"} tasks={inprogress} columnId={"3"} refreshTasks={fetchTasksData}/>
+          <TaskColumn title={"DONE"} tasks={completed} columnId={"2"} refreshTasks={fetchTasksData}/>
         </div>
       </DragDropContext>
     </Box>

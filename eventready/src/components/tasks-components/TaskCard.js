@@ -1,13 +1,21 @@
-import React from "react";
+import React, { useState } from 'react';
 import { Draggable } from "react-beautiful-dnd";
 import { Container } from "@mui/material";
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import Typography from '@mui/material/Typography';
 import "../../styles/Tasks.css";
+import EditTaskDialog from "./EditTaskDialog";
 
 
-export default function TaskCard({ task, index }) {
+export default function TaskCard({ task, index, refreshTasks }) {
+  const [editDialogOpen, setEditDialogOpen] = useState(false);
+
+  const openEditDialog = () => {
+    setEditDialogOpen(true);
+  };
+
+  const closeEditDialog = () => {
+    setEditDialogOpen(false);
+  };
+
   return (
     <Draggable draggableId={`${task.id}`} key={task.id} index={index}>
       {(provided, snapshot) => (
@@ -34,8 +42,14 @@ export default function TaskCard({ task, index }) {
           <div>{task.description}</div>
           <div>{task.status}</div>
           <div>{task.priority}</div>
-          <button>edit</button>
+          <button onClick={openEditDialog}>edit</button>
           <button>delete</button>
+          <EditTaskDialog
+            open={editDialogOpen}
+            onClose={closeEditDialog}
+            task={task}
+            refreshTasks={refreshTasks}
+          />
           {provided.placeholder}
         </Container>
       )}

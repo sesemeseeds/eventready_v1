@@ -5,7 +5,7 @@ import { Container } from "@mui/material";
 import { useParams } from "react-router-dom";
 import AddTaskDialog from "./AddTaskDialog";
 
-export default function TaskColumn({ title, tasks, columnId, addTask }) {
+export default function TaskColumn({ title, tasks, columnId, refreshTasks }) {
   const [addDialogOpen, setAddDialogOpen] = React.useState(false);
 
   const MyParam = useParams();
@@ -28,14 +28,14 @@ export default function TaskColumn({ title, tasks, columnId, addTask }) {
             isDraggingOver={snapshot.isDraggingOver}
           >
             {tasks.map((task, index) => (
-              <TaskCard key={index} index={index} task={task} />
+              <TaskCard key={index} index={index} task={task}  refreshTasks={refreshTasks}/>
             ))}
             {provided.placeholder}
 
             <AddTaskDialog
               open={addDialogOpen}
               onClose={() => setAddDialogOpen(false)}
-              addTask={addTask}
+              refreshTasks={refreshTasks}
               eventId={MyId}
               columnId={columnId}
             />

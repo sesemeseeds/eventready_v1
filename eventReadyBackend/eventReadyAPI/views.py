@@ -51,7 +51,7 @@ class TaskViewSet(viewsets.ModelViewSet):
     serializer_class = TaskSerializer
 
     def get_queryset(self):
-        event_id = self.request.query_params.get('event')
+        event_id = self.request.query_params.get('event_id')
         if event_id:
             return Task.objects.filter(event_id=event_id)
         return Task.objects.all()
@@ -69,3 +69,11 @@ class TaskViewSet(viewsets.ModelViewSet):
             serializer.save()
             return Response(serializer.data, status=201)
         return Response(serializer.errors, status=400)
+    
+    def update(self, request, pk=None):
+        task = Task.objects.get(pk=pk)
+        serializer = self.serializer_class(task, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=400)   

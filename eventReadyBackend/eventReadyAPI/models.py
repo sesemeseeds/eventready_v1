@@ -17,7 +17,7 @@ class EventGeneralInfo(models.Model):
     
 class Task(models.Model):
     id = models.AutoField(primary_key=True)  
-    event = models.ForeignKey(EventGeneralInfo, on_delete=models.CASCADE, related_name='tasks')
+    event_id = models.ForeignKey(EventGeneralInfo, on_delete=models.CASCADE, related_name='tasks')
     title = models.CharField("Title", max_length=256)
     description = models.CharField("Description", max_length=1024, null=True, blank=True)
     status = models.CharField("Status", max_length=20, choices=[("to_do", "To Do"), ("in_progress", "In Progress"), ("done", "Done")])
