@@ -64,14 +64,6 @@ class TaskViewSet(viewsets.ModelViewSet):
             return Response(serializer.data, status=201)
         return Response(serializer.errors, status=400)
     
-    def update(self, request, pk=None):
-        task = Task.objects.get(pk=pk)
-        serializer = self.serializer_class(task, data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
-        return Response(serializer.errors, status=400)   
-    
     def destroy(self, request, pk=None):
         task = Task.objects.get(pk=pk)
         task.delete()
