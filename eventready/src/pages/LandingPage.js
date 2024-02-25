@@ -41,7 +41,9 @@ export const LandingPage = () => {
   const getAllEvents = () => {
     AxiosInstance.get(`/event`).then((res) => {
       setAllEvents(res.data);
-      console.log(res.data);
+      // setEventTitle(res.data.name)
+      // setEventDescription(res.data.description)
+      // console.log(res.data);
       setLoading(false);
     });
   };
