@@ -4,8 +4,9 @@
   padding: 8px;
   color: #000;
   margin-bottom: 8px;
-  min-height: 90px;
+  height: 120px;
   max-width: 80px;
+  display: grid !important;
 }
 
 .tasks-column {
@@ -54,4 +55,10 @@
   border-radius: 10px;
   box-shadow: 3px 3px 10px 5px lightgray;
 
+}
+
+.add-task-button {
+  top: 5px;
+  right: 5px;
+  position: absolute !important;
 }

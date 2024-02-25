@@ -4,6 +4,10 @@ import { Droppable } from "react-beautiful-dnd";
 import { Container } from "@mui/material";
 import { useParams } from "react-router-dom";
 import AddTaskDialog from "./AddTaskDialog";
+import AddIcon from "@mui/icons-material/Add";
+import Tooltip from "@mui/material/Tooltip";
+import IconButton from "@mui/material/IconButton";
+import "../../styles/Tasks.css";
 
 export default function TaskColumn({ title, tasks, columnId, refreshTasks }) {
   const [addDialogOpen, setAddDialogOpen] = React.useState(false);
@@ -15,9 +19,12 @@ export default function TaskColumn({ title, tasks, columnId, refreshTasks }) {
     <Container className="tasks-column">
       <div className="tasks-column-title">
         <div>{title}</div>
-        <button variant="contained" onClick={() => setAddDialogOpen(true)}>
-          Add Task
-        </button>
+
+        <Tooltip title="Add Task">
+          <IconButton className="add-task-button" color="inherit">
+            <AddIcon onClick={() => setAddDialogOpen(true)} />
+          </IconButton>
+        </Tooltip>
       </div>
       <Droppable droppableId={columnId}>
         {(provided, snapshot) => (
@@ -28,7 +35,12 @@ export default function TaskColumn({ title, tasks, columnId, refreshTasks }) {
             isDraggingOver={snapshot.isDraggingOver}
           >
             {tasks.map((task, index) => (
-              <TaskCard key={index} index={index} task={task}  refreshTasks={refreshTasks}/>
+              <TaskCard
+                key={index}
+                index={index}
+                task={task}
+                refreshTasks={refreshTasks}
+              />
             ))}
             {provided.placeholder}
 

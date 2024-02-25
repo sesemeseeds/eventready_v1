@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Draggable } from "react-beautiful-dnd";
-import { Container } from "@mui/material";
+import { Box, Container } from "@mui/material";
 import "../../styles/Tasks.css";
 import EditTaskDialog from "./EditTaskDialog";
 import AxiosInstance from "../Axios";
@@ -9,6 +9,12 @@ import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
 import DialogActions from "@mui/material/DialogActions";
 import Button from "@mui/material/Button";
+import Tooltip from "@mui/material/Tooltip";
+import EditIcon from "@mui/icons-material/Edit";
+import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
+import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
+import DeleteIcon from "@mui/icons-material/Delete";
+import IconButton from "@mui/material/IconButton";
 
 export default function TaskCard({ task, index, refreshTasks }) {
   const [editDialogOpen, setEditDialogOpen] = useState(false);
@@ -40,6 +46,32 @@ export default function TaskCard({ task, index, refreshTasks }) {
     }
   };
 
+  const getStatusColor = (status) => {
+    switch (status) {
+      case "To Do":
+        return "#FDD835"; // Yellow
+      case "In Progress":
+        return "#2196F3"; // Blue
+      case "Done":
+        return "#4CAF50"; // Green
+      default:
+        return "#FFFFFF"; 
+    }
+  };
+
+  const getPriorityColor = (priority) => {
+    switch (priority) {
+      case "Low":
+        return "#B2EBF2"; // Light Blue
+      case "Medium":
+        return "#FFCC80"; // Light Orange
+      case "High":
+        return "#EF9A9A"; // Light Red
+      default:
+        return "#FFFFFF"; 
+    }
+  };
+
   return (
     <Draggable draggableId={`${task.id}`} key={task.id} index={index}>
       {(provided, snapshot) => (
@@ -58,16 +90,47 @@ export default function TaskCard({ task, index, refreshTasks }) {
               </small>
             </span>
           </div>
-          <div
-            style={{ display: "flex", justifyContent: "center", padding: 2 }}
-          >
+          <div style={{ display: "flex", padding: 2 }}>
             <div style={{ fontWeight: "bold" }}>{task.title}</div>
+            
           </div>
           <div>{task.description}</div>
-          <div>{task.status}</div>
-          <div>{task.priority}</div>
-          <button onClick={openEditDialog}>edit</button>
-          <button onClick={openDeleteDialog}>delete</button>
+
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "flex-end",
+            }}
+          >
+            <Box
+              sx={{
+                width: "50%",
+                display: "flex",
+              }}
+            >
+              <Box sx={{ backgroundColor: getStatusColor(task.status), marginRight: "20px", padding: "0 5px 0 5px", borderRadius: "5px"}}>
+                {task.status}
+              </Box>
+              <Box sx={{ backgroundColor: getPriorityColor(task.priority), padding: "0 5px 0 5px", borderRadius: "5px" }}>
+                {task.priority}
+              </Box>
+            </Box>
+
+            <Box sx={{ display: "flex" }}>
+              <Tooltip title="Edit Task">
+                <IconButton size="small" className="" color="inherit">
+                  <EditIcon onClick={openEditDialog} />
+                </IconButton>
+              </Tooltip>
+              <Tooltip title="Delete Task">
+                <IconButton size="small" className="" color="inherit">
+                  <DeleteIcon onClick={openDeleteDialog} />
+                </IconButton>
+              </Tooltip>
+            </Box>
+          </Box>
+
           <EditTaskDialog
             open={editDialogOpen}
             onClose={closeEditDialog}
