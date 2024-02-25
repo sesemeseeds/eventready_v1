@@ -15,6 +15,19 @@ class EventGeneralInfo(models.Model):
     def __str__(self):
         return self.name    
     
+class Task(models.Model):
+    id = models.AutoField(primary_key=True)  
+    event_id = models.ForeignKey(EventGeneralInfo, on_delete=models.CASCADE, related_name='tasks')
+    title = models.CharField("Title", max_length=256)
+    description = models.CharField("Description", max_length=1024, null=True, blank=True)
+    status = models.CharField("Status", max_length=20, choices=[("To Do", "To Do"), ("In Progress", "In Progress"), ("Done", "Done")])
+    priority = models.CharField("Priority", max_length=20, choices=[("Low", "Low"), ("Medium", "Medium"), ("High", "High")])
+  
+    created = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.title
+    
 class MarketingPoster(models.Model):
     event_id = models.ForeignKey(EventGeneralInfo, related_name='marketingPosters', on_delete=models.CASCADE)
     id = models.IntegerField(primary_key=True, editable=False)

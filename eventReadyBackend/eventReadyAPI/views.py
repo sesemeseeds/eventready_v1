@@ -51,6 +51,28 @@ class EventViewset(viewsets.ViewSet):
         event.delete()
         return Response(status=204)
     
+class TaskViewSet(viewsets.ModelViewSet):
+    serializer_class = TaskSerializer
+
+    def get_queryset(self):
+        event_id = self.request.query_params.get('event_id')
+        if event_id:
+            return Task.objects.filter(event_id=event_id)
+        return Task.objects.all()
+    
+    def create(self, request):
+
+        serializer = self.serializer_class(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=201)
+        return Response(serializer.errors, status=400)
+    
+    def destroy(self, request, pk=None):
+        task = Task.objects.get(pk=pk)
+        task.delete()
+        return Response(status=204)
+    
 class MarketingPosterViewset(viewsets.ViewSet):
     parser_classes = (MultiPartParser, FormParser)
     serializer_class = MarketingPosterSerializer

@@ -4,8 +4,9 @@
   padding: 8px;
   color: #000;
   margin-bottom: 8px;
-  min-height: 90px;
+  height: 120px;
   max-width: 80px;
+  display: grid !important;
 }
 
 .tasks-column {
@@ -27,9 +28,11 @@
   background-color: #009CDF;
   text-align: center;
   background-color: "lightblue";
-  position: "stick";
   font-size: 24px;
   color: white;
+  position: sticky;
+  top: 0; 
+  z-index: 1; 
 }
 
 .task-list {
@@ -52,4 +55,10 @@
   border-radius: 10px;
   box-shadow: 3px 3px 10px 5px lightgray;
 
+}
+
+.add-task-button {
+  top: 5px;
+  right: 5px;
+  position: absolute !important;
 }

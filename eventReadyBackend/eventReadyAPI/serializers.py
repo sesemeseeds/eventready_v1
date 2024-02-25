@@ -5,6 +5,11 @@ class EventSerializer(serializers.ModelSerializer):
     class Meta: 
         model = EventGeneralInfo
         fields = ('id', 'name', 'doe', 'start_time', 'end_time', 'location', 'description', 'created', 'active')
+
+class TaskSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Task
+        fields = ['id', 'event_id', 'title', 'description', 'status', 'priority', 'created']
         
 class MarketingPosterSerializer(serializers.ModelSerializer):
     class Meta:
