@@ -53,7 +53,6 @@ class EventViewset(viewsets.ViewSet):
     
 class MarketingPosterViewset(viewsets.ViewSet):
     parser_classes = (MultiPartParser, FormParser)
-    queryset = MarketingPoster.objects.all()
     serializer_class = MarketingPosterSerializer
 
     def get_queryset(self):
@@ -95,8 +94,13 @@ class MarketingPosterViewset(viewsets.ViewSet):
     
 class MarketingRemindersViewset(viewsets.ViewSet):
     permission_classes = [permissions.AllowAny]
-    queryset = MarketingReminders.objects.all()
     serializer_class = MarketingRemindersSerializer
+
+    def get_queryset(self):
+        event_id = self.request.query_params.get('event')
+        if event_id:
+            return MarketingPoster.objects.filter(event_id=event_id)
+        return MarketingPoster.objects.all()
 
     def list(self, request):
         queryset = MarketingReminders.objects.all()
@@ -124,8 +128,13 @@ class MarketingRemindersViewset(viewsets.ViewSet):
     
 class MarketingRecapPhotoViewset(viewsets.ViewSet):
     parser_classes = (MultiPartParser, FormParser)
-    queryset = MarketingRecapPhotos.objects.all()
     serializer_class = MarketingRecapPhotoSerializer
+
+    def get_queryset(self):
+        event_id = self.request.query_params.get('event')
+        if event_id:
+            return MarketingPoster.objects.filter(event_id=event_id)
+        return MarketingPoster.objects.all()
 
     def list(self, request):
         queryset = MarketingRecapPhotos.objects.all()
