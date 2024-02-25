@@ -20,4 +20,9 @@ class MarketingRecapPhotoSerializer(serializers.ModelSerializer):
     class Meta:
         model = MarketingRecapPhotos
         fields = ('event_id', 'id', 'name', 'image')
+
+class GoalsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Goals
+        fields = ('event_id', 'id', 'name', 'due_date', 'description', 'created', 'progress') #,'tasks')
         

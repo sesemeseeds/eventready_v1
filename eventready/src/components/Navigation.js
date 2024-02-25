@@ -25,6 +25,7 @@ import "../styles/Navigation.css";
 import Footer from "./Footer";
 import AttendancePage from "../pages/Attendance";
 import TasksPage from "../pages/TasksPage";
+import GoalsPage from "../pages/GoalsPage";
 
 const drawerWidth = 240;
 
@@ -156,11 +157,11 @@ export default function PersistentDrawerLeft() {
           </List>
           <Divider />
           <List>
-            <ListItem button key="hello" to="helloworld" component={Link} onClick={()=>{setHeaderName("Goals")}}>
+            <ListItem button key="goals" to="goals" component={Link} onClick={()=>{setHeaderName("Goals")}}>
               <ListItemIcon>
                 <InboxIcon />
               </ListItemIcon>
-              <ListItemText primary="Goals" />
+              <ListItemText primary="Goals"/>
             </ListItem>
           </List>
           <Divider />
@@ -209,6 +210,7 @@ export default function PersistentDrawerLeft() {
       
           <Routes>                  
           <Route path="generalinfo" element={<GeneralInfoPage />} />
+          <Route path="goals" element={<GoalsPage />} />
           <Route path="helloworld" element={<HelloWorld />} />
           <Route path="marketing" element={<MarketingPage />} />
           <Route path="Attendance" element={<AttendancePage />} />

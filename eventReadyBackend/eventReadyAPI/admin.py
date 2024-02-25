@@ -5,4 +5,4 @@ admin.site.register(EventGeneralInfo)
 admin.site.register(MarketingPoster)
 admin.site.register(MarketingReminders)
 admin.site.register(MarketingRecapPhotos)
-# Register your models here.
+admin.site.register(Goals)

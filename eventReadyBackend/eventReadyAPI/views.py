@@ -7,7 +7,6 @@ from rest_framework.parsers import MultiPartParser, FormParser
 from .models import *
 from django.db.models import Max
 
-
 # @api_view(['GET'])
 # def hello_world(request):
 #     return Response({'message': 'Hello, world!'})
@@ -158,4 +157,46 @@ class MarketingRecapPhotoViewset(viewsets.ViewSet):
     def destroy(self, request, pk=None):
         photo = self.queryset.get(pk=pk)
         photo.delete()
+        return Response(status=204)
+    
+class GoalsViewset(viewsets.ViewSet):
+    permission_classes = [permissions.AllowAny]
+    serializer_class = GoalsSerializer
+
+    def get_queryset(self):
+        event_id = self.request.query_params.get('event')
+        if event_id:
+            return GoalsSerializer.objects.filter(event_id=event_id)
+        return GoalsSerializer.objects.all()
+
+    def list(self, request):
+        queryset = Goals.objects.all()
+        serializer = self.serializer_class(queryset, many=True)
+        return Response(serializer.data)
+    
+    def create(self, request):
+        serializer = self.serializer_class(data=request.data)
+        if serializer.is_valid(): 
+            serializer.save()
+            return Response(serializer.data)
+        else: 
+            return Response(serializer.errors, status=400)
+
+    def retrieve(self, request, pk=None):
+        event = self.queryset.get(pk=pk)
+        serializer = self.serializer_class(event)
+        return Response(serializer.data)
+
+    def update(self, request, pk=None):
+        event = self.queryset.get(pk=pk)
+        serializer = self.serializer_class(event,data=request.data)
+        if serializer.is_valid(): 
+            serializer.save()
+            return Response(serializer.data)
+        else: 
+            return Response(serializer.errors, status=400)
+
+    def destroy(self, request, pk=None):
+        event = self.queryset.get(pk=pk)
+        event.delete()
         return Response(status=204)
