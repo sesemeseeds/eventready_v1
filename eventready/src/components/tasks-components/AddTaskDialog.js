@@ -37,13 +37,13 @@ export default function AddTaskDialog({
 
     switch (columnId) {
       case "1":
-        newTask.status = "to_do";
+        newTask.status = "To Do";
         break;
       case "2":
-        newTask.status = "done";
+        newTask.status = "Done";
         break;
       case "3":
-        newTask.status = "in_progress";
+        newTask.status = "In Progress";
         break;
       default:
         break;
@@ -95,9 +95,9 @@ export default function AddTaskDialog({
             value={priority}
             onChange={(e) => setPriority(e.target.value)}
           >
-            <MenuItem value={"low"}>Low</MenuItem>
-            <MenuItem value={"medium"}>Medium</MenuItem>
-            <MenuItem value={"high"}>High</MenuItem>
+            <MenuItem value={"Low"}>Low</MenuItem>
+            <MenuItem value={"Medium"}>Medium</MenuItem>
+            <MenuItem value={"High"}>High</MenuItem>
           </Select>
         </FormControl>
       </DialogContent>

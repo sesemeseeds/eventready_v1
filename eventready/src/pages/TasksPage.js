@@ -19,9 +19,9 @@ export default function TasksPage() {
 const fetchTasksData = async () => {
   try {
     const response = await AxiosInstance.get(`tasks/?event_id=${MyId}`); 
-    setToDo(response.data.filter((p) => p.status === "to_do"));
-    setCompleted(response.data.filter((p) => p.status === "done"));
-    setInProgress(response.data.filter((p) => p.status === "in_progress"));
+    setToDo(response.data.filter((p) => p.status === "To Do"));
+    setCompleted(response.data.filter((p) => p.status === "Done"));
+    setInProgress(response.data.filter((p) => p.status === "In Progress"));
   } catch (error) {
     console.error("Error fetching tasks:", error);
   }
@@ -73,32 +73,32 @@ const fetchTasksData = async () => {
 
     switch (destination.droppableId) {
       case "1": 
-        task.status = "to_do";
+        task.status = "To Do";
         setToDo((prevToDo) => {
           const newToDo = Array.from(prevToDo);
           newToDo.splice(destination.index, 0, task);
           return newToDo;
         });
-        await AxiosInstance.patch(`tasks/${draggableId}/`, { status: "to_do" });
+        await AxiosInstance.patch(`tasks/${draggableId}/`, { status: "To Do" });
         break;
       case "2": 
-        task.status = "done";
+        task.status = "Done";
         setCompleted((prevCompleted) => {
           const newCompleted = Array.from(prevCompleted);
           newCompleted.splice(destination.index, 0, task);
           return newCompleted;
         });
-        await AxiosInstance.patch(`tasks/${draggableId}/`, { status: "done" });
+        await AxiosInstance.patch(`tasks/${draggableId}/`, { status: "Done" });
         break;
       case "3": 
-        task.status = "in_progress";
+        task.status = "In Progress";
         setInProgress((prevBacklog) => {
           const newBacklog = Array.from(prevBacklog);
           newBacklog.splice(destination.index, 0, task);
           return newBacklog;
         });
         await AxiosInstance.patch(`tasks/${draggableId}/`, {
-          status: "in_progress",
+          status: "In Progress",
         });
         break;
       default:

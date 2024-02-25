@@ -20,8 +20,8 @@ class Task(models.Model):
     event_id = models.ForeignKey(EventGeneralInfo, on_delete=models.CASCADE, related_name='tasks')
     title = models.CharField("Title", max_length=256)
     description = models.CharField("Description", max_length=1024, null=True, blank=True)
-    status = models.CharField("Status", max_length=20, choices=[("to_do", "To Do"), ("in_progress", "In Progress"), ("done", "Done")])
-    priority = models.CharField("Priority", max_length=20, choices=[("low", "Low"), ("medium", "Medium"), ("high", "High")])
+    status = models.CharField("Status", max_length=20, choices=[("To Do", "To Do"), ("In Progress", "In Progress"), ("Done", "Done")])
+    priority = models.CharField("Priority", max_length=20, choices=[("Low", "Low"), ("Medium", "Medium"), ("High", "High")])
   
     created = models.DateTimeField(auto_now_add=True)
 
