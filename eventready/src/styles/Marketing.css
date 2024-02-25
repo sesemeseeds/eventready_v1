@@ -1,0 +1,48 @@
+.marketing-main {
+    margin-top: 2%;
+    padding: 2%;
+    background-color: white;
+    box-shadow: 3px 3px 10px 5px lightgray;
+    display: inline-block;
+    border-radius: 10px;
+    overflow: hidden;
+    height: 100%;
+    width: 100%;
+    margin-bottom: 4%;
+}
+
+.marketing-sections-container {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+.marketing-section {
+    flex: 1;
+    margin: 20px;
+    border-radius: 10px;
+    position: relative;
+    overflow-y: auto;
+}
+
+.choose-file-button {
+    background-color: #fafafa;
+    color: black; 
+    padding: 10px 20px;
+    border-radius: 5px;
+  }
+  
+.choose-file-button:hover {
+    background-color: #ccc; 
+}
+
+.clear-button {
+    background-color: #fafafa;
+    color: black; 
+    padding: 10px 20px;
+    border-radius: 5px;
+  }
+  
+.clear-button:hover {
+    background-color: #ccc; 
+}
+  
