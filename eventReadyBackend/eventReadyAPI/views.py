@@ -57,12 +57,6 @@ class TaskViewSet(viewsets.ModelViewSet):
         return Task.objects.all()
     
     def create(self, request):
-        # # Include the eventId from request data
-        # event_id = request.data.get('event')
-
-        # # Add event ID to the task data before serializing
-        # task_data = request.data
-        # task_data['event'] = event_id
 
         serializer = self.serializer_class(data=request.data)
         if serializer.is_valid():
@@ -77,3 +71,8 @@ class TaskViewSet(viewsets.ModelViewSet):
             serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors, status=400)   
+    
+    def destroy(self, request, pk=None):
+        task = Task.objects.get(pk=pk)
+        task.delete()
+        return Response(status=204)
