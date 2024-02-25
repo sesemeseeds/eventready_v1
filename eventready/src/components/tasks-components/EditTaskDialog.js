@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Dialog from "@material-ui/core/Dialog";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import DialogContent from "@material-ui/core/DialogContent";
@@ -11,66 +11,55 @@ import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
 import AxiosInstance from "../Axios";
 
-export default function AddTaskDialog({
-  open,
-  onClose,
-  refreshTasks,
-  eventId,
-  columnId,
-}) {
+export default function EditTaskDialog({ open, onClose, task, refreshTasks }) {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [priority, setPriority] = useState("");
+  const [status, setStatus] = useState("");
+
+  const fetchTask = async () => {
+    try {
+      setTitle(task.title);
+      setDescription(task.description);
+      setPriority(task.priority);
+    } catch (error) {
+      console.error("Error fetching task:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchTask();
+  }, [open]);
 
   const handleSubmit = async () => {
     if (!title.trim() || !description.trim() || !priority.trim()) {
       return;
     }
 
-    const newTask = {
-      event_id: eventId,
+    const updatedTask = {
       title,
+      event_id: task.event_id,
       description,
-      status: "",
       priority,
+      status: task.status,
     };
 
-    switch (columnId) {
-      case "1":
-        newTask.status = "To Do";
-        break;
-      case "2":
-        newTask.status = "Done";
-        break;
-      case "3":
-        newTask.status = "In Progress";
-        break;
-      default:
-        break;
-    }
-
     try {
-      await AxiosInstance.post("tasks/", newTask);
-      refreshTasks();
-      setTitle("");
-      setDescription("");
-      setPriority("");
+      await AxiosInstance.put(`tasks/${task.id}/`, updatedTask);
       onClose();
     } catch (error) {
-      console.error("Error adding task:", error);
+      console.error("Error updating task:", error);
     }
+    refreshTasks();
   };
 
   const handleClose = () => {
-    setTitle("");
-    setDescription("");
-    setPriority("");
     onClose();
   };
 
   return (
     <Dialog open={open} onClose={handleClose}>
-      <DialogTitle>Add New Task</DialogTitle>
+      <DialogTitle>Edit Task</DialogTitle>
       <DialogContent>
         <TextField
           autoFocus
@@ -95,9 +84,9 @@ export default function AddTaskDialog({
             value={priority}
             onChange={(e) => setPriority(e.target.value)}
           >
-            <MenuItem value={"Low"}>Low</MenuItem>
-            <MenuItem value={"Medium"}>Medium</MenuItem>
-            <MenuItem value={"High"}>High</MenuItem>
+            <MenuItem value={"low"}>Low</MenuItem>
+            <MenuItem value={"medium"}>Medium</MenuItem>
+            <MenuItem value={"high"}>High</MenuItem>
           </Select>
         </FormControl>
       </DialogContent>
@@ -106,7 +95,7 @@ export default function AddTaskDialog({
           Cancel
         </Button>
         <Button onClick={handleSubmit} color="primary">
-          Add Task
+          Save
         </Button>
       </DialogActions>
     </Dialog>

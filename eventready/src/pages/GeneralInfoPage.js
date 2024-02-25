@@ -18,6 +18,7 @@ import BudgetCard from "../components/general-info-cards/BudgetCard";
 import MarketingCard from "../components/general-info-cards/MarketingCard";
 import AxiosInstance from "../components/Axios";
 import { useParams } from "react-router-dom";
+import Tooltip from "@mui/material/Tooltip";
 
 export default function GeneralInfoComponent() {
   const [open, setOpen] = React.useState(false);
@@ -129,7 +130,7 @@ export default function GeneralInfoComponent() {
             <hr></hr>
           </Box>
           <Box className="side-section">
-            <EditOutlinedIcon
+            <Tooltip title="Edit Information"><EditOutlinedIcon
               style={{ float: "right" }}
               variant="contained"
               onClick={handleClickOpen}
@@ -137,7 +138,8 @@ export default function GeneralInfoComponent() {
               cursor="pointer"
             >
               Edit
-            </EditOutlinedIcon>
+            </EditOutlinedIcon></Tooltip>
+            
             <h1> Event Information </h1>
             {}
             <div>
