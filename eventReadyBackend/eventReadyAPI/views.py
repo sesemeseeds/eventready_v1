@@ -56,6 +56,12 @@ class MarketingPosterViewset(viewsets.ViewSet):
     queryset = MarketingPoster.objects.all()
     serializer_class = MarketingPosterSerializer
 
+    def get_queryset(self):
+        event_id = self.request.query_params.get('event')
+        if event_id:
+            return MarketingPoster.objects.filter(event_id=event_id)
+        return MarketingPoster.objects.all()
+
     def list(self, request):
         queryset = MarketingPoster.objects.all()
         serializer = self.serializer_class(queryset, many=True)

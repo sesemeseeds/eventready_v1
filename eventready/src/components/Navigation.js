@@ -203,6 +203,7 @@ export default function PersistentDrawerLeft() {
           className={clsx(classes.content, {
             [classes.contentShift]: open
           })}
+          style={{ paddingBottom: "25px" }}
         >
       
           <Routes>                  
