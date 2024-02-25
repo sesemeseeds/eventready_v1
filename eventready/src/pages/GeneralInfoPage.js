@@ -77,7 +77,7 @@ export default function GeneralInfoComponent() {
 
   const GetData = () => {
     AxiosInstance.get(`event/${MyId}/`).then((res) => {
-      console.log(res.data);
+      // console.log(res.data);
       setEventTitle(res.data.name);
       setEventDate(res.data.doe);
       setEventStartTime(res.data.start_time);
@@ -190,7 +190,7 @@ export default function GeneralInfoComponent() {
                     type="text"
                     fullWidth
                     variant="outlined"
-                    required="true"
+                    InputLabelProps={{required: "true"}}
                     defaultValue={EventTitle}
                     {...register("EventTitle")}
                   />
