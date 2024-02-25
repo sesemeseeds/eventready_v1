@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 
 import { useParams } from "react-router-dom";
-import { Box, Container } from '@mui/material';
 import ReminderBox from '../components/marketing/reminderBox';
 import PosterBox from '../components/marketing/posterBox';
 import HelpfulLinksBox from '../components/marketing/helpfulLinks';
