@@ -46,7 +46,7 @@ const DonutProgressBar = ({ value }) => {
         <DialogTitle>Associated Tasks</DialogTitle>
         <DialogContent>
           {/* Add your content for the dialog here */}
-          This is the content of the dialog.
+          This is where task association will go.
         </DialogContent>
         <DialogActions>
           <Button onClick={handleCloseDialog}>Close</Button>
