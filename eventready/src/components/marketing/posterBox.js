@@ -9,25 +9,24 @@ const PosterBox = ({ eventId }) => {
   const [caption, setCaption] = useState(String);
   const [showUploadPoster, setShowUploadPoster] = useState(true);
 
-
-  useEffect(() => {
-    const getPoster = async () => {
-      try {
-        const response = await AxiosInstance.get(`marketingPoster/?event=${eventId}`);
-        const posterData = response.data;
-        if (!posterData) {
-          setImage(null)
-          setCaption(null)
-        } else {
-          const lastPoster = posterData[posterData.length - 1]
-          setImage(`http://localhost:8000${lastPoster.image}`)
-          setCaption(lastPoster.caption)
-        }
-      } catch (error) {
-        console.error("Error fetching Marketing Poster:", error);
-      }
-    };
-    getPoster();
+useEffect(() => {
+  const getPoster = async () => {
+    try {
+      const response = await AxiosInstance.get(`marketingPoster/?event_id=${eventId}`);
+      const posterData = response.data;
+      if (!posterData) {
+        setImage(null)
+        setCaption("")
+      } else {
+      const lastPoster = posterData[posterData.length - 1]
+        setImage(lastPoster.image)
+        setCaption(lastPoster.caption)
+              }
+    } catch (error) {
+      console.error("Error fetching Marketing Poster:", error);
+    }
+  };
+      getPoster();
   }, [eventId]);
 
   const submitPosterImage = (e) => {
@@ -37,17 +36,17 @@ const PosterBox = ({ eventId }) => {
     savePayload.append('image', image, image.name);
     savePayload.append('caption', caption);
     savePayload.append('event_id', eventId);
-  
-    AxiosInstance.post('marketingPoster/', savePayload, {
-      headers: {
-        'Content-Type': 'multipart/form-data'
-      }
-    })
-    .catch(err => {
-      console.error('Error submitting poster image:', err);
-    });
-  };
-
+   
+      AxiosInstance.post('marketingPoster/', savePayload, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      })
+            .catch(err => {
+        console.error('Error submitting poster image:', err);
+      });
+      };
+ 
   const handleImageUpload = (e) => {
     const selectedImage = e.target.files[0];
     setImage(selectedImage);
