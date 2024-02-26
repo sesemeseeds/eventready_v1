@@ -24,7 +24,7 @@ const GoalsPage = () => {
   useEffect(() => {
     const getAllGoals = async () => {
       try {
-        const response = await AxiosInstance.get(`goals/?event=${eventId}`);
+        const response = await AxiosInstance.get(`goals/?event_id=${eventId}`);
         const goalData = response.data;
         if (!goalData) {
             setAllGoals([]);

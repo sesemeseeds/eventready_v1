@@ -40,7 +40,7 @@ const ReminderBox = ({ eventId }) => {
 
   const getReminders = async () => {
     try {
-      const response = await AxiosInstance.get(`marketingReminders/?event=${eventId}`);
+      const response = await AxiosInstance.get(`marketingReminders/?event_id=${eventId}`);
       const remindersData = response.data;                                              // redeclare reminder data
         if (!remindersData || !Array.isArray(remindersData)) {                          // if payload is nothing, set the reminderData to an empty array
           setReminders([]);

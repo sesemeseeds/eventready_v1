@@ -59,74 +59,54 @@ class TaskViewSet(viewsets.ModelViewSet):
             return Task.objects.filter(event_id=event_id)
         return Task.objects.all()
     
-    def create(self, request):
-
-        serializer = self.serializer_class(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=201)
-        return Response(serializer.errors, status=400)
     
-    def destroy(self, request, pk=None):
-        task = Task.objects.get(pk=pk)
-        task.delete()
-        return Response(status=204)
-    
-class MarketingPosterViewset(viewsets.ViewSet):
+class MarketingPosterViewset(viewsets.ModelViewSet):
     parser_classes = (MultiPartParser, FormParser)
     serializer_class = MarketingPosterSerializer
 
     def get_queryset(self):
-        event_id = self.request.query_params.get('event')
+        event_id = self.request.query_params.get('event_id')
         if event_id:
             return MarketingPoster.objects.filter(event_id=event_id)
         return MarketingPoster.objects.all()
 
-    def list(self, request):
-        queryset = MarketingPoster.objects.all()
-        serializer = self.serializer_class(queryset, many=True)
-        return Response(serializer.data)
 
-    def create(self, request):
-        serializer = self.serializer_class(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
-        else:
-            print('error', serializer.errors)
-            return Response(self.serializer_class.errors, status=400)
+    # def create(self, request):
+    #     serializer = self.serializer_class(data=request.data)
+    #     if serializer.is_valid():
+    #         serializer.save()
+    #         return Response(serializer.data)
+    #     else:
+    #         print('error', serializer.errors)
+    #         return Response(self.serializer_class.errors, status=400)
         
-    def retrieve(self, request, pk=None):
-        if pk is None:
-            # If no primary key is provided, retrieve the poster with the highest ID
-            max_id = MarketingPoster.objects.aggregate(max_id=Max('id'))['max_id']
-            poster = MarketingPoster.objects.get(id=max_id)
-        else:
-            # Retrieve the poster by the provided primary key
-            poster = MarketingPoster.objects.get(pk=pk)
+    # def retrieve(self, request, pk=None):
+    #     if pk is None:
+    #         # If no primary key is provided, retrieve the poster with the highest ID
+    #         max_id = MarketingPoster.objects.aggregate(max_id=Max('id'))['max_id']
+    #         poster = MarketingPoster.objects.get(id=max_id)
+    #     else:
+    #         # Retrieve the poster by the provided primary key
+    #         poster = MarketingPoster.objects.get(pk=pk)
 
-        serializer = self.serializer_class(poster)
-        return Response(serializer.data)
+    #     serializer = self.serializer_class(poster)
+    #     return Response(serializer.data)
                 
     def destroy(self, request, pk=None):
         poster = self.queryset.get(pk=pk)
         poster.delete()
         return Response(status=204)
     
-class MarketingRemindersViewset(viewsets.ViewSet):
+class MarketingRemindersViewset(viewsets.ModelViewSet):
     permission_classes = [permissions.AllowAny]
     serializer_class = MarketingRemindersSerializer
 
     def get_queryset(self):
-        event_id = self.request.query_params.get('event')
+        event_id = self.request.query_params.get('event_id')
         if event_id:
-            return MarketingPoster.objects.filter(event_id=event_id)
-        return MarketingPoster.objects.all()
+            return MarketingReminders.objects.filter(event_id=event_id)
+        return MarketingReminders.objects.all()
 
-    def list(self, request):
-        queryset = MarketingReminders.objects.all()
-        serializer = self.serializer_class(queryset, many=True)
-        return Response(serializer.data)
 
     def create(self, request):
         serializer = self.serializer_class(data=request.data)
@@ -137,30 +117,22 @@ class MarketingRemindersViewset(viewsets.ViewSet):
             print('error', serializer.errors)
             return Response(self.serializer_class.errors, status=400)
         
-    def retrieve(self, request, pk=None):
-        reminders = self.queryset.get(pk=pk)
-        serializer = self.serializer_class(reminders)
-        return Response(serializer.data)
                 
     def destroy(self, request, pk=None):
         reminder = self.queryset.get(pk=pk)
         reminder.delete()
         return Response(status=204)
     
-class MarketingRecapPhotoViewset(viewsets.ViewSet):
+class MarketingRecapPhotoViewset(viewsets.ModelViewSet):
     parser_classes = (MultiPartParser, FormParser)
     serializer_class = MarketingRecapPhotoSerializer
 
     def get_queryset(self):
         event_id = self.request.query_params.get('event')
         if event_id:
-            return MarketingPoster.objects.filter(event_id=event_id)
-        return MarketingPoster.objects.all()
+            return MarketingRecapPhotos.objects.filter(event_id=event_id)
+        return MarketingRecapPhotos.objects.all()
 
-    def list(self, request):
-        queryset = MarketingRecapPhotos.objects.all()
-        serializer = self.serializer_class(queryset, many=True)
-        return Response(serializer.data)
 
     def create(self, request):
         serializer = self.serializer_class(data=request.data)
@@ -171,30 +143,22 @@ class MarketingRecapPhotoViewset(viewsets.ViewSet):
             print('error', serializer.errors)
             return Response(self.serializer_class.errors, status=400)
         
-    def retrieve(self, request, pk=None):
-        photo = self.queryset.get(pk=pk)
-        serializer = self.serializer_class(photo)
-        return Response(serializer.data)
                 
     def destroy(self, request, pk=None):
         photo = self.queryset.get(pk=pk)
         photo.delete()
         return Response(status=204)
     
-class GoalsViewset(viewsets.ViewSet):
+class GoalsViewset(viewsets.ModelViewSet):
     permission_classes = [permissions.AllowAny]
     serializer_class = GoalsSerializer
 
     def get_queryset(self):
-        event_id = self.request.query_params.get('event')
+        event_id = self.request.query_params.get('event_id')
         if event_id:
-            return GoalsSerializer.objects.filter(event_id=event_id)
-        return GoalsSerializer.objects.all()
+            return Goals.objects.filter(event_id=event_id)
+        return Goals.objects.all()
 
-    def list(self, request):
-        queryset = Goals.objects.all()
-        serializer = self.serializer_class(queryset, many=True)
-        return Response(serializer.data)
     
     def create(self, request):
         serializer = self.serializer_class(data=request.data)
@@ -204,10 +168,6 @@ class GoalsViewset(viewsets.ViewSet):
         else: 
             return Response(serializer.errors, status=400)
 
-    def retrieve(self, request, pk=None):
-        event = self.queryset.get(pk=pk)
-        serializer = self.serializer_class(event)
-        return Response(serializer.data)
 
     def update(self, request, pk=None):
         event = self.queryset.get(pk=pk)

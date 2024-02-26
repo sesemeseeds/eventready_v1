@@ -82,7 +82,7 @@ export const LandingPage = () => {
   };
 
   const removeData = async () => {
-    AxiosInstance.delete(`/event/${deleteID}`)
+    AxiosInstance.delete(`/event/${deleteID}/`)
       .then((res) => {
         const del = allEvents.filter((allEvents) => allEvents.id !== deleteID);
         setAllEvents(del);
