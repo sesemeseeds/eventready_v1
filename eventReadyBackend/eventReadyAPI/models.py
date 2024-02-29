@@ -1,5 +1,6 @@
 from django.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator
+from django.utils import timezone
 
 class EventGeneralInfo(models.Model):
     id = models.IntegerField(primary_key=True, editable=False)
@@ -36,6 +37,7 @@ class MarketingPoster(models.Model):
     name = models.CharField("Name", max_length=256)
     caption = models.CharField("Caption", max_length=1024, null=True, blank=True)
     image = models.ImageField(upload_to='images')
+    updated = models.DateTimeField(default=timezone.now)
     
     def __str__(self):
         return self.name
