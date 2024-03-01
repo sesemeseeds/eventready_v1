@@ -148,15 +148,17 @@ class GoalsViewset(viewsets.ModelViewSet):
 
 
     def update(self, request, pk=None):
-        event = self.queryset.get(pk=pk)
-        serializer = self.serializer_class(event,data=request.data)
+        queryset = self.get_queryset()
+        goal = queryset.get(pk=pk)
+        serializer = self.serializer_class(goal, data=request.data)
         if serializer.is_valid(): 
             serializer.save()
             return Response(serializer.data)
         else: 
-            return Response(serializer.errors, status=400)
+            return Response(self.serializer_class.errors, status=400)
 
     def destroy(self, request, pk=None):
-        event = self.queryset.get(pk=pk)
-        event.delete()
+        queryset = self.get_queryset()
+        goal = queryset.get(pk=pk)
+        goal.delete()
         return Response(status=204)

@@ -2,6 +2,8 @@ import { useState } from 'react';
 
 import { Card, CardContent, Typography, Tooltip, IconButton, Dialog, DialogTitle, DialogContent, Button, DialogActions } from '@mui/material';
 
+import AxiosInstance from "../Axios";
+
 import DeleteIcon from '@mui/icons-material/Delete';
 import ProgressDonut from './ProgressDonut';
 import DescriptionDialog from '../dialog/DescriptionDialog';
@@ -10,7 +12,7 @@ import TruncateText from '../util/TruncateText';
 import FormatDate from '../util/FormatDate';
 
 
-const GoalCard = ({ goal }) => {
+const GoalCard = ({ goal, handleDeleteGoal }) => {
     const [goalName, setGoalName] = useState('');
     const [goalDueDate, setGoalDueDate] = useState('');
     const [goalDescription, setGoalDescription] = useState('');
@@ -18,7 +20,7 @@ const GoalCard = ({ goal }) => {
     const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
     const [goalToDelete, setGoalToDelete] = useState(null);
     
-    const MAX_DESCRIPTION_LENGTH = 125;
+    const MAX_DESCRIPTION_LENGTH = 100;
 
     const handleDescriptionClick = () => {
         setOpenDescriptionDialog(true);
@@ -43,8 +45,8 @@ const GoalCard = ({ goal }) => {
         setOpenDeleteDialog(true);
     };
 
-    const handleDeleteConfirmation = () => {
-        console.log("Deleting goal:", goalToDelete);
+    const handleDeleteConfirmation = (goal) => {
+        handleDeleteGoal(goal.id);
         setOpenDeleteDialog(false);
     };
 
@@ -54,7 +56,7 @@ const GoalCard = ({ goal }) => {
     };
 
     return (
-        <Card sx={{ width: "300px", height: "300px" }}>
+        <Card sx={{ width: "250px", height: "250px" }}>
             <CardContent sx={{ position: 'relative', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', height: "100%" }}>
                 <Tooltip title="Delete Goal">
                     <IconButton
@@ -87,7 +89,7 @@ const GoalCard = ({ goal }) => {
             <DeleteConfirmationDialog
                 isOpen={openDeleteDialog && goalToDelete === goal.id}
                 onClose={handleCloseDeleteDialog}
-                onDeleteConfirmation={handleDeleteConfirmation}
+                onDeleteConfirmation={() => handleDeleteConfirmation(goal)}
                 name={goal && goal.name}
                 objectName={"goal"}
             />
