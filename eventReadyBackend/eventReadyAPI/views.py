@@ -147,15 +147,16 @@ class GoalsViewset(viewsets.ModelViewSet):
             return Response(serializer.errors, status=400)
 
 
-    def update(self, request, pk=None):
-        queryset = self.get_queryset()
-        goal = queryset.get(pk=pk)
-        serializer = self.serializer_class(goal, data=request.data)
-        if serializer.is_valid(): 
-            serializer.save()
-            return Response(serializer.data)
-        else: 
-            return Response(self.serializer_class.errors, status=400)
+    def update(self, request, *args, **kwargs):
+        partial = kwargs.pop('partial', False)  # Ensure 'partial' parameter is handled correctly
+        instance = self.get_object()
+        serializer = self.get_serializer(instance, data=request.data, partial=partial)  # Pass 'partial' parameter to serializer
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
+        return Response(serializer.data)
+
+    def perform_update(self, serializer):
+        serializer.save()
 
     def destroy(self, request, pk=None):
         queryset = self.get_queryset()

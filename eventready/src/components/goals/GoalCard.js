@@ -8,6 +8,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import ProgressDonut from './ProgressDonut';
 import DescriptionDialog from '../dialog/DescriptionDialog';
 import DeleteConfirmationDialog from '../dialog/DeleteConfirmationDialog';
+import EditDueDateDialog from '../dialog/EditDueDateDialog';
 import TruncateText from '../util/TruncateText';
 import FormatDate from '../util/FormatDate';
 
@@ -19,6 +20,8 @@ const GoalCard = ({ goal, handleDeleteGoal }) => {
     const [openDescriptionDialog, setOpenDescriptionDialog] = useState(false);
     const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
     const [goalToDelete, setGoalToDelete] = useState(null);
+    const [openEditDueDateDialog, setOpenEditDueDateDialog] = useState(false);
+    const [newDueDate, setNewDueDate] = useState('');
     
     const MAX_DESCRIPTION_LENGTH = 100;
 
@@ -33,11 +36,6 @@ const GoalCard = ({ goal, handleDeleteGoal }) => {
     const handleEditClick = () => {
         // TODO: edit functionality of description
         console.log("Editing goal:", goal);
-    };
-
-    const handleEditDueDateClick = () => {
-        // TODO: edit functionality of due date
-        console.log("Editing due date for goal:", goal);
     };
 
     const handleOpenDeleteDialog = (goal) => {
@@ -55,6 +53,26 @@ const GoalCard = ({ goal, handleDeleteGoal }) => {
         setGoalToDelete(null);
     };
 
+    const handleOpenEditDueDateDialog = () => {
+        setOpenEditDueDateDialog(true);
+    };
+
+    const handleCloseEditDueDateDialog = () => {
+        setOpenEditDueDateDialog(false);
+    };
+
+    const handleSaveDueDate = (newDueDate) => {
+        AxiosInstance.patch(`/goals/${goal.id}/`, { due_date: newDueDate })
+            .then(response => {
+                console.log("Due date updated successfully:", response.data);
+                // You might want to update the state or reload data here
+                handleCloseEditDueDateDialog();
+            })
+            .catch(error => {
+                console.error("Error updating due date:", error);
+                // Handle error
+            });
+    };
     return (
         <Card sx={{ width: "250px", height: "250px" }}>
             <CardContent sx={{ position: 'relative', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', height: "100%" }}>
@@ -75,7 +93,7 @@ const GoalCard = ({ goal, handleDeleteGoal }) => {
                     </Typography>
                 </Tooltip>
                 <Tooltip title="Edit Due Date">
-                    <Typography variant="caption" sx={{ position: 'absolute', bottom: '8px', right: '8px', cursor: 'pointer' }} onClick={() => handleEditDueDateClick(goal.id)}>
+                    <Typography variant="caption" sx={{ position: 'absolute', bottom: '8px', right: '8px', cursor: 'pointer' }} onClick={handleOpenEditDueDateDialog}>
                         due: {FormatDate(goal.due_date, 'MM/DD/YY')}
                     </Typography>
                 </Tooltip>
@@ -92,6 +110,12 @@ const GoalCard = ({ goal, handleDeleteGoal }) => {
                 onDeleteConfirmation={() => handleDeleteConfirmation(goal)}
                 name={goal && goal.name}
                 objectName={"goal"}
+            />
+            <EditDueDateDialog
+                isOpen={openEditDueDateDialog}
+                onClose={handleCloseEditDueDateDialog}
+                onSave={handleSaveDueDate}
+                currentDueDate={goal.due_date}
             />
         </Card>
     );
