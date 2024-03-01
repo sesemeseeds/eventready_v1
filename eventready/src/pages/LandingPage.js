@@ -39,7 +39,7 @@ export const LandingPage = () => {
   const [deleteID, setDeleteID] = React.useState(null);
 
   const getAllEvents = () => {
-    AxiosInstance.get(`/event`).then((res) => {
+    AxiosInstance.get(`/event/`).then((res) => {
       setAllEvents(res.data);
       // setEventTitle(res.data.name)
       // setEventDescription(res.data.description)

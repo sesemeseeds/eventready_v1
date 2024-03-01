@@ -62,3 +62,19 @@
   right: 5px;
   position: absolute !important;
 }
+
+.search-bar {
+  background-color: white;
+  width: 25%;
+  border-color: black !important;
+  margin-bottom: 20px  !important;
+  margin-left: 10px !important;
+}
+
+.sort-by-dropdown {
+  background-color: white;
+  width: 10%;
+  border-color: black !important;
+  margin-bottom: 20px  !important;
+  margin-left: 10px !important;
+}
