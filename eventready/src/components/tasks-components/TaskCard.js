@@ -60,15 +60,28 @@ export default function TaskCard({ task, index, refreshTasks }) {
   };
 
   const getPriorityColor = (priority) => {
-    switch (priority) {
-      case "Low":
-        return "#B2EBF2"; // Light Blue
-      case "Medium":
-        return "#FFCC80"; // Light Orange
-      case "High":
-        return "#EF9A9A"; // Light Red
+    switch (true) {
+      case priority >= 1 && priority <= 3:
+        return "#B2EBF2"; // Light Blue 
+      case priority >= 4 && priority <= 7:
+        return "#FFCC80"; // Light Orange 
+      case priority >= 8 && priority <= 10:
+        return "#EF9A9A"; // Light Red 
       default:
         return "#FFFFFF"; 
+    }
+  };
+
+  const getPriorityLabel = (priority) => {
+    switch (true) {
+      case priority >= 1 && priority <= 3:
+        return "Low";
+      case priority >= 4 && priority <= 7:
+        return "Medium";
+      case priority >= 8 && priority <= 10:
+        return "High";
+      default:
+        return "Unknown";
     }
   };
 
@@ -113,7 +126,7 @@ export default function TaskCard({ task, index, refreshTasks }) {
                 {task.status}
               </Box>
               <Box sx={{ backgroundColor: getPriorityColor(task.priority), padding: "0 5px 0 5px", borderRadius: "5px" }}>
-                {task.priority}
+                {getPriorityLabel(task.priority)}
               </Box>
             </Box>
 

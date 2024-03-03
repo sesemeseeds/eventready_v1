@@ -20,10 +20,13 @@ export default function AddTaskDialog({
 }) {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [priority, setPriority] = useState("");
+  const [priority, setPriority] = useState(5); 
+  const [completionDate, setCompletionDate] = useState(String);
+  const [deadlineDate, setDeadlineDate] = useState(String);
+  const [assignedTo, setAssignedTo] = useState("");
 
   const handleSubmit = async () => {
-    if (!title.trim() || !description.trim() || !priority.trim()) {
+    if (!title.trim() || !description.trim()) {
       return;
     }
 
@@ -33,6 +36,9 @@ export default function AddTaskDialog({
       description,
       status: "",
       priority,
+      completion_date: completionDate,
+      deadline_date: deadlineDate,
+      assigned_to: assignedTo
     };
 
     switch (columnId) {
@@ -50,11 +56,15 @@ export default function AddTaskDialog({
     }
 
     try {
+      console.log(newTask)
       await AxiosInstance.post("tasks/", newTask);
       refreshTasks();
       setTitle("");
       setDescription("");
-      setPriority("");
+      setPriority(5); // Reset priority to default
+      setCompletionDate(null);
+      setDeadlineDate(null);
+      setAssignedTo("");
       onClose();
     } catch (error) {
       console.error("Error adding task:", error);
@@ -64,7 +74,10 @@ export default function AddTaskDialog({
   const handleClose = () => {
     setTitle("");
     setDescription("");
-    setPriority("");
+    setPriority(5); // Reset priority to default
+    setCompletionDate(null);
+    setDeadlineDate(null);
+    setAssignedTo("");
     onClose();
   };
 
@@ -95,11 +108,39 @@ export default function AddTaskDialog({
             value={priority}
             onChange={(e) => setPriority(e.target.value)}
           >
-            <MenuItem value={"Low"}>Low</MenuItem>
-            <MenuItem value={"Medium"}>Medium</MenuItem>
-            <MenuItem value={"High"}>High</MenuItem>
+            {[...Array(10).keys()].map((value) => (
+              <MenuItem key={value + 1} value={value + 1}>{value + 1}</MenuItem>
+            ))}
           </Select>
         </FormControl>
+        <TextField
+          margin="dense"
+          label="Completion Date"
+          type="date"
+          format="mm/dd/yyyy"
+          fullWidth
+          value={completionDate}
+          InputLabelProps={{ shrink: true, required: false }}
+          onChange={(e) => setCompletionDate(e.target.value)}
+        />
+        <TextField
+          margin="dense"
+          label="Deadline Date"
+          type="date"
+          fullWidth
+          format="mm/dd/yyyy"
+          value={deadlineDate}
+          InputLabelProps={{ shrink: true, required: false }}
+          onChange={(e) => setDeadlineDate(e.target.value)}
+        />
+        <TextField
+          margin="dense"
+          label="Assigned To"
+          type="text"
+          fullWidth
+          value={assignedTo}
+          onChange={(e) => setAssignedTo(e.target.value)}
+        />
       </DialogContent>
       <DialogActions>
         <Button onClick={handleClose} color="primary">

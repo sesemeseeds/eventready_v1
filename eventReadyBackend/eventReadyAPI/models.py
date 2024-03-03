@@ -23,8 +23,11 @@ class Task(models.Model):
     title = models.CharField("Title", max_length=256)
     description = models.CharField("Description", max_length=1024, null=True, blank=True)
     status = models.CharField("Status", max_length=20, choices=[("To Do", "To Do"), ("In Progress", "In Progress"), ("Done", "Done")])
-    priority = models.CharField("Priority", max_length=20, choices=[("Low", "Low"), ("Medium", "Medium"), ("High", "High")])
-  
+    priority = models.IntegerField("Priority", default=5, validators=[MinValueValidator(1), MaxValueValidator(10)])
+    completion_date = models.DateField("Completion Date", null=True, blank=True)
+    deadline_date = models.DateField("Deadline Date", null=True, blank=True)
+    assigned_to = models.CharField("Assigned To", max_length=256, null=True, blank=True)
+
     created = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):

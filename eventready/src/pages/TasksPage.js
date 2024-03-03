@@ -20,7 +20,6 @@ export default function TasksPage() {
   const [todo, setToDo] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [sortByFilter, setSortByFilter] = useState("highToLow"); 
-//sort by date - will be added when backedn model is updated
   const MyParam = useParams();
   const MyId = MyParam.id;
 
@@ -164,7 +163,6 @@ export default function TasksPage() {
         <TextField
           className="search-bar"
           placeholder="Search Tasks"
-          variant="outlined"
           InputLabelProps={{ shrink: true, required: false }}
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
@@ -174,7 +172,7 @@ export default function TasksPage() {
                 <SearchIcon />
               </InputAdornment>
             ),
-          }}
+                }}
         />
 
         <FormControl   className="sort-by-dropdown" variant="outlined" >
@@ -182,7 +180,7 @@ export default function TasksPage() {
             value={sortByFilter || ""}
             onChange={handleSortByFilter}
             displayEmpty
-          
+            
             inputProps={{ "aria-label": "Sort By Priority" }}
             // IconComponent={() => <SortIcon />}
           >

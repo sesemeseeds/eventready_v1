@@ -14,43 +14,45 @@ import AxiosInstance from "../Axios";
 export default function EditTaskDialog({ open, onClose, task, refreshTasks }) {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [priority, setPriority] = useState("");
-  const [status, setStatus] = useState("");
+  const [priority, setPriority] = useState(5); 
+  const [completionDate, setCompletionDate] = useState(String);
+  const [deadlineDate, setDeadlineDate] = useState(String);
+  const [assignedTo, setAssignedTo] = useState("");
 
-  const fetchTask = async () => {
-    try {
+  useEffect(() => {
+    if (open) {
       setTitle(task.title);
       setDescription(task.description);
       setPriority(task.priority);
-    } catch (error) {
-      console.error("Error fetching task:", error);
+      setCompletionDate(task.completion_date);
+      setDeadlineDate(task.deadline_date);
+      setAssignedTo(task.assigned_to);
     }
-  };
-
-  useEffect(() => {
-    fetchTask();
-  }, [open]);
+  }, [open, task]);
 
   const handleSubmit = async () => {
-    if (!title.trim() || !description.trim() || !priority.trim()) {
+    if (!title.trim() || !description.trim()) {
       return;
     }
 
     const updatedTask = {
-      title,
       event_id: task.event_id,
+      title,
       description,
       priority,
       status: task.status,
+      completion_date: completionDate,
+      deadline_date: deadlineDate,
+      assigned_to: assignedTo
     };
-
+    console.log(updatedTask)
     try {
       await AxiosInstance.put(`tasks/${task.id}/`, updatedTask);
       onClose();
+      refreshTasks();
     } catch (error) {
       console.error("Error updating task:", error);
     }
-    refreshTasks();
   };
 
   const handleClose = () => {
@@ -84,11 +86,39 @@ export default function EditTaskDialog({ open, onClose, task, refreshTasks }) {
             value={priority}
             onChange={(e) => setPriority(e.target.value)}
           >
-            <MenuItem value={"Low"}>Low</MenuItem>
-            <MenuItem value={"Medium"}>Medium</MenuItem>
-            <MenuItem value={"High"}>High</MenuItem>
+            {[...Array(10).keys()].map((value) => (
+              <MenuItem key={value + 1} value={value + 1}>{value + 1}</MenuItem>
+            ))}
           </Select>
         </FormControl>
+        <TextField
+          margin="dense"
+          label="Completion Date"
+          type="Date"
+          format="mm/dd/yyyy"
+          fullWidth
+          value={completionDate}
+          InputLabelProps={{ shrink: true, required: false }}
+          onChange={(e) => setCompletionDate(e.target.value)}
+        />
+        <TextField
+          margin="dense"
+          label="Deadline Date"
+          type="Date"
+          format="mm/dd/yyyy"
+          fullWidth
+          value={deadlineDate}
+          InputLabelProps={{ shrink: true, required: false }}
+          onChange={(e) => setDeadlineDate(e.target.value)}
+        />
+        <TextField
+          margin="dense"
+          label="Assigned To"
+          type="text"
+          fullWidth
+          value={assignedTo}
+          onChange={(e) => setAssignedTo(e.target.value)}
+        />
       </DialogContent>
       <DialogActions>
         <Button onClick={handleClose} color="primary">
