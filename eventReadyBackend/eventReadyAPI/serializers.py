@@ -14,7 +14,7 @@ class TaskSerializer(serializers.ModelSerializer):
 class MarketingPosterSerializer(serializers.ModelSerializer):
     class Meta:
         model = MarketingPoster
-        fields = ('event_id', 'id', 'name', 'caption', 'image')
+        fields = ('event_id', 'id', 'name', 'caption', 'image', 'updated')
         
 class MarketingRemindersSerializer(serializers.ModelSerializer):
     class Meta:

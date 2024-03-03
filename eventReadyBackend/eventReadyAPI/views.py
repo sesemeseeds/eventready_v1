@@ -69,28 +69,6 @@ class MarketingPosterViewset(viewsets.ModelViewSet):
         if event_id:
             return MarketingPoster.objects.filter(event_id=event_id)
         return MarketingPoster.objects.all()
-
-
-    # def create(self, request):
-    #     serializer = self.serializer_class(data=request.data)
-    #     if serializer.is_valid():
-    #         serializer.save()
-    #         return Response(serializer.data)
-    #     else:
-    #         print('error', serializer.errors)
-    #         return Response(self.serializer_class.errors, status=400)
-        
-    # def retrieve(self, request, pk=None):
-    #     if pk is None:
-    #         # If no primary key is provided, retrieve the poster with the highest ID
-    #         max_id = MarketingPoster.objects.aggregate(max_id=Max('id'))['max_id']
-    #         poster = MarketingPoster.objects.get(id=max_id)
-    #     else:
-    #         # Retrieve the poster by the provided primary key
-    #         poster = MarketingPoster.objects.get(pk=pk)
-
-    #     serializer = self.serializer_class(poster)
-    #     return Response(serializer.data)
                 
     def destroy(self, request, pk=None):
         poster = self.queryset.get(pk=pk)
@@ -170,15 +148,17 @@ class GoalsViewset(viewsets.ModelViewSet):
 
 
     def update(self, request, pk=None):
-        event = self.queryset.get(pk=pk)
-        serializer = self.serializer_class(event,data=request.data)
+        queryset = self.get_queryset()
+        goal = queryset.get(pk=pk)
+        serializer = self.serializer_class(goal, data=request.data)
         if serializer.is_valid(): 
             serializer.save()
             return Response(serializer.data)
         else: 
-            return Response(serializer.errors, status=400)
+            return Response(self.serializer_class.errors, status=400)
 
     def destroy(self, request, pk=None):
-        event = self.queryset.get(pk=pk)
-        event.delete()
+        queryset = self.get_queryset()
+        goal = queryset.get(pk=pk)
+        goal.delete()
         return Response(status=204)

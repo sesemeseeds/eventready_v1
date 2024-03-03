@@ -9,43 +9,72 @@ const PosterBox = ({ eventId }) => {
   const [caption, setCaption] = useState(String);
   const [showUploadPoster, setShowUploadPoster] = useState(true);
 
-useEffect(() => {
-  const getPoster = async () => {
-    try {
-      const response = await AxiosInstance.get(`marketingPoster/?event_id=${eventId}`);
-      const posterData = response.data;
-      if (!posterData) {
-        setImage(null)
-        setCaption("")
-      } else {
-      const lastPoster = posterData[posterData.length - 1]
-        setImage(lastPoster.image)
-        setCaption(lastPoster.caption)
-              }
-    } catch (error) {
-      console.error("Error fetching Marketing Poster:", error);
-    }
-  };
-      getPoster();
+  useEffect(() => {
+    const getPoster = async () => {
+      try {
+        const response = await AxiosInstance.get(`marketingPoster/?event_id=${eventId}`);
+        const posterData = response.data;
+        if (posterData.length === 0) {
+          setImage(null);
+          setCaption("");
+        } else {
+          const poster = posterData[0];
+          setImage(poster.image);
+          setCaption(poster.caption);
+        }
+      } catch (error) {
+        console.error("Error fetching Marketing Poster:", error);
+      }
+    };
+    getPoster();
   }, [eventId]);
 
-  const submitPosterImage = (e) => {
+  const updatePosterImage = async (e) => {
     e.preventDefault();
+
+    // TODO: create a deleteOldPoster backend endpoint to remove the old poster before uploading a new one
+    // if (image !== null && typeof image === 'string') {
+    //   // Assuming the URL of the old poster is stored in the 'image' state
+    //   try {
+    //     // Send a request to your backend to delete the old poster file
+    //     await AxiosInstance.delete(`deleteOldPoster/?poster_url=${image}`);
+    //   } catch (error) {
+    //     console.error('Error deleting old poster image:', error);
+    //   }
+    // }
+  
+    // Create FormData payload
     let savePayload = new FormData();
     savePayload.append('name', image.name);
     savePayload.append('image', image, image.name);
     savePayload.append('caption', caption);
     savePayload.append('event_id', eventId);
-   
-      AxiosInstance.post('marketingPoster/', savePayload, {
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        }
-      })
-            .catch(err => {
-        console.error('Error submitting poster image:', err);
-      });
-      };
+  
+    try {
+      // Check if a poster already exists for the event
+      const response = await AxiosInstance.get(`marketingPoster/?event_id=${eventId}`);
+      const posterData = response.data;
+  
+      if (posterData.length === 0) {
+        // If no poster exists, create a new one
+        await AxiosInstance.post('marketingPoster/', savePayload, {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        });
+      } else {
+        // If a poster exists, update the existing one
+        const posterId = posterData[0].id;
+        await AxiosInstance.patch(`marketingPoster/${posterId}/`, savePayload, {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        });
+      }
+    } catch (error) {
+      console.error('Error updating poster image:', error);
+    }
+  };
  
   const handleImageUpload = (e) => {
     const selectedImage = e.target.files[0];
@@ -137,7 +166,7 @@ useEffect(() => {
                 <Button
                     variant="contained"
                     style={{ backgroundColor: '#d056ff', color: '#FFFFFF' }}
-                    onClick={submitPosterImage}
+                    onClick={updatePosterImage}
                 >
                 Share Graphic
                 </Button>
