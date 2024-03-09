@@ -38,18 +38,49 @@ export default function TasksPage() {
     fetchTasksData();
   }, []);
 
+  const getPriorityLabel = (priority) => {
+    switch (true) {
+      case priority >= 1 && priority <= 3:
+        return "Low";
+      case priority >= 4 && priority <= 7:
+        return "Medium";
+      case priority >= 8 && priority <= 10:
+        return "High";
+      default:
+        return "Unknown";
+    }
+  };
+
 
   const filterTasks = (tasks) => {
     let filteredTasks = tasks.filter((task) =>
       task.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      (task.priority && task.priority.toLowerCase().includes(searchQuery.toLowerCase()))
+      (task.priority && getPriorityLabel(task.priority).toLowerCase().includes(searchQuery.toLowerCase()))
     );
   
-    if (sortByFilter === "highToLow") {
-    //sort by priority value
-    } else if (sortByFilter === "lowToHigh") {
-     //sort by priority value
-    }
+    filteredTasks.sort((a, b) => {
+      const priorityA = a.priority || 0; 
+      const priorityB = b.priority || 0;
+
+      const deadlineDateA = new Date(a.deadline_date);
+      const deadlineDateB = new Date(b.deadline_date);
+  
+      if (sortByFilter === "lowToHigh") {
+        return priorityA - priorityB; 
+      } else if (sortByFilter === "highToLow") {
+        return priorityB - priorityA; 
+      }  else if (sortByFilter === "nearestDeadline") {
+       
+        const today = new Date();
+        const deadlineDiffA = Math.abs(deadlineDateA - today);
+        const deadlineDiffB = Math.abs(deadlineDateB - today);
+  
+        return deadlineDiffA - deadlineDiffB; 
+      }
+      else {
+        return 0; 
+      }
+    });
   
     return filteredTasks;
   };
@@ -187,6 +218,8 @@ export default function TasksPage() {
             
             <MenuItem value="highToLow">High to Low Priority</MenuItem>
             <MenuItem value="lowToHigh">Low to High Priority</MenuItem>
+            <MenuItem value="nearestDeadline">Nearest Deadline</MenuItem>
+          
           </Select>
         </FormControl>
 

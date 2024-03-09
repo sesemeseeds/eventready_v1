@@ -15,6 +15,7 @@ import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
 import DeleteIcon from "@mui/icons-material/Delete";
 import IconButton from "@mui/material/IconButton";
+import AccountCircleRoundedIcon from "@mui/icons-material/AccountCircleRounded";
 
 export default function TaskCard({ task, index, refreshTasks }) {
   const [editDialogOpen, setEditDialogOpen] = useState(false);
@@ -55,20 +56,20 @@ export default function TaskCard({ task, index, refreshTasks }) {
       case "Done":
         return "#4CAF50"; // Green
       default:
-        return "#FFFFFF"; 
+        return "#FFFFFF";
     }
   };
 
   const getPriorityColor = (priority) => {
     switch (true) {
       case priority >= 1 && priority <= 3:
-        return "#B2EBF2"; // Light Blue 
+        return "#B2EBF2"; // Light Blue
       case priority >= 4 && priority <= 7:
-        return "#FFCC80"; // Light Orange 
+        return "#FFCC80"; // Light Orange
       case priority >= 8 && priority <= 10:
-        return "#EF9A9A"; // Light Red 
+        return "#EF9A9A"; // Light Red
       default:
-        return "#FFFFFF"; 
+        return "#FFFFFF";
     }
   };
 
@@ -85,6 +86,12 @@ export default function TaskCard({ task, index, refreshTasks }) {
     }
   };
 
+  const deadlineDate = new Date(task.deadline_date);
+  const today = new Date();
+  const differenceInDays = Math.ceil(
+    (deadlineDate - today) / (1000 * 60 * 60 * 24)
+  );
+
   return (
     <Draggable draggableId={`${task.id}`} key={task.id} index={index}>
       {(provided, snapshot) => (
@@ -95,19 +102,29 @@ export default function TaskCard({ task, index, refreshTasks }) {
           ref={provided.innerRef}
           isDragging={snapshot.isDragging}
         >
-          <div style={{ display: "flex", justifyContent: "start", padding: 2 }}>
-            <span>
-              <small>
-                #{task.id}
-                {"  "}
-              </small>
-            </span>
-          </div>
-          <div style={{ display: "flex", padding: 2 }}>
-            <div style={{ fontWeight: "bold" }}>{task.title}</div>
-            
-          </div>
-          <div>{task.description}</div>
+          <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+            <Box
+              sx={{ fontWeight: "bold", paddingRight: "20px", width: "75%" }}
+            >
+              {task.title}
+            </Box>
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "end",
+                alignItems: "flex-start",
+                fontSize: "12px",
+              }}
+            >
+              {task.assigned_to && (
+                <>
+                  <AccountCircleRoundedIcon sx={{ fontSize: 16 }} />
+    
+                  <Box style={{ marginLeft: "5px" }}>{task.assigned_to}</Box>
+                </>
+              )}
+            </Box>
+          </Box>
 
           <Box
             sx={{
@@ -118,15 +135,42 @@ export default function TaskCard({ task, index, refreshTasks }) {
           >
             <Box
               sx={{
-                width: "50%",
+                width: "75%",
                 display: "flex",
               }}
             >
-              <Box sx={{ backgroundColor: getStatusColor(task.status), marginRight: "20px", padding: "0 5px 0 5px", borderRadius: "5px"}}>
+              <Box
+                sx={{
+                  backgroundColor: getStatusColor(task.status),
+                  marginRight: "20px",
+                  padding: "0 5px 0 5px",
+                  borderRadius: "5px",
+                }}
+              >
                 {task.status}
               </Box>
-              <Box sx={{ backgroundColor: getPriorityColor(task.priority), padding: "0 5px 0 5px", borderRadius: "5px" }}>
+              <Box
+                sx={{
+                  backgroundColor: getPriorityColor(task.priority),
+                  marginRight: "20px",
+                  padding: "0 5px 0 5px",
+                  borderRadius: "5px",
+                }}
+              >
                 {getPriorityLabel(task.priority)}
+              </Box>
+              <Box
+                sx={{
+                  padding: "0 5px 0 5px",
+                  borderRadius: "5px",
+                  backgroundColor: "lightgray",
+                }}
+              >
+                {differenceInDays < 0 ? (
+                  <span>Deadline Passed</span>
+                ) : (
+                  <span>Days Remaining: {differenceInDays}</span>
+                )}
               </Box>
             </Box>
 
