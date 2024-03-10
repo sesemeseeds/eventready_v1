@@ -80,3 +80,7 @@
   margin-bottom: 20px  !important;
   margin-left: 10px !important;
 }
+
+.task-dialog {
+  border-radius: 20px;
+}

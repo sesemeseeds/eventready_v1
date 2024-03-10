@@ -119,7 +119,7 @@ export default function TaskCard({ task, index, refreshTasks }) {
               {task.assigned_to && (
                 <>
                   <AccountCircleRoundedIcon sx={{ fontSize: 16 }} />
-    
+
                   <Box style={{ marginLeft: "5px" }}>{task.assigned_to}</Box>
                 </>
               )}
@@ -159,19 +159,21 @@ export default function TaskCard({ task, index, refreshTasks }) {
               >
                 {getPriorityLabel(task.priority)}
               </Box>
-              <Box
-                sx={{
-                  padding: "0 5px 0 5px",
-                  borderRadius: "5px",
-                  backgroundColor: "lightgray",
-                }}
-              >
-                {differenceInDays < 0 ? (
-                  <span>Deadline Passed</span>
-                ) : (
-                  <span>Days Remaining: {differenceInDays}</span>
-                )}
-              </Box>
+              {task.deadline_date != null && (
+                <Box
+                  sx={{
+                    padding: "0 5px 0 5px",
+                    borderRadius: "5px",
+                    backgroundColor: "lightgray",
+                  }}
+                >
+                  {differenceInDays < 0 ? (
+                    <span>Deadline Passed</span>
+                  ) : (
+                    <span>Days Remaining: {differenceInDays}</span>
+                  )}
+                </Box>
+              )}
             </Box>
 
             <Box sx={{ display: "flex" }}>

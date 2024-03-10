@@ -129,6 +129,16 @@ export default function TasksPage() {
       ...inprogress,
     ]);
 
+
+    if (destination.droppableId === "2") {
+      const today = new Date();
+      const formattedDate = today.toISOString().split('T')[0];
+      task.completion_date = formattedDate;
+
+    } else {
+      task.completion_date = null;
+    }
+
     switch (destination.droppableId) {
       case "1":
         task.status = "To Do";

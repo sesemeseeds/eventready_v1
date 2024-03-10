@@ -10,11 +10,14 @@ import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
 import AxiosInstance from "../Axios";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
+import { Box } from "@mui/material";
 
 export default function EditTaskDialog({ open, onClose, task, refreshTasks }) {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [priority, setPriority] = useState(5); 
+  const [priority, setPriority] = useState(5);
   const [completionDate, setCompletionDate] = useState(String);
   const [deadlineDate, setDeadlineDate] = useState(String);
   const [assignedTo, setAssignedTo] = useState("");
@@ -31,7 +34,7 @@ export default function EditTaskDialog({ open, onClose, task, refreshTasks }) {
   }, [open, task]);
 
   const handleSubmit = async () => {
-    if (!title.trim() || !description.trim()) {
+    if (!title.trim()) {
       return;
     }
 
@@ -43,9 +46,9 @@ export default function EditTaskDialog({ open, onClose, task, refreshTasks }) {
       status: task.status,
       completion_date: completionDate,
       deadline_date: deadlineDate,
-      assigned_to: assignedTo
+      assigned_to: assignedTo,
     };
-    console.log(updatedTask)
+    console.log(updatedTask);
     try {
       await AxiosInstance.put(`tasks/${task.id}/`, updatedTask);
       onClose();
@@ -60,72 +63,104 @@ export default function EditTaskDialog({ open, onClose, task, refreshTasks }) {
   };
 
   return (
-    <Dialog open={open} onClose={handleClose}>
-      <DialogTitle>Edit Task</DialogTitle>
-      <DialogContent>
+    <Dialog maxWidth="md" backgr open={open} onClose={handleClose}>
+      <DialogTitle>
+        {" "}
         <TextField
+          size="medium"
           autoFocus
+          required="true"
           margin="dense"
-          label="Title"
+          label="Task Name"
           type="text"
+          variant="outlined"
           fullWidth
           value={title}
+          InputLabelProps={{ shrink: true, style: { fontSize: 15 } }}
+          inputProps={{ style: { fontSize: 18, fontWeight: 600 } }}
           onChange={(e) => setTitle(e.target.value)}
         />
-        <TextField
-          margin="dense"
-          label="Description"
-          type="text"
-          fullWidth
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-        />
-        <FormControl fullWidth>
-          <InputLabel>Priority</InputLabel>
-          <Select
-            value={priority}
-            onChange={(e) => setPriority(e.target.value)}
-          >
-            {[...Array(10).keys()].map((value) => (
-              <MenuItem key={value + 1} value={value + 1}>{value + 1}</MenuItem>
-            ))}
-          </Select>
-        </FormControl>
-        <TextField
-          margin="dense"
-          label="Completion Date"
-          type="Date"
-          format="mm/dd/yyyy"
-          fullWidth
-          value={completionDate}
-          InputLabelProps={{ shrink: true, required: false }}
-          onChange={(e) => setCompletionDate(e.target.value)}
-        />
-        <TextField
-          margin="dense"
-          label="Deadline Date"
-          type="Date"
-          format="mm/dd/yyyy"
-          fullWidth
-          value={deadlineDate}
-          InputLabelProps={{ shrink: true, required: false }}
-          onChange={(e) => setDeadlineDate(e.target.value)}
-        />
-        <TextField
-          margin="dense"
-          label="Assigned To"
-          type="text"
-          fullWidth
-          value={assignedTo}
-          onChange={(e) => setAssignedTo(e.target.value)}
-        />
+      </DialogTitle>
+      <DialogContent>
+        <Box sx={{ display: "flex", height: 325, width: 700 }}>
+          {" "}
+          <Box sx={{ width: "70%", marginRight: "25px" }}>
+            <ReactQuill
+              theme="snow"
+              value={description}
+              onChange={setDescription}
+              placeholder="Enter your description here!"
+              style={{ marginTop: 8, marginBottom: 16, height: 250 }}
+            />
+          </Box>
+          <Box sx={{ width: "30%" }}>
+            <TextField
+              margin="dense"
+              label="Assigned To"
+              type="text"
+              variant="outlined"
+              fullWidth
+              value={assignedTo}
+              InputLabelProps={{ shrink: true, required: false }}
+              style={{ paddingBottom: 10 }}
+              onChange={(e) => setAssignedTo(e.target.value)}
+            />
+            <FormControl
+              style={{ paddingBottom: 10 }}
+              fullWidth
+              variant="outlined"
+            >
+              <InputLabel>Priority</InputLabel>
+              <Select
+                value={priority}
+                onChange={(e) => setPriority(e.target.value)}
+              >
+                {[...Array(10).keys()].map((value) => (
+                  <MenuItem key={value + 1} value={value + 1}>
+                    {value + 1}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+            <TextField
+              margin="dense"
+              label="Completion Date"
+              type="date"
+              format="mm/dd/yyyy"
+              variant="outlined"
+              fullWidth
+              style={{ paddingBottom: 10 }}
+              value={completionDate}
+              InputLabelProps={{ shrink: true, required: false }}
+              onChange={(e) => setCompletionDate(e.target.value)}
+            />
+            <TextField
+              margin="dense"
+              label="Deadline Date"
+              type="date"
+              variant="outlined"
+              format="mm/dd/yyyy"
+              fullWidth
+              value={deadlineDate}
+              InputLabelProps={{ shrink: true, required: false }}
+              onChange={(e) => setDeadlineDate(e.target.value)}
+            />
+            <TextField
+              margin="dense"
+              label="Associated Goal"
+              type="Text"
+              variant="outlined"
+              fullWidth
+            />
+          </Box>
+        </Box>
       </DialogContent>
-      <DialogActions>
-        <Button onClick={handleClose} color="primary">
+      <DialogActions style={{ backgroundColor: "#009CDF" }}>
+        <Button variant="contained" onClick={handleClose} color="secondary">
           Cancel
         </Button>
-        <Button onClick={handleSubmit} color="primary">
-          Save
+        <Button variant="contained" onClick={handleSubmit} color="primary">
+          Edit Task
         </Button>
       </DialogActions>
     </Dialog>
