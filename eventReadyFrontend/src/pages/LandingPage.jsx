@@ -93,7 +93,6 @@ export const LandingPage = () => {
                 <Grid item xs={4} key={event.id}>
                   <Card sx={{ width: "100%" }}>
                     <CardActionArea component={Link} to={`event/${event.id}/generalinfo`}>
-                      <CardMedia />
                       {/* Dialog Box */}
                       {/* TODO: Fix to get each event in the TextField */}
 

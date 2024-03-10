@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { DragDropContext } from "react-beautiful-dnd";
 import TaskColumn from "../components/tasks-components/TaskColumn";
 import AddTaskDialog from "../components/tasks-components/AddTaskDialog";
+import "../styles/Tasks.css";
 import { Box } from "@mui/material";
 export default function TasksPage() {
   const cards = [
