@@ -21,8 +21,8 @@ export default function AddTaskDialog({
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [priority, setPriority] = useState(5); 
-  const [completionDate, setCompletionDate] = useState(String);
-  const [deadlineDate, setDeadlineDate] = useState(String);
+  const [completionDate, setCompletionDate] = useState(null);
+  const [deadlineDate, setDeadlineDate] = useState(null);
   const [assignedTo, setAssignedTo] = useState("");
 
   const handleSubmit = async () => {
@@ -56,7 +56,6 @@ export default function AddTaskDialog({
     }
 
     try {
-      console.log(newTask)
       await AxiosInstance.post("tasks/", newTask);
       refreshTasks();
       setTitle("");
