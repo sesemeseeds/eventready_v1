@@ -193,7 +193,7 @@ export default function TasksPage() {
   return (
     <Box className="task-board-container">
       <DragDropContext onDragEnd={handleDragEnd}>
-        <h2 style={{ textAlign: "center" }}>TASK BOARD</h2>
+        <h2 style={{ textAlign: "center", fontSize: "30px" }}>Task Board!</h2>
 
         <TextField
           className="search-bar"
@@ -226,19 +226,19 @@ export default function TasksPage() {
 
         <div className="task-board">
           <TaskColumn
-            title={"TO DO"}
+            title={"To Do"}
             tasks={filterTasks(todo)}
             columnId={"1"}
             refreshTasks={fetchTasksData}
           />
           <TaskColumn
-            title={"IN PROGRESS"}
+            title={"In Progress"}
             tasks={filterTasks(inprogress)}
             columnId={"3"}
             refreshTasks={fetchTasksData}
           />
           <TaskColumn
-            title={"DONE"}
+            title={"Done"}
             tasks={filterTasks(completed)}
             columnId={"2"}
             refreshTasks={fetchTasksData}
