@@ -33,6 +33,7 @@ import AttendancePage from "../pages/Attendance";
 import TasksPage from "../pages/TasksPage";
 import GoalsPage from "../pages/GoalsPage";
 import { useLocation } from "react-router-dom";
+import BudgetPage from "../pages/BudgetPage";
 
 const drawerWidth = 240;
 
@@ -245,8 +246,8 @@ export default function PersistentDrawerLeft() {
         <List>
           <ListItem
             button
-            key="hello"
-            to="helloworld"
+            key="budget"
+            to="budget"
             component={Link}
             onClick={() => {
               setHeaderName("Budget");
@@ -301,7 +302,7 @@ export default function PersistentDrawerLeft() {
         <Routes>
           <Route path="generalinfo" element={<GeneralInfoPage />} />
           <Route path="goals" element={<GoalsPage />} />
-          <Route path="helloworld" element={<HelloWorld />} />
+          <Route path="budget" element={<BudgetPage />} />
           <Route path="marketing" element={<MarketingPage />} />
           <Route path="Attendance" element={<AttendancePage />} />
           <Route path="tasks" element={<TasksPage />} />

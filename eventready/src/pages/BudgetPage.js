@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { Button, LinearProgress, Container, Box, IconButton, Typography, TextField, Dialog, DialogTitle, DialogContent, DialogActions, FormControl, InputLabel, Select, MenuItem, Checkbox, FormControlLabel, FormGroup, Alert } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import DeleteIcon from '@mui/icons-material/Delete';
-
+import "../styles/Budget.css";
 const BudgetPage = () => {
   const [totalBudget, setTotalBudget] = useState('');
   const [currentSpent, setCurrentSpent] = useState('');
@@ -241,7 +241,7 @@ const BudgetPage = () => {
   };
 
   return (
-    <Container maxWidth="md" style={{ marginTop: '50px' }}>
+    <Container  className='container'>
       {/* Progress bar */}
       <Box display="flex" alignItems="center" mt={2}>
         <Typography variant="body1" style={{ marginRight: '10px' }}>
