@@ -17,7 +17,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import IconButton from "@mui/material/IconButton";
 import AccountCircleRoundedIcon from "@mui/icons-material/AccountCircleRounded";
 
-export default function TaskCard({ task, index, refreshTasks }) {
+export default function TaskCard({ task, index, refreshTasks, goals }) {
   const [editDialogOpen, setEditDialogOpen] = useState(false);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
 
@@ -195,6 +195,7 @@ export default function TaskCard({ task, index, refreshTasks }) {
             onClose={closeEditDialog}
             task={task}
             refreshTasks={refreshTasks}
+            goals={goals}
           />
           <Dialog open={deleteDialogOpen} onClose={closeDeleteDialog}>
             <DialogTitle>Confirm Delete</DialogTitle>

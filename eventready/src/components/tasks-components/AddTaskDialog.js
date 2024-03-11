@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Dialog from "@material-ui/core/Dialog";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import DialogContent from "@material-ui/core/DialogContent";
@@ -20,6 +20,7 @@ export default function AddTaskDialog({
   refreshTasks,
   eventId,
   columnId,
+  goals,
 }) {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -27,6 +28,7 @@ export default function AddTaskDialog({
   const [completionDate, setCompletionDate] = useState(null);
   const [deadlineDate, setDeadlineDate] = useState(null);
   const [assignedTo, setAssignedTo] = useState("");
+  const [selectedGoal, setSelectedGoal] = useState(null);
 
   const handleSubmit = async () => {
     if (!title.trim()) {
@@ -42,6 +44,7 @@ export default function AddTaskDialog({
       completion_date: completionDate,
       deadline_date: deadlineDate,
       assigned_to: assignedTo,
+      goal: selectedGoal,
     };
 
     switch (columnId) {
@@ -110,7 +113,7 @@ export default function AddTaskDialog({
               value={description}
               onChange={setDescription}
               placeholder="Enter your description here!"
-              style={{ marginTop: 8, marginBottom: 16, height: 250 }}
+              style={{ marginTop: 8, marginBottom: 16, height: 258 }}
             />
           </Box>
           <Box sx={{ width: "30%" }}>
@@ -134,6 +137,7 @@ export default function AddTaskDialog({
               <Select
                 value={priority}
                 onChange={(e) => setPriority(e.target.value)}
+                label="Priority"
               >
                 {[...Array(10).keys()].map((value) => (
                   <MenuItem key={value + 1} value={value + 1}>
@@ -157,6 +161,7 @@ export default function AddTaskDialog({
             <TextField
               margin="dense"
               label="Deadline Date"
+              style={{ paddingBottom: 10 }}
               type="date"
               variant="outlined"
               format="mm/dd/yyyy"
@@ -165,13 +170,23 @@ export default function AddTaskDialog({
               InputLabelProps={{ shrink: true, required: false }}
               onChange={(e) => setDeadlineDate(e.target.value)}
             />
-            <TextField
-              margin="dense"
-              label="Associated Goal"
-              type="Text"
-              variant="outlined"
-              fullWidth
-            />
+            <FormControl fullWidth variant="outlined">
+              <InputLabel shrink={true} >
+                Associated Goal
+              </InputLabel>
+              <Select
+                value={selectedGoal}
+                onChange={(e) => setSelectedGoal(e.target.value)}
+                label="Associated Goal"
+                notched={true}
+              >
+                {goals.map((goal) => (
+                  <MenuItem key={goal.id} value={goal.id}>
+                    {goal.name}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
           </Box>
         </Box>
       </DialogContent>

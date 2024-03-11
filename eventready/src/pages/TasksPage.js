@@ -3,15 +3,9 @@ import { DragDropContext } from "react-beautiful-dnd";
 import TaskColumn from "../components/tasks-components/TaskColumn";
 import SearchIcon from "@mui/icons-material/Search";
 import InputAdornment from "@mui/material/InputAdornment";
-import SortIcon from '@mui/icons-material/Sort';
+import SortIcon from "@mui/icons-material/Sort";
 import "../styles/Tasks.css";
-import {
-  Box,
-  TextField,
-  MenuItem,
-  FormControl,
-  Select,
-} from "@mui/material";
+import { Box, TextField, MenuItem, FormControl, Select } from "@mui/material";
 import AxiosInstance from "../components/Axios";
 import { useParams } from "react-router-dom";
 export default function TasksPage() {
@@ -19,7 +13,8 @@ export default function TasksPage() {
   const [inprogress, setInProgress] = useState([]);
   const [todo, setToDo] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
-  const [sortByFilter, setSortByFilter] = useState("highToLow"); 
+  const [sortByFilter, setSortByFilter] = useState("highToLow");
+
   const MyParam = useParams();
   const MyId = MyParam.id;
 
@@ -51,37 +46,38 @@ export default function TasksPage() {
     }
   };
 
-
   const filterTasks = (tasks) => {
-    let filteredTasks = tasks.filter((task) =>
-      task.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      (task.priority && getPriorityLabel(task.priority).toLowerCase().includes(searchQuery.toLowerCase()))
+    let filteredTasks = tasks.filter(
+      (task) =>
+        task.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        (task.priority &&
+          getPriorityLabel(task.priority)
+            .toLowerCase()
+            .includes(searchQuery.toLowerCase()))
     );
-  
+
     filteredTasks.sort((a, b) => {
-      const priorityA = a.priority || 0; 
+      const priorityA = a.priority || 0;
       const priorityB = b.priority || 0;
 
       const deadlineDateA = new Date(a.deadline_date);
       const deadlineDateB = new Date(b.deadline_date);
-  
+
       if (sortByFilter === "lowToHigh") {
-        return priorityA - priorityB; 
+        return priorityA - priorityB;
       } else if (sortByFilter === "highToLow") {
-        return priorityB - priorityA; 
-      }  else if (sortByFilter === "nearestDeadline") {
-       
+        return priorityB - priorityA;
+      } else if (sortByFilter === "nearestDeadline") {
         const today = new Date();
         const deadlineDiffA = Math.abs(deadlineDateA - today);
         const deadlineDiffB = Math.abs(deadlineDateB - today);
-  
-        return deadlineDiffA - deadlineDiffB; 
-      }
-      else {
-        return 0; 
+
+        return deadlineDiffA - deadlineDiffB;
+      } else {
+        return 0;
       }
     });
-  
+
     return filteredTasks;
   };
 
@@ -129,12 +125,10 @@ export default function TasksPage() {
       ...inprogress,
     ]);
 
-
     if (destination.droppableId === "2") {
       const today = new Date();
-      const formattedDate = today.toISOString().split('T')[0];
+      const formattedDate = today.toISOString().split("T")[0];
       task.completion_date = formattedDate;
-
     } else {
       task.completion_date = null;
     }
@@ -213,23 +207,20 @@ export default function TasksPage() {
                 <SearchIcon />
               </InputAdornment>
             ),
-                }}
+          }}
         />
 
-        <FormControl   className="sort-by-dropdown" variant="outlined" >
+        <FormControl className="sort-by-dropdown" variant="outlined">
           <Select
             value={sortByFilter || ""}
             onChange={handleSortByFilter}
             displayEmpty
-            
             inputProps={{ "aria-label": "Sort By Priority" }}
             // IconComponent={() => <SortIcon />}
           >
-            
             <MenuItem value="highToLow">High to Low Priority</MenuItem>
             <MenuItem value="lowToHigh">Low to High Priority</MenuItem>
             <MenuItem value="nearestDeadline">Nearest Deadline</MenuItem>
-          
           </Select>
         </FormControl>
 

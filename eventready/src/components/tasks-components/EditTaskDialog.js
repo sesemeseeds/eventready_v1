@@ -14,13 +14,20 @@ import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { Box } from "@mui/material";
 
-export default function EditTaskDialog({ open, onClose, task, refreshTasks }) {
+export default function EditTaskDialog({
+  open,
+  onClose,
+  task,
+  refreshTasks,
+  goals,
+}) {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [priority, setPriority] = useState(5);
   const [completionDate, setCompletionDate] = useState(String);
   const [deadlineDate, setDeadlineDate] = useState(String);
   const [assignedTo, setAssignedTo] = useState("");
+  const [goal, setGoal] = useState(null);
 
   useEffect(() => {
     if (open) {
@@ -30,6 +37,7 @@ export default function EditTaskDialog({ open, onClose, task, refreshTasks }) {
       setCompletionDate(task.completion_date);
       setDeadlineDate(task.deadline_date);
       setAssignedTo(task.assigned_to);
+      setGoal(task.goal);
     }
   }, [open, task]);
 
@@ -47,6 +55,7 @@ export default function EditTaskDialog({ open, onClose, task, refreshTasks }) {
       completion_date: completionDate,
       deadline_date: deadlineDate,
       assigned_to: assignedTo,
+      goal: goal,
     };
     console.log(updatedTask);
     try {
@@ -90,7 +99,7 @@ export default function EditTaskDialog({ open, onClose, task, refreshTasks }) {
               value={description}
               onChange={setDescription}
               placeholder="Enter your description here!"
-              style={{ marginTop: 8, marginBottom: 16, height: 250 }}
+              style={{ marginTop: 8, marginBottom: 16, height: 258 }}
             />
           </Box>
           <Box sx={{ width: "30%" }}>
@@ -113,6 +122,7 @@ export default function EditTaskDialog({ open, onClose, task, refreshTasks }) {
               <InputLabel>Priority</InputLabel>
               <Select
                 value={priority}
+                label="Priority"
                 onChange={(e) => setPriority(e.target.value)}
               >
                 {[...Array(10).keys()].map((value) => (
@@ -135,6 +145,7 @@ export default function EditTaskDialog({ open, onClose, task, refreshTasks }) {
               onChange={(e) => setCompletionDate(e.target.value)}
             />
             <TextField
+              style={{ paddingBottom: 10 }}
               margin="dense"
               label="Deadline Date"
               type="date"
@@ -145,13 +156,21 @@ export default function EditTaskDialog({ open, onClose, task, refreshTasks }) {
               InputLabelProps={{ shrink: true, required: false }}
               onChange={(e) => setDeadlineDate(e.target.value)}
             />
-            <TextField
-              margin="dense"
-              label="Associated Goal"
-              type="Text"
-              variant="outlined"
-              fullWidth
-            />
+            <FormControl fullWidth variant="outlined">
+              <InputLabel shrink={true}>Associated Goal</InputLabel>
+              <Select
+                value={goal}
+                onChange={(e) => setGoal(e.target.value)}
+                label="Associated Goal"
+                notched={true}
+              >
+                {goals.map((goal) => (
+                  <MenuItem key={goal.id} value={goal.id}>
+                    {goal.name}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
           </Box>
         </Box>
       </DialogContent>

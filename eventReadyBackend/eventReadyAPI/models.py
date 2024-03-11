@@ -17,21 +17,7 @@ class EventGeneralInfo(models.Model):
     def __str__(self):
         return self.name    
     
-class Task(models.Model):
-    id = models.AutoField(primary_key=True)  
-    event_id = models.ForeignKey(EventGeneralInfo, on_delete=models.CASCADE, related_name='tasks')
-    title = models.CharField("Title", max_length=256)
-    description = models.CharField("Description", max_length=1024, null=True, blank=True)
-    status = models.CharField("Status", max_length=20, choices=[("To Do", "To Do"), ("In Progress", "In Progress"), ("Done", "Done")])
-    priority = models.IntegerField("Priority", default=5, validators=[MinValueValidator(1), MaxValueValidator(10)])
-    completion_date = models.DateField("Completion Date", null=True, blank=True)
-    deadline_date = models.DateField("Deadline Date", null=True, blank=True)
-    assigned_to = models.CharField("Assigned To", max_length=256, null=True, blank=True)
 
-    created = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return self.title
     
 class MarketingPoster(models.Model):
     event_id = models.ForeignKey(EventGeneralInfo, related_name='marketingPosters', on_delete=models.CASCADE)
@@ -80,3 +66,20 @@ class Goals(models.Model):
 
     def __str__(self):
         return self.name
+
+class Task(models.Model):
+    id = models.AutoField(primary_key=True)  
+    event_id = models.ForeignKey(EventGeneralInfo, on_delete=models.CASCADE, related_name='tasks')
+    title = models.CharField("Title", max_length=256)
+    description = models.CharField("Description", max_length=1024, null=True, blank=True)
+    status = models.CharField("Status", max_length=20, choices=[("To Do", "To Do"), ("In Progress", "In Progress"), ("Done", "Done")])
+    priority = models.IntegerField("Priority", default=5, validators=[MinValueValidator(1), MaxValueValidator(10)])
+    completion_date = models.DateField("Completion Date", null=True, blank=True)
+    deadline_date = models.DateField("Deadline Date", null=True, blank=True)
+    assigned_to = models.CharField("Assigned To", max_length=256, null=True, blank=True)
+
+    goal = models.ForeignKey(Goals, on_delete=models.SET_NULL, null=True, blank=True, related_name='tasks')
+    created = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.title
