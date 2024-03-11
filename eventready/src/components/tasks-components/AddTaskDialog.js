@@ -70,6 +70,7 @@ export default function AddTaskDialog({
       setCompletionDate(null);
       setDeadlineDate(null);
       setAssignedTo("");
+      setSelectedGoal(null);
       onClose();
     } catch (error) {
       console.error("Error adding task:", error);
@@ -83,6 +84,7 @@ export default function AddTaskDialog({
     setCompletionDate(null);
     setDeadlineDate(null);
     setAssignedTo("");
+    setSelectedGoal(null);
     onClose();
   };
 
