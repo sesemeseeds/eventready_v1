@@ -17,8 +17,6 @@ class EventGeneralInfo(models.Model):
     def __str__(self):
         return self.name    
     
-
-    
 class MarketingPoster(models.Model):
     event_id = models.ForeignKey(EventGeneralInfo, related_name='marketingPosters', on_delete=models.CASCADE)
     id = models.IntegerField(primary_key=True, editable=False)
@@ -62,7 +60,7 @@ class Goals(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     progress = models.IntegerField("Progress", validators=[MinValueValidator(0), MaxValueValidator(100)])
 
-    # tasks = models.ManyToManyField('Tasks', related_name='goals', blank=True)
+    tasks = models.ManyToManyField('Task', related_name='goals', blank=True)
 
     def __str__(self):
         return self.name
@@ -78,7 +76,7 @@ class Task(models.Model):
     deadline_date = models.DateField("Deadline Date", null=True, blank=True)
     assigned_to = models.CharField("Assigned To", max_length=256, null=True, blank=True)
 
-    goal = models.ForeignKey(Goals, on_delete=models.SET_NULL, null=True, blank=True, related_name='tasks')
+    goal = models.ForeignKey(Goals, on_delete=models.SET_NULL, null=True, blank=True, related_name='tasks_to_goal')
     created = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):

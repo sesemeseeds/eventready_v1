@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from rest_framework import viewsets, permissions
+from rest_framework import viewsets, permissions, status
 from .serializers import *
 from rest_framework.response import Response
 from rest_framework.parsers import MultiPartParser, FormParser
@@ -163,3 +163,9 @@ class GoalsViewset(viewsets.ModelViewSet):
         goal = queryset.get(pk=pk)
         goal.delete()
         return Response(status=204)
+
+    def update_related_tasks(self, request, pk=None):
+        goal = self.get_object()
+        task_ids = request.data.get('task_ids', [])  # Assuming you send task_ids as a list in the request data
+        goal.tasks.set(task_ids)  # Update related tasks
+        return Response({"message": "Related tasks updated successfully"}, status=200)

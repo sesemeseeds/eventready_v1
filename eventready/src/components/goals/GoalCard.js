@@ -13,7 +13,7 @@ import TruncateText from '../util/TruncateText';
 import FormatDate from '../util/FormatDate';
 
 
-const GoalCard = ({ goal, handleDeleteGoal }) => {
+const GoalCard = ({ eventId, goal, handleDeleteGoal }) => {
     const [goalName, setGoalName] = useState('');
     const [goalDueDate, setGoalDueDate] = useState('');
     const [goalDescription, setGoalDescription] = useState('');
@@ -83,7 +83,7 @@ const GoalCard = ({ goal, handleDeleteGoal }) => {
                         <DeleteIcon />
                     </IconButton>
                 </Tooltip>
-                <ProgressDonut value={goal.progress} />
+                <ProgressDonut value={goal.progress} eventId={eventId} goalId={goal.id} />
                 <Typography variant="h7" component="div" sx={{ fontWeight: 'bold', textAlign: 'center', paddingTop: '10px' }}>
                 {goal.name}
                 </Typography>

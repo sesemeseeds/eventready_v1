@@ -6,7 +6,7 @@ const EditDueDateDialog = ({ isOpen, onClose, currentDueDate, onSave }) => {
     const [newDueDate, setNewDueDate] = useState('');
 
     const handleSave = () => {
-        onSave(newDueDate);
+        onSave(FormatDate(newDueDate, 'YYYY/MM/DD'));
         setNewDueDate('');
     };
 

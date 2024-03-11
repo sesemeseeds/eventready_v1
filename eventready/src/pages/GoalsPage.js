@@ -67,6 +67,7 @@ const GoalsPage = () => {
           allGoals.map((goal) => (
             <Grid item key={goal.id}>
               <GoalCard
+                eventId={eventId}
                 goal={goal}
                 handleDeleteGoal={handleDeleteGoal}
               />
