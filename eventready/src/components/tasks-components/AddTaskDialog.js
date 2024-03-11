@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Dialog from "@material-ui/core/Dialog";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import DialogContent from "@material-ui/core/DialogContent";
@@ -10,6 +10,9 @@ import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
 import AxiosInstance from "../Axios";
+import { Box } from "@mui/material";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
 
 export default function AddTaskDialog({
   open,
@@ -17,13 +20,18 @@ export default function AddTaskDialog({
   refreshTasks,
   eventId,
   columnId,
+  goals,
 }) {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [priority, setPriority] = useState("");
+  const [priority, setPriority] = useState(5);
+  const [completionDate, setCompletionDate] = useState(null);
+  const [deadlineDate, setDeadlineDate] = useState(null);
+  const [assignedTo, setAssignedTo] = useState("");
+  const [selectedGoal, setSelectedGoal] = useState(null);
 
   const handleSubmit = async () => {
-    if (!title.trim() || !description.trim() || !priority.trim()) {
+    if (!title.trim()) {
       return;
     }
 
@@ -33,6 +41,10 @@ export default function AddTaskDialog({
       description,
       status: "",
       priority,
+      completion_date: completionDate,
+      deadline_date: deadlineDate,
+      assigned_to: assignedTo,
+      goal: selectedGoal,
     };
 
     switch (columnId) {
@@ -54,7 +66,10 @@ export default function AddTaskDialog({
       refreshTasks();
       setTitle("");
       setDescription("");
-      setPriority("");
+      setPriority(5);
+      setCompletionDate(null);
+      setDeadlineDate(null);
+      setAssignedTo("");
       onClose();
     } catch (error) {
       console.error("Error adding task:", error);
@@ -64,48 +79,122 @@ export default function AddTaskDialog({
   const handleClose = () => {
     setTitle("");
     setDescription("");
-    setPriority("");
+    setPriority(5);
+    setCompletionDate(null);
+    setDeadlineDate(null);
+    setAssignedTo("");
     onClose();
   };
 
   return (
-    <Dialog open={open} onClose={handleClose}>
-      <DialogTitle>Add New Task</DialogTitle>
-      <DialogContent>
+    <Dialog maxWidth="md" open={open} onClose={handleClose}>
+      <DialogTitle>
+        {" "}
         <TextField
           autoFocus
+          required="true"
           margin="dense"
-          label="Title"
+          label="Task Name"
           type="text"
+          variant="outlined"
           fullWidth
           value={title}
+          InputLabelProps={{ shrink: true, style: { fontSize: 15 } }}
+          inputProps={{ style: { fontSize: 18, fontWeight: 600 } }}
           onChange={(e) => setTitle(e.target.value)}
         />
-        <TextField
-          margin="dense"
-          label="Description"
-          type="text"
-          fullWidth
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-        />
-        <FormControl fullWidth>
-          <InputLabel>Priority</InputLabel>
-          <Select
-            value={priority}
-            onChange={(e) => setPriority(e.target.value)}
-          >
-            <MenuItem value={"Low"}>Low</MenuItem>
-            <MenuItem value={"Medium"}>Medium</MenuItem>
-            <MenuItem value={"High"}>High</MenuItem>
-          </Select>
-        </FormControl>
+      </DialogTitle>
+      <DialogContent>
+        <Box sx={{ display: "flex", height: 325, width: 700 }}>
+          {" "}
+          <Box sx={{ width: "70%", marginRight: "25px" }}>
+            <ReactQuill
+              theme="snow"
+              value={description}
+              onChange={setDescription}
+              placeholder="Enter your description here!"
+              style={{ marginTop: 8, marginBottom: 16, height: 258 }}
+            />
+          </Box>
+          <Box sx={{ width: "30%" }}>
+            <TextField
+              margin="dense"
+              label="Assigned To"
+              type="text"
+              variant="outlined"
+              fullWidth
+              value={assignedTo}
+              InputLabelProps={{ shrink: true, required: false }}
+              style={{ paddingBottom: 10 }}
+              onChange={(e) => setAssignedTo(e.target.value)}
+            />
+            <FormControl
+              style={{ paddingBottom: 10 }}
+              fullWidth
+              variant="outlined"
+            >
+              <InputLabel>Priority</InputLabel>
+              <Select
+                value={priority}
+                onChange={(e) => setPriority(e.target.value)}
+                label="Priority"
+              >
+                {[...Array(10).keys()].map((value) => (
+                  <MenuItem key={value + 1} value={value + 1}>
+                    {value + 1}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+            <TextField
+              margin="dense"
+              label="Completion Date"
+              type="date"
+              format="mm/dd/yyyy"
+              variant="outlined"
+              fullWidth
+              style={{ paddingBottom: 10 }}
+              value={completionDate}
+              InputLabelProps={{ shrink: true, required: false }}
+              onChange={(e) => setCompletionDate(e.target.value)}
+            />
+            <TextField
+              margin="dense"
+              label="Deadline Date"
+              style={{ paddingBottom: 10 }}
+              type="date"
+              variant="outlined"
+              format="mm/dd/yyyy"
+              fullWidth
+              value={deadlineDate}
+              InputLabelProps={{ shrink: true, required: false }}
+              onChange={(e) => setDeadlineDate(e.target.value)}
+            />
+            <FormControl fullWidth variant="outlined">
+              <InputLabel shrink={true} >
+                Associated Goal
+              </InputLabel>
+              <Select
+                value={selectedGoal}
+                onChange={(e) => setSelectedGoal(e.target.value)}
+                label="Associated Goal"
+                notched={true}
+              >
+                {goals.map((goal) => (
+                  <MenuItem key={goal.id} value={goal.id}>
+                    {goal.name}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </Box>
+        </Box>
       </DialogContent>
-      <DialogActions>
-        <Button onClick={handleClose} color="primary">
+      <DialogActions style={{ backgroundColor: "#009CDF" }}>
+        <Button variant="contained" onClick={handleClose} color="secondary">
           Cancel
         </Button>
-        <Button onClick={handleSubmit} color="primary">
+        <Button variant="contained" onClick={handleSubmit} color="primary">
           Add Task
         </Button>
       </DialogActions>

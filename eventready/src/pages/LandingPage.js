@@ -41,9 +41,6 @@ export const LandingPage = () => {
   const getAllEvents = () => {
     AxiosInstance.get(`/event/`).then((res) => {
       setAllEvents(res.data);
-      // setEventTitle(res.data.name)
-      // setEventDescription(res.data.description)
-      // console.log(res.data);
       setLoading(false);
     });
   };
@@ -51,21 +48,6 @@ export const LandingPage = () => {
   React.useEffect(() => {
     getAllEvents();
   }, []);
-
-  const handleContextMenu = (event, id) => {
-    event.preventDefault();
-    setDeleteID(id);
-    console.log(deleteID);
-
-    setContextMenu(
-      contextMenu === null
-        ? {
-            mouseX: event.clientX + 2,
-            mouseY: event.clientY - 6,
-          }
-        : null
-    );
-  };
 
   const { register, handleSubmit } = useForm({});
 
@@ -143,12 +125,11 @@ export const LandingPage = () => {
                 <Grid item xs={4} key={event.id} id={event}>
                   <Card
                     className="event-card"
-                    // onContextMenu={(e) => handleContextMenu(e, event.id)}
                     style={{ cursor: "context-menu" }}
                   >
                     <CardActionArea
                       component={Link}
-                      to={`event/${event.id}/generalinfo`}
+                      to={`event/${event.id}/generalinfo`} reloadDocument
                     >
                       <CardContent sx={{ height: "175px" }}>
                         <Typography gutterBottom variant="h5" component="div">
