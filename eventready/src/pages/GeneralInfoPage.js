@@ -33,6 +33,8 @@ export default function GeneralInfoComponent() {
   const [EventAddress, setEventAddress] = React.useState(String);
   const [loading, setLoading] = React.useState(true);
 
+  const [goals, setGoals] = React.useState()
+
   const MyParam = useParams();
   const MyId = MyParam.id;
 
@@ -89,9 +91,25 @@ export default function GeneralInfoComponent() {
       setEventActive(res.data.active);
       setLoading(false);
     });
+
+  };
+
+  const getAllGoals = async () => {
+    try {
+      const response = await AxiosInstance.get(`goals/?event_id=${MyId}`);
+      const goalData = response.data;
+      if (!goalData) {
+          setGoals([]);
+      } else {
+          setGoals(goalData);
+      }
+    } catch (error) {
+      console.error("Error fetching event goals:", error);
+    }
   };
 
   React.useEffect(() => {
+    getAllGoals();
     GetData();
   }, []);
 
@@ -120,7 +138,7 @@ export default function GeneralInfoComponent() {
 
   return (
     <div>
-      <Box className="container">
+      <Box className="geninfo-container">
         <div className="section-container">
           {" "}
           <Box className="main-section">
@@ -166,10 +184,9 @@ export default function GeneralInfoComponent() {
           </Box>
         </div>
         <Box style={{ float: "left", width: "100%" }}>
-          <hr></hr>
           <h1>Dashboard</h1>
           <Box className="dashboard">
-            <GoalsCard></GoalsCard>
+            <GoalsCard goals={goals}></GoalsCard>
             <TaskCard></TaskCard>
             <BudgetCard></BudgetCard>
             <MarketingCard></MarketingCard>
