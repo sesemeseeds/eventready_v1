@@ -32,7 +32,7 @@ export default function GoalsCard({ goals }) {
     <Card sx={{ boxShadow: 3, width: 300 }}>
       <Box sx={{ backgroundColor: "#FFB000", paddingLeft: "10px" }}>
         {" "}
-        <Typography variant="h5" component="div">
+        <Typography fontWeight="bold" variant="h5" component="div">
           Goals
         </Typography>
       </Box>

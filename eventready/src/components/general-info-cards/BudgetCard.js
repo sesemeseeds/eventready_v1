@@ -9,31 +9,31 @@ import { CircularProgressbar } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 import { Tooltip } from "@mui/material";
 import { Box, Container } from "@mui/material";
-export default function BudgetCard({ goals }) {
+export default function BudgetCard({ budget }) {
   const [value, setValue] = useState(0);
   const [totalGoals, setTotalGoals] = useState(0);
   const [completedGoals, setCompletedGoals] = useState(0);
 
   const calculateValue = () => {
-    if (!goals || goals.length === 0) return 0;
-    const completedGoals = goals.filter((goal) => goal.progress === 100).length;
-    const totalGoals = goals.length;
+    // if (!goals || goals.length === 0) return 0;
+    // const completedGoals = goals.filter((goal) => goal.progress === 100).length;
+    // const totalGoals = goals.length;
 
-    setCompletedGoals(completedGoals);
-    setTotalGoals(totalGoals);
-    return (completedGoals / totalGoals) * 100;
+    // setCompletedGoals(completedGoals);
+    // setTotalGoals(totalGoals);
+    // return (completedGoals / totalGoals) * 100;
   };
 
   useEffect(() => {
-    setValue(calculateValue());
-  }, [goals]);
+    // setValue(calculateValue());
+  }, [budget]);
 
   return (
     <Card sx={{ boxShadow: 3, width: 300 }}>
       <Box sx={{ backgroundColor: "#FFB000", paddingLeft: "10px" }}>
         {" "}
-        <Typography variant="h5" component="div">
-          Goals
+        <Typography fontWeight="bold" variant="h5" component="div">
+          Budget
         </Typography>
       </Box>
 
@@ -42,8 +42,9 @@ export default function BudgetCard({ goals }) {
           <div style={{ width: 250 }}>
             <CircularProgressbar
               value={value}
-              text={`
-                  ${completedGoals} / ${totalGoals}  Goals Completed`}
+              // text={`
+              //     ${completedGoals} / ${totalGoals}  Goals Completed`}
+                   text={"$2500 / $3000 Budget Used"}
               strokeWidth={10}
               styles={{
                 path: {

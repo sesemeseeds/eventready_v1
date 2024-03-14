@@ -34,6 +34,7 @@ export default function GeneralInfoComponent() {
   const [loading, setLoading] = React.useState(true);
 
   const [goals, setGoals] = React.useState()
+  const [tasks, setTasks] = React.useState()
 
   const MyParam = useParams();
   const MyId = MyParam.id;
@@ -107,9 +108,23 @@ export default function GeneralInfoComponent() {
       console.error("Error fetching event goals:", error);
     }
   };
+  const getAllTasks = async () => {
+    try {
+      const response = await AxiosInstance.get(`tasks/?event_id=${MyId}`);
+      const tasksData = response.data;
+      if (!setTasks) {
+          setTasks([]);
+      } else {
+          setTasks(tasksData);
+      }
+    } catch (error) {
+      console.error("Error fetching event goals:", error);
+    }
+  };
 
   React.useEffect(() => {
     getAllGoals();
+    getAllTasks();
     GetData();
   }, []);
 
@@ -187,7 +202,7 @@ export default function GeneralInfoComponent() {
           <h1>Dashboard</h1>
           <Box className="dashboard">
             <GoalsCard goals={goals}></GoalsCard>
-            <TaskCard></TaskCard>
+            <TaskCard tasks={tasks}></TaskCard>
             <BudgetCard></BudgetCard>
             <MarketingCard></MarketingCard>
             <AttendanceCard></AttendanceCard>
