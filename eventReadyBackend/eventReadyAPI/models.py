@@ -19,7 +19,7 @@ class EventGeneralInfo(models.Model):
     
 class MarketingPoster(models.Model):
     event_id = models.ForeignKey(EventGeneralInfo, related_name='marketingPosters', on_delete=models.CASCADE)
-    id = models.IntegerField(primary_key=True, editable=False)
+    id = models.AutoField(primary_key=True)
 
     name = models.CharField("Name", max_length=256)
     caption = models.CharField("Caption", max_length=1024, null=True, blank=True)
@@ -31,7 +31,7 @@ class MarketingPoster(models.Model):
 
 class MarketingReminders(models.Model):
     event_id = models.ForeignKey(EventGeneralInfo, related_name='marketingReminders', on_delete=models.CASCADE)
-    id = models.IntegerField(primary_key=True, editable=False)
+    id = models.AutoField(primary_key=True)
 
     name = models.CharField("Name", max_length=256)
     date = models.DateField("Date", null=True, blank=True)
@@ -42,7 +42,7 @@ class MarketingReminders(models.Model):
     
 class MarketingRecapPhotos(models.Model):
     event_id = models.ForeignKey(EventGeneralInfo, related_name='marketingRecapPhotos', on_delete=models.CASCADE)
-    id = models.IntegerField(primary_key=True, editable=False)
+    id = models.AutoField(primary_key=True)
 
     name = models.CharField("Name", max_length=256)
     image = models.ImageField(upload_to='images/recap')
@@ -52,13 +52,13 @@ class MarketingRecapPhotos(models.Model):
     
 class Goals(models.Model):
     event_id = models.ForeignKey(EventGeneralInfo, on_delete=models.CASCADE, related_name='goals')
-    id = models.IntegerField(primary_key=True, editable=False)
+    id = models.AutoField(primary_key=True)
 
-    name = models.CharField("Name", max_length=256)
+    name = models.CharField("Name", max_length=64)
     due_date = models.DateField("Due Date", null=True, blank=True)
     description = models.CharField("Description", max_length=1024, null=True, blank=True)
     created = models.DateTimeField(auto_now_add=True)
-    progress = models.IntegerField("Progress", validators=[MinValueValidator(0), MaxValueValidator(100)])
+    progress = models.IntegerField("Progress", validators=[MinValueValidator(0), MaxValueValidator(100)], null=True)
 
     tasks = models.ManyToManyField('Task', related_name='goals', blank=True)
 
@@ -80,4 +80,4 @@ class Task(models.Model):
     created = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return self.title
+        return self.title   

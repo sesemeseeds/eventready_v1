@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Dialog, DialogTitle, DialogContent, Button, DialogActions, TextField, Paper } from '@mui/material';
 
 const EditDescriptionDialog = ({ isOpen, onClose, onSave, initialDescription }) => {

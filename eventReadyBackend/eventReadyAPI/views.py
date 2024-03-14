@@ -146,7 +146,6 @@ class GoalsViewset(viewsets.ModelViewSet):
         else: 
             return Response(serializer.errors, status=400)
 
-
     def update(self, request, *args, **kwargs):
         partial = kwargs.pop('partial', False)  # Ensure 'partial' parameter is handled correctly
         instance = self.get_object()

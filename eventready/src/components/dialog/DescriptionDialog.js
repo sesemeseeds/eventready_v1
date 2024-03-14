@@ -1,50 +1,30 @@
-import { useState } from 'react';
-import { Dialog, DialogTitle, DialogContent, Button, DialogActions, Typography, IconButton, Paper } from '@mui/material';
+import { Dialog, DialogTitle, DialogContent, Button, DialogActions, Typography, IconButton, Paper, Divider } from '@mui/material';
+
 import CloseIcon from '@mui/icons-material/Close';
+import TruncateText from '../util/TruncateText';
 
-import EditDescriptionDialog from './EditDescriptionDialog';
-
-const DescriptionDialog = ({ isOpen, onClose, onEditClick, description}) => {
-    const [isEditDialogOpen, setEditDialogOpen] = useState(false);
-
-    const handleEditClick = () => {
-        onClose(); 
-        setEditDialogOpen(true); 
-    };
-
-    const handleCloseEditDialog = () => {
-        setEditDialogOpen(false); 
-        onClose(); 
-    };
-
+const DescriptionDialog = ({ isOpen, onClose, description, title}) => {
+    const MAX_NAME_LENGTH = 40;
     return (
         <>
         <Dialog open={isOpen} onClose={onClose}>
             <Paper sx={{ width: 500, height: 500 }}>
             <DialogTitle>
-                View Description
+                <TruncateText text={title} maxLength={MAX_NAME_LENGTH}/>
                 <IconButton sx={{ position: 'absolute', top: '8px', right: '8px' }} onClick={onClose}>
                     <CloseIcon />
                 </IconButton>
             </DialogTitle>
-            <DialogContent>
+            <Divider/>
+            <DialogContent sx={{ height: 380 }}>
                 <Typography>{description}</Typography>
             </DialogContent>
+            <Divider/>
             <DialogActions style={{ position: 'absolute', bottom: 0, right: 0 }}>
                 <Button onClick={onClose}>Close</Button>
-                <Button onClick={handleEditClick}>Edit</Button>
             </DialogActions>
             </Paper>
         </Dialog>
-        <EditDescriptionDialog
-            isOpen={isEditDialogOpen}
-            onClose={handleCloseEditDialog}
-            onSave={(editedDescription) => {
-            onEditClick(editedDescription);
-            handleCloseEditDialog();
-            }}
-            initialDescription={description}
-        />
         </>
     );
 };
