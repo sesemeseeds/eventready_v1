@@ -11,7 +11,7 @@ const TaskAssociationDialog = ({ eventId, open, onClose, goalId, setProgress }) 
     const [selectedTasks, setSelectedTasks] = useState([]);
     const [originalSelectedTasks, setOriginalSelectedTasks] = useState([]);
     const [goalNames, setGoalNames] = useState({});
-    
+
     useEffect(() => {
         const fetchTasks = () => {
             AxiosInstance.get(`/tasks/?event_id=${eventId}`)
@@ -39,7 +39,7 @@ const TaskAssociationDialog = ({ eventId, open, onClose, goalId, setProgress }) 
 
     useEffect(() => {
         setProgress(calculateProgress());
-    }, [tasks, selectedTasks, goalId]);
+    }, [tasks, selectedTasks, goalId, setProgress]);
 
     useEffect(() => {
         if (tasks.length > 0) {
@@ -50,36 +50,30 @@ const TaskAssociationDialog = ({ eventId, open, onClose, goalId, setProgress }) 
         }
     }, [tasks, goalId]);
 
-    const handleTaskCheckboxChange = (taskId) => {
-        const selectedIndex = selectedTasks.indexOf(taskId);
-        let newSelectedTasks = [];
-
-        if (selectedIndex === -1) {
-        newSelectedTasks = [...selectedTasks, taskId];
-        } else {
-        newSelectedTasks = selectedTasks.filter(id => id !== taskId);
-        }
-
-        setSelectedTasks(newSelectedTasks);
+    const calculateProgress = () => {
+        const totalTasks = selectedTasks.length;
+        const doneTasks = selectedTasks.filter(taskId => {
+            const task = tasks.find(task => task.id === taskId);
+            return task && task.status === 'Done';
+        }).length;
+        const progress = totalTasks > 0 ? Math.round((doneTasks / totalTasks) * 100) : 0;
+        
+        return progress;
     };
 
     const handleAssociateTasks = () => {
-        // Tasks that were previously associated but are now deselected
         const deselectedTasks = tasks
             .filter(task => task.goal === goalId && !selectedTasks.includes(task.id))
             .map(task => task.id);
     
-        // Tasks that need to be associated
         const updateTasksPromises = selectedTasks.map(taskId => {
             return AxiosInstance.patch(`/tasks/${taskId}/`, { goal: goalId });
         });
     
-        // Tasks that need to be disassociated
         const disassociateTasksPromises = deselectedTasks.map(taskId => {
             return AxiosInstance.patch(`/tasks/${taskId}/`, { goal: null });
         });
     
-        // Execute all update and disassociate promises concurrently
         Promise.all([...updateTasksPromises, ...disassociateTasksPromises])
             .then(responses => {
                 return AxiosInstance.patch(`/goals/${goalId}/`, { tasks: selectedTasks });
@@ -106,17 +100,6 @@ const TaskAssociationDialog = ({ eventId, open, onClose, goalId, setProgress }) 
             });
     };
 
-    const calculateProgress = () => {
-        const totalTasks = selectedTasks.length;
-        const doneTasks = selectedTasks.filter(taskId => {
-            const task = tasks.find(task => task.id === taskId);
-            return task && task.status === 'Done';
-        }).length;
-        const progress = totalTasks > 0 ? Math.round((doneTasks / totalTasks) * 100) : 0;
-        
-        return progress;
-    };
-
     const handleCancel = () => {
         setSelectedTasks(originalSelectedTasks);
         onClose();
@@ -129,11 +112,11 @@ const TaskAssociationDialog = ({ eventId, open, onClose, goalId, setProgress }) 
                 <Divider/>
                 <DialogContent sx={{ height: 380, overflowY: 'auto', padding: '0 20px' }}>
                     <TaskList
+                            goalId={goalId}
+                            goalNames={goalNames}
                             tasks={tasks}
                             selectedTasks={selectedTasks}
-                            goalId={goalId}
-                            handleTaskCheckboxChange={handleTaskCheckboxChange}
-                            goalNames={goalNames}
+                            setSelectedTasks={setSelectedTasks}
                         />
                 </DialogContent>
                 <Divider/>

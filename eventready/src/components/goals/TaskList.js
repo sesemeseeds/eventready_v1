@@ -1,8 +1,24 @@
 import {useState, useEffect} from 'react';
 import { Checkbox, Divider, Tooltip } from '@mui/material';
 
-const TaskList = ({ tasks, selectedTasks, goalId, handleTaskCheckboxChange, goalNames }) => {
+import AxiosInstance from "../Axios";
+
+
+const TaskList = ({ goalId, goalNames, tasks, selectedTasks, setSelectedTasks }) => {
     
+    const handleTaskCheckboxChange = (taskId) => {
+        const selectedIndex = selectedTasks.indexOf(taskId);
+        let newSelectedTasks = [];
+
+        if (selectedIndex === -1) {
+        newSelectedTasks = [...selectedTasks, taskId];
+        } else {
+        newSelectedTasks = selectedTasks.filter(id => id !== taskId);
+        }
+
+        setSelectedTasks(newSelectedTasks);
+    };
+
     return (
         <div>
             {tasks.map(task => (
