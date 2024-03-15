@@ -1,13 +1,15 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 import { CircularProgressbar } from 'react-circular-progressbar';
+import { Tooltip } from '@mui/material';
 import 'react-circular-progressbar/dist/styles.css';
-import { Tooltip, Dialog, DialogTitle, DialogContent, DialogActions, Button } from '@mui/material';
 
+import TaskAssociationDialog from './TaskAssociationDialog';
 
-const DonutProgressBar = ({ value }) => {
+const ProgressDonut = ({ eventId, goal }) => {  
   const [openDialog, setOpenDialog] = useState(false);
-
+  const [value, setValue] = useState(0);
+  
   const handleOpenDialog = () => {
     setOpenDialog(true);
   };
@@ -18,7 +20,7 @@ const DonutProgressBar = ({ value }) => {
 
   return (
     <div style={{ width: 100, height: 100, cursor: 'pointer' }}>
-      <Tooltip title="View/Manage Associated Tasks">
+      <Tooltip title="Manage Associated Tasks" placement='top'>
         <div onClick={handleOpenDialog}>
           <CircularProgressbar
             value={value}
@@ -42,18 +44,15 @@ const DonutProgressBar = ({ value }) => {
           />
         </div>
       </Tooltip>
-      <Dialog open={openDialog} onClose={handleCloseDialog}>
-        <DialogTitle>Associated Tasks</DialogTitle>
-        <DialogContent>
-          {/* Add your content for the dialog here */}
-          This is where task association will go.
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleCloseDialog}>Close</Button>
-        </DialogActions>
-      </Dialog>
+      <TaskAssociationDialog
+        eventId={eventId}
+        open={openDialog}
+        onClose={handleCloseDialog}
+        goal={goal}
+        setProgress={setValue}
+      />
     </div>
   );
 };
 
-export default DonutProgressBar;
+export default ProgressDonut;

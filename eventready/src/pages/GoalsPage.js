@@ -5,12 +5,11 @@ import AxiosInstance from "../components/Axios";
 import { Grid, IconButton } from '@mui/material';
 
 import GoalCard from "../components/goals/GoalCard";
-import AddGoalDialog from "../components/goals/AddGoalDialog";
+import AddEditGoalDialog from "../components/goals/AddEditGoalDialog";
 import { AddCircleOutline as AddCircleOutlineIcon } from '@mui/icons-material';
 
 const GoalsPage = () => {
   const [allGoals, setAllGoals] = useState([]);
-  // const [isLoading, setLoading] = useState(true);
   const [openDialog, setOpenDialog] = useState(false); 
   
   const MyParam = useParams();
@@ -53,7 +52,7 @@ const GoalsPage = () => {
   };
 
   return (
-    <div>
+    <div className='container'>
       <Grid
         container
         direction="row"
@@ -67,8 +66,10 @@ const GoalsPage = () => {
           allGoals.map((goal) => (
             <Grid item key={goal.id}>
               <GoalCard
+                eventId={eventId}
                 goal={goal}
                 handleDeleteGoal={handleDeleteGoal}
+                setAllGoals={setAllGoals}
               />
             </Grid>
           ))}
@@ -76,8 +77,8 @@ const GoalsPage = () => {
       <IconButton 
         sx={{ 
           position: 'fixed', 
-          top: 69, 
-          right: 16,
+          top: 100, 
+          right: 35,
           backgroundColor: 'white',
           borderRadius: '50%',
           boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.2)',
@@ -86,7 +87,7 @@ const GoalsPage = () => {
       >
         <AddCircleOutlineIcon fontSize="large" />
       </IconButton>
-      <AddGoalDialog isOpen={openDialog} onClose={handleCloseDialog} eventId={eventId} setAllGoals={setAllGoals}/>
+      <AddEditGoalDialog isOpen={openDialog} onClose={handleCloseDialog} eventId={eventId} setAllGoals={setAllGoals}/>
     </div>
   );
 };

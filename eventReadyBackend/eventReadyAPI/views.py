@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from rest_framework import viewsets, permissions
+from rest_framework import viewsets, permissions, status
 from .serializers import *
 from rest_framework.response import Response
 from rest_framework.parsers import MultiPartParser, FormParser
@@ -146,19 +146,25 @@ class GoalsViewset(viewsets.ModelViewSet):
         else: 
             return Response(serializer.errors, status=400)
 
+    def update(self, request, *args, **kwargs):
+        partial = kwargs.pop('partial', False)  # Ensure 'partial' parameter is handled correctly
+        instance = self.get_object()
+        serializer = self.get_serializer(instance, data=request.data, partial=partial)  # Pass 'partial' parameter to serializer
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
+        return Response(serializer.data)
 
-    def update(self, request, pk=None):
-        queryset = self.get_queryset()
-        goal = queryset.get(pk=pk)
-        serializer = self.serializer_class(goal, data=request.data)
-        if serializer.is_valid(): 
-            serializer.save()
-            return Response(serializer.data)
-        else: 
-            return Response(self.serializer_class.errors, status=400)
+    def perform_update(self, serializer):
+        serializer.save()
 
     def destroy(self, request, pk=None):
         queryset = self.get_queryset()
         goal = queryset.get(pk=pk)
         goal.delete()
         return Response(status=204)
+
+    def update_related_tasks(self, request, pk=None):
+        goal = self.get_object()
+        task_ids = request.data.get('task_ids', [])  # Assuming you send task_ids as a list in the request data
+        goal.tasks.set(task_ids)  # Update related tasks
+        return Response({"message": "Related tasks updated successfully"}, status=200)
