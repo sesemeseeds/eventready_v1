@@ -52,7 +52,7 @@ const GoalsPage = () => {
   };
 
   return (
-    <div>
+    <div className='container'>
       <Grid
         container
         direction="row"
@@ -77,8 +77,8 @@ const GoalsPage = () => {
       <IconButton 
         sx={{ 
           position: 'fixed', 
-          top: 69, 
-          right: 16,
+          top: 100, 
+          right: 35,
           backgroundColor: 'white',
           borderRadius: '50%',
           boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.2)',
