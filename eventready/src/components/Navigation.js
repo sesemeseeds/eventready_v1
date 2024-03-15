@@ -17,6 +17,12 @@ import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import InboxIcon from "@mui/icons-material/Inbox";
 import MailIcon from "@mui/icons-material/Mail";
+import FlagIcon from '@mui/icons-material/Flag';
+import AssignmentIcon from '@mui/icons-material/Assignment';
+import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
+import PersonIcon from '@mui/icons-material/Person';
+import CameraAltIcon from '@mui/icons-material/CameraAlt';
+
 import {
   BrowserRouter,
   Link,
@@ -99,7 +105,7 @@ const useStyles = makeStyles((theme) => ({
 export default function PersistentDrawerLeft() {
   const classes = useStyles();
   const theme = useTheme();
-  const [HeaderName, setHeaderName] = React.useState("General Info");
+  const [HeaderName, setHeaderName] = React.useState("General Information");
   const [open, setOpen] = React.useState(true);
   const location = useLocation();
 
@@ -220,7 +226,7 @@ export default function PersistentDrawerLeft() {
             }}
           >
             <ListItemIcon>
-              <InboxIcon />
+              <FlagIcon />
             </ListItemIcon>
             <ListItemText primary="Goals" />
           </ListItem>
@@ -237,7 +243,7 @@ export default function PersistentDrawerLeft() {
             }}
           >
             <ListItemIcon>
-              <InboxIcon />
+              <AssignmentIcon />
             </ListItemIcon>
             <ListItemText primary="Tasks" />
           </ListItem>
@@ -254,7 +260,7 @@ export default function PersistentDrawerLeft() {
             }}
           >
             <ListItemIcon>
-              <InboxIcon />
+              <AttachMoneyIcon />
             </ListItemIcon>
             <ListItemText primary="Budget" />
           </ListItem>
@@ -271,7 +277,7 @@ export default function PersistentDrawerLeft() {
             }}
           >
             <ListItemIcon>
-              <InboxIcon />
+              <CameraAltIcon />
             </ListItemIcon>
             <ListItemText primary="Marketing" />
           </ListItem>
@@ -288,7 +294,7 @@ export default function PersistentDrawerLeft() {
             }}
           >
             <ListItemIcon>
-              <InboxIcon />
+              <PersonIcon />
             </ListItemIcon>
             <ListItemText primary="Attendance" />
           </ListItem>
