@@ -6,7 +6,7 @@ import 'react-circular-progressbar/dist/styles.css';
 
 import TaskAssociationDialog from './TaskAssociationDialog';
 
-const ProgressDonut = ({ eventId, goalId }) => {  
+const ProgressDonut = ({ eventId, goal }) => {  
   const [openDialog, setOpenDialog] = useState(false);
   const [value, setValue] = useState(0);
   
@@ -48,7 +48,7 @@ const ProgressDonut = ({ eventId, goalId }) => {
         eventId={eventId}
         open={openDialog}
         onClose={handleCloseDialog}
-        goalId={goalId}
+        goal={goal}
         setProgress={setValue}
       />
     </div>

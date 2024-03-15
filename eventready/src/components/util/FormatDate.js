@@ -1,5 +1,7 @@
 const FormatDate = (dateString, format) => {
     const date = new Date(dateString);
+    date.setDate(date.getDate() + 1);
+
     let formattedDate = '';
 
     switch (format) {

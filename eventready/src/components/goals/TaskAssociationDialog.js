@@ -2,15 +2,17 @@ import { useState, useEffect } from 'react';
 
 import AxiosInstance from "../Axios";
 
-import { Dialog, DialogTitle, DialogContent, DialogActions, Button, Checkbox, Paper, Divider, Tooltip } from '@mui/material';
+import { Dialog, DialogTitle, DialogContent, DialogActions, Button, Paper, Divider } from '@mui/material';
 import TaskList from './TaskList';
+import TruncateText from '../util/TruncateText';
 
-
-const TaskAssociationDialog = ({ eventId, open, onClose, goalId, setProgress }) => {
+const TaskAssociationDialog = ({ eventId, open, onClose, goal, setProgress }) => {
     const [tasks, setTasks] = useState([]);
     const [selectedTasks, setSelectedTasks] = useState([]);
     const [originalSelectedTasks, setOriginalSelectedTasks] = useState([]);
     const [goalNames, setGoalNames] = useState({});
+
+    const MAX_NAME_LENGTH = 20;
 
     useEffect(() => {
         const fetchTasks = () => {
@@ -39,16 +41,16 @@ const TaskAssociationDialog = ({ eventId, open, onClose, goalId, setProgress }) 
 
     useEffect(() => {
         setProgress(calculateProgress());
-    }, [tasks, selectedTasks, goalId, setProgress]);
+    }, [tasks, selectedTasks, goal.id, setProgress]);
 
     useEffect(() => {
         if (tasks.length > 0) {
-            const associatedTasks = tasks.filter(task => task.goal === goalId);
+            const associatedTasks = tasks.filter(task => task.goal === goal.id);
             const initiallySelectedTasks = associatedTasks.map(task => task.id);
             setSelectedTasks(initiallySelectedTasks);
             setOriginalSelectedTasks(initiallySelectedTasks);
         }
-    }, [tasks, goalId]);
+    }, [tasks, goal.id]);
 
     const calculateProgress = () => {
         const totalTasks = selectedTasks.length;
@@ -63,11 +65,11 @@ const TaskAssociationDialog = ({ eventId, open, onClose, goalId, setProgress }) 
 
     const handleAssociateTasks = () => {
         const deselectedTasks = tasks
-            .filter(task => task.goal === goalId && !selectedTasks.includes(task.id))
+            .filter(task => task.goal === goal.id && !selectedTasks.includes(task.id))
             .map(task => task.id);
     
         const updateTasksPromises = selectedTasks.map(taskId => {
-            return AxiosInstance.patch(`/tasks/${taskId}/`, { goal: goalId });
+            return AxiosInstance.patch(`/tasks/${taskId}/`, { goal: goal.id });
         });
     
         const disassociateTasksPromises = deselectedTasks.map(taskId => {
@@ -76,7 +78,7 @@ const TaskAssociationDialog = ({ eventId, open, onClose, goalId, setProgress }) 
     
         Promise.all([...updateTasksPromises, ...disassociateTasksPromises])
             .then(responses => {
-                return AxiosInstance.patch(`/goals/${goalId}/`, { tasks: selectedTasks });
+                return AxiosInstance.patch(`/goals/${goal.id}/`, { tasks: selectedTasks });
             })
             .then(response => {
                 setProgress(prevProgress => {
@@ -89,11 +91,11 @@ const TaskAssociationDialog = ({ eventId, open, onClose, goalId, setProgress }) 
                 console.error("Error associating tasks:", error);
             });
         
-        AxiosInstance.get(`/goals/${goalId}/`)
+        AxiosInstance.get(`/goals/${goal.id}/`)
             .then(response => {
                 const goal = response.data;
                 goal.progress = calculateProgress();
-                return AxiosInstance.patch(`/goals/${goalId}/`, goal); 
+                return AxiosInstance.patch(`/goals/${goal.id}/`, goal); 
             })
             .catch(error => {
                 console.error("Error updating goal progress:", error);
@@ -108,11 +110,13 @@ const TaskAssociationDialog = ({ eventId, open, onClose, goalId, setProgress }) 
     return (
         <Dialog open={open} onClose={onClose}>
             <Paper sx={{ width: 500, height: 500 }}>
-                <DialogTitle>Associated Tasks</DialogTitle>
+                <DialogTitle>Associated Tasks for 
+                    <TruncateText text={" " + goal.name} maxLength={MAX_NAME_LENGTH}/>
+                </DialogTitle>
                 <Divider/>
-                <DialogContent sx={{ height: 380, overflowY: 'auto', padding: '0 20px' }}>
+                <DialogContent sx={{ height: 380, overflowY: 'hidden', padding: '0 20px' }}>
                     <TaskList
-                            goalId={goalId}
+                            goal={goal}
                             goalNames={goalNames}
                             tasks={tasks}
                             selectedTasks={selectedTasks}

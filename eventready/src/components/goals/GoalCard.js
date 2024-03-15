@@ -2,8 +2,6 @@ import { useState } from 'react';
 
 import { Card, CardContent, Typography, Tooltip, IconButton, Dialog, DialogTitle, DialogContent, Button, DialogActions } from '@mui/material';
 
-import AxiosInstance from "../Axios";
-
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 
@@ -12,11 +10,13 @@ import DescriptionDialog from '../dialog/DescriptionDialog';
 import DeleteConfirmationDialog from '../dialog/DeleteConfirmationDialog';
 import TruncateText from '../util/TruncateText';
 import FormatDate from '../util/FormatDate';
+import AddEditGoalDialog from './AddEditGoalDialog';
 
 
-const GoalCard = ({ eventId, goal, handleDeleteGoal }) => {
+const GoalCard = ({ eventId, goal, handleDeleteGoal, setAllGoals }) => {
     const [openDescriptionDialog, setOpenDescriptionDialog] = useState(false);
     const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
+    const [openEditDialog, setOpenEditDialog] = useState(false);
     const [goalToDelete, setGoalToDelete] = useState(null);
     
     const MAX_DESCRIPTION_LENGTH = 108;
@@ -31,8 +31,11 @@ const GoalCard = ({ eventId, goal, handleDeleteGoal }) => {
     };
 
     const handleEditGoal = () => {
-        // TODO: edit functionality of description
-        console.log("Editing goal:", goal);
+        setOpenEditDialog(true);
+    };
+
+    const handleCloseEditDialog = () => {
+        setOpenEditDialog(false);
     };
 
     const handleOpenDeleteDialog = (goal) => {
@@ -69,14 +72,16 @@ const GoalCard = ({ eventId, goal, handleDeleteGoal }) => {
                         <DeleteIcon />
                     </IconButton>
                 </Tooltip>
-                <ProgressDonut value={goal.progress} eventId={eventId} goalId={goal.id} />
+                <ProgressDonut value={goal.progress} eventId={eventId} goal={goal} />
                 <Tooltip title="Expand Properties" onClick={() => handleDescriptionClick(goal.id)}>
-                    <Typography variant="h7" component="div" sx={{ fontWeight: 'bold', textAlign: 'center', paddingTop: '10px', cursor: 'pointer' }}>
-                        <TruncateText text={goal.name} maxLength={MAX_NAME_LENGTH}/>
-                    </Typography>
-                    <Typography variant="caption" component="div" sx={{ textAlign: 'center', paddingTop: '5px', cursor: 'pointer' }}>
-                        <TruncateText text={goal.description} maxLength={MAX_DESCRIPTION_LENGTH}/>
-                    </Typography>
+                    <div>
+                        <Typography variant="h7" component="div" sx={{ fontWeight: 'bold', textAlign: 'center', paddingTop: '10px', cursor: 'pointer' }}>
+                            <TruncateText text={goal.name} maxLength={MAX_NAME_LENGTH}/>
+                        </Typography>
+                        <Typography variant="caption" component="div" sx={{ textAlign: 'center', paddingTop: '5px', cursor: 'pointer' }}>
+                            <TruncateText text={goal.description} maxLength={MAX_DESCRIPTION_LENGTH}/>
+                        </Typography>
+                    </div>
                 </Tooltip>
                 <Typography variant="caption" sx={{ position: 'absolute', bottom: '8px', right: '8px'}}>
                     due: {FormatDate(goal.due_date, 'MM/DD/YYYY')}
@@ -87,6 +92,13 @@ const GoalCard = ({ eventId, goal, handleDeleteGoal }) => {
                     onClose={handleCloseDialog}
                     description={goal && goal.description}
                     title={goal && goal.name}
+            />
+            <AddEditGoalDialog
+                isOpen={openEditDialog}
+                onClose={handleCloseEditDialog}
+                eventId={eventId}
+                setAllGoals={setAllGoals}
+                goal={goal}
             />
             <DeleteConfirmationDialog
                 isOpen={openDeleteDialog && goalToDelete === goal.id}
