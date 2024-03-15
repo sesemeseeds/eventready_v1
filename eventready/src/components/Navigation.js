@@ -105,7 +105,7 @@ const useStyles = makeStyles((theme) => ({
 export default function PersistentDrawerLeft() {
   const classes = useStyles();
   const theme = useTheme();
-  const [HeaderName, setHeaderName] = React.useState("General Info");
+  const [HeaderName, setHeaderName] = React.useState("General Information");
   const [open, setOpen] = React.useState(true);
   const location = useLocation();
 
