@@ -7,13 +7,13 @@ import GeneralInfoPage from "./pages/GeneralInfoPage";
 import MarketingPage from "./pages/MarketingPage";
 import Navigation from "./components/Navigation";
 import Attendance from "./pages/Attendance";
+import BudgetPage from "./pages/BudgetPage";
 import TasksPage from "./pages/TasksPage";
 import GoalsPage from "./pages/GoalsPage";
 
 function App() {
   return (
     <>
-
       <Routes>
         <Route path="/event/:id/*" element={<Navigation />}>
           <Route path="marketing" element={<MarketingPage />} />
@@ -21,6 +21,7 @@ function App() {
           <Route path="goals" element={<GoalsPage />} />
           <Route path="helloworld" element={<HelloWorld />} />
           <Route path="attendance" element={<Attendance />} />
+          <Route path="budget" element={<BudgetPage />} />
           <Route path="tasks" element={<TasksPage />} />
         </Route>
         
@@ -31,6 +32,7 @@ function App() {
         <Route path="goals" element={<GoalsPage />} />
         <Route path="/attendance" element={<Attendance />} />
         <Route path="/marketing" element={<MarketingPage />} />
+        <Route path="/budget" element={<BudgetPage />} />
       </Routes>
     </>
   );
