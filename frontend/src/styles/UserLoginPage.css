@@ -1,0 +1,22 @@
+.login-card {
+    padding: 2%;
+    background-color: white;
+    box-shadow: 3px 3px 10px 5px lightgray;
+    border-radius: 10px;
+    width: 500px;
+    height: 250px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .centered-container {
+    display: flex;
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    height: 100vh; /* Set full height of the viewport */
+    width: 100%; /* Set full width of the viewport */
+  }
+  
+  

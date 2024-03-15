@@ -7,11 +7,6 @@ from rest_framework.parsers import MultiPartParser, FormParser
 from .models import *
 from django.db.models import Max
 
-# @api_view(['GET'])
-# def hello_world(request):
-#     return Response({'message': 'Hello, world!'})
-# Create your views here.
-
 class EventViewset(viewsets.ViewSet):
     permission_classes = [permissions.AllowAny]
     

@@ -121,7 +121,7 @@ export default function PersistentDrawerLeft() {
     let name = sections[sections.length - 1];
     switch (name) {
       case "userlogin":
-        setHeaderName("User Login");
+        setHeaderName("User Infomation");
         break;
       case "generalinfo":
         setHeaderName("General Info");
@@ -202,7 +202,7 @@ export default function PersistentDrawerLeft() {
             to="userlogin"
             component={Link}
             onClick={() => {
-              setHeaderName("User Login");
+              setHeaderName("User Information");
             }}
           >
             <ListItemIcon>
