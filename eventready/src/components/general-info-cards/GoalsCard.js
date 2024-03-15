@@ -13,7 +13,7 @@ export default function GoalsCard({ goals }) {
   const [value, setValue] = useState(0);
   const [totalGoals, setTotalGoals] = useState(0);
   const [completedGoals, setCompletedGoals] = useState(0);
-
+  const [goalWithNearDeadline, setGoalWithNearDeadline] = useState(0);
   const calculateValue = () => {
     if (!goals || goals.length === 0) return 0;
     const completedGoals = goals.filter((goal) => goal.progress === 100).length;
@@ -24,7 +24,27 @@ export default function GoalsCard({ goals }) {
     return (completedGoals / totalGoals) * 100;
   };
 
+  const getGoalCounts = () => {
+    if (!goals || goals.length === 0) return 0;
+
+    const goalsWithNearDeadlineCount = goals.filter((goal) => {
+      if (goal.due_date && goal.progress !== 100) {
+        const deadlineDate = new Date(goal.due_date);
+        const now = new Date();
+        const differenceInDays = Math.floor(
+          (deadlineDate.getTime() - now.getTime()) / (1000 * 60 * 60 * 24)
+        );
+        return differenceInDays <= 7 && differenceInDays >= 0;
+      } else {
+        return false;
+      }
+    }).length;
+
+    setGoalWithNearDeadline(goalsWithNearDeadlineCount);
+  };
+
   useEffect(() => {
+    getGoalCounts();
     setValue(calculateValue());
   }, [goals]);
 
@@ -38,8 +58,16 @@ export default function GoalsCard({ goals }) {
       </Box>
 
       <CardActionArea>
-        <CardContent>
-          <div style={{ width: 250 }}>
+        <CardContent sx={{ height: 310, textAlign: "-webkit-center" }}>
+          <Box >
+            <Typography marginBottom="32px" fontSize="15px">
+              <span>Goals with Upcoming Deadline: </span>
+              <Typography component="span" fontWeight="bold">
+                {goalWithNearDeadline}
+              </Typography>
+            </Typography>
+          </Box>
+          <Box sx={{width: 220}}>
             <CircularProgressbar
               value={value}
               text={`
@@ -62,7 +90,7 @@ export default function GoalsCard({ goals }) {
                 },
               }}
             />
-          </div>
+          </Box>
         </CardContent>
       </CardActionArea>
     </Card>

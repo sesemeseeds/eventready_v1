@@ -19,6 +19,7 @@ import MarketingCard from "../components/general-info-cards/MarketingCard";
 import AxiosInstance from "../components/Axios";
 import { useParams } from "react-router-dom";
 import Tooltip from "@mui/material/Tooltip";
+import ReactQuill from "react-quill";
 
 export default function GeneralInfoComponent() {
   const [open, setOpen] = React.useState(false);
@@ -33,8 +34,10 @@ export default function GeneralInfoComponent() {
   const [EventAddress, setEventAddress] = React.useState(String);
   const [loading, setLoading] = React.useState(true);
 
-  const [goals, setGoals] = React.useState()
-  const [tasks, setTasks] = React.useState()
+  const [goals, setGoals] = React.useState();
+  const [tasks, setTasks] = React.useState();
+  const [marketingPoster, setMarketingPoster] = React.useState();
+  const [marketingReminder, setMarketingReminder] = React.useState();
 
   const MyParam = useParams();
   const MyId = MyParam.id;
@@ -92,7 +95,6 @@ export default function GeneralInfoComponent() {
       setEventActive(res.data.active);
       setLoading(false);
     });
-
   };
 
   const getAllGoals = async () => {
@@ -100,9 +102,9 @@ export default function GeneralInfoComponent() {
       const response = await AxiosInstance.get(`goals/?event_id=${MyId}`);
       const goalData = response.data;
       if (!goalData) {
-          setGoals([]);
+        setGoals([]);
       } else {
-          setGoals(goalData);
+        setGoals(goalData);
       }
     } catch (error) {
       console.error("Error fetching event goals:", error);
@@ -112,19 +114,53 @@ export default function GeneralInfoComponent() {
     try {
       const response = await AxiosInstance.get(`tasks/?event_id=${MyId}`);
       const tasksData = response.data;
-      if (!setTasks) {
-          setTasks([]);
+      if (!tasksData) {
+        setTasks([]);
       } else {
-          setTasks(tasksData);
+        setTasks(tasksData);
       }
     } catch (error) {
       console.error("Error fetching event goals:", error);
     }
   };
 
+  const getAllMarketing = async () => {
+    try {
+      const response = await AxiosInstance.get(
+        `marketingPoster/?event_id=${MyId}`
+      );
+      const marketingPosterData = response.data;
+
+      if (!marketingPosterData) {
+        setMarketingPoster([]);
+      } else {
+        setMarketingPoster(marketingPosterData[0]);
+      }
+    } catch (error) {
+      console.error("Error fetching event goals:", error);
+    }
+
+    try {
+      const response = await AxiosInstance.get(
+        `marketingReminders/?event_id=${MyId}`
+      );
+      const marketingReminderData = response.data;
+
+      if (!marketingReminderData) {
+        setMarketingReminder([]);
+      } else {
+        setMarketingReminder(marketingReminderData);
+      }
+    } catch (error) {
+      console.error("Error fetching event goals:", error);
+    }
+
+  };
+
   React.useEffect(() => {
     getAllGoals();
     getAllTasks();
+    getAllMarketing();
     GetData();
   }, []);
 
@@ -159,24 +195,25 @@ export default function GeneralInfoComponent() {
           <Box className="main-section">
             <h1>{EventTitle} </h1>
             <hr></hr>
-            <p>{EventDescription}</p>
+            <p dangerouslySetInnerHTML={{ __html: EventDescription}}></p>
             <hr></hr>
           </Box>
           <Box className="side-section">
-            <Tooltip title="Edit Information"><EditOutlinedIcon
-              style={{ float: "right" }}
-              variant="contained"
-              onClick={handleClickOpen}
-              fontSize="large"
-              cursor="pointer"
-            >
-              Edit
-            </EditOutlinedIcon></Tooltip>
-            
+            <Tooltip title="Edit Information">
+              <EditOutlinedIcon
+                style={{ float: "right" }}
+                variant="contained"
+                onClick={handleClickOpen}
+                fontSize="large"
+                cursor="pointer"
+              >
+                Edit
+              </EditOutlinedIcon>
+            </Tooltip>
+
             <h1> Event Information </h1>
             {}
             <div>
-          
               {ConvertedDate ==
               new Date("1970-01-01").toLocaleDateString("en-US", {
                 timeZone: "UTC",
@@ -185,14 +222,18 @@ export default function GeneralInfoComponent() {
                 month: "long",
                 day: "numeric",
               })
-                ? ' '
+                ? " "
                 : ConvertedDate}
             </div>
             <div>
               {" "}
-              {StartTime == "Invalid Date" ? ' ' : StartTime} - {EndTime == "Invalid Date" ? ' ' : EndTime}{" "}
+              {StartTime == "Invalid Date" ? " " : StartTime} -{" "}
+              {EndTime == "Invalid Date" ? " " : EndTime}{" "}
             </div>
-            <div> {daysRemaining < 0 ? '' : daysRemaining} Days Until the Event! </div>
+            <div>
+              {" "}
+              {daysRemaining < 0 ? "" : daysRemaining} Days Until the Event!{" "}
+            </div>
             <hr></hr>
             <div>{EventLocation}</div>
             <div>{EventAddress}</div>
@@ -204,7 +245,10 @@ export default function GeneralInfoComponent() {
             <GoalsCard goals={goals}></GoalsCard>
             <TaskCard tasks={tasks}></TaskCard>
             <BudgetCard></BudgetCard>
-            <MarketingCard></MarketingCard>
+            <MarketingCard
+              marketingPoster={marketingPoster}
+              marketingReminders={marketingReminder}
+            ></MarketingCard>
             <AttendanceCard></AttendanceCard>
           </Box>
         </Box>
@@ -224,7 +268,7 @@ export default function GeneralInfoComponent() {
                     type="text"
                     fullWidth
                     variant="outlined"
-                    InputLabelProps={{required: "true"}}
+                    InputLabelProps={{ required: "true" }}
                     defaultValue={EventTitle}
                     {...register("EventTitle")}
                   />
@@ -278,19 +322,16 @@ export default function GeneralInfoComponent() {
                     defaultValue={EventLocation}
                     {...register("EventLocation")}
                   />
-                  <TextField
-                    autoFocus
-                    margin="dense"
-                    name="EventDescription"
-                    label="Event Description"
-                    type="text"
-                    fullWidth
-                    variant="outlined"
-                    defaultValue={EventDescription}
-                    {...register("EventDescription")}
+
+                  <ReactQuill
+                    theme="snow"
+                    value={EventDescription}
+                    onChange={setEventDescription}
+                    placeholder="Enter your description here!"
+                    style={{ marginTop: 8, marginBottom: 16, height: 250 }}
                   />
-                  //TODO: change event activity?
-                  <DialogActions>
+
+                  <DialogActions sx={{marginTop: 5}}>
                     <Button onClick={handleClose}>Cancel</Button>
                     <Button type="submit">Submit</Button>
                   </DialogActions>

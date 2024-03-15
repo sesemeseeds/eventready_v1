@@ -23,7 +23,7 @@ export default function TaskCard({ tasks }) {
       (task) => task.status === "Done"
     ).length;
     const totalTasks = tasks.length;
-  
+
     setcompletedTasks(completedTasks);
     settotalTasks(totalTasks);
 
@@ -33,9 +33,10 @@ export default function TaskCard({ tasks }) {
   const getTasksCounts = () => {
     if (!tasks || tasks.length === 0) return 0;
     const highPriorityTasksCount = tasks.filter(
-      (task) => task.priority >= 8 && task.priority <= 10 && task.status !== "Done"
+      (task) =>
+        task.priority >= 8 && task.priority <= 10 && task.status !== "Done"
     ).length;
-    const tasksWithNearDeadlineCount = tasks.filter((task) =>  { 
+    const tasksWithNearDeadlineCount = tasks.filter((task) => {
       if (task.deadline_date && task.status !== "Done") {
         const deadlineDate = new Date(task.deadline_date);
         const now = new Date();
@@ -48,10 +49,9 @@ export default function TaskCard({ tasks }) {
       }
     }).length;
 
-
     setHighPriorityTasks(highPriorityTasksCount);
     setTasksWithNearDeadlines(tasksWithNearDeadlineCount);
-  }
+  };
 
   useEffect(() => {
     getTasksCounts();
@@ -66,8 +66,23 @@ export default function TaskCard({ tasks }) {
         </Typography>
       </Box>
       <CardActionArea>
-        <CardContent sx={{ textAlign: "-webkit-center" }}>
-          <div style={{ width: 220, marginBottom: "5px" }}>
+        <CardContent sx={{ height: 310, textAlign: "-webkit-center" }}>
+          <Box>
+            <Typography fontSize="15px">
+              <span>High Priority Tasks Incomplete: </span>
+              <Typography component="span" fontWeight="bold">
+                {highPriorityTasks}
+              </Typography>
+            </Typography>
+            <Typography fontSize="15px">
+              <span>Tasks with Upcoming Deadline: </span>
+              <Typography component="span" fontWeight="bold">
+                {tasksWithNearDeadlines}
+              </Typography>
+            </Typography>
+          </Box>
+
+          <Box sx={{ width: 220, marginTop: 1 }}>
             <CircularProgressbar
               value={value}
               text={`${completedTasks} / ${totalTasks} Tasks Completed`}
@@ -89,23 +104,7 @@ export default function TaskCard({ tasks }) {
                 },
               }}
             />
-          </div>
-          <div>
-            <Typography fontSize="15px">
-              <span>High Priority Tasks Incomplete: </span>
-              <Typography component="span" fontWeight="bold">
-                {highPriorityTasks}
-              </Typography>
-            </Typography>
-          </div>
-          <div>
-            <Typography fontSize="15px" >
-              <span>Tasks with Upcoming Deadline: </span>
-              <Typography component="span" fontWeight="bold">
-                {tasksWithNearDeadlines}
-              </Typography>
-            </Typography>
-          </div>
+          </Box>
         </CardContent>
       </CardActionArea>
     </Card>

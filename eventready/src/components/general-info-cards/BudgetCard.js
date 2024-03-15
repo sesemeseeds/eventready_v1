@@ -18,7 +18,6 @@ export default function BudgetCard({ budget }) {
     // if (!goals || goals.length === 0) return 0;
     // const completedGoals = goals.filter((goal) => goal.progress === 100).length;
     // const totalGoals = goals.length;
-
     // setCompletedGoals(completedGoals);
     // setTotalGoals(totalGoals);
     // return (completedGoals / totalGoals) * 100;
@@ -38,13 +37,18 @@ export default function BudgetCard({ budget }) {
       </Box>
 
       <CardActionArea>
-        <CardContent>
-          <div style={{ width: 250 }}>
+        <CardContent sx={{ height: 310, textAlign: "-webkit-center" }}>
+          <Box>
+            <Typography fontWeight="bold" marginBottom="20px" fontSize="20px">
+              $500.00 Available
+            </Typography>
+          </Box>
+          <Box sx={{ width: 220 }}>
             <CircularProgressbar
-              value={value}
+              value={75}
               // text={`
               //     ${completedGoals} / ${totalGoals}  Goals Completed`}
-                   text={"$2500 / $3000 Budget Used"}
+              text={"$2500 / $3000 Budget Used"}
               strokeWidth={10}
               styles={{
                 path: {
@@ -63,7 +67,7 @@ export default function BudgetCard({ budget }) {
                 },
               }}
             />
-          </div>
+          </Box>
         </CardContent>
       </CardActionArea>
     </Card>

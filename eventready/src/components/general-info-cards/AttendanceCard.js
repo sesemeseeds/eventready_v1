@@ -9,24 +9,15 @@ import { CircularProgressbar } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 import { Tooltip } from "@mui/material";
 import { Box, Container } from "@mui/material";
+import PersonIcon from "@mui/icons-material/Person";
+import FeedIcon from '@mui/icons-material/Feed';
+
 export default function AttendanceCard({ attendance }) {
   const [value, setValue] = useState(0);
-  const [totalGoals, setTotalGoals] = useState(0);
-  const [completedGoals, setCompletedGoals] = useState(0);
 
-  const calculateValue = () => {
-    // if (!goals || goals.length === 0) return 0;
-    // const completedGoals = goals.filter((goal) => goal.progress === 100).length;
-    // const totalGoals = goals.length;
+  const calculateValue = () => {};
 
-    // setCompletedGoals(completedGoals);
-    // setTotalGoals(totalGoals);
-    // return (completedGoals / totalGoals) * 100;
-  };
-
-  useEffect(() => {
-    // setValue(calculateValue());
-  }, [attendance]);
+  useEffect(() => {}, [attendance]);
 
   return (
     <Card sx={{ boxShadow: 3, width: 300 }}>
@@ -38,31 +29,17 @@ export default function AttendanceCard({ attendance }) {
       </Box>
 
       <CardActionArea>
-        <CardContent>
-          <div style={{ width: 250 }}>
-            <CircularProgressbar
-              value={value}
-              text={`
-                  ${completedGoals} / ${totalGoals}  Goals Completed`}
-              strokeWidth={10}
-              styles={{
-                path: {
-                  stroke: `rgb(${255 - value * 2.55}, ${value * 2.55}, 0)`,
-                  strokeLinecap: "butt",
-                  transition: "stroke-dashoffset 0.5s ease 0s",
-                },
-                text: {
-                  fill: "#000",
-                  fontSize: "6px",
-                  fontWeight: "bold",
-                  textAlign: "center",
-                },
-                trail: {
-                  stroke: "#d6d6d6",
-                },
-              }}
-            />
-          </div>
+        <CardContent sx={{ height: 310 }}>
+        <Box sx={{ display: "flex", alignItems: "center", marginTop: 3}}>
+            {" "}
+            <FeedIcon sx={{ fontSize: 50 }}> </FeedIcon>
+            <Typography fontSize="20px" fontWeight="bold">60 Form Responses</Typography>
+          </Box>
+          <Box sx={{ display: "flex", alignItems: "center", marginTop: 5 }}>
+            {" "}
+            <PersonIcon sx={{ fontSize: 50 }}> </PersonIcon>
+            <Typography fontSize="20px" fontWeight="bold">50 People Attended</Typography>
+          </Box>
         </CardContent>
       </CardActionArea>
     </Card>
