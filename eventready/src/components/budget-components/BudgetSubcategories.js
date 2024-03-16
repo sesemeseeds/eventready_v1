@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import AddIcon from '@material-ui/icons/Add';
 import EditIcon from '@material-ui/icons/Edit';
-import DeleteIcon from '@material-ui/icons/Delete'; // Step 1
+import DeleteIcon from '@material-ui/icons/Delete';
 import { Dialog, DialogTitle, DialogContent, TextField, Button, FormControlLabel, Checkbox, Typography, Box } from '@material-ui/core';
 
 // Format category name with spaces between words
@@ -70,7 +70,7 @@ function BudgetSubcategories({ totalBudget, categories, onClose }) {
     setEditIndex(null);
   };
 
-  const handleDeleteClick = (index) => { // Step 3
+  const handleDeleteClick = (index) => {
     const updatedCategories = [...expandedCategories];
     updatedCategories.splice(index, 1); // Remove the category at the specified index
     setExpandedCategories(updatedCategories); // Update the state
