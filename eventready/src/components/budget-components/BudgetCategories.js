@@ -9,8 +9,8 @@ function BudgetCategories({ onClose, onTotalBudgetChange }) {
     foodAndBeverages: false,
     supplies: false,
     entertainment: false,
-    rentalsFee: false,
-    staffingVolunteers: false,
+    rentalsOrFee: false,
+    staffingOrVolunteers: false,
     transportation: false,
     merchandiseOrGiveaways: false,
     miscellaneous: false,
@@ -121,8 +121,8 @@ function BudgetCategories({ onClose, onTotalBudgetChange }) {
               <label>
                 <input
                   type="checkbox"
-                  name="rentalsFee"
-                  checked={categories.rentalsFee}
+                  name="rentalsOrFee"
+                  checked={categories.rentalsOrFee}
                   onChange={handleCheckboxChange}
                 />
                 Rentals or Fee
@@ -132,8 +132,8 @@ function BudgetCategories({ onClose, onTotalBudgetChange }) {
               <label>
                 <input
                   type="checkbox"
-                  name="staffingVolunteers"
-                  checked={categories.staffingVolunteers}
+                  name="staffingOrVolunteers"
+                  checked={categories.staffingOrVolunteers}
                   onChange={handleCheckboxChange}
                 />
                 Staffing or Volunteers
