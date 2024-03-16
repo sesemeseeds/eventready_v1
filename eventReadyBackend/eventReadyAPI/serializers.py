@@ -30,4 +30,18 @@ class GoalsSerializer(serializers.ModelSerializer):
     class Meta:
         model = Goals
         fields = ('event_id', 'id', 'name', 'due_date', 'description', 'created', 'progress', 'tasks')
-        
+
+class BudgetSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Budget
+        fields = ('event_id', 'id', 'name', 'total', 'leftover', 'progress', 'categories')
+
+class BudgetCategorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = BudgetCategory
+        fields = ('event_id', 'budget', 'id', 'name', 'total', 'items')
+
+class BudgetItemSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = BudgetItem
+        fields = ('event_id', 'budget', 'category', 'id', 'name', 'description', 'quantity', 'cost', 'total', 'paid')
