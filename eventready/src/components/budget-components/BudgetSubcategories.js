@@ -94,7 +94,7 @@ function BudgetSubcategories({ totalBudget, categories, onClose }) {
           {expandedCategories.map((data, index) => {
             if (data.category === category) {
               return (
-                <Box key={index}  padding={2} marginTop={2} borderRadius= {10} position="relative" style={{ backgroundColor: '#f6fbf7', boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)' }}>
+                <Box key={index}  padding={2} marginTop={2} borderRadius= {10} position="relative" style={{ backgroundColor: '#e1fbd3', boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)' }}>
                   {/* Edit icon positioned at the top right */}
                   <EditIcon style={{ position: 'absolute', top: 15, right: 15, cursor: 'pointer', color: '#456236'}} onClick={() => handleEditClick(index, data)} />
                   <DeleteIcon style={{ position: 'absolute', bottom: 15, right: 15, cursor: 'pointer', color: '#456236'}} onClick={() => handleDeleteClick(index)} />
