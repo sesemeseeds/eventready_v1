@@ -31,7 +31,6 @@ import {
   useNavigate,
 } from "react-router-dom";
 import GeneralInfoPage from "../pages/GeneralInfoPage";
-import HelloWorld from "../HelloWorld";
 import MarketingPage from "../pages/MarketingPage";
 import "../styles/Navigation.css";
 import Footer from "./Footer";
