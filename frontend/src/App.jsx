@@ -8,21 +8,25 @@ import Navigation from "./components/Navigation";
 import Attendance from "./pages/Attendance";
 import TasksPage from "./pages/TasksPage";
 import UserLoginPage from "./pages/UserLoginPage";
+import BudgetPage from "./pages/BudgetPage";
+import GoalsPage from "./pages/GoalsPage";
 
 function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/event/:id" element={<Navigation />}>
+        <Route path="dashboard/event/:id" element={<Navigation />}>
           <Route path="marketing" element={<MarketingPage />} />
           <Route path="generalinfo" element={<GeneralInfoPage />} />
           <Route path="attendance" element={<Attendance />} />
           <Route path="tasks" element={<TasksPage />} />
+          <Route path="goals" element={<GoalsPage />} />
+          <Route path="budget" element={<BudgetPage />} />
           <Route path="userlogin" element={<UserLoginPage />} />
         </Route>
         
         <Route path="/" element={<UserLoginPage />} />
-        <Route path="/event" element={<EventPage />} />
+        <Route path="/dashboard" element={<LandingPage />} />
       </Routes>
       </Router>
   );

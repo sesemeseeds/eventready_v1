@@ -1,11 +1,19 @@
 import { SignedIn, SignedOut, SignInButton, UserButton, useUser } from "@clerk/clerk-react";
+import { useNavigate } from 'react-router-dom';
 
 const UserLoginPage = () => {
   const { isSignedIn, user, isLoaded } = useUser();
-
+  const navigate = useNavigate();
   if (!isLoaded) {
     // Handle loading state however you like
     return <div>Loading...</div>;
+  }
+
+  if (isSignedIn) {
+
+    navigate('/dashboard');
+
+    return null;
   }
 
   return (
@@ -16,6 +24,7 @@ const UserLoginPage = () => {
           <div>
             <UserButton />
             <p>Hello {user.fullName}!</p>
+       
           </div>
         ) : (
           <div>

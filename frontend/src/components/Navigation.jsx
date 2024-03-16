@@ -184,7 +184,7 @@ export default function PersistentDrawerLeft() {
         <div className={classes.drawerHeader}>
           <h1>
             {" "}
-            <Link className="navigationHeader" to="/">
+            <Link className="navigationHeader" to="/dashboard">
               Event Ready!
             </Link>
           </h1>
