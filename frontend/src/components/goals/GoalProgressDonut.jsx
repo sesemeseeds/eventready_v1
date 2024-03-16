@@ -4,7 +4,7 @@ import { CircularProgressbar } from 'react-circular-progressbar';
 import { Tooltip } from '@mui/material';
 import 'react-circular-progressbar/dist/styles.css';
 
-import TaskAssociationDialog from './TaskAssociationDialog';
+import GoalTaskBreakdown from './GoalTaskBreakdown';
 
 const ProgressDonut = ({ eventId, goal }) => {  
   const [openDialog, setOpenDialog] = useState(false);
@@ -44,7 +44,7 @@ const ProgressDonut = ({ eventId, goal }) => {
           />
         </div>
       </Tooltip>
-      <TaskAssociationDialog
+      <GoalTaskBreakdown
         eventId={eventId}
         open={openDialog}
         onClose={handleCloseDialog}

@@ -5,7 +5,7 @@ import { Card, CardContent, Typography, Tooltip, IconButton } from '@mui/materia
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 
-import ProgressDonut from './ProgressDonut';
+import GoalProgressDonut from './GoalProgressDonut';
 import DescriptionDialog from '../dialog/DescriptionDialog';
 import DeleteConfirmationDialog from '../dialog/DeleteConfirmationDialog';
 import {TruncateText, TruncateHTML} from '../util/TruncateText';
@@ -82,7 +82,7 @@ const GoalCard = ({ eventId, goal, handleDeleteGoal, setAllGoals }) => {
                         <DeleteIcon />
                     </IconButton>
                 </Tooltip>
-                <ProgressDonut value={goal.progress} eventId={eventId} goal={goal} />
+                <GoalProgressDonut value={goal.progress} eventId={eventId} goal={goal} />
                 <Typography variant="h7" component="div" sx={{ fontWeight: 'bold', textAlign: 'center', paddingTop: '10px'}}>
                     <TruncateText text={goal.name} maxLength={MAX_NAME_LENGTH}/>
                 </Typography>

@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 
 import AxiosInstance from "../Axios";
 
-import { Dialog, DialogTitle, DialogContent, DialogActions, Button, Paper, Divider, Table, TableContainer, TableHead, TableBody, TableRow, TableCell, Tooltip } from '@mui/material';
+import { Dialog, DialogTitle, DialogContent, DialogActions, Button, Paper, Divider, Table, TableContainer, TableHead, TableBody, TableRow, TableCell, Tooltip, Switch } from '@mui/material';
 import {TruncateText} from '../util/TruncateText';
 import FormatDate from '../util/FormatDate';
 import DescriptionDialog from '../dialog/DescriptionDialog';
@@ -13,6 +13,7 @@ const TaskAssociationDialog = ({ eventId, open, onClose, goal, setProgress }) =>
     const [associatedTasks, setAssociatedTasks] = useState([]);
     const [openDescriptionDialog, setOpenDescriptionDialog] = useState(false);
     const [selectedTaskId, setSelectedTaskId] = useState(null);
+    const [hideDoneTasks, setHideDoneTasks] = useState(false); 
 
     const MAX_NAME_LENGTH = 20;
 
@@ -76,6 +77,10 @@ const TaskAssociationDialog = ({ eventId, open, onClose, goal, setProgress }) =>
         setOpenDescriptionDialog(false);
     };
 
+    const toggleHideDoneTasks = () => {
+        setHideDoneTasks(prevState => !prevState);
+    };
+
     const handleCancel = () => {
         onClose();
     };
@@ -87,8 +92,16 @@ const TaskAssociationDialog = ({ eventId, open, onClose, goal, setProgress }) =>
                     <DialogTitle>Task Breakdown for  
                         <TruncateText text={" " + goal.name} maxLength={MAX_NAME_LENGTH}/>
                     </DialogTitle>
+                    <div>         
+                    <Switch
+                        checked={hideDoneTasks}
+                        onChange={toggleHideDoneTasks}
+                        inputProps={{ 'aria-label': 'show done tasks' }}
+                        />
+                    <span>Hide Completed Tasks</span>
+                </div>
                     <Divider/>
-                    <DialogContent sx={{ height: 480, overflowY: 'auto', padding: '0 20px' }}>
+                    <DialogContent sx={{ height: 442, overflowY: 'auto', padding: '0 20px' }}>
                     <TableContainer>
                             <Table>
                                 <TableHead>
@@ -102,6 +115,7 @@ const TaskAssociationDialog = ({ eventId, open, onClose, goal, setProgress }) =>
                                 </TableHead>
                                 <TableBody>
                                     {associatedTasks.map(task => (
+                                            (!hideDoneTasks || task.status !== 'Done') &&
                                         <TableRow key={task.id}>
                                             <TableCell>
                                                 {   task.description ? 
@@ -128,7 +142,7 @@ const TaskAssociationDialog = ({ eventId, open, onClose, goal, setProgress }) =>
                     </DialogContent>
                     <Divider/>
                     <DialogActions style={{ position: 'absolute', bottom: 0, right: 0 }}>
-                        <Button onClick={handleCancel}>Cancel</Button>
+                        <Button onClick={handleCancel}>Close</Button>
                     </DialogActions>
                 </Paper>
             </Dialog>

@@ -5,7 +5,7 @@ import "react-quill/dist/quill.snow.css";
 
 import AxiosInstance from "../Axios";
 
-import TaskList from './TaskList';
+import GoalTaskSelectableList from './GoalTaskSelectableList';
 
 const AddEditGoalDialog = ({ isOpen, onClose, eventId, setAllGoals, goal  }) => {
     const [tasks, setTasks] = useState([]);
@@ -205,7 +205,7 @@ const AddEditGoalDialog = ({ isOpen, onClose, eventId, setAllGoals, goal  }) => 
                             </Typography>
                         )}
                         <div style={{ height: '350px', width: '400px'}}>
-                        <TaskList
+                        <GoalTaskSelectableList
                             eventId={eventId}
                             goal={goal}
                             goals={goals}
