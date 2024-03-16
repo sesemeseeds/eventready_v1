@@ -9,5 +9,8 @@ router.register('marketingPoster', MarketingPosterViewset, basename='marketingPo
 router.register('marketingReminders', MarketingRemindersViewset, basename='marketingReminders')
 router.register('marketingPhotos', MarketingRecapPhotoViewset, basename='marketingPhotos')
 router.register('goals', GoalsViewset, basename='goals')
+router.register('budget', BudgetViewSet, basename='budget')
+router.register('budgetcategory', BudgetCategoryViewSet, basename='budgetcategory')
+router.register('budgetitems', BudgetItemViewSet, basename='budgetitems')
 
 urlpatterns = router.urls

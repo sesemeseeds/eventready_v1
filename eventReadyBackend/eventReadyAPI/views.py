@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from rest_framework import viewsets, permissions
+from rest_framework import viewsets, permissions, status
 from .serializers import *
 from rest_framework.response import Response
 from rest_framework.parsers import MultiPartParser, FormParser
@@ -146,19 +146,132 @@ class GoalsViewset(viewsets.ModelViewSet):
         else: 
             return Response(serializer.errors, status=400)
 
+    def update(self, request, *args, **kwargs):
+        partial = kwargs.pop('partial', False)  # Ensure 'partial' parameter is handled correctly
+        instance = self.get_object()
+        serializer = self.get_serializer(instance, data=request.data, partial=partial)  # Pass 'partial' parameter to serializer
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
+        return Response(serializer.data)
 
-    def update(self, request, pk=None):
-        queryset = self.get_queryset()
-        goal = queryset.get(pk=pk)
-        serializer = self.serializer_class(goal, data=request.data)
-        if serializer.is_valid(): 
-            serializer.save()
-            return Response(serializer.data)
-        else: 
-            return Response(self.serializer_class.errors, status=400)
+    def perform_update(self, serializer):
+        serializer.save()
 
     def destroy(self, request, pk=None):
         queryset = self.get_queryset()
         goal = queryset.get(pk=pk)
         goal.delete()
+        return Response(status=204)
+
+    def update_related_tasks(self, request, pk=None):
+        goal = self.get_object()
+        task_ids = request.data.get('task_ids', [])  # Assuming you send task_ids as a list in the request data
+        goal.tasks.set(task_ids)  # Update related tasks
+        return Response({"message": "Related tasks updated successfully"}, status=200)
+    
+class BudgetViewSet(viewsets.ModelViewSet):
+    permission_classes = [permissions.AllowAny]
+    serializer_class = BudgetSerializer
+
+    def get_queryset(self):
+        event_id = self.request.query_params.get('event_id')
+        if event_id:
+            return Budget.objects.filter(event_id=event_id)
+        return Budget.objects.all()
+
+    def create(self, request):
+        serializer = self.serializer_class(data=request.data)
+        if serializer.is_valid(): 
+            serializer.save()
+            return Response(serializer.data)
+        else: 
+            return Response(serializer.errors, status=400)
+
+    def update(self, request, *args, **kwargs):
+        partial = kwargs.pop('partial', False)
+        instance = self.get_object()
+        serializer = self.get_serializer(instance, data=request.data, partial=partial)
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
+        return Response(serializer.data)
+
+    def destroy(self, request, pk=None):
+        queryset = self.get_queryset()
+        budget = queryset.get(pk=pk)
+        budget.delete()
+        return Response(status=204)
+
+class BudgetCategoryViewSet(viewsets.ModelViewSet):
+    permission_classes = [permissions.AllowAny]
+    serializer_class = BudgetCategorySerializer
+
+    def get_queryset(self):
+        event_id = self.request.query_params.get('event_id')
+        if event_id:
+            return BudgetCategory.objects.filter(event_id=event_id)
+        return BudgetCategory.objects.all()
+
+    def create(self, request):
+        serializer = self.serializer_class(data=request.data)
+        if serializer.is_valid(): 
+            serializer.save()
+            return Response(serializer.data)
+        else: 
+            return Response(serializer.errors, status=400)
+
+    def update(self, request, *args, **kwargs):
+        partial = kwargs.pop('partial', False)
+        instance = self.get_object()
+        serializer = self.get_serializer(instance, data=request.data, partial=partial)
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
+        return Response(serializer.data)
+
+    def destroy(self, request, pk=None):
+        queryset = self.get_queryset()
+        budget_category = queryset.get(pk=pk)
+        budget_category.delete()
+        return Response(status=204)
+
+class BudgetItemViewSet(viewsets.ModelViewSet):
+    permission_classes = [permissions.AllowAny]
+    serializer_class = BudgetItemSerializer
+
+    def get_queryset(self):
+        event_id = self.request.query_params.get('event_id')
+        if event_id:
+            return BudgetItem.objects.filter(event_id=event_id)
+        return BudgetItem.objects.all()
+
+    def create(self, request):
+        serializer = self.serializer_class(data=request.data)
+        if serializer.is_valid():
+            # Calculate item_total before saving
+            quantity = serializer.validated_data['quantity']
+            cost = serializer.validated_data['cost']
+            serializer.validated_data['item_total'] = quantity * cost
+
+            serializer.save()
+            return Response(serializer.data)
+        else: 
+            return Response(serializer.errors, status=400)
+
+    def update(self, request, *args, **kwargs):
+        partial = kwargs.pop('partial', False)
+        instance = self.get_object()
+        serializer = self.get_serializer(instance, data=request.data, partial=partial)
+        serializer.is_valid(raise_exception=True)
+
+        # Calculate item_total before saving
+        quantity = serializer.validated_data.get('quantity', instance.quantity)
+        cost = serializer.validated_data.get('cost', instance.cost)
+        serializer.validated_data['item_total'] = quantity * cost
+
+        self.perform_update(serializer)
+        return Response(serializer.data)
+
+    def destroy(self, request, pk=None):
+        queryset = self.get_queryset()
+        budget_item = queryset.get(pk=pk)
+        budget_item.delete()
         return Response(status=204)

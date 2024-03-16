@@ -1,25 +1,32 @@
-import React from 'react';
-import { Dialog, DialogTitle, DialogContent, Button, DialogActions, Typography, IconButton } from '@mui/material';
-import CloseIcon from '@mui/icons-material/Close';
+import { Dialog, DialogTitle, DialogContent, Button, DialogActions, Typography, IconButton, Paper, Divider } from '@mui/material';
 
-const DescriptionDialog = ({ isOpen, onClose, onEditClick, description}) => {
+import CloseIcon from '@mui/icons-material/Close';
+import { TruncateText } from '../util/TruncateText';
+
+
+const DescriptionDialog = ({ isOpen, onClose, description, title}) => {
+    const MAX_NAME_LENGTH = 40;
     return (
+        <>
         <Dialog open={isOpen} onClose={onClose}>
+            <Paper sx={{ width: 500, height: 500 }}>
             <DialogTitle>
-                Description
+                <TruncateText text={title} maxLength={MAX_NAME_LENGTH}/>
                 <IconButton sx={{ position: 'absolute', top: '8px', right: '8px' }} onClick={onClose}>
                     <CloseIcon />
                 </IconButton>
             </DialogTitle>
-            <DialogContent>
-                <Typography>{description}</Typography>
+            <Divider/>
+            <DialogContent sx={{ height: 380 }}>
+                <Typography variant="body1" component="div" dangerouslySetInnerHTML={{ __html: description }} />
             </DialogContent>
-            <DialogActions sx={{ justifyContent: 'flex-end', paddingRight: '24px', paddingBottom: '24px' }}>
-                <Button onClick={onClose}>Cancel</Button>
-                <Button onClick={onEditClick}>Edit</Button>
+            <Divider/>
+            <DialogActions style={{ position: 'absolute', bottom: 0, right: 0 }}>
+                <Button onClick={onClose}>Close</Button>
             </DialogActions>
+            </Paper>
         </Dialog>
+        </>
     );
 };
-
 export default DescriptionDialog;

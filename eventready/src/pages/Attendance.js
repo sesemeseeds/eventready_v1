@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import {Button,TextField,Typography,Box,AppBar,Toolbar,Dialog,DialogTitle,DialogContent,DialogActions,} from '@mui/material';
 import QRCode from 'qrcode.react';
+import "../styles/Attendance.css";
 
 const AttendancePage = () => {
   const [attendanceLink, setAttendanceLink] = useState('');
@@ -102,7 +103,7 @@ const AttendancePage = () => {
   };
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '10vh' }}>
+    <div className='container'>
       
 
       {/* Organizer's Guide Section */}

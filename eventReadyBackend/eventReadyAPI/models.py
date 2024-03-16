@@ -17,11 +17,9 @@ class EventGeneralInfo(models.Model):
     def __str__(self):
         return self.name    
     
-
-    
 class MarketingPoster(models.Model):
     event_id = models.ForeignKey(EventGeneralInfo, related_name='marketingPosters', on_delete=models.CASCADE)
-    id = models.IntegerField(primary_key=True, editable=False)
+    id = models.AutoField(primary_key=True)
 
     name = models.CharField("Name", max_length=256)
     caption = models.CharField("Caption", max_length=1024, null=True, blank=True)
@@ -33,7 +31,7 @@ class MarketingPoster(models.Model):
 
 class MarketingReminders(models.Model):
     event_id = models.ForeignKey(EventGeneralInfo, related_name='marketingReminders', on_delete=models.CASCADE)
-    id = models.IntegerField(primary_key=True, editable=False)
+    id = models.AutoField(primary_key=True)
 
     name = models.CharField("Name", max_length=256)
     date = models.DateField("Date", null=True, blank=True)
@@ -44,7 +42,7 @@ class MarketingReminders(models.Model):
     
 class MarketingRecapPhotos(models.Model):
     event_id = models.ForeignKey(EventGeneralInfo, related_name='marketingRecapPhotos', on_delete=models.CASCADE)
-    id = models.IntegerField(primary_key=True, editable=False)
+    id = models.AutoField(primary_key=True)
 
     name = models.CharField("Name", max_length=256)
     image = models.ImageField(upload_to='images/recap')
@@ -54,15 +52,15 @@ class MarketingRecapPhotos(models.Model):
     
 class Goals(models.Model):
     event_id = models.ForeignKey(EventGeneralInfo, on_delete=models.CASCADE, related_name='goals')
-    id = models.IntegerField(primary_key=True, editable=False)
+    id = models.AutoField(primary_key=True)
 
-    name = models.CharField("Name", max_length=256)
+    name = models.CharField("Name", max_length=64)
     due_date = models.DateField("Due Date", null=True, blank=True)
     description = models.CharField("Description", max_length=1024, null=True, blank=True)
     created = models.DateTimeField(auto_now_add=True)
-    progress = models.IntegerField("Progress", validators=[MinValueValidator(0), MaxValueValidator(100)])
+    progress = models.IntegerField("Progress", validators=[MinValueValidator(0), MaxValueValidator(100)], null=True)
 
-    # tasks = models.ManyToManyField('Tasks', related_name='goals', blank=True)
+    tasks = models.ManyToManyField('Task', related_name='goals', blank=True)
 
     def __str__(self):
         return self.name
@@ -78,8 +76,52 @@ class Task(models.Model):
     deadline_date = models.DateField("Deadline Date", null=True, blank=True)
     assigned_to = models.CharField("Assigned To", max_length=256, null=True, blank=True)
 
-    goal = models.ForeignKey(Goals, on_delete=models.SET_NULL, null=True, blank=True, related_name='tasks')
+    goal = models.ForeignKey(Goals, on_delete=models.SET_NULL, null=True, blank=True, related_name='tasks_to_goal')
     created = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return self.title
+        return self.title   
+    
+class Budget(models.Model):
+    event_id = models.ForeignKey(EventGeneralInfo, on_delete=models.CASCADE, related_name='budget')
+    id = models.AutoField(primary_key=True)
+
+    name = models.CharField("Name", max_length=64)
+    total = models.FloatField("Total")
+    leftover = models.FloatField("Leftover")
+    progress = models.IntegerField("Progress", validators=[MinValueValidator(0), MaxValueValidator(100)], null=True)
+    
+    categories = models.ManyToManyField('BudgetCategory', related_name='budget_category', blank=True)
+    items = models.ManyToManyField('BudgetItem', related_name='budget_item', blank=True)
+
+    def __str__(self):
+        return self.name
+    
+class BudgetCategory(models.Model):
+    event_id = models.ForeignKey(EventGeneralInfo, on_delete=models.CASCADE, related_name='budget_categories')
+    budget = models.ForeignKey(Budget, on_delete=models.SET_NULL, null=True, blank=True, related_name='categories_related')
+    id = models.AutoField(primary_key=True)
+
+    name = models.CharField("Name", max_length=64)
+    total = models.FloatField("Total")
+
+    items = models.ManyToManyField('BudgetItem', related_name='category_item', blank=True)
+
+    def __str__(self):
+        return self.name
+    
+class BudgetItem(models.Model):
+    event_id = models.ForeignKey(EventGeneralInfo, on_delete=models.CASCADE, related_name='budget_items')
+    budget = models.ForeignKey(Budget, on_delete=models.SET_NULL, null=True, blank=True, related_name='items_related')
+    category = models.ForeignKey(BudgetCategory, on_delete=models.SET_NULL, null=True, blank=True, related_name='items_related')
+    id = models.AutoField(primary_key=True)
+
+    name = models.CharField("Name", max_length=64)
+    description = models.CharField("Description", max_length=1024, null=True, blank=True)
+    quantity = models.IntegerField("Quantity", validators=[MinValueValidator(0)])
+    cost = models.FloatField("Cost")
+    total = models.FloatField("Total", null=True)
+    paid = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.name
