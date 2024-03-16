@@ -1,7 +1,8 @@
 import React from 'react';
 import { Dialog, DialogTitle, DialogContent, Button, DialogActions, Typography, IconButton } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
-import TruncateText from '../util/TruncateText';
+import { TruncateText } from '../util/TruncateText';
+
 
 
 const DeleteConfirmationDialog = ({ isOpen, onClose, onDeleteConfirmation, name, objectName }) => {

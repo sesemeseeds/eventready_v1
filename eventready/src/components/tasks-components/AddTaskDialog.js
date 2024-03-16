@@ -21,6 +21,7 @@ export default function AddTaskDialog({
   eventId,
   columnId,
   goals,
+  defaultGoal
 }) {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -29,6 +30,12 @@ export default function AddTaskDialog({
   const [deadlineDate, setDeadlineDate] = useState(null);
   const [assignedTo, setAssignedTo] = useState("");
   const [selectedGoal, setSelectedGoal] = useState(null);
+
+  useEffect(() => {
+    if (defaultGoal) {
+      setSelectedGoal(defaultGoal.id);
+    }
+  }, [defaultGoal]);
 
   const handleSubmit = async () => {
     if (!title.trim()) {
@@ -94,7 +101,7 @@ export default function AddTaskDialog({
         {" "}
         <TextField
           autoFocus
-          required="true"
+          required
           margin="dense"
           label="Task Name"
           type="text"
@@ -125,7 +132,7 @@ export default function AddTaskDialog({
               type="text"
               variant="outlined"
               fullWidth
-              value={assignedTo}
+              value={assignedTo || ''}
               InputLabelProps={{ shrink: true, required: false }}
               style={{ paddingBottom: 10 }}
               onChange={(e) => setAssignedTo(e.target.value)}
@@ -137,7 +144,7 @@ export default function AddTaskDialog({
             >
               <InputLabel>Priority</InputLabel>
               <Select
-                value={priority}
+                value={priority || ''}
                 onChange={(e) => setPriority(e.target.value)}
                 label="Priority"
               >
@@ -156,7 +163,7 @@ export default function AddTaskDialog({
               variant="outlined"
               fullWidth
               style={{ paddingBottom: 10 }}
-              value={completionDate}
+              value={completionDate || ''}
               InputLabelProps={{ shrink: true, required: false }}
               onChange={(e) => setCompletionDate(e.target.value)}
             />
@@ -168,26 +175,40 @@ export default function AddTaskDialog({
               variant="outlined"
               format="mm/dd/yyyy"
               fullWidth
-              value={deadlineDate}
+              value={deadlineDate || ''}
               InputLabelProps={{ shrink: true, required: false }}
               onChange={(e) => setDeadlineDate(e.target.value)}
             />
             <FormControl fullWidth variant="outlined">
-              <InputLabel shrink={true} >
+              <InputLabel shrink={true}>
                 Associated Goal
               </InputLabel>
-              <Select
-                value={selectedGoal}
-                onChange={(e) => setSelectedGoal(e.target.value)}
-                label="Associated Goal"
-                notched={true}
-              >
-                {goals.map((goal) => (
-                  <MenuItem key={goal.id} value={goal.id}>
-                    {goal.name}
+              {defaultGoal ? (
+                  <Select
+                  value={defaultGoal.id}
+                  onChange={(e) => setSelectedGoal(e.target.value)}
+                  label="Associated Goal"
+                  notched={true}
+                  disabled={true}
+                >
+                  <MenuItem key={defaultGoal.id} value={defaultGoal.id} selected>
+                    {defaultGoal.name}
                   </MenuItem>
-                ))}
-              </Select>
+                </Select>
+                ) : (
+                <Select
+                  value={selectedGoal}
+                  onChange={(e) => setSelectedGoal(e.target.value)}
+                  label="Associated Goal"
+                  notched={true}
+                >
+                  {goals.map((goal) => (
+                    <MenuItem key={goal.id} value={goal.id}>
+                      {goal.name}
+                    </MenuItem>
+                  ))}
+                </Select>
+              )}
             </FormControl>
           </Box>
         </Box>

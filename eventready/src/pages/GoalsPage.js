@@ -87,7 +87,7 @@ const GoalsPage = () => {
       >
         <AddCircleOutlineIcon fontSize="large" />
       </IconButton>
-      <AddEditGoalDialog isOpen={openDialog} onClose={handleCloseDialog} eventId={eventId} setAllGoals={setAllGoals}/>
+      <AddEditGoalDialog isOpen={openDialog} onClose={handleCloseDialog} eventId={eventId} setAllGoals={setAllGoals} goal={null}/>
     </div>
   );
 };

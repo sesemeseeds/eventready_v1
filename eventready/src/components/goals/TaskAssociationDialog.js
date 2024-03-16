@@ -4,7 +4,7 @@ import AxiosInstance from "../Axios";
 
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button, Paper, Divider } from '@mui/material';
 import TaskList from './TaskList';
-import TruncateText from '../util/TruncateText';
+import {TruncateText} from '../util/TruncateText';
 
 const TaskAssociationDialog = ({ eventId, open, onClose, goal, setProgress }) => {
     const [tasks, setTasks] = useState([]);

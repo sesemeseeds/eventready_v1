@@ -20,8 +20,9 @@ const ProgressDonut = ({ eventId, goal }) => {
 
   return (
     <div style={{ width: 100, height: 100, cursor: 'pointer' }}>
-      <Tooltip title="Manage Associated Tasks" placement='top'>
-        <div onClick={handleOpenDialog}>
+      <Tooltip title="View Tasks Breakdown" placement='top'>
+        <div>
+        {/* TODO <div onClick={handleOpenDialog}> */}
           <CircularProgressbar
             value={value}
             text={`${value}%`}

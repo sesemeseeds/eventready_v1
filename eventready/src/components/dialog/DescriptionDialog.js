@@ -1,7 +1,8 @@
 import { Dialog, DialogTitle, DialogContent, Button, DialogActions, Typography, IconButton, Paper, Divider } from '@mui/material';
 
 import CloseIcon from '@mui/icons-material/Close';
-import TruncateText from '../util/TruncateText';
+import { TruncateText } from '../util/TruncateText';
+
 
 const DescriptionDialog = ({ isOpen, onClose, description, title}) => {
     const MAX_NAME_LENGTH = 40;
@@ -17,7 +18,7 @@ const DescriptionDialog = ({ isOpen, onClose, description, title}) => {
             </DialogTitle>
             <Divider/>
             <DialogContent sx={{ height: 380 }}>
-                <Typography>{description}</Typography>
+                <Typography variant="body1" component="div" dangerouslySetInnerHTML={{ __html: description }} />
             </DialogContent>
             <Divider/>
             <DialogActions style={{ position: 'absolute', bottom: 0, right: 0 }}>
