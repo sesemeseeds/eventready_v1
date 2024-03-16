@@ -7,7 +7,7 @@ import { Dialog, DialogTitle, DialogContent, TextField, Button, FormControlLabel
 // Format category name with spaces between words
 const formatCategoryName = (name) => {
   return name
-    .split(/(?=[A-Z])/) // Split camelCase string into array of words
+    .split(/(?=[A-Z])/)
     .map(word => word.charAt(0).toUpperCase() + word.slice(1)) // Capitalize first letter of each word
     .join(' '); // Join words with spaces
 };
