@@ -121,6 +121,24 @@ const AddEditGoalDialog = ({ isOpen, onClose, eventId, setAllGoals, goal  }) => 
         }
     };
 
+    useEffect(() => {
+        calculateAndSetProgress();
+    }, [selectedTasks]);
+
+    const calculateAndSetProgress = () => {
+        const totalTasks = selectedTasks.length;
+        const doneTasks = selectedTasks.filter(taskId => {
+            const task = tasks.find(task => task.id === taskId);
+            return task && task.status === 'Done';
+        }).length;
+        const progress = totalTasks > 0 ? Math.round((doneTasks / totalTasks) * 100) : 0;
+
+        setNewGoalData(prevData => ({
+            ...prevData,
+            progress: progress
+        }));
+    };
+
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setNewGoalData({
