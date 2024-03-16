@@ -44,7 +44,12 @@ function BudgetCategories({ onClose, onTotalBudgetChange }) {
       setCategories({
         ...categories,
         [customCategory.toLowerCase()]: true,
-      }); setCustomCategory('');}};
+      });
+      setCustomCategory('');
+    }
+    // Toggle visibility of custom category entry section
+    setIsCustomCategoryOpen(prevState => !prevState);
+  };
 
   return (
     <div className="dialog-overlay">
@@ -57,7 +62,7 @@ function BudgetCategories({ onClose, onTotalBudgetChange }) {
         
         <form onSubmit={handleSubmit}>
           <div>
-            <label>Total Budget Amount:</label>
+            <label>Total Budget Amount: $</label>
             <input
               type="number"
               value={totalBudget}
@@ -170,9 +175,35 @@ function BudgetCategories({ onClose, onTotalBudgetChange }) {
           </div>
           
           <div style={{ marginTop: '20px', display: 'flex', justifyContent: 'space-between' }}>
-            <button type="submit" disabled={!isAnyCheckboxChecked}>Submit</button>
+          <button 
+            type="submit" 
+            disabled={!isAnyCheckboxChecked}
+            style={{ 
+              backgroundColor: isAnyCheckboxChecked ? '#007bff' : '#cce5ff', // Blue color when enabled, light blue when disabled
+              color: isAnyCheckboxChecked ? 'white' : 'grey', // White text color when enabled
+              transition: 'background-color 0.3s',
+              boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
+              cursor: 'pointer', 
+            }}
+          >
+            Submit
+          </button>
+
             <div style={{ display: 'flex', alignItems: 'center' }}>
-              <button onClick={() => setIsCustomCategoryOpen(true)} style={{ marginLeft: '10px' }}>Add Custom</button>
+            <button 
+              onClick={handleAddCustomCategory} 
+              style={{ 
+                marginLeft: '10px',
+                backgroundColor: '#dc3545', // Red background color
+                color: 'white', // White text color
+                transition: 'background-color 0.3s',
+                boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
+                cursor: 'pointer', 
+              }}
+            >
+              Add Custom
+            </button>
+
               {isCustomCategoryOpen && (
                 <div className="custom-category-dialog" style={{ marginLeft: '10px' }}>
                   <input
@@ -181,7 +212,19 @@ function BudgetCategories({ onClose, onTotalBudgetChange }) {
                     value={customCategory}
                     onChange={(e) => setCustomCategory(e.target.value)}
                   />
-                  <button onClick={handleAddCustomCategory}>Add</button>
+                  <button 
+                    onClick={handleAddCustomCategory} 
+                    style={{ 
+                      backgroundColor: '#464646', // shade of grey
+                      color: 'white',
+                      transition: 'background-color 0.3s',
+                      boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
+                      cursor: 'pointer', 
+                    }}
+                  >
+                    Add
+                  </button>
+
                 </div>
               )}
             </div>

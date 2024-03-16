@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import AddIcon from '@material-ui/icons/Add';
 import EditIcon from '@material-ui/icons/Edit';
+import DeleteIcon from '@material-ui/icons/Delete'; // Step 1
 import { Dialog, DialogTitle, DialogContent, TextField, Button, FormControlLabel, Checkbox, Typography, Box } from '@material-ui/core';
 
 // Format category name with spaces between words
@@ -69,12 +70,18 @@ function BudgetSubcategories({ totalBudget, categories, onClose }) {
     setEditIndex(null);
   };
 
+  const handleDeleteClick = (index) => { // Step 3
+    const updatedCategories = [...expandedCategories];
+    updatedCategories.splice(index, 1); // Remove the category at the specified index
+    setExpandedCategories(updatedCategories); // Update the state
+  };
+
   // Define an array to hold the selected categories
   const selectedCategories = Object.keys(categories).filter(category => categories[category]);
 
   return (
     <div>
-      <h2>Selected Categories</h2>
+      <h2>Selected Budget Categories</h2>
       {/* Render selected categories */}
       {selectedCategories.map(category => (
         <div key={category}>
@@ -87,9 +94,10 @@ function BudgetSubcategories({ totalBudget, categories, onClose }) {
           {expandedCategories.map((data, index) => {
             if (data.category === category) {
               return (
-                <Box key={index} border={1} padding={2} marginTop={2} position="relative">
+                <Box key={index}  padding={2} marginTop={2} borderRadius= {10} position="relative" style={{ backgroundColor: '#f6fbf7', boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)' }}>
                   {/* Edit icon positioned at the top right */}
-                  <EditIcon style={{ position: 'absolute', top: 0, right: 0, cursor: 'pointer' }} onClick={() => handleEditClick(index, data)} />
+                  <EditIcon style={{ position: 'absolute', top: 15, right: 15, cursor: 'pointer', color: '#456236'}} onClick={() => handleEditClick(index, data)} />
+                  <DeleteIcon style={{ position: 'absolute', bottom: 15, right: 15, cursor: 'pointer', color: '#456236'}} onClick={() => handleDeleteClick(index)} />
                   <Typography>Name: {data.name}</Typography>
                   <Typography>Description: {data.description}</Typography>
                   <Typography>Quantity: {data.quantity}</Typography>

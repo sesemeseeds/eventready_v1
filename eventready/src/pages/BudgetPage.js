@@ -33,6 +33,7 @@ function BudgetPage() {
   const handleItemPaid = (amount) => {
     setCurrentSpent(currentSpent + amount);
   };
+  
 
   return (
     <div className="container" style={{ width: '100%', maxWidth: '1200px', marginTop: '30px', padding: '20px', marginLeft:'20px' }}>
@@ -62,8 +63,42 @@ function BudgetPage() {
         </div>
       </div>
       <div style={{ marginTop: '20px', display: 'flex', justifyContent: 'space-between' }}>
-        <button onClick={openDialog}>Budget Categories</button>
-        <button>Upload Budget</button>
+      <button 
+        onClick={openDialog} 
+        style={{ 
+          backgroundColor: '#4CAF50', 
+          color: 'white', 
+          padding: '10px 20px', 
+          borderRadius: '7px', 
+          border: 'none', 
+          outline: 'none', 
+          cursor: 'pointer', 
+          transition: 'background-color 0.3s',
+          boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
+          fontWeight: 'bold',
+          fontSize: '16px',}}
+        onMouseOver={(e) => e.target.style.backgroundColor = '#45a049'}
+        onMouseOut={(e) => e.target.style.backgroundColor = '#4CAF50'}
+      >Budget Categories
+      </button>
+
+      <button 
+        style={{ 
+          backgroundColor: '#007bff', // Blue color
+          color: 'white', 
+          padding: '10px 20px', 
+          borderRadius: '7px', 
+          border: 'none', 
+          outline: 'none', 
+          cursor: 'pointer', 
+          transition: 'background-color 0.3s',
+          boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
+          fontWeight: 'bold',
+          fontSize: '16px',}}
+        onMouseOver={(e) => e.target.style.backgroundColor = '#0056b3'} // Darker shade of blue on hover
+        onMouseOut={(e) => e.target.style.backgroundColor = '#007bff'}
+      >Upload Budget
+      </button>
       </div>
       {isDialogOpen && <BudgetCategories totalBudget={totalBudget} onClose={closeDialog} onTotalBudgetChange={handleTotalBudgetChange} onItemPaid={handleItemPaid} />}
     </div>
