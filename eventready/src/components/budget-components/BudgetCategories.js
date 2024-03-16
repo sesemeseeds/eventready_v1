@@ -19,6 +19,7 @@ function BudgetCategories({ onClose, onTotalBudgetChange }) {
   const [submitted, setSubmitted] = useState(false); // Track if form has been submitted
   const [isAnyCheckboxChecked, setIsAnyCheckboxChecked] = useState(false); // Track if at least one checkbox is checked
   const [isDialogOpen, setIsDialogOpen] = useState(true); // Track if the dialog is open
+  const [isCustomCategoryOpen, setIsCustomCategoryOpen] = useState(false); // Track if the custom category section is open
 
   const handleCheckboxChange = (event) => {
     const { name, checked } = event.target;
@@ -169,21 +170,24 @@ function BudgetCategories({ onClose, onTotalBudgetChange }) {
           </div>
           
           <div style={{ marginTop: '20px', display: 'flex', justifyContent: 'space-between' }}>
-          <button type="submit" disabled={!isAnyCheckboxChecked}>Submit</button>
-          <button onClick={() => setIsDialogOpen(true)} style={{ marginLeft: '10px' }}>Add Custom</button>
+            <button type="submit" disabled={!isAnyCheckboxChecked}>Submit</button>
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+              <button onClick={() => setIsCustomCategoryOpen(true)} style={{ marginLeft: '10px' }}>Add Custom</button>
+              {isCustomCategoryOpen && (
+                <div className="custom-category-dialog" style={{ marginLeft: '10px' }}>
+                  <input
+                    type="text"
+                    placeholder="Enter custom category"
+                    value={customCategory}
+                    onChange={(e) => setCustomCategory(e.target.value)}
+                  />
+                  <button onClick={handleAddCustomCategory}>Add</button>
+                </div>
+              )}
+            </div>
           </div>
         </form>
         
-        {isDialogOpen && (
-          <div className="custom-category-dialog">
-            <input
-              type="text"
-              placeholder="Enter custom category"
-              value={customCategory}
-              onChange={(e) => setCustomCategory(e.target.value)}/>
-            <button onClick={handleAddCustomCategory}>Add</button>
-          </div> )}
-
           {submitted && (
             <BudgetSubcategories
               totalBudget={totalBudget}

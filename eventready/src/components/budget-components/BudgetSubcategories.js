@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import AddIcon from '@material-ui/icons/Add';
+import EditIcon from '@material-ui/icons/Edit';
 import { Dialog, DialogTitle, DialogContent, TextField, Button, FormControlLabel, Checkbox, Typography, Box } from '@material-ui/core';
 
 // Format category name with spaces between words
@@ -15,14 +16,23 @@ function BudgetSubcategories({ totalBudget, categories, onClose }) {
   const [formData, setFormData] = useState({});
   const [openDialog, setOpenDialog] = useState(false);
   const [spentAmount, setSpentAmount] = useState(0); // State to track spent amount
+  const [editIndex, setEditIndex] = useState(null); // State to track the index of the category being edited
 
   const handleAddClick = (category) => {
     setOpenDialog(true);
     setFormData({ category, name: '', description: '', quantity: '', cost: '', paid: false });
   };
 
+  const handleEditClick = (index, data) => {
+    setOpenDialog(true);
+    setFormData(data);
+    setEditIndex(index);
+  };
+
   const handleCloseDialog = () => {
     setOpenDialog(false);
+    setFormData({});
+    setEditIndex(null);
   };
 
   const handleChange = (e) => {
@@ -47,8 +57,16 @@ function BudgetSubcategories({ totalBudget, categories, onClose }) {
   };
 
   const handleSubmit = () => {
-    setExpandedCategories([...expandedCategories, formData]);
+    if (editIndex !== null) {
+      const updatedCategories = [...expandedCategories];
+      updatedCategories[editIndex] = formData;
+      setExpandedCategories(updatedCategories);
+    } else {
+      setExpandedCategories([...expandedCategories, formData]);
+    }
     setOpenDialog(false);
+    setFormData({});
+    setEditIndex(null);
   };
 
   // Define an array to hold the selected categories
@@ -69,7 +87,9 @@ function BudgetSubcategories({ totalBudget, categories, onClose }) {
           {expandedCategories.map((data, index) => {
             if (data.category === category) {
               return (
-                <Box key={index} border={1} padding={2} marginTop={2}>
+                <Box key={index} border={1} padding={2} marginTop={2} position="relative">
+                  {/* Edit icon positioned at the top right */}
+                  <EditIcon style={{ position: 'absolute', top: 0, right: 0, cursor: 'pointer' }} onClick={() => handleEditClick(index, data)} />
                   <Typography>Name: {data.name}</Typography>
                   <Typography>Description: {data.description}</Typography>
                   <Typography>Quantity: {data.quantity}</Typography>
@@ -86,7 +106,7 @@ function BudgetSubcategories({ totalBudget, categories, onClose }) {
 
       {/* Dialog for entering category details */}
       <Dialog open={openDialog} onClose={handleCloseDialog}>
-        <DialogTitle>Add Details</DialogTitle>
+        <DialogTitle>{editIndex !== null ? 'Edit Details' : 'Add Details'}</DialogTitle>
         <DialogContent>
           <TextField name="name" label="Name" value={formData.name} onChange={handleChange} fullWidth />
           <TextField name="description" label="Description" value={formData.description} onChange={handleChange} fullWidth />

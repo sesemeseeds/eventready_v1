@@ -30,6 +30,10 @@ function BudgetPage() {
     setTotalBudget(Number(value)); // Update the total budget value
   };
 
+  const handleItemPaid = (amount) => {
+    setCurrentSpent(currentSpent + amount);
+  };
+
   return (
     <div className="container" style={{ width: '100%', maxWidth: '1200px', marginTop: '30px', padding: '20px', marginLeft:'20px' }}>
        <h2>Budget Tracker</h2>
@@ -61,7 +65,7 @@ function BudgetPage() {
         <button onClick={openDialog}>Budget Categories</button>
         <button>Upload Budget</button>
       </div>
-      {isDialogOpen && <BudgetCategories totalBudget={totalBudget} onClose={closeDialog} onTotalBudgetChange={handleTotalBudgetChange} />}
+      {isDialogOpen && <BudgetCategories totalBudget={totalBudget} onClose={closeDialog} onTotalBudgetChange={handleTotalBudgetChange} onItemPaid={handleItemPaid} />}
     </div>
   );
 }
