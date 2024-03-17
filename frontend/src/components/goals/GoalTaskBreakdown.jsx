@@ -15,7 +15,7 @@ const TaskAssociationDialog = ({ eventId, open, onClose, goal, setProgress }) =>
     const [selectedTaskId, setSelectedTaskId] = useState(null);
     const [hideDoneTasks, setHideDoneTasks] = useState(false); 
 
-    const MAX_NAME_LENGTH = 20;
+    const MAX_NAME_LENGTH = 50;
 
     useEffect(() => {
         const fetchTasks = () => {
