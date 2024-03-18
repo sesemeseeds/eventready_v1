@@ -1,8 +1,6 @@
 import * as React from "react";
-
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
-
 import Card from "@mui/material/Card";
 import { Menu, MenuItem } from "@mui/material";
 import CardContent from "@mui/material/CardContent";
@@ -20,8 +18,10 @@ import DialogContent from "@mui/material/DialogContent";
 import AddIcon from "@mui/icons-material/Add";
 import DialogTitle from "@mui/material/DialogTitle";
 import DeleteIcon from "@mui/icons-material/Delete";
-import ArchiveIcon from '@mui/icons-material/Archive';
-import Tooltip from '@mui/material/Tooltip';
+import ArchiveIcon from "@mui/icons-material/Archive";
+import Tooltip from "@mui/material/Tooltip";
+
+import ReactQuill from "react-quill";
 import {
   BrowserRouter,
   Link,
@@ -29,7 +29,7 @@ import {
   Routes,
   useNavigate,
 } from "react-router-dom";
-import { set, useForm } from "react-hook-form";
+
 import "../styles/Landing.css";
 
 export const LandingPage = (display = "ActiveEvents") => {
@@ -39,9 +39,10 @@ export const LandingPage = (display = "ActiveEvents") => {
   const [openDelete, setOpenDelete] = React.useState(false);
   const [contextMenu, setContextMenu] = React.useState(null);
   const [deleteID, setDeleteID] = React.useState(null);
-
   const [errorMessage, setErrorMessage] = React.useState();
   const [error, setError] = React.useState(false);
+  const [eventTitle, setEventTitle] = React.useState("");
+  const [eventDescription, setEventDescription] = React.useState("");
 
   const getAllEvents = () => {
     AxiosInstance.get(`/event/`).then((res) => {
@@ -63,22 +64,22 @@ export const LandingPage = (display = "ActiveEvents") => {
     getAllEvents();
   }, [open, display]);
 
-  const { register, handleSubmit, reset } = useForm({});
-
-  const onSubmit = async (data) => {
+  const onSubmit = async () => {
     try {
       await AxiosInstance.post(`/event/`, {
-        name: data.EventTitle,
-        description: data.EventDescription,
+        name: eventTitle,
+        description: eventDescription,
       });
 
       handleClose();
       getAllEvents();
       setError(false);
+      setEventTitle("");
+      setEventDescription("");
     } catch (error) {
       if (error.response && error.response.status === 400) {
         setErrorMessage(
-          "Event name already exists. Please choose a different name."
+          "Event name not valid. Please choose a different name."
         );
       } else {
         setErrorMessage("An error occurred while posting the event:");
@@ -105,14 +106,17 @@ export const LandingPage = (display = "ActiveEvents") => {
   const handleClickOpen = () => {
     setOpen(true);
   };
+
+  const handleMenuClose = () => {
+    setContextMenu(null);
+  };
+
   const handleClose = () => {
     setOpen(false);
     setErrorMessage("");
     setError(false);
-    reset();
-  };
-  const handleMenuClose = () => {
-    setContextMenu(null);
+    setEventTitle("");
+    setEventDescription("");
   };
 
   const handleDeleteOpen = (event, id) => {
@@ -120,6 +124,7 @@ export const LandingPage = (display = "ActiveEvents") => {
     event.preventDefault();
     setDeleteID(id);
   };
+
   const handleDeleteClose = () => {
     setOpenDelete(false);
   };
@@ -127,24 +132,18 @@ export const LandingPage = (display = "ActiveEvents") => {
   const handleArchive = async (id, name) => {
     try {
       if (display.display === "ActiveEvents") {
-
         await AxiosInstance.patch(`/event/${id}/`, { active: false, name });
-   
       } else if (display.display === "InactiveEvents") {
- 
         await AxiosInstance.patch(`/event/${id}/`, { active: true, name });
-
       }
     } catch (error) {
       console.error("Error toggling event status:", error);
     }
     getAllEvents();
   };
-  
-  
 
-  const handleArchiveButtonClick = (event, id) => {
-    handleArchive(id);
+  const handleArchiveButtonClick = (event, id, name) => {
+    handleArchive(id, name);
   };
 
   return (
@@ -160,18 +159,22 @@ export const LandingPage = (display = "ActiveEvents") => {
           >
             <Typography variant="h4">
               {" "}
-              {display.display === "ActiveEvents" ? "Events" : "Archived Events"}
+              {display.display === "ActiveEvents"
+                ? "Events"
+                : "Archived Events"}
             </Typography>
             <Button
               size="medium"
-              variant="outlined"
+              variant="contained"
               onClick={handleClickOpen}
               cursor="pointer"
               startIcon={<AddIcon />}
             >
-              Add
+              Add Event
             </Button>
           </Box>
+
+          {/* <hr style={{ marginBottom: "25px" }}></hr> */}
 
           <Grid
             container
@@ -203,27 +206,45 @@ export const LandingPage = (display = "ActiveEvents") => {
                             variant="body2"
                             color="text.secondary"
                             sx={{ maxHeight: "100px", overflow: "hidden" }}
+                            dangerouslySetInnerHTML={{ __html: event.description }}
                           >
-                            {event.description}
+                           
                           </Typography>
                         </CardContent>
                       </CardActionArea>
                       <CardActions sx={{ backgroundColor: "#009CDF" }}>
-                        <Tooltip title="Delete"> <Button
-                          sx={{ float: "right" }}
-                          size="medium"
-                          onClick={(e) => handleDeleteOpen(e, event.id)}
-                          cursor="pointer"
-                          startIcon={<DeleteIcon  style={{ color: 'black' }} />}
-                        ></Button></Tooltip>
-                       <Tooltip title={display.display === "ActiveEvents" ? "Archive" : "Unarchive"}>    <Button
-                          sx={{ float: "right" }}
-                          size="medium"
-                          onClick={(e) => handleArchiveButtonClick(e, event.id, event.name)}
-                          cursor="pointer"
-                          startIcon={<ArchiveIcon style={{ color: 'black' }}/>}
-                        ></Button></Tooltip>
-                   
+                        <Tooltip title="Delete">
+                          {" "}
+                          <Button
+                            sx={{ float: "right" }}
+                            size="medium"
+                            onClick={(e) => handleDeleteOpen(e, event.id)}
+                            cursor="pointer"
+                            startIcon={
+                              <DeleteIcon style={{ color: "black" }} />
+                            }
+                          ></Button>
+                        </Tooltip>
+                        <Tooltip
+                          title={
+                            display.display === "ActiveEvents"
+                              ? "Archive"
+                              : "Unarchive"
+                          }
+                        >
+                          {" "}
+                          <Button
+                            sx={{ float: "right" }}
+                            size="medium"
+                            onClick={(e) =>
+                              handleArchiveButtonClick(e, event.id, event.name)
+                            }
+                            cursor="pointer"
+                            startIcon={
+                              <ArchiveIcon style={{ color: "black" }} />
+                            }
+                          ></Button>
+                        </Tooltip>
                       </CardActions>
                     </Card>
                     <Menu
@@ -248,42 +269,41 @@ export const LandingPage = (display = "ActiveEvents") => {
 
         <Dialog open={open}>
           <DialogTitle>Edit Event Properties</DialogTitle>
-          <DialogContent>
-            <>
-              {loading ? (
-                <p>Loading data...</p>
-              ) : (
-                <form onSubmit={handleSubmit(onSubmit)}>
-                  <TextField
-                    margin="dense"
-                    name="EventTitle"
-                    label="Event Title"
-                    type="text"
-                    fullWidth
-                    variant="outlined"
-                    error={error}
-                    helperText={errorMessage}
-                    required={true}
-                    {...register("EventTitle")}
+          <DialogContent sx={{height: 325}}>
+            <TextField
+              margin="dense"
+              name="EventTitle"
+              label="Event Title"
+              type="text"
+              required="true"
+              fullWidth
+              variant="outlined"
+              value={eventTitle}
+              onChange={(e) => setEventTitle(e.target.value)}
+              error={error}
+              helperText={errorMessage}
+      
+            />
+     
+            <ReactQuill
+                    theme="snow"
+                    value={eventDescription}
+                    onChange={(e) =>
+                      setEventDescription(e.target.value)
+                    }
+                    placeholder="Enter your description here!"
+                    style={{ marginTop: 8, marginBottom: 16, height: 175 }}
                   />
-                  <TextField
-                    autoFocus
-                    margin="dense"
-                    name="EventDescription"
-                    label="Event Description"
-                    type="text"
-                    fullWidth
-                    variant="outlined"
-                    {...register("EventDescription")}
-                  />
-                  <DialogActions>
-                    <Button onClick={handleClose}>Cancel</Button>
-                    <Button type="submit">Submit</Button>
-                  </DialogActions>
-                </form>
-              )}
-            </>
+
           </DialogContent>
+          <DialogActions style={{ backgroundColor: "#009CDF" }}>
+            <Button variant="contained" color="secondary" onClick={handleClose}>
+              Cancel
+            </Button>
+            <Button variant="contained" color="primary" onClick={onSubmit}>
+              Submit
+            </Button>
+          </DialogActions>
         </Dialog>
         <Dialog open={openDelete}>
           <DialogTitle>Delete Event</DialogTitle>
@@ -293,13 +313,20 @@ export const LandingPage = (display = "ActiveEvents") => {
                 Are you sure you want to delete? You will not be able to undo
                 this action and all your data will be lost.
               </Typography>
-
-              <DialogActions>
-                <Button onClick={handleDeleteClose}>Cancel</Button>
-                <Button onClick={removeData}>Yes</Button>
-              </DialogActions>
             </>
           </DialogContent>
+          <DialogActions style={{ backgroundColor: "#009CDF" }}>
+            <Button
+              variant="contained"
+              color="secondary"
+              onClick={handleDeleteClose}
+            >
+              Cancel
+            </Button>
+            <Button variant="contained" color="primary" onClick={removeData}>
+              Yes
+            </Button>
+          </DialogActions>
         </Dialog>
       </Box>
       <Footer></Footer>
