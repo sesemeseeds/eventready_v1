@@ -5,6 +5,7 @@ import { EventPage } from "./pages/EventPage";
 import GeneralInfoPage from "./pages/GeneralInfoPage";
 import MarketingPage from "./pages/MarketingPage";
 import Navigation from "./components/Navigation";
+import LandingNavigation from "./components/LandingNavigation";
 import Attendance from "./pages/Attendance";
 import TasksPage from "./pages/TasksPage";
 import UserLoginPage from "./pages/UserLoginPage";
@@ -25,8 +26,9 @@ function App() {
           <Route path="userlogin" element={<UserLoginPage />} />
         </Route>
         
+        
         <Route path="/" element={<UserLoginPage />} />
-        <Route path="/dashboard" element={<LandingPage />} />
+        <Route path="/dashboard" element={<LandingNavigation />} />
       </Routes>
       </Router>
   );
