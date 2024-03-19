@@ -206,10 +206,10 @@ export const LandingPage = (display = "ActiveEvents") => {
                             variant="body2"
                             color="text.secondary"
                             sx={{ maxHeight: "100px", overflow: "hidden" }}
-                            dangerouslySetInnerHTML={{ __html: event.description }}
-                          >
-                           
-                          </Typography>
+                            dangerouslySetInnerHTML={{
+                              __html: event.description,
+                            }}
+                          ></Typography>
                         </CardContent>
                       </CardActionArea>
                       <CardActions sx={{ backgroundColor: "#009CDF" }}>
@@ -269,7 +269,7 @@ export const LandingPage = (display = "ActiveEvents") => {
 
         <Dialog open={open}>
           <DialogTitle>Edit Event Properties</DialogTitle>
-          <DialogContent sx={{height: 325}}>
+          <DialogContent sx={{ height: 325 }}>
             <TextField
               margin="dense"
               name="EventTitle"
@@ -282,19 +282,15 @@ export const LandingPage = (display = "ActiveEvents") => {
               onChange={(e) => setEventTitle(e.target.value)}
               error={error}
               helperText={errorMessage}
-      
             />
-     
-            <ReactQuill
-                    theme="snow"
-                    value={eventDescription}
-                    onChange={(e) =>
-                      setEventDescription(e.target.value)
-                    }
-                    placeholder="Enter your description here!"
-                    style={{ marginTop: 8, marginBottom: 16, height: 175 }}
-                  />
 
+            <ReactQuill
+              theme="snow"
+              value={eventDescription}
+              onChange={(e) => setEventDescription(e.target.value)}
+              placeholder="Enter your description here!"
+              style={{ marginTop: 8, marginBottom: 16, height: 175 }}
+            />
           </DialogContent>
           <DialogActions style={{ backgroundColor: "#009CDF" }}>
             <Button variant="contained" color="secondary" onClick={handleClose}>

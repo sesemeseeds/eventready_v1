@@ -187,7 +187,6 @@ export default function GeneralInfoComponent() {
     setOpen(false);
     GetData();
   };
-  
 
   return (
     <div>
@@ -255,7 +254,7 @@ export default function GeneralInfoComponent() {
 
         <Dialog open={open}>
           <DialogTitle>Edit Event Properties</DialogTitle>
-          <DialogContent sx={{height: 500, width: 500}}>
+          <DialogContent sx={{ height: 500, width: 500 }}>
             <>
               {loading ? (
                 <p>Loading data...</p>
@@ -301,7 +300,10 @@ export default function GeneralInfoComponent() {
                       InputLabelProps={{ shrink: true, required: false }}
                       value={eventData.startTime}
                       onChange={(e) =>
-                        setEventData({ ...eventData, startTime: e.target.value })
+                        setEventData({
+                          ...eventData,
+                          startTime: e.target.value,
+                        })
                       }
                     />
                     <TextField
@@ -342,16 +344,18 @@ export default function GeneralInfoComponent() {
                     placeholder="Enter your description here!"
                     style={{ marginTop: 8, marginBottom: 16, height: 175 }}
                   />
-
-             
                 </>
               )}
             </>
           </DialogContent>
           <DialogActions style={{ marginTop: 10, backgroundColor: "#009CDF" }}>
-                    <Button variant="contained" color="secondary" onClick={handleClose}>Cancel</Button>
-                    <Button variant="contained" color="primary" onClick={handleSubmit}>Submit</Button>
-                  </DialogActions>
+            <Button variant="contained" color="secondary" onClick={handleClose}>
+              Cancel
+            </Button>
+            <Button variant="contained" color="primary" onClick={handleSubmit}>
+              Submit
+            </Button>
+          </DialogActions>
         </Dialog>
       </Box>
     </div>
