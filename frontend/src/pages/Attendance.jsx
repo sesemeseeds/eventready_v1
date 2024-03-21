@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import {Button,TextField,Typography,Box,AppBar,Toolbar,Dialog,DialogTitle,DialogContent,DialogActions,} from '@mui/material';
 import QRCode from 'qrcode.react';
+import ImportExcel from '../components/attendance/ImportExcel'
 import "../styles/Attendance.css";
 
 const AttendancePage = () => {
@@ -170,6 +171,8 @@ const AttendancePage = () => {
           </table>
         </Box>
       </div>
+
+      <ImportExcel></ImportExcel>
 
 
       {/* Components/dialogs*/}

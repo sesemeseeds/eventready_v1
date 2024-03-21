@@ -1,6 +1,10 @@
 import React, { useState } from "react";
 import { read, utils } from "xlsx";
-import { MdEdit, MdAdd, MdDelete } from "react-icons/md";
+// import { MdEdit, MdAdd, MdDelete } from "react-icons/md";
+import AddIcon from '@mui/icons-material/Add';
+import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
+import { Add, Edit } from "@mui/icons-material";
 
 const ImportExcel = () => {
     const [excelData, setExcelData] = useState([]);
@@ -127,15 +131,15 @@ const ImportExcel = () => {
                                         <input type="checkbox" checked={info.Attended} onChange={(e) => handleEdit(index, 'Attended', e.target.checked)} />
                                     </td>
                                     <td style={{ border: '1px solid #ddd', padding: '8px' }}>
-                                        <button onClick={() => handleEdit(index)}><MdEdit /></button>
-                                        <button onClick={() => handleDeleteRow(index)}><MdDelete /></button>
+                                        <button onClick={() => handleEdit(index)}><EditIcon /></button>
+                                        <button onClick={() => handleDeleteRow(index)}><DeleteIcon /></button>
                                     </td>
                                 </tr>
                             ))}
                         </tbody>
                     </table>
                     <button onClick={handleAddRow} style={{ marginTop: '20px' }}>
-                        <MdAdd /> Add Row
+                  <AddIcon/> Add Row
                     </button>
                 </>
             )}
