@@ -147,29 +147,7 @@ const AttendancePage = () => {
           )}
         </div>
 
-        <Box style={{ marginLeft: '70px', height: '400px', position: 'relative' }}>
-          <Typography variant="h6" style={{ marginBottom: '10px' }}>
-            Attendance List
-            <Button variant="outlined" style={{ marginLeft: '10px' }}>
-              Filter
-            </Button>
-          </Typography>
 
-          {/* Your live updating table goes here */}
-          {/* Example: */}
-          <table style={{ width: '100%', borderCollapse: 'collapse' }}>
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>Phone</th>
-                <th>Email</th>
-              </tr>
-            </thead>
-            <tbody>
-              {/* Map through your attendees and render rows */}
-            </tbody>
-          </table>
-        </Box>
       </div>
 
       <ImportExcel></ImportExcel>
