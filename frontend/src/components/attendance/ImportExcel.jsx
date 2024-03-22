@@ -170,7 +170,7 @@ const ImportExcel = (eventID) => {
       setFilteredData([...filteredData, newAttendee]);
       setIsEditingRow((prevIsEditingRow) => ({
         ...prevIsEditingRow,
-        [filteredData.length]: true, 
+        [filteredData.length]: true,
       }));
       console.log("Attendee added successfully");
     } catch (error) {
@@ -216,7 +216,7 @@ const ImportExcel = (eventID) => {
     >
       <label
         style={{
-          backgroundColor: "#007bff",
+          backgroundColor: "red",
           color: "white",
           padding: "10px 20px",
           borderRadius: "5px",
@@ -250,11 +250,21 @@ const ImportExcel = (eventID) => {
             <Table style={{ minWidth: 650 }} aria-label="simple table">
               <TableHead>
                 <TableRow>
-                  <TableCell style={{ width: "25%" }}>Name</TableCell>
-                  <TableCell style={{ width: "25%" }}>Phone Number</TableCell>
-                  <TableCell style={{ width: "30%" }}>Email</TableCell>
-                  <TableCell style={{ width: "10%" }}>Attended</TableCell>
-                  <TableCell style={{ width: "10%" }}>Actions</TableCell>
+                  <TableCell style={{ width: "25%", fontWeight: "bold" }}>
+                    Name
+                  </TableCell>
+                  <TableCell style={{ width: "25%", fontWeight: "bold" }}>
+                    Phone Number
+                  </TableCell>
+                  <TableCell style={{ width: "30%", fontWeight: "bold" }}>
+                    Email
+                  </TableCell>
+                  <TableCell style={{ width: "10%", fontWeight: "bold" }}>
+                    Attended
+                  </TableCell>
+                  <TableCell style={{ width: "10%", fontWeight: "bold" }}>
+                    Actions
+                  </TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -333,7 +343,7 @@ const ImportExcel = (eventID) => {
           <Button
             variant="contained"
             onClick={handleAddRow}
-            style={{ marginTop: "20px" }}
+            style={{ marginTop: "20px", backgroundColor: "red" }}
           >
             <AddIcon /> Add Row
           </Button>
