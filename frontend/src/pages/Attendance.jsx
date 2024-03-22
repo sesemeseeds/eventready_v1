@@ -3,12 +3,16 @@ import {Button,TextField,Typography,Box,AppBar,Toolbar,Dialog,DialogTitle,Dialog
 import QRCode from 'qrcode.react';
 import ImportExcel from '../components/attendance/ImportExcel'
 import "../styles/Attendance.css";
+import { useParams } from "react-router-dom";
 
 const AttendancePage = () => {
   const [attendanceLink, setAttendanceLink] = useState('');
   const [generatedQR, setGeneratedQR] = useState(null);
   const [shareDialogOpen, setShareDialogOpen] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
+
+  const MyParam = useParams();
+  const eventId = MyParam.id;
 
   const handleLinkChange = (event) => {
     setAttendanceLink(event.target.value);};
@@ -150,7 +154,7 @@ const AttendancePage = () => {
 
       </div>
 
-      <ImportExcel></ImportExcel>
+      <ImportExcel eventID={eventId}></ImportExcel>
 
 
       {/* Components/dialogs*/}
