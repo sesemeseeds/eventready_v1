@@ -120,7 +120,7 @@ class BudgetItem(models.Model):
     description = models.CharField("Description", max_length=1024, null=True, blank=True)
     quantity = models.IntegerField("Quantity", validators=[MinValueValidator(0)])
     cost = models.FloatField("Cost")
-    total = models.FloatField("Total", null=True)
+    total = models.FloatField("Total")
     paid = models.BooleanField(default=False)
 
     def __str__(self):

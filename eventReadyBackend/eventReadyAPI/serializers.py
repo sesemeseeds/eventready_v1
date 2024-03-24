@@ -50,3 +50,6 @@ class AttendeeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Attendee
         fields = ['id', 'event_id', 'name', 'email', 'phone_number', 'attended']
+
+
+
