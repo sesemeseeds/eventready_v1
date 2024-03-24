@@ -21,6 +21,7 @@ import MailIcon from "@mui/icons-material/Mail";
 import { LandingPage } from "../pages/LandingPage";
 import EventIcon from "@mui/icons-material/Event";
 import ArchiveIcon from "@mui/icons-material/Archive";
+import PersonIcon from "@mui/icons-material/Person"
 import { useClerk } from "@clerk/clerk-react";
 import { useNavigate } from "react-router-dom";
 import Dialog from "@mui/material/Dialog";
@@ -175,7 +176,7 @@ export default function PersistentDrawerLeft() {
         <List>
           <ListItemButton onClick={() => setOpenDialog(true)}>
             <ListItemIcon>
-              <MailIcon />
+              <PersonIcon />
             </ListItemIcon>
             <ListItemText primary="Sign Out" />
           </ListItemButton>
