@@ -1,12 +1,33 @@
 .header {
-    display: flex;
-    justify-content: center;
-    background-color: red;
-    color: white;
-    height: 80px;
-  }
-  .headerText {
-    text-decoration: none;
-    color: white;
-  }
-  
+  display: flex;
+  justify-content: space-between; /* Align items with space between them */
+  align-items: center; /* Align items vertically */
+  background-color: red;
+  color: white;
+  height: 80px;
+}
+
+.logo-container {
+  margin-right: auto; /* Pushes the logo to the left as much as possible */
+}
+
+.logo {
+  width: 50px; /* Adjust width as needed */
+  height: auto;
+}
+
+.headerText {
+  text-decoration: none;
+  color: white;
+  margin-right: auto; /* Align header text to the left */
+}
+
+.user-info {
+  display: flex;
+  align-items:flex-start; /* Align user info vertically */
+  justify-content: center; /* Align contents of user-info to center */
+}
+
+.empty-div {
+  flex-grow: 0.025; /* Allow the empty div to grow and fill the remaining space */
+}
