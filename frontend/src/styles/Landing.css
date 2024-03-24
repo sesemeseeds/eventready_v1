@@ -1,5 +1,6 @@
 .landing-container {
     padding: 0 25px 0 25px;
+    margin-bottom: 100px;
 }
 
 .event-container {
@@ -16,8 +17,8 @@
 }
 
 .event-card {
-    width: 500px;
-    height: 250px;
+    width: 475px;
+
     box-shadow: 3px 3px 10px 5px lightgray !important; 
     border-radius: 10px !important;
     background-color: white;

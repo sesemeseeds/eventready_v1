@@ -12,7 +12,7 @@ from django.db.models import Max
 #     return Response({'message': 'Hello, world!'})
 # Create your views here.
 
-class EventViewset(viewsets.ViewSet):
+class EventViewset(viewsets.ModelViewSet):
     permission_classes = [permissions.AllowAny]
     
     queryset = EventGeneralInfo.objects.all()
@@ -36,14 +36,7 @@ class EventViewset(viewsets.ViewSet):
         serializer = self.serializer_class(event)
         return Response(serializer.data)
 
-    def update(self, request, pk=None):
-        event = self.queryset.get(pk=pk)
-        serializer = self.serializer_class(event,data=request.data)
-        if serializer.is_valid(): 
-            serializer.save()
-            return Response(serializer.data)
-        else: 
-            return Response(serializer.errors, status=400)
+
 
     def destroy(self, request, pk=None):
         event = self.queryset.get(pk=pk)

@@ -4,11 +4,9 @@ import TextField from "@mui/material/TextField";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import axios from "axios";
 import { Box, Container } from "@mui/material";
-import { useForm } from "react-hook-form";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import "../styles/GeneralInfo.css";
 import AttendanceCard from "../components/general-info-cards/AttendanceCard";
@@ -23,19 +21,20 @@ import ReactQuill from "react-quill";
 
 export default function GeneralInfoComponent() {
   const [open, setOpen] = React.useState(false);
-  const [EventTitle, setEventTitle] = React.useState(String);
-  const [EventDate, setEventDate] = React.useState(String);
-  const [EventStartTime, setEventStartTime] = React.useState(String);
-  const [EventEndTime, setEventEndTime] = React.useState(String);
-  const [EventLocation, setEventLocation] = React.useState(String);
-  const [EventDescription, setEventDescription] = React.useState(String);
-  const [EventCreationDate, setEventCreationDate] = React.useState(String);
-  const [EventActive, setEventActive] = React.useState(String);
-  const [EventAddress, setEventAddress] = React.useState(String);
+  const [eventData, setEventData] = React.useState({
+    title: "",
+    date: "",
+    startTime: "",
+    endTime: "",
+    location: "",
+    description: "",
+  });
   const [loading, setLoading] = React.useState(true);
 
   const [goals, setGoals] = React.useState();
   const [tasks, setTasks] = React.useState();
+  const [budget, setBudget] = React.useState();
+  const [attendance, setAttendance] = React.useState();
   const [marketingPoster, setMarketingPoster] = React.useState();
   const [marketingReminder, setMarketingReminder] = React.useState();
 
@@ -43,7 +42,7 @@ export default function GeneralInfoComponent() {
   const MyId = MyParam.id;
 
   const StartTime = new Date(
-    "1970-01-01T" + EventStartTime + "Z"
+    "1970-01-01T" + eventData.startTime + "Z"
   ).toLocaleTimeString("en-US", {
     timeZone: "UTC",
     hour12: true,
@@ -52,7 +51,7 @@ export default function GeneralInfoComponent() {
   });
 
   const EndTime = new Date(
-    "1970-01-01T" + EventEndTime + "Z"
+    "1970-01-01T" + eventData.endTime + "Z"
   ).toLocaleTimeString("en-US", {
     timeZone: "UTC",
     hour12: true,
@@ -60,7 +59,7 @@ export default function GeneralInfoComponent() {
     minute: "numeric",
   });
 
-  const ConvertedDate = new Date(EventDate).toLocaleDateString("en-US", {
+  const ConvertedDate = new Date(eventData.date).toLocaleDateString("en-US", {
     timeZone: "UTC",
     weekday: "long",
     year: "numeric",
@@ -84,15 +83,14 @@ export default function GeneralInfoComponent() {
 
   const GetData = () => {
     AxiosInstance.get(`event/${MyId}/`).then((res) => {
-      // console.log(res.data);
-      setEventTitle(res.data.name);
-      setEventDate(res.data.doe);
-      setEventStartTime(res.data.start_time);
-      setEventEndTime(res.data.end_time);
-      setEventLocation(res.data.location);
-      setEventDescription(res.data.description);
-      setEventCreationDate(res.data.created);
-      setEventActive(res.data.active);
+      setEventData({
+        title: res.data.name,
+        date: res.data.doe,
+        startTime: res.data.start_time,
+        endTime: res.data.end_time,
+        location: res.data.location,
+        description: res.data.description,
+      });
       setLoading(false);
     });
   };
@@ -154,49 +152,81 @@ export default function GeneralInfoComponent() {
     } catch (error) {
       console.error("Error fetching event goals:", error);
     }
-
+  };
+  const getAllBudget = async () => {
+    try {
+      const response = await AxiosInstance.get(`budget/?event_id=${MyId}`);
+      const budgetData = response.data;
+      if (!budgetData) {
+        setBudget([]);
+      } else {
+        setBudget(budgetData);
+      }
+    } catch (error) {
+      console.error("Error fetching event goals:", error);
+    }
+  };
+  const getAllAttendance = async () => {
+    try {
+      const response = await AxiosInstance.get(`attendee/?event_id=${MyId}`);
+      const attendanceData = response.data;
+      if (!attendanceData) {
+        setAttendance([]);
+      } else {
+        setAttendance(attendanceData);
+      }
+    } catch (error) {
+      console.error("Error fetching event goals:", error);
+    }
   };
 
   React.useEffect(() => {
     getAllGoals();
     getAllTasks();
     getAllMarketing();
+    getAllBudget();
+    getAllAttendance();
     GetData();
-  }, []);
+  }, [open]);
 
-  const { register, handleSubmit, setValue, control } = useForm({});
-  const daysRemaining = getDaysDifference(EventDate);
+  const daysRemaining = getDaysDifference(eventData.date);
 
-  const onSubmit = async (data) => {
-    AxiosInstance.put(`event/${MyId}/`, {
-      name: data.EventTitle,
-      doe: data.EventDate,
-      start_time: data.EventStartTime,
-      end_time: data.EventEndTime,
-      description: data.EventDescription,
-      location: data.EventLocation,
-    });
-    GetData();
-    handleClose();
+  const handleSubmit = async () => {
+    try {
+      await AxiosInstance.put(`event/${MyId}/`, {
+        name: eventData.title,
+        doe: eventData.date,
+        start_time: eventData.startTime,
+        end_time: eventData.endTime,
+        description: eventData.description,
+        location: eventData.location,
+      });
+      GetData();
+      handleClose();
+    } catch (error) {
+      console.error("Error updating event:", error);
+    }
   };
 
   const handleClickOpen = () => {
     setOpen(true);
+    GetData();
   };
+
   const handleClose = () => {
     setOpen(false);
+    GetData();
   };
 
   return (
     <div>
       <Box className="geninfo-container">
         <div className="section-container">
-          {" "}
           <Box className="main-section">
-            <h1>{EventTitle} </h1>
-            <hr></hr>
-            <p dangerouslySetInnerHTML={{ __html: EventDescription}}></p>
-            <hr></hr>
+            <h1>{eventData.title}</h1>
+            <hr />
+            <p dangerouslySetInnerHTML={{ __html: eventData.description }}></p>
+            <hr />
           </Box>
           <Box className="side-section">
             <Tooltip title="Edit Information">
@@ -234,9 +264,8 @@ export default function GeneralInfoComponent() {
               {" "}
               {daysRemaining < 0 ? "" : daysRemaining} Days Until the Event!{" "}
             </div>
-            <hr></hr>
-            <div>{EventLocation}</div>
-            <div>{EventAddress}</div>
+            <hr />
+            <div>{eventData.location}</div>
           </Box>
         </div>
         <Box style={{ float: "left", width: "100%" }}>
@@ -244,101 +273,119 @@ export default function GeneralInfoComponent() {
           <Box className="dashboard">
             <GoalsCard goals={goals}></GoalsCard>
             <TaskCard tasks={tasks}></TaskCard>
-            <BudgetCard></BudgetCard>
+            <BudgetCard budget={budget}></BudgetCard>
             <MarketingCard
               marketingPoster={marketingPoster}
               marketingReminders={marketingReminder}
             ></MarketingCard>
-            <AttendanceCard></AttendanceCard>
+            <AttendanceCard attendance={attendance}></AttendanceCard>
           </Box>
         </Box>
 
         <Dialog open={open}>
           <DialogTitle>Edit Event Properties</DialogTitle>
-          <DialogContent>
+          <DialogContent sx={{ height: 500, width: 500 }}>
             <>
               {loading ? (
                 <p>Loading data...</p>
               ) : (
-                <form onSubmit={handleSubmit(onSubmit)}>
+                <>
                   <TextField
                     margin="dense"
-                    name="EventTitle"
+                    name="title"
                     label="Event Title"
                     type="text"
                     fullWidth
                     variant="outlined"
                     InputLabelProps={{ required: "true" }}
-                    defaultValue={EventTitle}
-                    {...register("EventTitle")}
+                    value={eventData.title}
+                    onChange={(e) =>
+                      setEventData({ ...eventData, title: e.target.value })
+                    }
                   />
                   <TextField
                     autoFocus
                     margin="dense"
-                    name="EventDate"
+                    name="date"
                     label="Event Date"
                     InputLabelProps={{ shrink: true, required: false }}
                     type="Date"
                     fullWidth
                     format="mm/dd/yyyy"
                     variant="outlined"
-                    defaultValue={EventDate}
-                    {...register("EventDate")}
+                    value={eventData.date}
+                    onChange={(e) =>
+                      setEventData({ ...eventData, date: e.target.value })
+                    }
                   />
                   <div>
                     {" "}
                     <TextField
                       autoFocus
                       margin="dense"
-                      name="EventStartTime"
+                      name="startTime"
                       label="Event Start Time"
                       type="time"
                       variant="outlined"
                       InputLabelProps={{ shrink: true, required: false }}
-                      defaultValue={EventStartTime}
-                      {...register("EventStartTime")}
+                      value={eventData.startTime}
+                      onChange={(e) =>
+                        setEventData({
+                          ...eventData,
+                          startTime: e.target.value,
+                        })
+                      }
                     />
                     <TextField
                       sx={{ marginLeft: 5 }}
                       autoFocus
                       margin="dense"
-                      name="EventEndTime"
+                      name="endTime"
                       label="Event End Time"
                       type="time"
                       variant="outlined"
                       InputLabelProps={{ shrink: true, required: false }}
-                      defaultValue={EventEndTime}
-                      {...register("EventEndTime")}
+                      value={eventData.endTime}
+                      onChange={(e) =>
+                        setEventData({ ...eventData, endTime: e.target.value })
+                      }
                     />
                   </div>
                   <TextField
                     autoFocus
                     margin="dense"
-                    name="EventLocation"
+                    name="location"
                     label="Event Location"
                     type="text"
                     fullWidth
                     variant="outlined"
-                    defaultValue={EventLocation}
-                    {...register("EventLocation")}
+                    value={eventData.location}
+                    onChange={(e) =>
+                      setEventData({ ...eventData, location: e.target.value })
+                    }
                   />
 
                   <ReactQuill
                     theme="snow"
-                    value={EventDescription}
-                    onChange={setEventDescription}
+                    value={eventData.description}
+                    onChange={(value) =>
+                      setEventData({ ...eventData, description: value })
+                    }
                     placeholder="Enter your description here!"
-                    style={{ marginTop: 8, marginBottom: 16, height: 250 }}
+                    style={{ marginTop: 8, marginBottom: 16, height: 175 }}
                   />
-
-                  <DialogActions sx={{marginTop: 5}}>
-                    <Button onClick={handleClose}>Cancel</Button>
-                    <Button type="submit">Submit</Button>
-                  </DialogActions>
-                </form>
+                </>
               )}
             </>
           </DialogContent>
+          <DialogActions style={{ marginTop: 10, backgroundColor: "#009CDF" }}>
+            <Button variant="contained" color="secondary" onClick={handleClose}>
+              Cancel
+            </Button>
+            <Button variant="contained" color="primary" onClick={handleSubmit}>
+              Submit
+            </Button>
+          </DialogActions>
         </Dialog>
       </Box>
     </div>
