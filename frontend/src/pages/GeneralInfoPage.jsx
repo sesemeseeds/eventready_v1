@@ -33,6 +33,8 @@ export default function GeneralInfoComponent() {
 
   const [goals, setGoals] = React.useState();
   const [tasks, setTasks] = React.useState();
+  const [budget, setBudget] = React.useState();
+  const [attendance, setAttendance] = React.useState();
   const [marketingPoster, setMarketingPoster] = React.useState();
   const [marketingReminder, setMarketingReminder] = React.useState();
 
@@ -151,11 +153,39 @@ export default function GeneralInfoComponent() {
       console.error("Error fetching event goals:", error);
     }
   };
+  const getAllBudget = async () => {
+    try {
+      const response = await AxiosInstance.get(`budget/?event_id=${MyId}`);
+      const budgetData = response.data;
+      if (!budgetData) {
+        setBudget([]);
+      } else {
+        setBudget(budgetData);
+      }
+    } catch (error) {
+      console.error("Error fetching event goals:", error);
+    }
+  };
+  const getAllAttendance = async () => {
+    try {
+      const response = await AxiosInstance.get(`attendee/?event_id=${MyId}`);
+      const attendanceData = response.data;
+      if (!attendanceData) {
+        setAttendance([]);
+      } else {
+        setAttendance(attendanceData);
+      }
+    } catch (error) {
+      console.error("Error fetching event goals:", error);
+    }
+  };
 
   React.useEffect(() => {
     getAllGoals();
     getAllTasks();
     getAllMarketing();
+    getAllBudget();
+    getAllAttendance();
     GetData();
   }, [open]);
 
@@ -243,12 +273,12 @@ export default function GeneralInfoComponent() {
           <Box className="dashboard">
             <GoalsCard goals={goals}></GoalsCard>
             <TaskCard tasks={tasks}></TaskCard>
-            <BudgetCard></BudgetCard>
+            <BudgetCard budget={budget}></BudgetCard>
             <MarketingCard
               marketingPoster={marketingPoster}
               marketingReminders={marketingReminder}
             ></MarketingCard>
-            <AttendanceCard></AttendanceCard>
+            <AttendanceCard attendance={attendance}></AttendanceCard>
           </Box>
         </Box>
 

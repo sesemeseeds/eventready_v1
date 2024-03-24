@@ -12,15 +12,23 @@ import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import ListItem from "@mui/material/ListItem";
+
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import InboxIcon from "@mui/icons-material/MoveToInbox";
+
 import MailIcon from "@mui/icons-material/Mail";
 import { LandingPage } from "../pages/LandingPage";
-import EventIcon from '@mui/icons-material/Event';
-import ArchiveIcon from '@mui/icons-material/Archive';
+import EventIcon from "@mui/icons-material/Event";
+import ArchiveIcon from "@mui/icons-material/Archive";
+import { useClerk } from "@clerk/clerk-react";
+import { useNavigate } from "react-router-dom";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
+import Button from "@mui/material/Button";
 
 const drawerWidth = 240;
 
@@ -75,7 +83,9 @@ export default function PersistentDrawerLeft() {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
   const [display, setDisplay] = React.useState("ActiveEvents");
-
+  const [openDialog, setOpenDialog] = React.useState(false);
+  const { signOut } = useClerk();
+  const navigate = useNavigate();
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -83,6 +93,16 @@ export default function PersistentDrawerLeft() {
 
   const handleDrawerClose = () => {
     setOpen(false);
+  };
+
+  const handleSignOutConfirm = () => {
+    setOpenDialog(false);
+    signOut();
+    navigate("/");
+  };
+
+  const handleSignOutCancel = () => {
+    setOpenDialog(false);
   };
 
   return (
@@ -99,7 +119,14 @@ export default function PersistentDrawerLeft() {
           >
             <MenuIcon />
           </IconButton>
-          <Typography fontWeight="bold" width="95%" textAlign="center" variant="h5" noWrap component="div">
+          <Typography
+            fontWeight="bold"
+            width="95%"
+            textAlign="center"
+            variant="h5"
+            noWrap
+            component="div"
+          >
             Event Ready!
           </Typography>
         </Toolbar>
@@ -117,10 +144,10 @@ export default function PersistentDrawerLeft() {
         anchor="left"
         open={open}
       >
-        <DrawerHeader sx={{  backgroundColor: "red",}}>
+        <DrawerHeader sx={{ backgroundColor: "red" }}>
           <IconButton onClick={handleDrawerClose}>
             {theme.direction === "ltr" ? (
-              <ChevronLeftIcon  style={{ color: "white", fontSize: "larger" }}/>
+              <ChevronLeftIcon style={{ color: "white", fontSize: "larger" }} />
             ) : (
               <ChevronRightIcon />
             )}
@@ -137,7 +164,7 @@ export default function PersistentDrawerLeft() {
         </List>
         <Divider />
         <List>
-        <ListItemButton onClick={() => setDisplay("InactiveEvents")}>
+          <ListItemButton onClick={() => setDisplay("InactiveEvents")}>
             <ListItemIcon>
               <ArchiveIcon />
             </ListItemIcon>
@@ -146,7 +173,7 @@ export default function PersistentDrawerLeft() {
         </List>
         <Divider />
         <List>
-          <ListItemButton>
+          <ListItemButton onClick={() => setOpenDialog(true)}>
             <ListItemIcon>
               <MailIcon />
             </ListItemIcon>
@@ -159,6 +186,32 @@ export default function PersistentDrawerLeft() {
         <DrawerHeader />
         <LandingPage display={display}></LandingPage>
       </Main>
+
+      <Dialog open={openDialog} onClose={handleSignOutCancel}>
+        <DialogTitle>Confirm Sign Out</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            Are you sure you want to sign out?
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions style={{ backgroundColor: "#009CDF" }}>
+          <Button
+            variant="contained"
+            onClick={handleSignOutCancel}
+            color="secondary"
+          >
+            Cancel
+          </Button>
+          <Button
+            variant="contained"
+            onClick={handleSignOutConfirm}
+            color="primary"
+            autoFocus
+          >
+            Sign Out
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Box>
   );
 }

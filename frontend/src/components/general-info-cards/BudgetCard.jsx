@@ -11,20 +11,26 @@ import { Tooltip } from "@mui/material";
 import { Box, Container } from "@mui/material";
 export default function BudgetCard({ budget }) {
   const [value, setValue] = useState(0);
-  const [totalGoals, setTotalGoals] = useState(0);
-  const [completedGoals, setCompletedGoals] = useState(0);
+  const [availableBudget, setAvailableBudget] = useState(0);
+  const [totalBudget, setTotalBudget] = useState(0);
+  const [leftoverBudget, setLeftoverBudget] = useState(0);
 
-  const calculateValue = () => {
-    // if (!goals || goals.length === 0) return 0;
-    // const completedGoals = goals.filter((goal) => goal.progress === 100).length;
-    // const totalGoals = goals.length;
-    // setCompletedGoals(completedGoals);
-    // setTotalGoals(totalGoals);
-    // return (completedGoals / totalGoals) * 100;
+  const calculateValues = () => {
+    if (!budget || budget.length === 0) return 0;
+    budget?.filter((bud) => {
+      const total = bud.total;
+      const leftover = bud.leftover;
+
+      const progress = bud.progress;
+      setAvailableBudget(total - leftover);
+      setTotalBudget(total);
+      setLeftoverBudget(leftover);
+      setValue(progress);
+    });
   };
 
   useEffect(() => {
-    // setValue(calculateValue());
+    calculateValues();
   }, [budget]);
 
   return (
@@ -40,15 +46,13 @@ export default function BudgetCard({ budget }) {
         <CardContent sx={{ height: 310, textAlign: "-webkit-center" }}>
           <Box>
             <Typography fontWeight="bold" marginBottom="20px" fontSize="20px">
-              $500.00 Available
+              ${availableBudget} Available
             </Typography>
           </Box>
           <Box sx={{ width: 220 }}>
             <CircularProgressbar
-              value={75}
-              // text={`
-              //     ${completedGoals} / ${totalGoals}  Goals Completed`}
-              text={"$2500 / $3000 Budget Used"}
+              value={value}
+              text={`$${leftoverBudget} / $${totalBudget} Used `}
               strokeWidth={10}
               styles={{
                 path: {

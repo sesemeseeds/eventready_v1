@@ -10,12 +10,18 @@ import "react-circular-progressbar/dist/styles.css";
 import { Tooltip } from "@mui/material";
 import { Box, Container } from "@mui/material";
 import PersonIcon from "@mui/icons-material/Person";
-import FeedIcon from '@mui/icons-material/Feed';
+import FeedIcon from "@mui/icons-material/Feed";
 
 export default function AttendanceCard({ attendance }) {
   const [value, setValue] = useState(0);
 
-  const calculateValue = () => {};
+  const calculateValue = () => {
+    if (!attendance || attendance.length === 0) return 0;
+    const totalAttended = attendance?.filter(
+      (attendee) => attendee.attended === true
+    ).length;
+    const totalResponses = attendance.length;
+  };
 
   useEffect(() => {}, [attendance]);
 
@@ -30,15 +36,19 @@ export default function AttendanceCard({ attendance }) {
 
       <CardActionArea>
         <CardContent sx={{ height: 310 }}>
-        <Box sx={{ display: "flex", alignItems: "center", marginTop: 3}}>
+          <Box sx={{ display: "flex", alignItems: "center", marginTop: 3 }}>
             {" "}
             <FeedIcon sx={{ fontSize: 50 }}> </FeedIcon>
-            <Typography fontSize="20px" fontWeight="bold">60 Form Responses</Typography>
+            <Typography fontSize="20px" fontWeight="bold">
+              60 Form Responses
+            </Typography>
           </Box>
           <Box sx={{ display: "flex", alignItems: "center", marginTop: 5 }}>
             {" "}
             <PersonIcon sx={{ fontSize: 50 }}> </PersonIcon>
-            <Typography fontSize="20px" fontWeight="bold">50 People Attended</Typography>
+            <Typography fontSize="20px" fontWeight="bold">
+              50 People Attended
+            </Typography>
           </Box>
         </CardContent>
       </CardActionArea>
