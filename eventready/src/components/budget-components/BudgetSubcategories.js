@@ -6,17 +6,18 @@ import { Dialog, DialogTitle, DialogContent, TextField, Button, FormControlLabel
 
 // Format category name with spaces between words
 const formatCategoryName = (name) => {
+  if (!name) return ''; // Return an empty string if name is undefined
   return name
     .split(/(?=[A-Z])/)
     .map(word => word.charAt(0).toUpperCase() + word.slice(1)) // Capitalize first letter of each word
     .join(' '); // Join words with spaces
 };
 
-function BudgetSubcategories({ totalBudget, categories, onClose }) {
+
+function BudgetSubcategories({ totalBudget, categories, onClose, onItemPaid }) {
   const [expandedCategories, setExpandedCategories] = useState([]);
   const [formData, setFormData] = useState({});
   const [openDialog, setOpenDialog] = useState(false);
-  const [spentAmount, setSpentAmount] = useState(0); // State to track spent amount
   const [editIndex, setEditIndex] = useState(null); // State to track the index of the category being edited
 
   const handleAddClick = (category) => {
@@ -50,14 +51,20 @@ function BudgetSubcategories({ totalBudget, categories, onClose }) {
       const { quantity, cost } = formData;
       const totalCost = quantity * cost;
       if (checked) {
-        setSpentAmount(spentAmount + totalCost);
+        onItemPaid(totalCost); // Call the onItemPaid function with the total cost
       } else {
-        setSpentAmount(spentAmount - totalCost);
+        onItemPaid(-totalCost); // Subtract the total cost from the current spent amount
       }
     }
   };
 
   const handleSubmit = () => {
+    const totalCost = formData.quantity * formData.cost;
+    if (totalCost > totalBudget) {
+      alert(`Total cost $${totalCost} cannot exceed the total budget $${totalBudget}`);
+      return;
+    }
+
     if (editIndex !== null) {
       const updatedCategories = [...expandedCategories];
       updatedCategories[editIndex] = formData;
@@ -72,12 +79,21 @@ function BudgetSubcategories({ totalBudget, categories, onClose }) {
 
   const handleDeleteClick = (index) => {
     const updatedCategories = [...expandedCategories];
-    updatedCategories.splice(index, 1); // Remove the category at the specified index
-    setExpandedCategories(updatedCategories); // Update the state
+    const deletedItem = updatedCategories.splice(index, 1)[0];
+    setExpandedCategories(updatedCategories);
+
+    // Update the spent amount if a paid item is deleted
+    if (deletedItem.paid) {
+      const totalCost = deletedItem.quantity * deletedItem.cost;
+      onItemPaid(-totalCost); // Subtract the total cost from the current spent amount
+    }
   };
 
   // Define an array to hold the selected categories
   const selectedCategories = Object.keys(categories).filter(category => categories[category]);
+
+  // Check if all required fields are filled and valid
+  const isFormValid = formData.name && formData.description && formData.quantity && formData.cost;
 
   return (
     <div>
@@ -114,17 +130,32 @@ function BudgetSubcategories({ totalBudget, categories, onClose }) {
 
       {/* Dialog for entering category details */}
       <Dialog open={openDialog} onClose={handleCloseDialog}>
-        <DialogTitle>{editIndex !== null ? 'Edit Details' : 'Add Details'}</DialogTitle>
-        <DialogContent>
-          <TextField name="name" label="Name" value={formData.name} onChange={handleChange} fullWidth />
-          <TextField name="description" label="Description" value={formData.description} onChange={handleChange} fullWidth />
-          <TextField name="quantity" label="Quantity" type="number" value={formData.quantity} onChange={handleChange} fullWidth />
-          <TextField name="cost" label="Cost" type="number" value={formData.cost} onChange={handleChange} fullWidth />
+        <DialogTitle style={{ backgroundColor: '#4CAF50', color: 'white' }}>
+          {editIndex !== null
+            ? 'Edit Details'
+            : `Add ${formatCategoryName(formData.category)} Details`}
+        </DialogTitle>
+        <DialogContent style={{ backgroundColor: '#F0FFF0' }}>
+          <TextField name="name" label="Name" value={formData.name} onChange={handleChange} fullWidth required />
+          <TextField
+            name="description"
+            label="Description"
+            value={formData.description}
+            onChange={handleChange}
+            fullWidth
+            multiline
+            rows={2}
+            required
+          />
+          <TextField name="quantity" label="Quantity" type="number" value={formData.quantity} onChange={handleChange} fullWidth required />
+          <TextField name="cost" label="Cost" type="number" value={formData.cost} onChange={handleChange} fullWidth required />
           <FormControlLabel
-            control={<Checkbox checked={formData.paid} onChange={handleCheckboxChange} name="paid" />}
+            control={<Checkbox checked={formData.paid} onChange={handleCheckboxChange} name="paid" style={{ color: 'green' }} />}
             label="Paid"
           />
-          <Button onClick={handleSubmit} variant="contained" color="primary" fullWidth>Submit</Button>
+          <Button onClick={handleSubmit} variant="contained" color="primary" fullWidth style={{ backgroundColor: '#4CAF50' }} disabled={!isFormValid}>
+            Submit
+          </Button>
         </DialogContent>
       </Dialog>
     </div>

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import BudgetSubcategories from './BudgetSubcategories';
 import CloseIcon from '@material-ui/icons/Close';
 
-function BudgetCategories({ onClose, onTotalBudgetChange }) {
+function BudgetCategories({ onClose, onTotalBudgetChange, onItemPaid  }) {
   const [totalBudget, setTotalBudget] = useState('');
   const [categories, setCategories] = useState({
     decor: false,
@@ -236,6 +236,7 @@ function BudgetCategories({ onClose, onTotalBudgetChange }) {
               totalBudget={totalBudget}
               categories={categories}
               onClose={onClose} // Pass onClose function to BudgetSubcategories
+              onItemPaid={onItemPaid} // Pass onItemPaid function to BudgetSubcategories
           />)}
       </div>
     </div>

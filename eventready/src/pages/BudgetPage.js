@@ -4,7 +4,7 @@ import BudgetCategories from "../components/budget-components/BudgetCategories";
 import BudgetUpload from "../components/budget-components/BudgetCategories";
 
 function BudgetPage() {
-  const [currentSpent, setCurrentSpent] = useState(500);
+  const [currentSpent, setCurrentSpent] = useState(0);
   const [totalBudget, setTotalBudget] = useState(1000); // Initialize with a default value
 
   // Progress percentage
@@ -31,7 +31,7 @@ function BudgetPage() {
   };
 
   const handleItemPaid = (amount) => {
-    setCurrentSpent(currentSpent + amount);
+    setCurrentSpent(prevSpent => prevSpent + amount);
   };
   
 
