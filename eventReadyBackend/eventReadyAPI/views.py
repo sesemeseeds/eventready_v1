@@ -246,11 +246,11 @@ class BudgetItemViewSet(viewsets.ModelViewSet):
     def create(self, request):
         serializer = self.serializer_class(data=request.data)
         if serializer.is_valid():
-            # Calculate item_total before saving
+            # Calculate total before saving
             quantity = serializer.validated_data['quantity']
             cost = serializer.validated_data['cost']
-            serializer.validated_data['item_total'] = quantity * cost
-
+            serializer.validated_data['total'] = quantity * cost
+            
             serializer.save()
             return Response(serializer.data)
         else: 
@@ -262,10 +262,10 @@ class BudgetItemViewSet(viewsets.ModelViewSet):
         serializer = self.get_serializer(instance, data=request.data, partial=partial)
         serializer.is_valid(raise_exception=True)
 
-        # Calculate item_total before saving
+        # Calculate total before saving
         quantity = serializer.validated_data.get('quantity', instance.quantity)
         cost = serializer.validated_data.get('cost', instance.cost)
-        serializer.validated_data['item_total'] = quantity * cost
+        serializer.validated_data['total'] = quantity * cost
 
         self.perform_update(serializer)
         return Response(serializer.data)
