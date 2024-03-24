@@ -45,3 +45,11 @@ class BudgetItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = BudgetItem
         fields = ('event_id', 'budget', 'category', 'id', 'name', 'description', 'quantity', 'cost', 'total', 'paid')
+
+class AttendeeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Attendee
+        fields = ['id', 'event_id', 'name', 'email', 'phone_number', 'attended']
+
+
+
