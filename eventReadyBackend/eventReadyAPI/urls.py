@@ -12,5 +12,6 @@ router.register('goals', GoalsViewset, basename='goals')
 router.register('budget', BudgetViewSet, basename='budget')
 router.register('budgetcategory', BudgetCategoryViewSet, basename='budgetcategory')
 router.register('budgetitems', BudgetItemViewSet, basename='budgetitems')
+router.register('attendee', AttendeeViewSet, basename='attendee')
 
 urlpatterns = router.urls

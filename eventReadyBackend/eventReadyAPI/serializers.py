@@ -42,8 +42,14 @@ class BudgetCategorySerializer(serializers.ModelSerializer):
         fields = ('event_id', 'budget', 'id', 'name', 'total', 'items')
 
 class BudgetItemSerializer(serializers.ModelSerializer):
-    total = serializers.FloatField(read_only=True)
-
     class Meta:
         model = BudgetItem
         fields = ('event_id', 'budget', 'category', 'id', 'name', 'description', 'quantity', 'cost', 'total', 'paid')
+
+class AttendeeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Attendee
+        fields = ['id', 'event_id', 'name', 'email', 'phone_number', 'attended']
+
+
+

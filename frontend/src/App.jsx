@@ -11,6 +11,8 @@ import UserLoginPage from "./pages/UserLoginPage";
 import BudgetPage from "./pages/BudgetPage";
 import GoalsPage from "./pages/GoalsPage";
 
+
+
 function App() {
   return (
     <Router>
@@ -23,11 +25,14 @@ function App() {
           <Route path="goals" element={<GoalsPage />} />
           <Route path="budget" element={<BudgetPage />} />
           <Route path="userlogin" element={<UserLoginPage />} />
+
+
         </Route>
         
         <Route path="/" element={<UserLoginPage />} />
         <Route path="/dashboard" element={<LandingPage />} />
       </Routes>
+
       </Router>
   );
 }

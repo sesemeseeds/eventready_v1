@@ -275,3 +275,15 @@ class BudgetItemViewSet(viewsets.ModelViewSet):
         budget_item = queryset.get(pk=pk)
         budget_item.delete()
         return Response(status=204)
+    
+class AttendeeViewSet(viewsets.ModelViewSet):
+    serializer_class = AttendeeSerializer
+
+    def get_queryset(self):
+        event_id = self.request.query_params.get('event_id')
+        if event_id:
+            return Attendee.objects.filter(event_id=event_id)
+        return Attendee.objects.all()
+
+
+    
