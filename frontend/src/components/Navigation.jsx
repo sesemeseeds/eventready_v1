@@ -126,7 +126,7 @@ export default function PersistentDrawerLeft() {
     let name = sections[sections.length - 1];
     switch (name) {
       case "generalinfo":
-        setHeaderName("General Info");
+        setHeaderName("General Information");
         break;
       case "goals":
         setHeaderName("Goals");
