@@ -80,7 +80,7 @@ class Task(models.Model):
     created = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return self.title   
+        return self.title
     
 class Budget(models.Model):
     event_id = models.ForeignKey(EventGeneralInfo, on_delete=models.CASCADE, related_name='budget')
@@ -88,9 +88,6 @@ class Budget(models.Model):
 
     name = models.CharField("Name", max_length=64)
     total = models.FloatField("Total")
-    leftover = models.FloatField("Leftover")
-    progress = models.IntegerField("Progress", validators=[MinValueValidator(0), MaxValueValidator(100)], null=True)
-    
     categories = models.ManyToManyField('BudgetCategory', related_name='budget_category', blank=True)
     items = models.ManyToManyField('BudgetItem', related_name='budget_item', blank=True)
 
@@ -99,12 +96,11 @@ class Budget(models.Model):
     
 class BudgetCategory(models.Model):
     event_id = models.ForeignKey(EventGeneralInfo, on_delete=models.CASCADE, related_name='budget_categories')
-    budget = models.ForeignKey(Budget, on_delete=models.SET_NULL, null=True, blank=True, related_name='categories_related')
+    budget_id = models.ForeignKey(Budget, on_delete=models.SET_NULL, null=True, blank=True, related_name='categories_related')
     id = models.AutoField(primary_key=True)
 
     name = models.CharField("Name", max_length=64)
     total = models.FloatField("Total")
-
     items = models.ManyToManyField('BudgetItem', related_name='category_item', blank=True)
 
     def __str__(self):
@@ -112,8 +108,8 @@ class BudgetCategory(models.Model):
     
 class BudgetItem(models.Model):
     event_id = models.ForeignKey(EventGeneralInfo, on_delete=models.CASCADE, related_name='budget_items')
-    budget = models.ForeignKey(Budget, on_delete=models.SET_NULL, null=True, blank=True, related_name='items_related')
-    category = models.ForeignKey(BudgetCategory, on_delete=models.SET_NULL, null=True, blank=True, related_name='items_related')
+    budget_id = models.ForeignKey(Budget, on_delete=models.SET_NULL, null=True, blank=True, related_name='items_related')
+    category_id = models.ForeignKey(BudgetCategory, on_delete=models.SET_NULL, null=True, blank=True, related_name='items_related')
     id = models.AutoField(primary_key=True)
 
     name = models.CharField("Name", max_length=64)
@@ -122,6 +118,7 @@ class BudgetItem(models.Model):
     cost = models.FloatField("Cost")
     total = models.FloatField("Total")
     paid = models.BooleanField(default=False)
+    attachment = models.FileField("Attachment", upload_to='budget_attachments/', null=True, blank=True)
 
     def __str__(self):
         return self.name
