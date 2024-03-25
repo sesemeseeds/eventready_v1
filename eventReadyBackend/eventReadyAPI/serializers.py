@@ -27,9 +27,12 @@ class MarketingRecapPhotoSerializer(serializers.ModelSerializer):
         fields = ('event_id', 'id', 'name', 'image')
 
 class GoalsSerializer(serializers.ModelSerializer):
+    progress = serializers.FloatField(read_only=True)
+
     class Meta:
         model = Goals
         fields = ('event_id', 'id', 'name', 'due_date', 'description', 'created', 'progress', 'tasks')
+        read_only_fields = ('progress',)
 
 class BudgetSerializer(serializers.ModelSerializer):
     class Meta:
@@ -53,6 +56,3 @@ class AttendeeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Attendee
         fields = ['id', 'event_id', 'name', 'email', 'phone_number', 'attended']
-
-
-
