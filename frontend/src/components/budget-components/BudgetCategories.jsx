@@ -2,15 +2,15 @@ import React, { useState } from 'react';
 import BudgetSubcategories from './BudgetSubcategories';
 import CloseIcon from '@material-ui/icons/Close';
 
-function BudgetCategories({ onClose, onTotalBudgetChange }) {
+function BudgetCategories({ onClose, onTotalBudgetChange, onItemPaid  }) {
   const [totalBudget, setTotalBudget] = useState('');
   const [categories, setCategories] = useState({
     decor: false,
     foodAndBeverages: false,
     supplies: false,
     entertainment: false,
-    rentalsFee: false,
-    staffingVolunteers: false,
+    rentalsOrFee: false,
+    staffingOrVolunteers: false,
     transportation: false,
     merchandiseOrGiveaways: false,
     miscellaneous: false,
@@ -19,6 +19,7 @@ function BudgetCategories({ onClose, onTotalBudgetChange }) {
   const [submitted, setSubmitted] = useState(false); // Track if form has been submitted
   const [isAnyCheckboxChecked, setIsAnyCheckboxChecked] = useState(false); // Track if at least one checkbox is checked
   const [isDialogOpen, setIsDialogOpen] = useState(true); // Track if the dialog is open
+  const [isCustomCategoryOpen, setIsCustomCategoryOpen] = useState(false); // Track if the custom category section is open
 
   const handleCheckboxChange = (event) => {
     const { name, checked } = event.target;
@@ -43,7 +44,12 @@ function BudgetCategories({ onClose, onTotalBudgetChange }) {
       setCategories({
         ...categories,
         [customCategory.toLowerCase()]: true,
-      }); setCustomCategory('');}};
+      });
+      setCustomCategory('');
+    }
+    // Toggle visibility of custom category entry section
+    setIsCustomCategoryOpen(prevState => !prevState);
+  };
 
   return (
     <div className="dialog-overlay">
@@ -56,7 +62,7 @@ function BudgetCategories({ onClose, onTotalBudgetChange }) {
         
         <form onSubmit={handleSubmit}>
           <div>
-            <label>Total Budget Amount:</label>
+            <label>Total Budget Amount: $</label>
             <input
               type="number"
               value={totalBudget}
@@ -115,8 +121,8 @@ function BudgetCategories({ onClose, onTotalBudgetChange }) {
               <label>
                 <input
                   type="checkbox"
-                  name="rentalsFee"
-                  checked={categories.rentalsFee}
+                  name="rentalsOrFee"
+                  checked={categories.rentalsOrFee}
                   onChange={handleCheckboxChange}
                 />
                 Rentals or Fee
@@ -126,8 +132,8 @@ function BudgetCategories({ onClose, onTotalBudgetChange }) {
               <label>
                 <input
                   type="checkbox"
-                  name="staffingVolunteers"
-                  checked={categories.staffingVolunteers}
+                  name="staffingOrVolunteers"
+                  checked={categories.staffingOrVolunteers}
                   onChange={handleCheckboxChange}
                 />
                 Staffing or Volunteers
@@ -169,26 +175,68 @@ function BudgetCategories({ onClose, onTotalBudgetChange }) {
           </div>
           
           <div style={{ marginTop: '20px', display: 'flex', justifyContent: 'space-between' }}>
-          <button type="submit" disabled={!isAnyCheckboxChecked}>Submit</button>
-          <button onClick={() => setIsDialogOpen(true)} style={{ marginLeft: '10px' }}>Add Custom</button>
+          <button 
+            type="submit" 
+            disabled={!isAnyCheckboxChecked}
+            style={{ 
+              backgroundColor: isAnyCheckboxChecked ? '#007bff' : '#cce5ff', // Blue color when enabled, light blue when disabled
+              color: isAnyCheckboxChecked ? 'white' : 'grey', // White text color when enabled
+              transition: 'background-color 0.3s',
+              boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
+              cursor: 'pointer', 
+            }}
+          >
+            Submit
+          </button>
+
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+            <button 
+              onClick={handleAddCustomCategory} 
+              style={{ 
+                marginLeft: '10px',
+                backgroundColor: '#dc3545', // Red background color
+                color: 'white', // White text color
+                transition: 'background-color 0.3s',
+                boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
+                cursor: 'pointer', 
+              }}
+            >
+              Add Custom
+            </button>
+
+              {isCustomCategoryOpen && (
+                <div className="custom-category-dialog" style={{ marginLeft: '10px' }}>
+                  <input
+                    type="text"
+                    placeholder="Enter custom category"
+                    value={customCategory}
+                    onChange={(e) => setCustomCategory(e.target.value)}
+                  />
+                  <button 
+                    onClick={handleAddCustomCategory} 
+                    style={{ 
+                      backgroundColor: '#464646', // shade of grey
+                      color: 'white',
+                      transition: 'background-color 0.3s',
+                      boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
+                      cursor: 'pointer', 
+                    }}
+                  >
+                    Add
+                  </button>
+
+                </div>
+              )}
+            </div>
           </div>
         </form>
         
-        {isDialogOpen && (
-          <div className="custom-category-dialog">
-            <input
-              type="text"
-              placeholder="Enter custom category"
-              value={customCategory}
-              onChange={(e) => setCustomCategory(e.target.value)}/>
-            <button onClick={handleAddCustomCategory}>Add</button>
-          </div> )}
-
           {submitted && (
             <BudgetSubcategories
               totalBudget={totalBudget}
               categories={categories}
               onClose={onClose} // Pass onClose function to BudgetSubcategories
+              onItemPaid={onItemPaid} // Pass onItemPaid function to BudgetSubcategories
           />)}
       </div>
     </div>
