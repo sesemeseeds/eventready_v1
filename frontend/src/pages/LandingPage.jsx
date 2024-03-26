@@ -206,7 +206,7 @@ export const LandingPage = (display = "ActiveEvents") => {
                           <Typography
                             variant="body2"
                             color="text.secondary"
-                            sx={{ maxHeight: "100px", overflow: "hidden" }}
+                            sx={{ height: "150px", overflowY: "auto" }}
                             dangerouslySetInnerHTML={{
                               __html: event.description,
                             }}
@@ -288,7 +288,7 @@ export const LandingPage = (display = "ActiveEvents") => {
             <ReactQuill
               theme="snow"
               value={eventDescription}
-              onChange={(e) => setEventDescription(e.target.value)}
+              onChange={(value) => setEventDescription(value)}
               placeholder="Enter your description here!"
               style={{ marginTop: 8, marginBottom: 16, height: 175 }}
             />
