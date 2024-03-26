@@ -180,13 +180,13 @@ class BudgetViewSet(viewsets.ModelViewSet):
         else: 
             return Response(serializer.errors, status=400)
 
-    def update(self, request, *args, **kwargs):
-        partial = kwargs.pop('partial', False)
-        instance = self.get_object()
-        serializer = self.get_serializer(instance, data=request.data, partial=partial)
-        serializer.is_valid(raise_exception=True)
-        self.perform_update(serializer)
-        return Response(serializer.data)
+    # def update(self, request, *args, **kwargs):
+    #     partial = kwargs.pop('partial', False)
+    #     instance = self.get_object()
+    #     serializer = self.get_serializer(instance, data=request.data, partial=partial)
+    #     serializer.is_valid(raise_exception=True)
+    #     self.perform_update(serializer)
+    #     return Response(serializer.data)
 
     def destroy(self, request, pk=None):
         queryset = self.get_queryset()
@@ -199,9 +199,9 @@ class BudgetCategoryViewSet(viewsets.ModelViewSet):
     serializer_class = BudgetCategorySerializer
 
     def get_queryset(self):
-        event_id = self.request.query_params.get('event_id')
-        if event_id:
-            return BudgetCategory.objects.filter(event_id=event_id)
+        budget = self.request.query_params.get('budget')
+        if budget:
+            return BudgetCategory.objects.filter(budget=budget)
         return BudgetCategory.objects.all()
 
     def create(self, request):
@@ -231,9 +231,9 @@ class BudgetItemViewSet(viewsets.ModelViewSet):
     serializer_class = BudgetItemSerializer
 
     def get_queryset(self):
-        event_id = self.request.query_params.get('event_id')
-        if event_id:
-            return BudgetItem.objects.filter(event_id=event_id)
+        category = self.request.query_params.get('category')
+        if category:
+            return BudgetItem.objects.filter(category=category)
         return BudgetItem.objects.all()
 
     def create(self, request):

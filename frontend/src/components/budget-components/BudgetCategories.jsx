@@ -1,9 +1,26 @@
-import React, { useState } from 'react';
-import BudgetSubcategories from './BudgetSubcategories';
-import CloseIcon from '@material-ui/icons/Close';
+import React, { useState, useEffect } from "react";
+import Button from "@mui/material/Button";
+import TextField from "@mui/material/TextField";
+import Checkbox from "@mui/material/Checkbox";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Dialog from "@mui/material/Dialog";
+import DialogTitle from "@mui/material/DialogTitle";
+import DialogContent from "@mui/material/DialogContent";
+import DialogActions from "@mui/material/DialogActions";
+import CloseIcon from "@mui/icons-material/Close";
+import BudgetSubcategories from "./BudgetSubcategories";
 
-function BudgetCategories({ onClose, onTotalBudgetChange, onItemPaid  }) {
-  const [totalBudget, setTotalBudget] = useState('');
+import AxiosInstance from "../Axios";
+
+function BudgetCategories({
+  open,
+  onClose,
+  onTotalBudgetChange,
+  onItemPaid,
+  budgetID,
+  eventID,
+}) {
+  const [totalBudget, setTotalBudget] = useState("");
   const [categories, setCategories] = useState({
     decor: false,
     foodAndBeverages: false,
@@ -15,231 +32,220 @@ function BudgetCategories({ onClose, onTotalBudgetChange, onItemPaid  }) {
     merchandiseOrGiveaways: false,
     miscellaneous: false,
   });
-  const [customCategory, setCustomCategory] = useState('');
-  const [submitted, setSubmitted] = useState(false); // Track if form has been submitted
-  const [isAnyCheckboxChecked, setIsAnyCheckboxChecked] = useState(false); // Track if at least one checkbox is checked
-  const [isDialogOpen, setIsDialogOpen] = useState(true); // Track if the dialog is open
-  const [isCustomCategoryOpen, setIsCustomCategoryOpen] = useState(false); // Track if the custom category section is open
+  const [customCategory, setCustomCategory] = useState("");
+  const [submitted, setSubmitted] = useState(false);
+  const [isAnyCheckboxChecked, setIsAnyCheckboxChecked] = useState(false);
+  const [isCustomCategoryOpen, setIsCustomCategoryOpen] = useState(false);
+
+  const formatCategoryName = (name) => {
+    if (!name) return ""; // Return an empty string if name is undefined
+    return name
+      .split(/(?=[A-Z])/)
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1)) // Capitalize first letter of each word
+      .join(" "); // Join words with spaces
+  };
+  
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const budgetResponse = await AxiosInstance.get(`budget/?event_id=${eventID}`);
+        const budgetData = budgetResponse.data[0];
+        setTotalBudget(budgetData.total)
+
+        const existingCategoriesResponse = await AxiosInstance.get(
+          `budgetcategory/?budget=${budgetID}`
+        );
+        const existingCategories = existingCategoriesResponse.data;
+     
+
+        const updatedCategories = { ...categories };
+        existingCategories.forEach((category) => {
+          updatedCategories[category.name] = true;
+        });
+
+        setCategories(updatedCategories);
+      } catch (error) {
+        console.error("Error fetching category information:", error);
+      }
+    };
+
+    fetchData();
+  }, [budgetID]);
 
   const handleCheckboxChange = (event) => {
     const { name, checked } = event.target;
     const updatedCategories = { ...categories, [name]: checked };
     setCategories(updatedCategories);
-    setIsAnyCheckboxChecked(checked || Object.values(updatedCategories).some(Boolean)); };
+    setIsAnyCheckboxChecked(
+      checked || Object.values(updatedCategories).some(Boolean)
+    );
+  };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    onTotalBudgetChange(totalBudget); // Update the total budget value in the parent component
-    console.log('Submitted:', { totalBudget, categories });
-    setSubmitted(true); 
+
+    try {
+      const existingCategoriesResponse = await AxiosInstance.get(
+        `budgetcategory/?budget=${budgetID}`
+      );
+      const existingCategories = existingCategoriesResponse.data;
+
+      const deletedCategories = existingCategories.filter(
+        (existingCategory) => {
+          return !categories[existingCategory.name];
+        }
+      );
+
+      await Promise.all(
+        deletedCategories.map(async (deletedCategory) => {
+          await AxiosInstance.delete(`budgetcategory/${deletedCategory.id}/`);
+        })
+      );
+
+      // Check if there's an existing budget for the event
+      const existingBudgetResponse = await AxiosInstance.get(
+        `budget/?event_id=${eventID}`
+      );
+      const existingBudget = existingBudgetResponse.data;
+
+      if (existingBudget.length !== 0) {
+        // Update the existing budget if it exists
+        await AxiosInstance.put(`budget/${budgetID}/`, {
+          total: totalBudget,
+          event_id: eventID,
+          leftover: 0,
+        });
+      } else {
+        // Create a new budget if no existing budget is found
+        await AxiosInstance.post(`budget/?event_id=${eventID}`, {
+          total: totalBudget,
+          event_id: eventID,
+          leftover: 0,
+        });
+      }
+
+      const updatedCategoriesResponse = await AxiosInstance.get(
+        `budgetcategory/?budget=${budgetID}`
+      );
+      const updatedCategories = updatedCategoriesResponse.data;
+
+      const newCategories = Object.keys(categories).filter((category) => {
+        return (
+          categories[category] &&
+          !updatedCategories.some(
+            (updatedCategory) => updatedCategory.name === category
+          )
+        );
+      });
+
+      // Post only the new categories
+      await Promise.all(
+        newCategories.map(async (newCategory) => {
+          await AxiosInstance.post(`budgetcategory/`, {
+            budget: budgetID,
+            name: newCategory,
+            total: 0.0,
+          });
+        })
+      );
+
+      console.log("New categories posted successfully");
+
+      setSubmitted(true);
+      onClose();
+    } catch (error) {
+      console.error("Error saving category information:", error);
+    }
   };
 
   const handleClose = () => {
     onClose();
-    setIsDialogOpen(false);
   };
 
   const handleAddCustomCategory = () => {
-    if (customCategory.trim() !== '') {
+    if (customCategory.trim() !== "") {
       setCategories({
         ...categories,
         [customCategory.toLowerCase()]: true,
       });
-      setCustomCategory('');
+      setCustomCategory("");
     }
-    // Toggle visibility of custom category entry section
-    setIsCustomCategoryOpen(prevState => !prevState);
+    setIsCustomCategoryOpen((prevState) => !prevState);
   };
 
   return (
-    <div className="dialog-overlay">
-      <div className="dialog-content">
+    <Dialog open={open} onClose={onClose}>
+      <DialogTitle style={{ display: "flex", justifyContent: "space-between" }}>
+        <span>Enter Budget Details</span>
+        <CloseIcon onClick={handleClose} />
+      </DialogTitle>
+      <DialogContent sx={{ width: 400, marginTop: "10px" }}>
+        <TextField
+          type="number"
+          label="Total Budget Amount: $"
+          value={totalBudget}
+          onChange={(e) => setTotalBudget(e.target.value)}
+          required
+          fullWidth
+          InputLabelProps={{ shrink: true, required: false }}
+          style={{ marginBottom: "6px", marginTop: "5px" }}
+        />
 
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <h2>Enter Budget Details</h2>
-            <CloseIcon onClick={handleClose} />
-          </div>
-        
-        <form onSubmit={handleSubmit}>
-          <div>
-            <label>Total Budget Amount: $</label>
-            <input
-              type="number"
-              value={totalBudget}
-              onChange={(e) => setTotalBudget(e.target.value)}
-              required
-              style={{ marginBottom: '6px' }} // Add margin here
-            />
-          </div>
-          <div>
-            <label>Select all budgeting categories:</label>
-            <div>
-              <label>
-                <input
-                  type="checkbox"
-                  name="decor"
-                  checked={categories.decor}
-                  onChange={handleCheckboxChange}
-                />
-                Decor
-              </label>
-            </div>
-            <div>
-              <label>
-                <input
-                  type="checkbox"
-                  name="foodAndBeverages"
-                  checked={categories.foodAndBeverages}
-                  onChange={handleCheckboxChange}
-                />
-                Food & Beverages
-              </label>
-            </div>
-            <div>
-              <label>
-                <input
-                  type="checkbox"
-                  name="supplies"
-                  checked={categories.supplies}
-                  onChange={handleCheckboxChange}
-                />
-                Supplies
-              </label>
-            </div>
-            <div>
-              <label>
-                <input
-                  type="checkbox"
-                  name="entertainment"
-                  checked={categories.entertainment}
-                  onChange={handleCheckboxChange}
-                />
-                Entertainment
-              </label>
-            </div>
-            <div>
-              <label>
-                <input
-                  type="checkbox"
-                  name="rentalsOrFee"
-                  checked={categories.rentalsOrFee}
-                  onChange={handleCheckboxChange}
-                />
-                Rentals or Fee
-              </label>
-            </div>
-            <div>
-              <label>
-                <input
-                  type="checkbox"
-                  name="staffingOrVolunteers"
-                  checked={categories.staffingOrVolunteers}
-                  onChange={handleCheckboxChange}
-                />
-                Staffing or Volunteers
-              </label>
-            </div>
-            <div>
-              <label>
-                <input
-                  type="checkbox"
-                  name="transportation"
-                  checked={categories.transportation}
-                  onChange={handleCheckboxChange}
-                />
-                Transportation
-              </label>
-            </div>
-            <div>
-              <label>
-                <input
-                  type="checkbox"
-                  name="merchandiseOrGiveaways"
-                  checked={categories.merchandiseOrGiveaways}
-                  onChange={handleCheckboxChange}
-                />
-                Merchandise or Giveaways
-              </label>
-            </div>
-            <div>
-              <label>
-                <input
-                  type="checkbox"
-                  name="miscellaneous"
-                  checked={categories.miscellaneous}
-                  onChange={handleCheckboxChange}
-                />
-                Miscellaneous
-              </label>
-            </div>
-          </div>
-          
-          <div style={{ marginTop: '20px', display: 'flex', justifyContent: 'space-between' }}>
-          <button 
-            type="submit" 
-            disabled={!isAnyCheckboxChecked}
-            style={{ 
-              backgroundColor: isAnyCheckboxChecked ? '#007bff' : '#cce5ff', // Blue color when enabled, light blue when disabled
-              color: isAnyCheckboxChecked ? 'white' : 'grey', // White text color when enabled
-              transition: 'background-color 0.3s',
-              boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
-              cursor: 'pointer', 
-            }}
-          >
-            Submit
-          </button>
-
-            <div style={{ display: 'flex', alignItems: 'center' }}>
-            <button 
-              onClick={handleAddCustomCategory} 
-              style={{ 
-                marginLeft: '10px',
-                backgroundColor: '#dc3545', // Red background color
-                color: 'white', // White text color
-                transition: 'background-color 0.3s',
-                boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
-                cursor: 'pointer', 
-              }}
-            >
-              Add Custom
-            </button>
-
-              {isCustomCategoryOpen && (
-                <div className="custom-category-dialog" style={{ marginLeft: '10px' }}>
-                  <input
-                    type="text"
-                    placeholder="Enter custom category"
-                    value={customCategory}
-                    onChange={(e) => setCustomCategory(e.target.value)}
+        <div>
+          <label>Select all budgeting categories:</label>
+          {Object.entries(categories).map(([key, value]) => (
+            <div key={key}>
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={value}
+                    onChange={handleCheckboxChange}
+                    name={key}
                   />
-                  <button 
-                    onClick={handleAddCustomCategory} 
-                    style={{ 
-                      backgroundColor: '#464646', // shade of grey
-                      color: 'white',
-                      transition: 'background-color 0.3s',
-                      boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
-                      cursor: 'pointer', 
-                    }}
-                  >
-                    Add
-                  </button>
-
-                </div>
-              )}
+                }
+                label={formatCategoryName(key)}
+              />
             </div>
-          </div>
-        </form>
-        
-          {submitted && (
-            <BudgetSubcategories
-              totalBudget={totalBudget}
-              categories={categories}
-              onClose={onClose} // Pass onClose function to BudgetSubcategories
-              onItemPaid={onItemPaid} // Pass onItemPaid function to BudgetSubcategories
-          />)}
-      </div>
-    </div>
-  );}
+          ))}
+        </div>
+      </DialogContent>
+      <DialogActions>
+        <Button
+          type="submit"
+          disabled={!isAnyCheckboxChecked}
+          onClick={handleSubmit}
+        >
+          Submit
+        </Button>
+        <div style={{ display: "flex", alignItems: "center" }}>
+          <Button onClick={handleAddCustomCategory}>Add Custom</Button>
+          {isCustomCategoryOpen && (
+            <div
+              className="custom-category-dialog"
+              style={{ marginLeft: "10px" }}
+            >
+              <TextField
+                type="text"
+                placeholder="Enter custom category"
+                value={customCategory}
+                onChange={(e) => setCustomCategory(e.target.value)}
+              />
+              <Button onClick={handleAddCustomCategory}>Add</Button>
+            </div>
+          )}
+        </div>
+      </DialogActions>
+      {/* {submitted && (
+        <BudgetSubcategories
+          totalBudget={totalBudget}
+          categories={categories}
+          onClose={onClose}
+          onItemPaid={onItemPaid}
+        />
+      )} */}
+    </Dialog>
+  );
+}
 
 export default BudgetCategories;

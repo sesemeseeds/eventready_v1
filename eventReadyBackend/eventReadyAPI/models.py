@@ -83,44 +83,32 @@ class Task(models.Model):
         return self.title   
     
 class Budget(models.Model):
+    id = models.AutoField(primary_key=True)  
     event_id = models.ForeignKey(EventGeneralInfo, on_delete=models.CASCADE, related_name='budget')
-    id = models.AutoField(primary_key=True)
-
-    name = models.CharField("Name", max_length=64)
-    total = models.FloatField("Total")
-    leftover = models.FloatField("Leftover")
-    progress = models.IntegerField("Progress", validators=[MinValueValidator(0), MaxValueValidator(100)], null=True)
-    
-    categories = models.ManyToManyField('BudgetCategory', related_name='budget_category', blank=True)
-    items = models.ManyToManyField('BudgetItem', related_name='budget_item', blank=True)
+    total = models.FloatField("Total", default=0.0) 
+    leftover = models.FloatField("Leftover", default=0.0) 
 
     def __str__(self):
-        return self.name
-    
+        return f'Budget {self.id}'
+
 class BudgetCategory(models.Model):
-    event_id = models.ForeignKey(EventGeneralInfo, on_delete=models.CASCADE, related_name='budget_categories')
-    budget = models.ForeignKey(Budget, on_delete=models.SET_NULL, null=True, blank=True, related_name='categories_related')
-    id = models.AutoField(primary_key=True)
-
+    id = models.AutoField(primary_key=True)  
+    budget = models.ForeignKey(Budget, on_delete=models.SET_NULL, null=True, blank=True, related_name='categories')
     name = models.CharField("Name", max_length=64)
-    total = models.FloatField("Total")
-
-    items = models.ManyToManyField('BudgetItem', related_name='category_item', blank=True)
+    total = models.FloatField("Total", default=0.0)  
+    
 
     def __str__(self):
         return self.name
-    
-class BudgetItem(models.Model):
-    event_id = models.ForeignKey(EventGeneralInfo, on_delete=models.CASCADE, related_name='budget_items')
-    budget = models.ForeignKey(Budget, on_delete=models.SET_NULL, null=True, blank=True, related_name='items_related')
-    category = models.ForeignKey(BudgetCategory, on_delete=models.SET_NULL, null=True, blank=True, related_name='items_related')
-    id = models.AutoField(primary_key=True)
 
+class BudgetItem(models.Model):
+    id = models.AutoField(primary_key=True)  
+    category = models.ForeignKey(BudgetCategory, on_delete=models.SET_NULL, null=True, blank=True, related_name='items')
     name = models.CharField("Name", max_length=64)
     description = models.CharField("Description", max_length=1024, null=True, blank=True)
-    quantity = models.IntegerField("Quantity", validators=[MinValueValidator(0)])
-    cost = models.FloatField("Cost")
-    total = models.FloatField("Total")
+    quantity = models.IntegerField("Quantity", validators=[MinValueValidator(0)], default=0)  
+    cost = models.FloatField("Cost", default=0.0) 
+    total = models.FloatField("Total", default=0.0)  
     paid = models.BooleanField(default=False)
 
     def __str__(self):
