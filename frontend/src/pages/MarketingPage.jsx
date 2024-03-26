@@ -16,7 +16,7 @@ const MarketingPage = () => {
 
   return (
     <div>
-      <div className='marketing-main'>
+      <div className='container'>
       <div className='marketing-sections-container'>
         <div className='marketing-section'>
           <ReminderBox eventId={MyId}/>

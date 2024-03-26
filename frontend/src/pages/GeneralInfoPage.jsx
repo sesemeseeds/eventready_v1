@@ -220,7 +220,7 @@ export default function GeneralInfoComponent() {
 
   return (
     <div>
-      <Box className="geninfo-container">
+      <Box className="container">
         <div className="section-container">
           <Box className="main-section">
             <h1>{eventData.title}</h1>

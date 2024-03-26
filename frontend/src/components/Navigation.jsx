@@ -69,14 +69,15 @@ const useStyles = makeStyles((theme) => ({
   drawer: {
     width: drawerWidth,
     flexShrink: 0,
-  },
+      },
   drawerPaper: {
     width: drawerWidth,
+    backgroundColor: "aliceblue"
   },
   drawerHeader: {
     display: "flex",
     alignItems: "center",
-    backgroundColor: "red",
+    backgroundImage: "linear-gradient(15deg, #13547a 100%, #80d0c7 100%)",
     padding: theme.spacing(0, 1),
     // necessary for content to be below app bar
     ...theme.mixins.toolbar,
@@ -157,7 +158,7 @@ export default function PersistentDrawerLeft() {
           [classes.appBarShift]: open,
         })}
       >
-        <Toolbar style={{ backgroundColor: "red" }}>
+        <Toolbar style={{ backgroundImage: "linear-gradient(15deg, #13547a 0%, #80d0c7 100%)" }}>
           <IconButton
             color="inherit"
             aria-label="open drawer"
@@ -179,6 +180,7 @@ export default function PersistentDrawerLeft() {
         open={open}
         classes={{
           paper: classes.drawerPaper,
+          
         }}
       >
         <div className={classes.drawerHeader}>

@@ -25,9 +25,9 @@
 
 .tasks-column-title {
   padding: 8px;
-  background-color: #009CDF;
+  background-image: linear-gradient(15deg, #80d0c7 0%,  #13547a 0%);
   text-align: center;
-  background-color: "lightblue";
+
   font-size: 24px;
   color: white;
   position: sticky;
@@ -47,13 +47,13 @@
 }
 
 .task-board-container {
-  background-color: #FFB000;
+
   height: 80vh;
   margin-top: 2%;
   padding: 2%;
   border-radius: 10px;
   box-shadow: 3px 3px 10px 5px lightgray;
-
+  background-color: aliceblue;
 }
 
 .add-task-button {

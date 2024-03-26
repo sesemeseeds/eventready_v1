@@ -50,9 +50,9 @@ export default function GoalsCard({ goals }) {
 
   return (
     <Card sx={{ boxShadow: 3, width: 300 }}>
-      <Box sx={{ backgroundColor: "#FFB000", paddingLeft: "10px" }}>
+          <Box sx={{ backgroundImage: "linear-gradient(15deg, #80d0c7 0%,  #13547a 0%)", paddingLeft: "10px" }}>
         {" "}
-        <Typography fontWeight="bold" variant="h5" component="div">
+        <Typography fontWeight="bold" variant="h5" component="div" color="white">
           Goals
         </Typography>
       </Box>

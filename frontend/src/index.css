@@ -11,3 +11,18 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+#root {
+  font-family: 'Roboto', sans-serif !important;
+}
+.container {
+  margin-top: 2%;
+  padding: 2%;
+  background-color: aliceblue;
+  box-shadow: 3px 3px 10px 5px lightgray;
+  display: inline-block;
+  border-radius: 10px;
+  overflow: hidden;
+  height: 100%;
+  width: 100%;  
+}
