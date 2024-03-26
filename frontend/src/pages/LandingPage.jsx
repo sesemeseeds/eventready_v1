@@ -1,8 +1,6 @@
 import * as React from "react";
-
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
-
 import Card from "@mui/material/Card";
 import { Menu, MenuItem } from "@mui/material";
 import CardContent from "@mui/material/CardContent";
@@ -20,14 +18,9 @@ import DialogContent from "@mui/material/DialogContent";
 import AddIcon from "@mui/icons-material/Add";
 import DialogTitle from "@mui/material/DialogTitle";
 import DeleteIcon from "@mui/icons-material/Delete";
-import {
-  BrowserRouter,
-  Link,
-  Route,
-  Routes,
-  useNavigate,
-} from "react-router-dom";
+import { BrowserRouter, Link, Route, Routes, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
+import { useUser } from "@clerk/clerk-react";
 import "../styles/Landing.css";
 
 export const LandingPage = () => {
@@ -37,45 +30,63 @@ export const LandingPage = () => {
   const [openDelete, setOpenDelete] = React.useState(false);
   const [contextMenu, setContextMenu] = React.useState(null);
   const [deleteID, setDeleteID] = React.useState(null);
+  const { user } = useUser();
 
   const getAllEvents = () => {
-    AxiosInstance.get(`/event/`).then((res) => {
-      setAllEvents(res.data);
-      setLoading(false);
-    });
+    if (user) {
+      AxiosInstance.get(`/event/user/${user.id}/`)
+        .then((res) => {
+          setAllEvents(res.data);
+          setLoading(false);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    }
   };
 
   React.useEffect(() => {
     getAllEvents();
-  }, []);
+  }, [user]);
 
   const { register, handleSubmit } = useForm({});
 
   const onSubmit = async (data) => {
-    AxiosInstance.post(`/event/`, {
-      name: data.EventTitle,
-      description: data.EventDescription,
-    });
-    // .then((res) =>{
-    //   navigate(`/`)
-    // })
-    getAllEvents();
-    handleClose();
+    if (user) {
+      AxiosInstance.post(`/event/`, {
+        name: data.EventTitle,
+        description: data.EventDescription,
+        user: user.id,
+      })
+        .then(() => {
+          getAllEvents();
+          handleClose();
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    } else {
+      console.error("User not authenticated");
+    }
   };
 
   const removeData = async () => {
-    AxiosInstance.delete(`/event/${deleteID}/`)
-      .then((res) => {
-        const del = allEvents.filter((allEvents) => allEvents.id !== deleteID);
-        setAllEvents(del);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+    if (user) {
+      AxiosInstance.delete(`/event/${deleteID}/`)
+        .then((res) => {
+          const del = allEvents.filter((event) => event.id !== deleteID);
+          setAllEvents(del);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
 
-    setOpenDelete(false);
-    setContextMenu(null);
-    getAllEvents();
+      setOpenDelete(false);
+      setContextMenu(null);
+      getAllEvents();
+    } else {
+      console.error("User not authenticated");
+    }
   };
 
   const handleClickOpen = () => {
@@ -103,16 +114,18 @@ export const LandingPage = () => {
 
       <Box className="landing-container">
         <div className="event-container">
-          <Button
-            sx={{ float: "right" }}
-            size="medium"
-            variant="outlined"
-            onClick={handleClickOpen}
-            cursor="pointer"
-            startIcon={<AddIcon />}
-          >
-            Add
-          </Button>
+          {user && (
+            <Button
+              sx={{ float: "right" }}
+              size="medium"
+              variant="outlined"
+              onClick={handleClickOpen}
+              cursor="pointer"
+              startIcon={<AddIcon />}
+            >
+              Add
+            </Button>
+          )}
           <Grid
             container
             direction="row"
@@ -129,7 +142,8 @@ export const LandingPage = () => {
                   >
                     <CardActionArea
                       component={Link}
-                      to={`event/${event.id}/generalinfo`} reloadDocument
+                      to={`event/${event.id}/generalinfo`}
+                      reloadDocument
                     >
                       <CardContent sx={{ height: "175px" }}>
                         <Typography gutterBottom variant="h5" component="div">
@@ -144,15 +158,17 @@ export const LandingPage = () => {
                         </Typography>
                       </CardContent>
                     </CardActionArea>
-                    <CardActions  sx={{ display: "contents"}}>
-                      <Button
-                        sx={{ float: "right"}}
-                        size="medium"
-                        onClick={(e) => handleDeleteOpen(e, event.id)}
-                        cursor="pointer"
-                        startIcon={<DeleteIcon />}
-                      ></Button>
-                    </CardActions>
+                    {user && (
+                      <CardActions sx={{ display: "contents" }}>
+                        <Button
+                          sx={{ float: "right" }}
+                          size="medium"
+                          onClick={(e) => handleDeleteOpen(e, event.id)}
+                          cursor="pointer"
+                          startIcon={<DeleteIcon />}
+                        ></Button>
+                      </CardActions>
+                    )}
                   </Card>
                   <Menu
                     open={contextMenu !== null}

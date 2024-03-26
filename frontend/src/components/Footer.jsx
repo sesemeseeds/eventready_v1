@@ -4,7 +4,7 @@ import "../styles/Footer.css";
 export default function Footer() {
   return (
     <div className="footer">
-      <h1>UC</h1>
+      <h1>University of Cincinnati</h1>
     </div>
   );
 }

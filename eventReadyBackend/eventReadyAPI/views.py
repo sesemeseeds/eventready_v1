@@ -13,10 +13,16 @@ from django.db.models import Max
 # Create your views here.
 
 class EventViewset(viewsets.ViewSet):
-    permission_classes = [permissions.AllowAny]
-    
+    permission_classes = [permissions.IsAuthenticated]
     queryset = EventGeneralInfo.objects.all()
     serializer_class = EventSerializer
+    
+    def get_queryset(self):
+        return EventGeneralInfo.objects.filter(user=self.request.user.id)
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+
 
     def list(self, request):
         queryset = EventGeneralInfo.objects.all()

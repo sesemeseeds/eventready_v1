@@ -5,7 +5,6 @@ const UserLoginPage = () => {
   const { isSignedIn, user, isLoaded } = useUser();
   const navigate = useNavigate();
   if (!isLoaded) {
-    // Handle loading state however you like
     return <div>Loading...</div>;
   }
 

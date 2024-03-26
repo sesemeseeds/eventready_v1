@@ -1,10 +1,12 @@
 from rest_framework import serializers
+from django.contrib.auth import get_user_model
 from .models import * 
 
 class EventSerializer(serializers.ModelSerializer):
+    user = serializers.PrimaryKeyRelatedField(queryset=get_user_model().objects.all())
     class Meta: 
         model = EventGeneralInfo
-        fields = ('id', 'name', 'doe', 'start_time', 'end_time', 'location', 'description', 'created', 'active')
+        fields = ('id', 'user', 'name', 'doe', 'start_time', 'end_time', 'location', 'description', 'created', 'active')
 
 class TaskSerializer(serializers.ModelSerializer):
     class Meta:
