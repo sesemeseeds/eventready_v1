@@ -163,12 +163,13 @@ export const LandingPage = (display = "ActiveEvents") => {
                 ? "Events"
                 : "Archived Events"}
             </Typography>
-            <Button
+            <Button sx={{backgroundImage: "linear-gradient(15deg, #80d0c7 0%,  #13547a 0%)"}}
               size="medium"
               variant="contained"
               onClick={handleClickOpen}
               cursor="pointer"
               startIcon={<AddIcon />}
+              
             >
               Add Event
             </Button>
@@ -212,7 +213,7 @@ export const LandingPage = (display = "ActiveEvents") => {
                           ></Typography>
                         </CardContent>
                       </CardActionArea>
-                      <CardActions sx={{ backgroundColor: "#009CDF" }}>
+                      <CardActions sx={{ backgroundImage: "linear-gradient(15deg, #80d0c7 0%,  #13547a 0%)" }}>
                         <Tooltip title="Delete">
                           {" "}
                           <Button
@@ -221,7 +222,7 @@ export const LandingPage = (display = "ActiveEvents") => {
                             onClick={(e) => handleDeleteOpen(e, event.id)}
                             cursor="pointer"
                             startIcon={
-                              <DeleteIcon style={{ color: "black" }} />
+                              <DeleteIcon style={{ color: "white" }} />
                             }
                           ></Button>
                         </Tooltip>
@@ -241,7 +242,7 @@ export const LandingPage = (display = "ActiveEvents") => {
                             }
                             cursor="pointer"
                             startIcon={
-                              <ArchiveIcon style={{ color: "black" }} />
+                              <ArchiveIcon style={{ color: "white" }} />
                             }
                           ></Button>
                         </Tooltip>
