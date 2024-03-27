@@ -66,6 +66,7 @@ const AppBar = styled(MuiAppBar, {
       easing: theme.transitions.easing.easeOut,
       duration: theme.transitions.duration.enteringScreen,
     }),
+  
   }),
 }));
 
@@ -110,7 +111,7 @@ export default function PersistentDrawerLeft() {
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
       <AppBar position="fixed" open={open}>
-        <Toolbar style={{ backgroundColor: "red" }}>
+        <Toolbar style={{ backgroundImage: "linear-gradient(15deg, #13547a 0%, #80d0c7 100%)" }}>
           <IconButton
             color="inherit"
             aria-label="open drawer"
@@ -127,6 +128,7 @@ export default function PersistentDrawerLeft() {
             variant="h5"
             noWrap
             component="div"
+            // color="black"
           >
             Event Ready!
           </Typography>
@@ -139,13 +141,16 @@ export default function PersistentDrawerLeft() {
           "& .MuiDrawer-paper": {
             width: drawerWidth,
             boxSizing: "border-box",
+           backgroundColor: "aliceblue"
           },
+  
         }}
+     
         variant="persistent"
         anchor="left"
         open={open}
       >
-        <DrawerHeader sx={{ backgroundColor: "red" }}>
+        <DrawerHeader sx={{backgroundImage: "linear-gradient(15deg, #80d0c7 0%,  #13547a 0%)" }}>
           <IconButton onClick={handleDrawerClose}>
             {theme.direction === "ltr" ? (
               <ChevronLeftIcon style={{ color: "white", fontSize: "larger" }} />

@@ -18,6 +18,7 @@ import AxiosInstance from "../components/Axios";
 import { useParams } from "react-router-dom";
 import Tooltip from "@mui/material/Tooltip";
 import ReactQuill from "react-quill";
+import "../index.css"
 
 export default function GeneralInfoComponent() {
   const [open, setOpen] = React.useState(false);
@@ -220,12 +221,15 @@ export default function GeneralInfoComponent() {
 
   return (
     <div>
-      <Box className="geninfo-container">
+      <Box className="container">
         <div className="section-container">
           <Box className="main-section">
             <h1>{eventData.title}</h1>
             <hr />
-            <p dangerouslySetInnerHTML={{ __html: eventData.description }}></p>
+            <Box
+              sx={{ maxHeight: "150px", overflowY: "auto" }}
+              dangerouslySetInnerHTML={{ __html: eventData.description }}
+            ></Box>
             <hr />
           </Box>
           <Box className="side-section">

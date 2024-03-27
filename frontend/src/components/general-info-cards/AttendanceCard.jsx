@@ -13,7 +13,8 @@ import PersonIcon from "@mui/icons-material/Person";
 import FeedIcon from "@mui/icons-material/Feed";
 
 export default function AttendanceCard({ attendance }) {
-  const [value, setValue] = useState(0);
+  const [totalAttendee, setTotalAttendee] = useState(0);
+  const [totalResponse, setTotalResponse] = useState(0);
 
   const calculateValue = () => {
     if (!attendance || attendance.length === 0) return 0;
@@ -21,15 +22,17 @@ export default function AttendanceCard({ attendance }) {
       (attendee) => attendee.attended === true
     ).length;
     const totalResponses = attendance.length;
+    setTotalAttendee(totalAttended);
+    setTotalResponse(totalResponses);
   };
 
-  useEffect(() => {}, [attendance]);
+  useEffect(() => {calculateValue();}, [attendance]);
 
   return (
     <Card sx={{ boxShadow: 3, width: 300 }}>
-      <Box sx={{ backgroundColor: "#FFB000", paddingLeft: "10px" }}>
+      <Box sx={{ backgroundImage: "linear-gradient(15deg, #80d0c7 0%,  #13547a 0%)", paddingLeft: "10px" }}>
         {" "}
-        <Typography fontWeight="bold" variant="h5" component="div">
+        <Typography fontWeight="bold" variant="h5" component="div" color="white">
           Attendance
         </Typography>
       </Box>
@@ -40,14 +43,14 @@ export default function AttendanceCard({ attendance }) {
             {" "}
             <FeedIcon sx={{ fontSize: 50 }}> </FeedIcon>
             <Typography fontSize="20px" fontWeight="bold">
-              60 Form Responses
+              {totalResponse} Form Responses
             </Typography>
           </Box>
           <Box sx={{ display: "flex", alignItems: "center", marginTop: 5 }}>
             {" "}
             <PersonIcon sx={{ fontSize: 50 }}> </PersonIcon>
             <Typography fontSize="20px" fontWeight="bold">
-              50 People Attended
+              {totalAttendee} People Attended
             </Typography>
           </Box>
         </CardContent>

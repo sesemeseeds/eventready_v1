@@ -80,7 +80,7 @@ class Task(models.Model):
     created = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return self.title   
+        return self.title
     
 class Budget(models.Model):
     id = models.AutoField(primary_key=True)  
@@ -110,6 +110,7 @@ class BudgetItem(models.Model):
     cost = models.FloatField("Cost", default=0.0) 
     total = models.FloatField("Total", default=0.0)  
     paid = models.BooleanField(default=False)
+    attachment = models.FileField("Attachment", upload_to='budget_attachments/', null=True, blank=True)
 
     def __str__(self):
         return self.name

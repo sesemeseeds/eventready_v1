@@ -45,13 +45,13 @@ const drawerWidth = 240;
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
-  },
+      },
   appBar: {
     transition: theme.transitions.create(["margin", "width"], {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
     }),
-  },
+      },
   appBarShift: {
     width: `calc(100% - ${drawerWidth}px)`,
     marginLeft: drawerWidth,
@@ -69,14 +69,15 @@ const useStyles = makeStyles((theme) => ({
   drawer: {
     width: drawerWidth,
     flexShrink: 0,
-  },
+          },
   drawerPaper: {
     width: drawerWidth,
+    backgroundColor: "aliceblue"
   },
   drawerHeader: {
     display: "flex",
     alignItems: "center",
-    backgroundColor: "red",
+    backgroundImage: "linear-gradient(15deg, #13547a 100%, #80d0c7 100%)",
     padding: theme.spacing(0, 1),
     // necessary for content to be below app bar
     ...theme.mixins.toolbar,
@@ -91,7 +92,7 @@ const useStyles = makeStyles((theme) => ({
       duration: theme.transitions.duration.leavingScreen,
     }),
     marginLeft: -drawerWidth,
-  },
+      },
   contentShift: {
     transition: theme.transitions.create("margin", {
       easing: theme.transitions.easing.easeOut,
@@ -104,7 +105,7 @@ const useStyles = makeStyles((theme) => ({
 export default function PersistentDrawerLeft() {
   const classes = useStyles();
   const theme = useTheme();
-  const [HeaderName, setHeaderName] = React.useState("General Information");
+  const [HeaderName, setHeaderName] = React.useState();
   const [open, setOpen] = React.useState(true);
   const location = useLocation();
 
@@ -126,7 +127,7 @@ export default function PersistentDrawerLeft() {
     let name = sections[sections.length - 1];
     switch (name) {
       case "generalinfo":
-        setHeaderName("General Info");
+        setHeaderName("General Information");
         break;
       case "goals":
         setHeaderName("Goals");
@@ -157,7 +158,7 @@ export default function PersistentDrawerLeft() {
           [classes.appBarShift]: open,
         })}
       >
-        <Toolbar style={{ backgroundColor: "red" }}>
+        <Toolbar style={{ backgroundImage: "linear-gradient(15deg, #13547a 0%, #80d0c7 100%)" }}>
           <IconButton
             color="inherit"
             aria-label="open drawer"
@@ -179,6 +180,7 @@ export default function PersistentDrawerLeft() {
         open={open}
         classes={{
           paper: classes.drawerPaper,
+          
         }}
       >
         <div className={classes.drawerHeader}>
