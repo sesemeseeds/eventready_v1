@@ -29,11 +29,9 @@ const formatCategoryName = (name) => {
 function BudgetSubcategories({
   totalBudget,
   reloadSubcategories,
-  onClose,
   currentSpent,
   budgetID,
 }) {
-
   const [openDialog, setOpenDialog] = useState(false);
   const [editIndex, setEditIndex] = useState(null); // State to track the index of the category being edited
   const [category, setCategories] = useState([]);
@@ -44,8 +42,6 @@ function BudgetSubcategories({
   const [itemPaid, setItemPaid] = useState(false);
   const [totalCost, setTotalCost] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState(false);
-  const [onItemPaid, setOnItemPaid] = useState(() => () => {});
-  
 
   const getCategories = async () => {
     try {
@@ -76,7 +72,7 @@ function BudgetSubcategories({
         })
       );
 
-      setTotalCost(totalPaid)
+      setTotalCost(totalPaid);
       currentSpent(totalPaid);
 
       setCategories(categoriesWithItems);
@@ -87,7 +83,6 @@ function BudgetSubcategories({
 
   useEffect(() => {
     getCategories();
-
   }, [budgetID, reloadSubcategories]);
 
   const handleAddClick = (category) => {
@@ -109,11 +104,6 @@ function BudgetSubcategories({
   const handleDeleteClick = async (item) => {
     try {
       await AxiosInstance.delete(`budgetitems/${item.id}/`);
-
-      if (item.paid) {
-        const itemCost = item.quantity * item.cost;
-        onItemPaid((prev) => prev - paidCost); 
-      }
     } catch (error) {
       console.error("Error deleting item:", error);
     }
@@ -135,17 +125,14 @@ function BudgetSubcategories({
   };
 
   const handleSubmit = async () => {
-     const cost =  totalCost + itemQuantity * itemCost;
+    const cost = totalCost + itemQuantity * itemCost;
     if (cost > totalBudget) {
       alert(
         `Total cost $${cost} cannot exceed the total budget $${totalBudget}`
       );
       return;
     }
-    if (itemPaid) { 
-      const paidCost = itemQuantity * itemCost; 
-      onItemPaid((prev) => prev + paidCost); 
-    }
+
     try {
       if (editIndex !== null) {
         const response = await AxiosInstance.put(`budgetitems/${editIndex}/`, {
@@ -164,7 +151,6 @@ function BudgetSubcategories({
           cost: itemCost,
           paid: itemPaid,
         });
-
       }
 
       handleCloseDialog();
@@ -194,18 +180,37 @@ function BudgetSubcategories({
               borderRadius: "10px",
               alignItems: "center",
               justifyContent: "space-between",
-              marginTop: "10px"
+              marginTop: "10px",
             }}
           >
-            <p
-              style={{
-                fontWeight: "bold",
-                fontSize: "1.2rem",
-                marginRight: "8px",
+            <Box
+              sx={{
+                display: "flex",
+                width: "100%",
+                justifyContent: "space-between",
+                alignItems: "center",
+                marginRight: "20px",
               }}
             >
-              {formatCategoryName(category.name)}
-            </p>
+              <p
+                style={{
+                  fontWeight: "bold",
+                  fontSize: "1.2rem",
+                  marginRight: "8px",
+                }}
+              >
+                {formatCategoryName(category.name)}
+              </p>
+              <p style={{}}>
+                {`Paid Items: ${
+                  category.items.filter((item) => item.paid).length
+                } / ${category.items.length} `}
+                {`  | Total Cost: $${category.items
+                  .filter((item) => item.paid)
+                  .reduce((acc, item) => acc + item.quantity * item.cost, 0)}`}
+              </p>
+            </Box>
+
             {/* Render "Add" icon */}
             <Tooltip title="Add Budget Item">
               <AddIcon
