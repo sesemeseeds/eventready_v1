@@ -31,7 +31,6 @@ function BudgetSubcategories({
   reloadSubcategories,
   onClose,
   currentSpent,
-  onItemPaid,
   budgetID,
 }) {
 
@@ -43,7 +42,10 @@ function BudgetSubcategories({
   const [itemQuantity, setItemQuantity] = useState("");
   const [itemCost, setItemCost] = useState("");
   const [itemPaid, setItemPaid] = useState(false);
+  const [totalCost, setTotalCost] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState(false);
+  const [onItemPaid, setOnItemPaid] = useState(() => () => {});
+  
 
   const getCategories = async () => {
     try {
@@ -74,6 +76,7 @@ function BudgetSubcategories({
         })
       );
 
+      setTotalCost(totalPaid)
       currentSpent(totalPaid);
 
       setCategories(categoriesWithItems);
@@ -84,6 +87,7 @@ function BudgetSubcategories({
 
   useEffect(() => {
     getCategories();
+
   }, [budgetID, reloadSubcategories]);
 
   const handleAddClick = (category) => {
@@ -108,7 +112,7 @@ function BudgetSubcategories({
 
       if (item.paid) {
         const itemCost = item.quantity * item.cost;
-        onItemPaid(-itemCost);
+        onItemPaid((prev) => prev - paidCost); 
       }
     } catch (error) {
       console.error("Error deleting item:", error);
@@ -131,14 +135,17 @@ function BudgetSubcategories({
   };
 
   const handleSubmit = async () => {
-    const totalCost = itemQuantity * itemCost;
-    if (totalCost > totalBudget) {
+     const cost =  totalCost + itemQuantity * itemCost;
+    if (cost > totalBudget) {
       alert(
-        `Total cost $${totalCost} cannot exceed the total budget $${totalBudget}`
+        `Total cost $${cost} cannot exceed the total budget $${totalBudget}`
       );
       return;
     }
-
+    if (itemPaid) { 
+      const paidCost = itemQuantity * itemCost; 
+      onItemPaid((prev) => prev + paidCost); 
+    }
     try {
       if (editIndex !== null) {
         const response = await AxiosInstance.put(`budgetitems/${editIndex}/`, {
@@ -158,10 +165,6 @@ function BudgetSubcategories({
           paid: itemPaid,
         });
 
-        if (itemPaid) {
-          const itemCost = itemQuantity * itemCost;
-          onItemPaid(itemCost);
-        }
       }
 
       handleCloseDialog();
@@ -188,8 +191,10 @@ function BudgetSubcategories({
               padding: "10px",
               boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)",
               display: "flex",
+              borderRadius: "10px",
               alignItems: "center",
               justifyContent: "space-between",
+              marginTop: "10px"
             }}
           >
             <p
@@ -226,7 +231,7 @@ function BudgetSubcategories({
                   borderRadius={10}
                   position="relative"
                   style={{
-                    backgroundColor: "#ecfde4",
+                    backgroundColor: "#80d0c7",
                     boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
                   }}
                 >
@@ -253,12 +258,11 @@ function BudgetSubcategories({
                   />
                   {/* Render item details */}
                   <Typography>Name: {item.name}</Typography>
-                  <Typography>Description: {item.description}</Typography>
                   <Typography>Quantity: {item.quantity}</Typography>
-                  <Typography>Cost: {item.cost}</Typography>
+                  <Typography>Cost: ${item.cost}</Typography>
                   <Typography>Paid: {item.paid ? "Yes" : "No"}</Typography>
                   <Typography>
-                    Total Cost: {item.quantity * item.cost}
+                    Total Cost: ${item.quantity * item.cost}
                   </Typography>
                 </Box>
               ))}

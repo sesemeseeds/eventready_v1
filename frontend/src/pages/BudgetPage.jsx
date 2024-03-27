@@ -41,6 +41,9 @@ function BudgetPage() {
         console.error("Error fetching budget:", error);
       });
 
+  }, [MyId]);
+
+  useEffect(() => {
     if (budgetID !== 0) {
       AxiosInstance.patch(`budget/${budgetID}/`, { leftover: currentSpent })
         .then((res) => {
@@ -50,7 +53,7 @@ function BudgetPage() {
           console.error("Error updating leftover:", error);
         });
     }
-  }, [MyId, currentSpent]);
+  }, [ currentSpent]);
 
   const createBudget = () => {
     AxiosInstance.post("budget/", { event_id: MyId, total: 1000 })
@@ -93,8 +96,7 @@ function BudgetPage() {
           <div
             className="progress-bar-inner"
             style={{ width: pointerPosition }}
-          >
-          </div>
+          ></div>
           {showTooltip && (
             <div
               className="tooltip"
