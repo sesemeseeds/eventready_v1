@@ -42,6 +42,16 @@ const ImportExcel = (eventID) => {
     fetchData();
   }, []);
 
+  useEffect(() => {
+    const filtered = excelData.filter(
+      (item) =>
+        item.name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        item.phone_number?.toString().includes(searchQuery) ||
+        item.email?.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+    setFilteredData(filtered);
+  }, [searchQuery, excelData]);
+
   const fetchData = async () => {
     try {
       const response = await AxiosInstance.get(
@@ -147,7 +157,7 @@ const ImportExcel = (eventID) => {
         attendee.id === updatedAttendee.id ? updatedAttendee : attendee
       );
       setExcelData(updatedData);
-      setFilteredData(updatedData);
+ 
 
       console.log("Attendee updated successfully");
     } catch (error) {
