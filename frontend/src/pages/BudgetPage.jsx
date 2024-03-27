@@ -10,7 +10,7 @@ function BudgetPage() {
   const [currentSpent, setCurrentSpent] = useState(0);
   const [totalBudget, setTotalBudget] = useState(1000); // Initialize with a default value
   const [budgetID, setBudgetID] = useState(0);
-   
+
   // Progress percentage
   const progress = (currentSpent / totalBudget) * 100;
   const remainingBudget = totalBudget - currentSpent;
@@ -40,7 +40,17 @@ function BudgetPage() {
       .catch((error) => {
         console.error("Error fetching budget:", error);
       });
-  }, [MyId]);
+
+    if (budgetID !== 0) {
+      AxiosInstance.patch(`budget/${budgetID}/`, { leftover: currentSpent })
+        .then((res) => {
+          console.log("Leftover updated successfully");
+        })
+        .catch((error) => {
+          console.error("Error updating leftover:", error);
+        });
+    }
+  }, [MyId, currentSpent]);
 
   const createBudget = () => {
     AxiosInstance.post("budget/", { event_id: MyId, total: 1000 })
@@ -61,24 +71,12 @@ function BudgetPage() {
     setIsDialogOpen(false);
   };
 
-  const handleTotalBudgetChange = (value) => {
-    setTotalBudget(Number(value)); // Update the total budget value
-  };
-
-  const handleItemPaid = (amount) => {
-    setCurrentSpent((prevSpent) => prevSpent + amount);
-  };
-
   const reloadSubcategories = () => {
- 
     console.log("Reloading subcategories...");
   };
 
   return (
-    <div
-      className="container" style={{marginBottom: "5%"}}
-
-    >
+    <div className="container" style={{ marginBottom: "5%" }}>
       <p style={{ fontSize: "16px", color: "#666" }}>
         Track your expenses, monitor your spending, and stay on top of your
         financials as you plan and organize memorable events for your
@@ -96,7 +94,6 @@ function BudgetPage() {
             className="progress-bar-inner"
             style={{ width: pointerPosition }}
           >
-            {/* Remove currentSpent here */}
           </div>
           {showTooltip && (
             <div
@@ -126,7 +123,7 @@ function BudgetPage() {
         <Button
           variant="contained"
           style={{
-            backgroundColor: "#4CAF50",
+            backgroundColor: "#13547a",
             color: "white",
             borderRadius: "7px",
             fontWeight: "bold",
@@ -139,7 +136,7 @@ function BudgetPage() {
         <Button
           variant="contained"
           style={{
-            backgroundColor: "#007bff",
+            backgroundColor: "#13547a",
             color: "white",
             borderRadius: "7px",
             fontWeight: "bold",
@@ -154,14 +151,19 @@ function BudgetPage() {
         totalBudget={totalBudget}
         open={isDialogOpen}
         onClose={closeDialog}
-        onTotalBudgetChange={handleTotalBudgetChange}
-        onItemPaid={handleItemPaid}
         budgetID={budgetID}
         eventID={MyId}
         reloadSubcategories={reloadSubcategories}
-          />
+      />
 
-      {budgetID !== 0 && <BudgetSubcategories reloadSubcategories={reloadSubcategories} budgetID={budgetID} />}
+      {budgetID !== 0 && (
+        <BudgetSubcategories
+          totalBudget={totalBudget}
+          currentSpent={setCurrentSpent}
+          reloadSubcategories={reloadSubcategories}
+          budgetID={budgetID}
+        />
+      )}
     </div>
   );
 }

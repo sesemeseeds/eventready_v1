@@ -63,7 +63,7 @@ function BudgetCategories({
         existingCategories.forEach((category) => {
           updatedCategories[category.name] = true;
         });
-
+        setIsAnyCheckboxChecked(true)
         setCategories(updatedCategories);
       } catch (error) {
         console.error("Error fetching category information:", error);
@@ -176,7 +176,7 @@ function BudgetCategories({
 
   return (
     <Dialog open={open} onClose={onClose}>
-      <DialogTitle style={{ display: "flex", justifyContent: "space-between" }}>
+      <DialogTitle style={{ display: "flex", backgroundColor: "#13547a", justifyContent: "space-between", color: "white" }}>
         <span>Enter Budget Details</span>
         <CloseIcon onClick={handleClose} />
       </DialogTitle>
@@ -209,16 +209,7 @@ function BudgetCategories({
             </div>
           ))}
         </div>
-      </DialogContent>
-      <DialogActions>
-        <Button
-          type="submit"
-          disabled={!isAnyCheckboxChecked}
-          onClick={handleSubmit}
-        >
-          Submit
-        </Button>
-        <div style={{ display: "flex", alignItems: "center" }}>
+        <div >
           <Button onClick={handleAddCustomCategory}>Add Custom</Button>
           {isCustomCategoryOpen && (
             <div
@@ -235,15 +226,26 @@ function BudgetCategories({
             </div>
           )}
         </div>
+      </DialogContent>
+      <DialogActions style={{backgroundColor: " #80d0c7"}}>
+      <Button
+          type="cancel"
+          variant="contained"
+          disabled={!isAnyCheckboxChecked}
+          onClick={handleClose}
+        >
+          cancel
+        </Button>
+        <Button
+          type="submit"
+          disabled={!isAnyCheckboxChecked}
+          onClick={handleSubmit}
+          variant="contained"
+        >
+          Submit
+        </Button>
+      
       </DialogActions>
-      {/* {submitted && (
-        <BudgetSubcategories
-          totalBudget={totalBudget}
-          categories={categories}
-          onClose={onClose}
-          onItemPaid={onItemPaid}
-        />
-      )} */}
     </Dialog>
   );
 }

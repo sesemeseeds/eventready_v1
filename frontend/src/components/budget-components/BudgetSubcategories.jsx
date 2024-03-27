@@ -12,7 +12,8 @@ import {
   Checkbox,
   Typography,
   Box,
-  Tooltip
+  Tooltip,
+  DialogActions,
 } from "@material-ui/core";
 import AxiosInstance from "../Axios";
 
@@ -29,10 +30,11 @@ function BudgetSubcategories({
   totalBudget,
   reloadSubcategories,
   onClose,
+  currentSpent,
   onItemPaid,
   budgetID,
 }) {
-  const [expandedCategories, setExpandedCategories] = useState([]);
+
   const [openDialog, setOpenDialog] = useState(false);
   const [editIndex, setEditIndex] = useState(null); // State to track the index of the category being edited
   const [category, setCategories] = useState([]);
@@ -43,23 +45,36 @@ function BudgetSubcategories({
   const [itemPaid, setItemPaid] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState(false);
 
-
   const getCategories = async () => {
     try {
       const categoryResponse = await AxiosInstance.get(
         `budgetcategory/?budget=${budgetID}`
       );
       const categoriesData = categoryResponse.data;
-     
+
+      let totalPaid = 0;
+
       const categoriesWithItems = await Promise.all(
         categoriesData.map(async (category) => {
           const itemsResponse = await AxiosInstance.get(
             `budgetitems/?category=${category.id}`
           );
           const itemsData = itemsResponse.data;
+
+          const categoryTotalPaid = itemsData.reduce((acc, item) => {
+            if (item.paid) {
+              acc += item.quantity * item.cost;
+            }
+            return acc;
+          }, 0);
+
+          totalPaid += categoryTotalPaid;
+
           return { ...category, items: itemsData };
         })
       );
+
+      currentSpent(totalPaid);
 
       setCategories(categoriesWithItems);
     } catch (error) {
@@ -69,7 +84,6 @@ function BudgetSubcategories({
 
   useEffect(() => {
     getCategories();
-    console.log("test")
   }, [budgetID, reloadSubcategories]);
 
   const handleAddClick = (category) => {
@@ -142,10 +156,8 @@ function BudgetSubcategories({
           quantity: itemQuantity,
           cost: itemCost,
           paid: itemPaid,
-        }
-        );
+        });
 
-       
         if (itemPaid) {
           const itemCost = itemQuantity * itemCost;
           onItemPaid(itemCost);
@@ -157,7 +169,6 @@ function BudgetSubcategories({
     } catch (error) {
       console.error("Error saving item:", error);
     }
-   
   };
 
   // Check if all required fields are filled and valid
@@ -178,7 +189,7 @@ function BudgetSubcategories({
               boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)",
               display: "flex",
               alignItems: "center",
-              justifyContent: "space-between"
+              justifyContent: "space-between",
             }}
           >
             <p
@@ -191,12 +202,12 @@ function BudgetSubcategories({
               {formatCategoryName(category.name)}
             </p>
             {/* Render "Add" icon */}
-            <Tooltip title="Add Budget Item"> 
-            <AddIcon
-              style={{ cursor: "pointer" }}
-              onClick={() => handleAddClick(category)}
-            /></Tooltip>
-           
+            <Tooltip title="Add Budget Item">
+              <AddIcon
+                style={{ cursor: "pointer" }}
+                onClick={() => handleAddClick(category)}
+              />
+            </Tooltip>
           </div>
           <div
             style={{
@@ -257,7 +268,7 @@ function BudgetSubcategories({
 
       {/* Dialog for entering category details */}
       <Dialog open={openDialog} onClose={handleCloseDialog}>
-        <DialogTitle style={{ backgroundColor: "#4CAF50", color: "white" }}>
+        <DialogTitle style={{ backgroundColor: "#13547a", color: "white" }}>
           {editIndex !== null
             ? "Edit Details"
             : `Add ${formatCategoryName(category.name)} Details`}
@@ -310,17 +321,25 @@ function BudgetSubcategories({
             }
             label="Paid"
           />
+        </DialogContent>
+        <DialogActions style={{ backgroundColor: "#80d0c7" }}>
+          <Button
+            variant="contained"
+            color="secondary"
+            onClick={handleCloseDialog}
+            disabled={!isFormValid}
+          >
+            Cancel
+          </Button>{" "}
           <Button
             onClick={handleSubmit}
             variant="contained"
             color="primary"
-            fullWidth
-            style={{ backgroundColor: "#4CAF50" }}
             disabled={!isFormValid}
           >
             Submit
           </Button>
-        </DialogContent>
+        </DialogActions>
       </Dialog>
     </div>
   );
