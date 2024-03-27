@@ -20,8 +20,7 @@ export default function BudgetCard({ budget }) {
     budget?.filter((bud) => {
       const total = bud.total;
       const leftover = bud.leftover;
-
-      const progress = bud.progress;
+      const progress = (leftover / total) * 100;
       setAvailableBudget(total - leftover);
       setTotalBudget(total);
       setLeftoverBudget(leftover);

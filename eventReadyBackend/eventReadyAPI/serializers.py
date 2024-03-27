@@ -37,20 +37,19 @@ class GoalsSerializer(serializers.ModelSerializer):
 class BudgetSerializer(serializers.ModelSerializer):
     class Meta:
         model = Budget
-        fields = ('event_id', 'id', 'name', 'total', 'categories', 'items')
+        fields = ('event_id', 'id', 'total', 'leftover')
 
 class BudgetCategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = BudgetCategory
-        fields = ('event_id', 'budget_id', 'id', 'name', 'total', 'items')
+        fields = ('id', 'name', 'total', 'budget')
 
 class BudgetItemSerializer(serializers.ModelSerializer):
     total = serializers.FloatField(read_only=True)
 
     class Meta:
         model = BudgetItem
-        fields = ('event_id', 'budget_id', 'category_id', 'id', 'name', 'description', 'cost', 'quantity', 'paid', 'total', 'attachment')
-        read_only_fields = ('total',)
+        fields = ('id', 'category','name', 'description', 'quantity', 'cost', 'total', 'paid')
 
 class AttendeeSerializer(serializers.ModelSerializer):
     class Meta:
