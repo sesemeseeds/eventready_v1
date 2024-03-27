@@ -72,13 +72,7 @@ function BudgetPage() {
   return (
     <div
       className="container"
-      style={{
-        width: "93%",
-        maxWidth: "900px",
-        marginTop: "30px",
-        padding: "20px",
-        marginLeft: "20px",
-      }}
+
     >
       <p style={{ fontSize: "16px", color: "#666" }}>
         Track your expenses, monitor your spending, and stay on top of your
