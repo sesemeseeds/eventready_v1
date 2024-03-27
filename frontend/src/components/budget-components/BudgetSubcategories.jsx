@@ -12,6 +12,7 @@ import {
   Checkbox,
   Typography,
   Box,
+  Tooltip
 } from "@material-ui/core";
 import AxiosInstance from "../Axios";
 
@@ -26,7 +27,7 @@ const formatCategoryName = (name) => {
 
 function BudgetSubcategories({
   totalBudget,
-  categories,
+  reloadSubcategories,
   onClose,
   onItemPaid,
   budgetID,
@@ -42,13 +43,14 @@ function BudgetSubcategories({
   const [itemPaid, setItemPaid] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState(false);
 
+
   const getCategories = async () => {
     try {
       const categoryResponse = await AxiosInstance.get(
         `budgetcategory/?budget=${budgetID}`
       );
       const categoriesData = categoryResponse.data;
-
+     
       const categoriesWithItems = await Promise.all(
         categoriesData.map(async (category) => {
           const itemsResponse = await AxiosInstance.get(
@@ -60,7 +62,6 @@ function BudgetSubcategories({
       );
 
       setCategories(categoriesWithItems);
-      console.log("test")
     } catch (error) {
       console.error("Error fetching categories:", error);
     }
@@ -68,7 +69,8 @@ function BudgetSubcategories({
 
   useEffect(() => {
     getCategories();
-  }, [categories]);
+    console.log("test")
+  }, [budgetID, reloadSubcategories]);
 
   const handleAddClick = (category) => {
     setSelectedCategory(category);
@@ -176,6 +178,7 @@ function BudgetSubcategories({
               boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)",
               display: "flex",
               alignItems: "center",
+              justifyContent: "space-between"
             }}
           >
             <p
@@ -188,10 +191,12 @@ function BudgetSubcategories({
               {formatCategoryName(category.name)}
             </p>
             {/* Render "Add" icon */}
+            <Tooltip title="Add Budget Item"> 
             <AddIcon
               style={{ cursor: "pointer" }}
               onClick={() => handleAddClick(category)}
-            />
+            /></Tooltip>
+           
           </div>
           <div
             style={{

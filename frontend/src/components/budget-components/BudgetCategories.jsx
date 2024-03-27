@@ -16,7 +16,7 @@ function BudgetCategories({
   open,
   onClose,
   onTotalBudgetChange,
-  onItemPaid,
+  reloadSubcategories,
   budgetID,
   eventID,
 }) {
@@ -151,7 +151,7 @@ function BudgetCategories({
       );
 
       console.log("New categories posted successfully");
-
+      reloadSubcategories();
       setSubmitted(true);
       onClose();
     } catch (error) {

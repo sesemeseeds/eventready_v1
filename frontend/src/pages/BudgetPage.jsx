@@ -10,7 +10,7 @@ function BudgetPage() {
   const [currentSpent, setCurrentSpent] = useState(0);
   const [totalBudget, setTotalBudget] = useState(1000); // Initialize with a default value
   const [budgetID, setBudgetID] = useState(0);
-
+   
   // Progress percentage
   const progress = (currentSpent / totalBudget) * 100;
   const remainingBudget = totalBudget - currentSpent;
@@ -69,9 +69,14 @@ function BudgetPage() {
     setCurrentSpent((prevSpent) => prevSpent + amount);
   };
 
+  const reloadSubcategories = () => {
+ 
+    console.log("Reloading subcategories...");
+  };
+
   return (
     <div
-      className="container"
+      className="container" style={{marginBottom: "5%"}}
 
     >
       <p style={{ fontSize: "16px", color: "#666" }}>
@@ -153,9 +158,10 @@ function BudgetPage() {
         onItemPaid={handleItemPaid}
         budgetID={budgetID}
         eventID={MyId}
-      />
+        reloadSubcategories={reloadSubcategories}
+          />
 
-      {budgetID !== 0 && <BudgetSubcategories budgetID={budgetID} />}
+      {budgetID !== 0 && <BudgetSubcategories reloadSubcategories={reloadSubcategories} budgetID={budgetID} />}
     </div>
   );
 }
