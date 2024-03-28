@@ -238,6 +238,7 @@ function BudgetSubcategories({
                   position="relative"
                   style={{
                     backgroundColor: "white",
+                    boxShadow: "0px 1px 1px ",
                   }}
                 >
                   {/* Edit and delete icons */}
