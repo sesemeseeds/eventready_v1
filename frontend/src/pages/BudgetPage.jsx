@@ -80,13 +80,7 @@ function BudgetPage() {
 
   return (
     <div className="container" style={{ marginBottom: "5%" }}>
-      <p style={{ fontSize: "16px", color: "#666" }}>
-        Track your expenses, monitor your spending, and stay on top of your
-        financials as you plan and organize memorable events for your
-        organization. Get started by entering your current expenses and total
-        budget, and let the Budget Tracker guide you towards financial success
-        for your next event!
-      </p>
+
       <div
         className="progress-bar-container"
         onMouseEnter={() => setShowTooltip(true)}

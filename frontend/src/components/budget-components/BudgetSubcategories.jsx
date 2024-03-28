@@ -165,7 +165,7 @@ function BudgetSubcategories({
 
   return (
     <div>
-      <h2>Selected Budget Categories</h2>
+      <h2>Budget </h2>
       {/* Render selected categories */}
       {category?.map((category) => (
         <div key={category.id} style={{ position: "relative" }}>
@@ -173,7 +173,8 @@ function BudgetSubcategories({
             style={{
               position: "sticky",
               top: "0",
-              backgroundColor: "white",
+              backgroundColor: "#13547a",
+              color: "White",
               padding: "10px",
               boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)",
               display: "flex",
@@ -236,8 +237,7 @@ function BudgetSubcategories({
                   borderRadius={10}
                   position="relative"
                   style={{
-                    backgroundColor: "#80d0c7",
-                    boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
+                    backgroundColor: "white",
                   }}
                 >
                   {/* Edit and delete icons */}
@@ -282,7 +282,7 @@ function BudgetSubcategories({
             ? "Edit Details"
             : `Add ${formatCategoryName(category.name)} Details`}
         </DialogTitle>
-        <DialogContent style={{ backgroundColor: "#F0FFF0" }}>
+        <DialogContent >
           <TextField
             name="name"
             label="Name"
