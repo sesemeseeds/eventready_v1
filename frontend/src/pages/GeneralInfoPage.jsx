@@ -382,8 +382,8 @@ export default function GeneralInfoComponent() {
               )}
             </>
           </DialogContent>
-          <DialogActions style={{ marginTop: 10, backgroundColor: "#009CDF" }}>
-            <Button variant="contained" color="secondary" onClick={handleClose}>
+          <DialogActions style={{ marginTop: 10}}>
+            <Button  onClick={handleClose}>
               Cancel
             </Button>
             <Button variant="contained" color="primary" onClick={handleSubmit}>

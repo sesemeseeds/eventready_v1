@@ -174,11 +174,11 @@ export default function EditTaskDialog({
           </Box>
         </Box>
       </DialogContent>
-      <DialogActions style={{ backgroundColor: "#009CDF" }}>
-        <Button variant="contained" onClick={handleClose} color="secondary">
+      <DialogActions style={{ backgroundColor: "#80d0c7" }}>
+        <Button  onClick={handleClose} >
           Cancel
         </Button>
-        <Button variant="contained" onClick={handleSubmit} color="primary">
+        <Button variant="contained"  style={{backgroundColor: "#13547a", color: "white" }} onClick={handleSubmit} >
           Edit Task
         </Button>
       </DialogActions>

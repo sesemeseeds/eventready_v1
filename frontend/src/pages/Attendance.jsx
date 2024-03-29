@@ -161,7 +161,6 @@ const AttendancePage = () => {
             <Button
               variant="contained"
               color="primary"
-              style={{ backgroundColor: "red" }}
               onClick={generateQRCode}
             >
               Generate QR Code
@@ -179,7 +178,7 @@ const AttendancePage = () => {
               <Button
                 variant="contained"
                 color="primary"
-                style={{ backgroundColor: "red" }}
+      
                 onClick={downloadQRCode}
               >
                 Download QR Code
@@ -187,7 +186,7 @@ const AttendancePage = () => {
               <Button
                 variant="contained"
                 color="primary"
-                style={{ marginLeft: "10px", backgroundColor: "red" }}
+                style={{ marginLeft: "10px" }}
                 onClick={openShareDialog}
               >
                 Share QR Code
@@ -203,7 +202,7 @@ const AttendancePage = () => {
 
       <Dialog open={shareDialogOpen} onClose={closeShareDialog}>
         <DialogTitle
-          style={{ backgroundColor: "red", color: "white", fontWeight: "bold" }}
+          style={{ fontWeight: "bold" }}
         >
           Share Options
         </DialogTitle>
@@ -216,7 +215,7 @@ const AttendancePage = () => {
             <Button
               variant="contained"
               color="primary"
-              style={{ marginTop: "10px", backgroundColor: "#4267B2" }}
+              style={{ marginTop: "10px"}}
               onClick={openFacebook}
             >
               Facebook
@@ -224,7 +223,7 @@ const AttendancePage = () => {
             <Button
               variant="contained"
               color="primary"
-              style={{ marginTop: "10px", backgroundColor: "#E1306C" }}
+              style={{ marginTop: "10px"}}
               onClick={openInstagram}
             >
               Instagram
@@ -232,7 +231,7 @@ const AttendancePage = () => {
             <Button
               variant="contained"
               color="primary"
-              style={{ marginTop: "10px", backgroundColor: "#1490DF" }}
+              style={{ marginTop: "10px"}}
               onClick={openOutlook}
             >
               Outlook
@@ -241,7 +240,7 @@ const AttendancePage = () => {
         </DialogContent>
         <DialogActions>
           <Button
-            style={{ backgroundColor: "white", color: "black" }}
+         variant="contained"
             onClick={closeShareDialog}
           >
             Close
@@ -251,7 +250,7 @@ const AttendancePage = () => {
 
       <Dialog open={Boolean(errorMessage)} onClose={closeErrorMessage}>
         <DialogTitle
-          style={{ backgroundColor: "red", color: "white", fontWeight: "bold" }}
+          style={{ fontWeight: "bold" }}
         >
           Error
         </DialogTitle>
@@ -261,7 +260,7 @@ const AttendancePage = () => {
         <DialogActions>
           <Button
             onClick={closeErrorMessage}
-            style={{ backgroundColor: "white", color: "black" }}
+         variant="contained"
           >
             Close
           </Button>

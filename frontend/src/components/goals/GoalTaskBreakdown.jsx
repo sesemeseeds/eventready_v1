@@ -141,8 +141,8 @@ const TaskAssociationDialog = ({ eventId, open, onClose, goal, setProgress }) =>
                         </TableContainer>
                     </DialogContent>
                     <Divider/>
-                    <DialogActions style={{ position: 'absolute', bottom: 0, right: 0 }}>
-                        <Button onClick={handleCancel}>Close</Button>
+                    <DialogActions >
+                        <Button variant="contained" onClick={handleCancel}>Close</Button>
                     </DialogActions>
                 </Paper>
             </Dialog>

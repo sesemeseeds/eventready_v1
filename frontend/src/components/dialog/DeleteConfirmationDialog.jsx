@@ -12,18 +12,15 @@ const DeleteConfirmationDialog = ({ isOpen, onClose, onDeleteConfirmation, name,
         <Dialog open={isOpen} onClose={onClose}>
             <DialogTitle>
                 Delete {objectName.charAt(0).toUpperCase() + objectName.slice(1)}
-                <IconButton sx={{ position: 'absolute', top: '8px', right: '8px' }} onClick={onClose}>
-                    <CloseIcon />
-                </IconButton>
             </DialogTitle>
             <DialogContent>
-                <Typography>Are you sure you want to delete 
+                <Typography marginTop="15px" >Are you sure you want to delete 
                     <TruncateText text={' ' + name} maxLength={MAX_NAME_LENGTH}/>?
                 </Typography>
             </DialogContent>
-            <DialogActions sx={{ justifyContent: 'flex-end', paddingRight: '24px', paddingBottom: '24px' }}>
-                <Button onClick={onClose}>Cancel</Button>
-                <Button onClick={onDeleteConfirmation}>Delete</Button>
+            <DialogActions >
+                <Button  onClick={onClose}>Cancel</Button>
+                <Button variant='contained' onClick={onDeleteConfirmation}>Delete</Button>
             </DialogActions>
         </Dialog>
     );

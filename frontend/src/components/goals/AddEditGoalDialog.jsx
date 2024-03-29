@@ -72,7 +72,7 @@ const AddEditGoalDialog = ({ isOpen, onClose, eventId, setAllGoals, goal  }) => 
 
     useEffect(() => {
         fetchTasksAndGoals();
-    }, [eventId]);
+    }, [eventId,isOpen]);
 
     const isAddButtonDisabled = !newGoalData.name || !newGoalData.due_date;
 
@@ -115,7 +115,14 @@ const AddEditGoalDialog = ({ isOpen, onClose, eventId, setAllGoals, goal  }) => 
             }
             
             onClose();
-            window.location.reload();
+            setNewGoalData({
+                name: '',
+                due_date: '',
+                description: '',
+                progress: 0,
+                tasks: []
+            });
+
         } catch (error) {
             console.error("Error adding/editing goal:", error);
         }
@@ -157,7 +164,7 @@ const AddEditGoalDialog = ({ isOpen, onClose, eventId, setAllGoals, goal  }) => 
 
     return (
         <Dialog open={isOpen} onClose={onClose} maxWidth="md">
-            <DialogTitle>
+            <DialogTitle >
                 {goal ? 'Edit Goal' : 'Create Goal'}
             </DialogTitle>
             <DialogContent sx={{ height: 500, overflowY: 'hidden', paddingTop: '10px !important' }}>

@@ -226,7 +226,7 @@ const ImportExcel = (eventID) => {
     >
       <label
         style={{
-          backgroundColor: "red",
+          backgroundColor: "#13547a",
           color: "white",
           padding: "10px 20px",
           borderRadius: "5px",
@@ -353,7 +353,7 @@ const ImportExcel = (eventID) => {
           <Button
             variant="contained"
             onClick={handleAddRow}
-            style={{ marginTop: "20px", backgroundColor: "red" }}
+            style={{ marginTop: "20px"}}
           >
             <AddIcon /> Add Row
           </Button>

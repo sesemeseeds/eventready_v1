@@ -182,6 +182,7 @@ function BudgetSubcategories({
               alignItems: "center",
               justifyContent: "space-between",
               marginTop: "10px",
+              height: "50px"
             }}
           >
             <Box

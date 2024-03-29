@@ -97,7 +97,7 @@ export default function AddTaskDialog({
 
   return (
     <Dialog maxWidth="md" open={open} onClose={handleClose}>
-      <DialogTitle>
+      <DialogTitle >
         {" "}
         <TextField
           autoFocus
@@ -213,11 +213,11 @@ export default function AddTaskDialog({
           </Box>
         </Box>
       </DialogContent>
-      <DialogActions style={{ backgroundColor: "#009CDF" }}>
-        <Button variant="contained" onClick={handleClose} color="secondary">
+      <DialogActions style={{ backgroundColor:  "#80d0c7" }}>
+        <Button  onClick={handleClose} >
           Cancel
         </Button>
-        <Button variant="contained" onClick={handleSubmit} color="primary">
+        <Button  variant="contained"  style={{backgroundColor: "#13547a", color: "white" }} onClick={handleSubmit} >
           Add Task
         </Button>
       </DialogActions>

@@ -293,8 +293,8 @@ export const LandingPage = (display = "ActiveEvents") => {
               style={{ marginTop: 8, marginBottom: 16, height: 175 }}
             />
           </DialogContent>
-          <DialogActions style={{ backgroundColor: "#009CDF" }}>
-            <Button variant="contained" color="secondary" onClick={handleClose}>
+          <DialogActions >
+            <Button  onClick={handleClose}>
               Cancel
             </Button>
             <Button variant="contained" color="primary" onClick={onSubmit}>
@@ -306,16 +306,15 @@ export const LandingPage = (display = "ActiveEvents") => {
           <DialogTitle>Delete Event</DialogTitle>
           <DialogContent>
             <>
-              <Typography>
+              <Typography marginTop="15px">
                 Are you sure you want to delete? You will not be able to undo
                 this action and all your data will be lost.
               </Typography>
             </>
           </DialogContent>
-          <DialogActions style={{ backgroundColor: "#009CDF" }}>
+          <DialogActions >
             <Button
-              variant="contained"
-              color="secondary"
+             
               onClick={handleDeleteClose}
             >
               Cancel

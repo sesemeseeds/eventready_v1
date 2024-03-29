@@ -12,23 +12,49 @@ import UserLoginPage from "./pages/UserLoginPage";
 import BudgetPage from "./pages/BudgetPage";
 import GoalsPage from "./pages/GoalsPage";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
+import { DialogTitle } from "@mui/material";
 import './index.css';
+
 const theme = createTheme({
   typography: {
     allVariants: {
       fontFamily: 'Roboto',
     },
-
   },
-})
+  components: {
+    MuiDialogTitle: {
+      styleOverrides: {
+        root: {
+          backgroundColor: '#13547a', 
+          color: 'white', 
+    
+        },
+      },
+    },
+    MuiDialogActions: {
+      styleOverrides: {
+        root: {
+          backgroundColor: "#80d0c7", 
+         
+        },
+      },
+    },
+    MuiButton: {
+      styleOverrides: {
+        contained: {
+          backgroundColor: "#13547a", 
+          '&:hover': {
+            backgroundColor: "#0e3a5f", 
+          },
+        },
+      },
+    },
+  },
+});
 
 function App() {
-
-
-
   return (
     <ThemeProvider theme={theme}>
-      {" "}
       <Router>
         <Routes>
           <Route path="dashboard/event/:id" element={<Navigation />}>
@@ -40,7 +66,6 @@ function App() {
             <Route path="budget" element={<BudgetPage />} />
             <Route path="userlogin" element={<UserLoginPage />} />
           </Route>
-
           <Route path="/" element={<UserLoginPage />} />
           <Route path="/dashboard" element={<LandingNavigation />} />
         </Routes>
