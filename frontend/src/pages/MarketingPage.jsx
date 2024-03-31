@@ -10,29 +10,28 @@ import "../styles/Marketing.css";
 
 const MarketingPage = () => {
   const [isLoading, setLoading] = useState(true);
-
   const MyParam = useParams();
   const MyId = MyParam.id;
 
   return (
-    <div>
-      <div className='container'>
-      <div className='marketing-sections-container'>
-        <div className='marketing-section'>
-          <ReminderBox eventId={MyId}/>
+    <div className="container">
+      <div className='marketing-page-container'>
+        <div className='marketing-left-section'>
+          <div className='marketing-section'>
+            <ReminderBox eventId={MyId} />
+          </div>
+          <div className='marketing-section'>
+            <HelpfulLinksBox eventId={MyId}/>
+          </div>
         </div>
-        <div className='marketing-section'>
-          <PosterBox eventId={MyId}/>
+        <div className='marketing-right-section'>
+          <div className='marketing-section'>
+            <PosterBox eventId={MyId}/>
+          </div>
         </div>
-        <div className='marketing-section'>
-          <HelpfulLinksBox eventId={MyId}/>
-        </div>
-      </div>
-        <RecapImagesBox eventId={MyId}/>
-
       </div>
     </div>
   );
-};
+  };
 
 export default MarketingPage;

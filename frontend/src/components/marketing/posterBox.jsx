@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Button, TextField, Typography, Box } from '@mui/material';
+import { Button, TextField, Typography, Box, Card } from '@mui/material';
 import AxiosInstance from "../Axios";
 import "../../styles/Marketing.css";
 
@@ -7,7 +7,6 @@ import "../../styles/Marketing.css";
 const PosterBox = ({ eventId }) => {
   const [image, setImage] = useState(null);
   const [caption, setCaption] = useState(String);
-  const [showUploadPoster, setShowUploadPoster] = useState(true);
 
   useEffect(() => {
     const getPoster = async () => {
@@ -85,39 +84,29 @@ const PosterBox = ({ eventId }) => {
     setCaption(e.target.value);
   };
 
-  const toggleUploadPoster = () => {
-    setShowUploadPoster(!showUploadPoster);
-  };
-
   return (
-    <div>
-        {/* Dark purple header */}
+    <Card>
         <Typography
             variant="h6"
             style={{
             color: 'white',
             fontWeight: 'bold',
             marginBottom: '10px',
-            backgroundColor: '#b54fdc',
+            backgroundImage: 'linear-gradient(15deg, #80d0c7 0%,  #13547a 0%)',
             padding: '10px',
             borderRadius: '5px',
             paddingLeft: '20px',
-            cursor: 'pointer',
-            userSelect: 'none',
             }}
-            onClick={toggleUploadPoster}
         >
         Upload Poster
         </Typography>
 
-        {/* Light purple header */}
-        {showUploadPoster && (
             <Box 
             style={{
                 flex: 1,
                 padding: '20px',
                 borderRadius: '5px 5px 10px 10px',
-                backgroundColor: '#f8e7ff',
+                backgroundColor: 'white',
                 marginTop: '-10px',
             }}
             >
@@ -165,7 +154,7 @@ const PosterBox = ({ eventId }) => {
                 <div style={{ marginTop: '40px' }}>
                 <Button
                     variant="contained"
-                    style={{ backgroundColor: '#d056ff', color: '#FFFFFF' }}
+                    style={{ backgroundImage: 'linear-gradient(15deg, #80d0c7 0%,  #13547a 0%)', color: '#FFFFFF' }}
                     onClick={updatePosterImage}
                 >
                 Share Graphic
@@ -173,8 +162,7 @@ const PosterBox = ({ eventId }) => {
                 </div>
             </div>
             </Box>
-        )}
-    </div>
+    </Card>
   );
 };
 

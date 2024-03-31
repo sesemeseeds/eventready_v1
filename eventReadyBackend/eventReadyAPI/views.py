@@ -78,7 +78,6 @@ class MarketingRemindersViewset(viewsets.ModelViewSet):
             return MarketingReminders.objects.filter(event_id=event_id)
         return MarketingReminders.objects.all()
 
-
     def create(self, request):
         serializer = self.serializer_class(data=request.data)
         if serializer.is_valid():
@@ -87,10 +86,10 @@ class MarketingRemindersViewset(viewsets.ModelViewSet):
         else:
             print('error', serializer.errors)
             return Response(self.serializer_class.errors, status=400)
-        
-                
+    
     def destroy(self, request, pk=None):
-        reminder = self.queryset.get(pk=pk)
+        queryset = self.get_queryset()
+        reminder = queryset.get(pk=pk)
         reminder.delete()
         return Response(status=204)
     
