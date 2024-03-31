@@ -36,7 +36,7 @@ export default function BudgetCard({ budget }) {
     <Card sx={{ boxShadow: 3, width: 300 }}>
           <Box sx={{ backgroundImage: "linear-gradient(15deg, #80d0c7 0%,  #13547a 0%)", paddingLeft: "10px" }}>
         {" "}
-        <Typography fontWeight="bold" variant="h5" component="div" color="white">
+        <Typography  variant="h5" component="div" color="white">
           Budget
         </Typography>
       </Box>

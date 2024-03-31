@@ -240,6 +240,7 @@ function BudgetSubcategories({
                   style={{
                     backgroundColor: "white",
                     boxShadow: "0px 1px 1px ",
+                    marginBottom: "1px"
                   }}
                 >
                   {/* Edit and delete icons */}
@@ -249,7 +250,7 @@ function BudgetSubcategories({
                       top: 15,
                       right: 15,
                       cursor: "pointer",
-                      color: "#456236",
+                      color: "black",
                     }}
                     onClick={() => handleEditClick(index, item)}
                   />
@@ -259,7 +260,7 @@ function BudgetSubcategories({
                       bottom: 15,
                       right: 15,
                       cursor: "pointer",
-                      color: "#456236",
+                      color: "black",
                     }}
                     onClick={() => handleDeleteClick(item)}
                   />

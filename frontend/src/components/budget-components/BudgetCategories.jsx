@@ -178,7 +178,7 @@ function BudgetCategories({
     <Dialog open={open} onClose={onClose}>
       <DialogTitle style={{ display: "flex", backgroundColor: "#13547a", justifyContent: "space-between", color: "white" }}>
         <span>Enter Budget Details</span>
-        <CloseIcon onClick={handleClose} />
+
       </DialogTitle>
       <DialogContent sx={{ width: 400, marginTop: "10px" }}>
         <TextField
@@ -227,10 +227,9 @@ function BudgetCategories({
           )}
         </div>
       </DialogContent>
-      <DialogActions style={{backgroundColor: " #80d0c7"}}>
+      <DialogActions >
       <Button
           type="cancel"
-          variant="contained"
           disabled={!isAnyCheckboxChecked}
           onClick={handleClose}
         >
