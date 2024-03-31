@@ -234,15 +234,8 @@ export default function GeneralInfoComponent() {
           </Box>
           <Box className="side-section">
             <Tooltip title="Edit Information">
-              <EditOutlinedIcon
-                style={{ float: "right" }}
-                variant="contained"
-                onClick={handleClickOpen}
-                fontSize="large"
-                cursor="pointer"
-              >
-                Edit
-              </EditOutlinedIcon>
+        
+              <Button  variant="contained"   style={{ float: "right" }} onClick={handleClickOpen}>Edit INfo</Button>
             </Tooltip>
 
             <h1> Event Information </h1>
