@@ -6,8 +6,8 @@ import CloseIcon from '@mui/icons-material/Close';
 
 const ReminderBox = ({ eventId }) => {
   const [reminders, setReminders] = useState([]);
-  const [reminderName, setReminderName] = useState(String);
-  const [reminderDateTime, setReminderDateTime] = useState(String);
+  const [reminderName, setReminderName] = useState('');
+  const [reminderDateTime, setReminderDateTime] = useState('');
 
   useEffect(() => {
     getReminders();
@@ -16,7 +16,6 @@ const ReminderBox = ({ eventId }) => {
   const addReminder = async () => {
     try {
       if (reminderName && reminderDateTime && eventId) {
-        setReminders([...reminders, { name: reminderName, dateTime: reminderDateTime }]);
         const dateTime = splitDateTime(reminderDateTime);
         const data = {
           name: reminderName,
@@ -24,11 +23,17 @@ const ReminderBox = ({ eventId }) => {
           time: dateTime.time,
           event_id: eventId
         };
-        await AxiosInstance.post('marketingReminders/', data, {
+        const response = await AxiosInstance.post('marketingReminders/', data, {
           headers: {
             'Content-Type': 'application/json'
           }
         });
+        const createdReminder = {
+          id: response.data.id,
+          name: reminderName,
+          dateTime: reminderDateTime
+        };
+        setReminders([...reminders, createdReminder]);
       } else {
         console.error('Invalid reminder data or event ID');
       }
@@ -42,54 +47,40 @@ const ReminderBox = ({ eventId }) => {
   const getReminders = async () => {
     try {
       const response = await AxiosInstance.get(`marketingReminders/?event_id=${eventId}`);
-      const remindersData = response.data;                                              // redeclare reminder data
-        if (!remindersData || !Array.isArray(remindersData)) {                          // if payload is nothing, set the reminderData to an empty array
-          setReminders([]);
-        } else {
-          const formattedReminders = remindersData.map(reminder => ({       // format the reminders: id, name, datetime to present in client-side
-            id: reminder.id,
-            name: reminder.name,
-            dateTime: combineDateTime({                         // combine the data into the readable client-side data
-              date: reminder.date,
-              time: reminder.time
-            })
-          }));
-          setReminders(formattedReminders);                    // setReminders called using the formattedReminders
-        }
+      const remindersData = response.data;
+      if (!remindersData || !Array.isArray(remindersData)) {
+        setReminders([]);
+      } else {
+        const formattedReminders = remindersData.map(reminder => ({
+          id: reminder.id,
+          name: reminder.name,
+          dateTime: combineDateTime({
+            date: reminder.date,
+            time: reminder.time
+          })
+        }));
+        setReminders(formattedReminders);
+      }
     } catch (error) {
       console.error("Error fetching reminders:", error);
     }
   };
 
   const splitDateTime = (dateTimeString) => {
-    var dateTimeArray = dateTimeString.split('T');
-
-    var dateComponent = dateTimeArray[0];
-    var timeComponent = dateTimeArray[1];
-
-    var dateParts = dateComponent.split('-');
-    var year = dateParts[0];
-    var month = dateParts[1];
-    var day = dateParts[2];
-
-    var timeParts = timeComponent.split(':');
-    var hour = timeParts[0];
-    var minute = timeParts[1];
+    const dateTimeArray = dateTimeString.split('T');
+    const dateComponent = dateTimeArray[0];
+    const timeComponent = dateTimeArray[1];
+    const dateParts = dateComponent.split('-');
+    const timeParts = timeComponent.split(':');
 
     return {
-        date: year + '-' + month + '-' + day,
-        time: hour + ':' + minute
+      date: dateComponent,
+      time: timeComponent,
     };
-  }
+  };
 
-  const combineDateTime = (dateTimeObject) => {
-    const { date, time } = dateTimeObject;
-    const [year, month, day] = date.split('-');
-    const [hour, minute] = time.split(':');
-
-    const combinedDateTimeString = `${year}-${month}-${day}T${hour}:${minute}`;
-
-    return combinedDateTimeString;
+  const combineDateTime = ({ date, time }) => {
+    return `${date}T${time}`;
   };
 
   const deleteReminder = async (id) => {
@@ -120,35 +111,9 @@ const ReminderBox = ({ eventId }) => {
     </Typography>
     <Box style={{ display: 'flex' }}>
       {/* Left side with input fields */}
-      <Box style={{ flex: 1, padding: '0px 20px 20px 20px' }}>
-        <TextField
-          type="text"
-          placeholder="Name"
-          value={reminderName}
-          onChange={(e) => setReminderName(e.target.value)}
-          fullWidth
-          style={{ marginTop: '10px' }}
-        />
-        <TextField
-          type="datetime-local"
-          value={reminderDateTime}
-          onChange={(e) => setReminderDateTime(e.target.value)}
-          InputLabelProps={{ shrink: true }}
-          fullWidth
-          style={{ marginTop: '10px' }}
-        />
-        <Button
-          style={{ background: 'linear-gradient(15deg, #80d0c7 0%,  #13547a 0%)', color: '#FFFFFF', marginTop: '40px' }}
-          variant="contained"
-          onClick={addReminder}
-        >
-          Add Reminder
-        </Button>
-      </Box>
 
-      {/* Right side with reminders table */}
-      <Box style={{ flex: 1, backgroundColor: 'white', paddingRight: '20px'}}>
-        <TableContainer>
+      <Box style={{ flex: 1, backgroundColor: 'white', paddingLeft: '20px', overflowY: 'auto' }}>
+        <TableContainer style={{ maxHeight: '220px' }}>
           <Table>
             <TableHead>
               <TableRow>
@@ -170,6 +135,31 @@ const ReminderBox = ({ eventId }) => {
             </TableBody>
           </Table>
         </TableContainer>
+      </Box>
+      <Box style={{ flex: 1, padding: '0px 20px 20px 20px' }}>
+        <TextField
+          type="text"
+          placeholder="Name"
+          value={reminderName}
+          onChange={(e) => setReminderName(e.target.value)}
+          fullWidth
+          style={{ marginTop: '10px' }}
+        />
+        <TextField
+          type="datetime-local"
+          value={reminderDateTime}
+          onChange={(e) => setReminderDateTime(e.target.value)}
+          InputLabelProps={{ shrink: true }}
+          fullWidth
+          style={{ marginTop: '10px' }}
+        />
+        <Button
+          style={{ background: 'linear-gradient(15deg, #80d0c7 0%,  #13547a 0%)', color: '#FFFFFF', marginTop: '40px', float: 'right'}}
+          variant="contained"
+          onClick={addReminder}
+        >
+          Add Reminder
+        </Button>
       </Box>
     </Box>
   </Card>

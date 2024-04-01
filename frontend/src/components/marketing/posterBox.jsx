@@ -28,20 +28,23 @@ const PosterBox = ({ eventId }) => {
     getPoster();
   }, [eventId]);
 
+  const handleDeleteImage = async () => {
+    try {
+      const response = await AxiosInstance.get(`marketingPoster/?event_id=${eventId}`);
+      const posterData = response.data;
+      if (posterData.length !== 0) {
+        const posterId = posterData[0].id;
+        await AxiosInstance.delete(`marketingPoster/${posterId}`);
+      }
+      setImage(null);
+    } catch (error) {
+      console.error('Error deleting poster image:', error);
+    }
+  };
+
   const updatePosterImage = async (e) => {
     e.preventDefault();
 
-    // TODO: create a deleteOldPoster backend endpoint to remove the old poster before uploading a new one
-    // if (image !== null && typeof image === 'string') {
-    //   // Assuming the URL of the old poster is stored in the 'image' state
-    //   try {
-    //     // Send a request to your backend to delete the old poster file
-    //     await AxiosInstance.delete(`deleteOldPoster/?poster_url=${image}`);
-    //   } catch (error) {
-    //     console.error('Error deleting old poster image:', error);
-    //   }
-    // }
-  
     // Create FormData payload
     let savePayload = new FormData();
     savePayload.append('name', image.name);
@@ -86,84 +89,70 @@ const PosterBox = ({ eventId }) => {
 
   return (
     <Card>
-        <Typography
-            variant="h6"
-            style={{
-            color: 'white',
-            fontWeight: 'bold',
-            marginBottom: '10px',
-            backgroundImage: 'linear-gradient(15deg, #80d0c7 0%,  #13547a 0%)',
-            padding: '10px',
-            borderRadius: '5px',
-            paddingLeft: '20px',
-            }}
-        >
+      <Typography
+        variant="h6"
+        style={{
+          color: 'white',
+          fontWeight: 'bold',
+          marginBottom: '10px',
+          backgroundImage: 'linear-gradient(15deg, #80d0c7 0%,  #13547a 0%)',
+          padding: '10px',
+          borderRadius: '5px',
+          paddingLeft: '20px',
+        }}
+      >
         Upload Poster
-        </Typography>
-
-            <Box 
-            style={{
-                flex: 1,
-                padding: '20px',
-                borderRadius: '5px 5px 10px 10px',
-                backgroundColor: 'white',
-                marginTop: '-10px',
-            }}
-            >
-
-            <div style={{ display: 'block' }}>
-                <label htmlFor="file-upload" className="custom-file-upload" style={{ display: 'inline-block', alignItems: 'center', marginTop: '10px', justifyContent: 'space-between' }}>
-                    <div className="choose-file-button" style={{ display: 'flex', alignItems: 'center' }}>
-                        Choose File
-                        <input
-                        type="file"
-                        id="file-upload"
-                        accept="image/*"
-                        onChange={handleImageUpload}
-                        style={{ display: 'none' }}
-                        />
-                    </div>
-                </label>
-                <div  style={{ display: 'flex', justifyContent: 'flex-end' }}>
-                {image && (
-                    <Button 
-                    style={{ color: '#000000', backgroundColor: 'fafafa'}}
-                    onClick={() => setImage(null)}
-                    >
-                    Clear
-                    </Button>
-                )}
-                </div>
-                {image && (
-                <img
-                    src={image instanceof Blob ? URL.createObjectURL(image) : image}
-                    alt="Uploaded"
-                    style={{ maxWidth: '200px', height: 'auto', borderRadius: '5px', marginTop: '10px' }}
+      </Typography>
+      <Box style={{ display: 'flex', height: '600px' }}>
+        {/* Left side with image */}
+        <Box style={{ flex: 0.6 }}>
+          <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
+            {image && (
+              <img
+                src={image instanceof Blob ? URL.createObjectURL(image) : image}
+                alt="Uploaded"
+                style={{ maxWidth: '95%', height: 'auto', borderRadius: '5px' }}
+              />
+            )}
+            <div style={{ marginTop: '20px', display: 'flex', gap: '150px' }}>
+              <label htmlFor="file-upload" className="custom-file-upload" style={{ display: 'inline-block'}}>
+                <Button variant="outlined" component="span">Choose File</Button>
+                <input
+                  type="file"
+                  id="file-upload"
+                  accept="image/*"
+                  onChange={handleImageUpload}
+                  style={{ display: 'none' }}
                 />
-                )}
-                <TextField
-                placeholder="Enter caption..."
-                value={caption}
-                onChange={handleCaptionChange}
-                multiline
-                rows={2}
-                style={{ marginTop: '20px' }}
-                fullWidth
-                />
-                {/* Share Graphic Button */}
-                <div style={{ marginTop: '40px' }}>
-                <Button
-                    variant="contained"
-                    style={{ backgroundImage: 'linear-gradient(15deg, #80d0c7 0%,  #13547a 0%)', color: '#FFFFFF' }}
-                    onClick={updatePosterImage}
-                >
-                Share Graphic
-                </Button>
-                </div>
+              </label>
+              {image && (
+                <Button variant="outlined" onClick={handleDeleteImage}>Delete</Button>
+              )}
             </div>
-            </Box>
+          </div>
+        </Box>
+
+        {/* Right side with description and buttons */}
+        <Box style={{ flex: 0.4, padding: '20px', borderRadius: '0px 5px 5px 0px', backgroundColor: 'white', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+          <TextField
+            placeholder="Enter caption..."
+            value={caption}
+            onChange={handleCaptionChange}
+            multiline
+            rows={20} 
+            style={{ marginBottom: '20px' }}
+            fullWidth
+          />
+          <Button
+            variant="contained"
+            style={{ backgroundImage: 'linear-gradient(15deg, #80d0c7 0%,  #13547a 0%)', color: '#FFFFFF', alignSelf: 'flex-end' }}
+            onClick={updatePosterImage}
+          >
+            Share Graphic
+          </Button>
+        </Box>
+      </Box>
     </Card>
   );
 };
-
 export default PosterBox;
