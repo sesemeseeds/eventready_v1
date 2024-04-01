@@ -4,6 +4,13 @@ import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
 import Paper from "@mui/material/Paper";
 import {
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
+} from "@material-ui/core";
+import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+
+import {
   Dialog,
   DialogTitle,
   DialogContent,
@@ -178,112 +185,132 @@ function BudgetSubcategories({
       <h2>Budget </h2>
       {/* Render selected categories */}
       {category?.map((category) => (
-        <div key={category.id} style={{ position: "relative" }}>
-          <div
-            style={{
-              position: "sticky",
-              top: "0",
-              backgroundColor: "#13547a",
-              color: "White",
-              padding: "10px",
-              boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)",
-              display: "flex",
-              borderRadius: "10px",
-              alignItems: "center",
-              justifyContent: "space-between",
-              marginTop: "10px",
-              height: "50px",
-            }}
+        <Accordion
+          style={{
+            backgroundColor: "aliceblue",
+            boxShadow: "none",
+            position: "static",
+          }}
+          key={category.id}
+        >
+          <AccordionSummary
+            expandIcon={<ExpandMoreIcon />}
           >
-            <Box
-              sx={{
+            <div
+              style={{
+                position: "sticky",
+                top: "0",
+                backgroundColor: "#13547a",
+                color: "White",
+                padding: "10px",
+                boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)",
                 display: "flex",
-                width: "100%",
-                justifyContent: "space-between",
+                borderRadius: "10px",
                 alignItems: "center",
-                marginRight: "20px",
+                justifyContent: "space-between",
+                marginTop: "10px",
+                height: "50px",
+                width: "100%",
               }}
             >
-              <p
-                style={{
-                  fontWeight: "bold",
-                  fontSize: "1.2rem",
-                  marginRight: "8px",
+              <Box
+                sx={{
+                  display: "flex",
+                  width: "100%",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  marginRight: "20px",
                 }}
               >
-                {formatCategoryName(category.name)}
-              </p>
-              <p style={{}}>
-                {`Paid Items: ${
-                  category.items.filter((item) => item.paid).length
-                } / ${category.items.length} `}
-                {`  | Total Cost: $${category.items
-                  .filter((item) => item.paid)
-                  .reduce((acc, item) => acc + item.quantity * item.cost, 0)}`}
-              </p>
-            </Box>
+                <p
+                  style={{
+                    fontWeight: "bold",
+                    fontSize: "1.2rem",
+                    marginRight: "8px",
+                  }}
+                >
+                  {formatCategoryName(category.name)}
+                </p>
+                <p style={{}}>
+                  {`Paid Items: ${
+                    category.items.filter((item) => item.paid).length
+                  } / ${category.items.length} `}
+                  {`  | Total Cost: $${category.items
+                    .filter((item) => item.paid)
+                    .reduce(
+                      (acc, item) => acc + item.quantity * item.cost,
+                      0
+                    )}`}
+                </p>
+              </Box>
 
-            {/* Render "Add" icon */}
-            <Tooltip title="Add Budget Item">
-              <AddIcon
-                style={{ cursor: "pointer" }}
-                onClick={() => handleAddClick(category)}
-              />
-            </Tooltip>
-          </div>
-          <div
-            style={{
-              maxHeight: "400px",
-              overflowY: "scroll",
-              scrollbarWidth: "thin",
-              scrollbarColor: "#888 transparent",
-            }}
-          >
-            <Table style={{ backgroundColor: "white" }} stickyHeader>
-              <TableHead style={{ backgroundColor: "white" }}>
-                <TableRow>
-                  <TableCell>Name</TableCell>
-                  <TableCell>Quantity</TableCell>
-                  <TableCell>Cost</TableCell>
-                  <TableCell>Paid</TableCell>
-                  <TableCell>Total Cost</TableCell>
-                  <TableCell>Actions</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {category?.items &&
-                  category?.items?.map((item, index) => (
-                    <TableRow key={item.id}>
-                      <TableCell>{item.name}</TableCell>
-                      <TableCell>{item.quantity}</TableCell>
-                      <TableCell>${item.cost}</TableCell>
-                      <TableCell>{item.paid ? "Yes" : "No"}</TableCell>
-                      <TableCell>${item.quantity * item.cost}</TableCell>
-                      <TableCell width="5%">
-                        <Tooltip title="Edit Item">
-                          <EditIcon
-                            style={{
-                              marginRight: "10px",
-                              cursor: "pointer",
-                              color: "black",
-                            }}
-                            onClick={() => handleEditClick(index, item)}
-                          />
-                        </Tooltip>
-                        <Tooltip title="Delete Item">
-                  
-                          <DeleteIcon
-                            style={{ cursor: "pointer", color: "black" }}
-                            onClick={() => handleDeleteClick(item)}
-                          />
-                        </Tooltip>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-              </TableBody>
-            </Table>
-          </div>
-        </div>
+              {/* Render "Add" icon */}
+              <Tooltip title="Add Budget Item">
+                <AddIcon
+                  style={{ cursor: "pointer" }}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleAddClick(category);
+                  }}
+                />
+              </Tooltip>
+            </div>
+          </AccordionSummary>
+          <AccordionDetails>
+            <div
+              style={{
+                maxHeight: "400px",
+                overflowY: "scroll",
+                scrollbarWidth: "thin",
+                scrollbarColor: "#888 transparent",
+                width: "100%",
+              }}
+            >
+              <Table style={{ backgroundColor: "white" }} stickyHeader>
+                <TableHead style={{ backgroundColor: "white" }}>
+                  <TableRow>
+                    <TableCell>Name</TableCell>
+                    <TableCell>Quantity</TableCell>
+                    <TableCell>Cost</TableCell>
+                    <TableCell>Paid</TableCell>
+                    <TableCell>Total Cost</TableCell>
+                    <TableCell>Actions</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {category?.items &&
+                    category?.items?.map((item, index) => (
+                      <TableRow key={item.id}>
+                        <TableCell>{item.name}</TableCell>
+                        <TableCell>{item.quantity}</TableCell>
+                        <TableCell>${item.cost}</TableCell>
+                        <TableCell>{item.paid ? "Yes" : "No"}</TableCell>
+                        <TableCell>${item.quantity * item.cost}</TableCell>
+                        <TableCell width="5%">
+                          <Tooltip title="Edit Item">
+                            <EditIcon
+                              style={{
+                                marginRight: "10px",
+                                cursor: "pointer",
+                                color: "black",
+                              }}
+                              onClick={() => handleEditClick(index, item)}
+                            />
+                          </Tooltip>
+                          <Tooltip title="Delete Item">
+                            <DeleteIcon
+                              style={{ cursor: "pointer", color: "black" }}
+                              onClick={() => handleDeleteClick(item)}
+                            />
+                          </Tooltip>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                </TableBody>
+              </Table>
+            </div>
+          </AccordionDetails>
+        </Accordion>
       ))}
 
       {/* Dialog for entering category details */}

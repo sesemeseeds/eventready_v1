@@ -125,7 +125,7 @@ const AttendancePage = () => {
   };
 
   return (
-    <div className="container">
+    <div style={{marginBottom: "5%"}} className="container">
       {/* Organizer's Guide Section */}
 
       <div
