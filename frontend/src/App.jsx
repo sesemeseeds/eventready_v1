@@ -11,14 +11,16 @@ import TasksPage from "./pages/TasksPage";
 import UserLoginPage from "./pages/UserLoginPage";
 import BudgetPage from "./pages/BudgetPage";
 import GoalsPage from "./pages/GoalsPage";
+import GalleryPage from "./pages/GalleryPage";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { DialogTitle } from "@mui/material";
 import './index.css';
+import 'typeface-roboto'
 
 const theme = createTheme({
   typography: {
     allVariants: {
-      fontFamily: 'Roboto',
+      fontFamily: 'Roboto'
     },
   },
   components: {
@@ -63,6 +65,7 @@ function App() {
             <Route path="tasks" element={<TasksPage />} />
             <Route path="goals" element={<GoalsPage />} />
             <Route path="budget" element={<BudgetPage />} />
+            <Route path="gallery" element={<GalleryPage />} />
             <Route path="userlogin" element={<UserLoginPage />} />
           </Route>
           <Route path="/" element={<UserLoginPage />} />
