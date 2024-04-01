@@ -4,6 +4,7 @@ import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import SaveIcon from "@mui/icons-material/Save";
+import SearchIcon from "@mui/icons-material/Search";
 
 import {
   Button,
@@ -246,6 +247,7 @@ const ImportExcel = (eventID) => {
         />
       </label>
       <TextField
+        className="search-bar"
         type="text"
         placeholder="Search..."
         value={searchQuery}
@@ -255,6 +257,14 @@ const ImportExcel = (eventID) => {
           marginBottom: "10px",
           width: "100%",
           maxWidth: "400px",
+          marginRight: "auto",
+        }}
+        InputProps={{
+          startAdornment: (
+            <InputAdornment position="start">
+              <SearchIcon />
+            </InputAdornment>
+          ),
         }}
       />
       <h2 style={{ marginTop: "20px", marginBottom: "10px" }}>Check-in List</h2>

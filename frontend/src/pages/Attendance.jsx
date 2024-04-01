@@ -151,6 +151,7 @@ const AttendancePage = () => {
               label="Attendance Form Link"
               variant="outlined"
               fullWidth
+              style={{backgroundColor: "white"}}
               value={attendanceLink}
               onChange={handleLinkChange}
               onKeyPress={handleKeyPress}
