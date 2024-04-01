@@ -227,7 +227,7 @@ export default function GeneralInfoComponent() {
             <h1>{eventData.title}</h1>
             <hr />
             <Box
-              sx={{ maxHeight: "150px", overflowY: "auto" }}
+              sx={{ maxHeight: "200px", overflowY: "auto" }}
               dangerouslySetInnerHTML={{ __html: eventData.description }}
             ></Box>
             <hr />

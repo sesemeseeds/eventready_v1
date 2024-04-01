@@ -31,7 +31,7 @@ export default function MarketingCard({ marketingPoster, marketingReminders }) {
   }, [marketingPoster]);
 
   return (
-    <Card sx={{ boxShadow: 3, width: 300 }}>
+    <Card sx={{ boxShadow: 3, width: 300, height: 300   }}>
         <Box sx={{ backgroundImage: "linear-gradient(15deg, #80d0c7 0%,  #13547a 0%)", paddingLeft: "10px" }}>
         {" "}
         <Typography  variant="h5" component="div" color="white">
