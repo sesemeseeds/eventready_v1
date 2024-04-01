@@ -123,12 +123,6 @@ function BudgetPage() {
         >
           Budget Categories
         </Button>
-        <Button
-          variant="contained"
-          size="medium"
-        >
-          Upload Budget
-        </Button>
       </div>
 
       <BudgetCategories

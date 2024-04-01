@@ -22,6 +22,7 @@ import AssignmentIcon from '@mui/icons-material/Assignment';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import PersonIcon from '@mui/icons-material/Person';
 import CameraAltIcon from '@mui/icons-material/CameraAlt';
+import InfoIcon from '@mui/icons-material/Info';
 
 import {
   BrowserRouter,
@@ -210,7 +211,7 @@ export default function PersistentDrawerLeft() {
             }}
           >
             <ListItemIcon>
-              <MailIcon />
+              <InfoIcon />
             </ListItemIcon>
             <ListItemText primary="General Information" />
           </ListItem>

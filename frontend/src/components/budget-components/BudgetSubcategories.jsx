@@ -135,7 +135,7 @@ function BudgetSubcategories({
 
     try {
       if (editIndex !== null) {
-        const response = await AxiosInstance.put(`budgetitems/${editIndex}/`, {
+        await AxiosInstance.put(`budgetitems/${editIndex}/`, {
           name: itemName,
           description: itemDescription,
           quantity: itemQuantity,
@@ -143,7 +143,7 @@ function BudgetSubcategories({
           paid: itemPaid,
         });
       } else {
-        const response = await AxiosInstance.post("budgetitems/", {
+        await AxiosInstance.post("budgetitems/", {
           category: selectedCategory.id,
           name: itemName,
           description: itemDescription,
@@ -182,7 +182,7 @@ function BudgetSubcategories({
               alignItems: "center",
               justifyContent: "space-between",
               marginTop: "10px",
-              height: "50px"
+              height: "50px",
             }}
           >
             <Box
@@ -229,51 +229,93 @@ function BudgetSubcategories({
               scrollbarColor: "#888 transparent",
             }}
           >
-            {category?.items &&
-              category?.items?.map((item, index) => (
-                <Box
-                  key={item.id}
-                  padding={2}
-                  marginTop={2}
-                  borderRadius={10}
-                  position="relative"
-                  style={{
-                    backgroundColor: "white",
-                    boxShadow: "0px 1px 1px ",
-                    marginBottom: "1px"
-                  }}
-                >
-                  {/* Edit and delete icons */}
-                  <EditIcon
+            <table
+              style={{
+                width: "100%",
+                backgroundColor: "white",
+                borderCollapse: "collapse",
+              }}
+            >
+              <thead
+                style={{
+                  position: "sticky",
+                  top: "0",
+                  backgroundColor: "white",
+                  textAlign: "left",
+                  border: "1px solid #ddd",
+                }}
+              >
+                <tr>
+                  <th
                     style={{
-                      position: "absolute",
-                      top: 15,
-                      right: 15,
-                      cursor: "pointer",
-                      color: "black",
+                      border: "1px solid #ddd",
+                      padding: "8px",
+                 
                     }}
-                    onClick={() => handleEditClick(index, item)}
-                  />
-                  <DeleteIcon
-                    style={{
-                      position: "absolute",
-                      bottom: 15,
-                      right: 15,
-                      cursor: "pointer",
-                      color: "black",
-                    }}
-                    onClick={() => handleDeleteClick(item)}
-                  />
-                  {/* Render item details */}
-                  <Typography>Name: {item.name}</Typography>
-                  <Typography>Quantity: {item.quantity}</Typography>
-                  <Typography>Cost: ${item.cost}</Typography>
-                  <Typography>Paid: {item.paid ? "Yes" : "No"}</Typography>
-                  <Typography>
-                    Total Cost: ${item.quantity * item.cost}
-                  </Typography>
-                </Box>
-              ))}
+                  >
+                    Name
+                  </th>
+                  <th style={{ border: "1px solid #ddd", padding: "8px" }}>
+                    Quantity
+                  </th>
+                  <th style={{ border: "1px solid #ddd", padding: "8px" }}>
+                    Cost
+                  </th>
+                  <th style={{ border: "1px solid #ddd", padding: "8px" }}>
+                    Paid
+                  </th>
+                  <th style={{ border: "1px solid #ddd", padding: "8px" }}>
+                    Total Cost
+                  </th>
+                  <th style={{ border: "1px solid #ddd", padding: "8px",width: "7%" }}>
+                    Actions
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {category?.items &&
+                  category?.items?.map((item, index) => (
+                    <tr key={item.id}>
+                      <td
+                        style={{
+                          border: "1px solid #ddd",
+                          padding: "8px",
+                      
+      
+                        }}
+                      >
+                        {item.name}
+                      </td>
+                      <td style={{ border: "1px solid #ddd", padding: "8px" }}>
+                        {item.quantity}
+                      </td>
+                      <td style={{ border: "1px solid #ddd", padding: "8px" }}>
+                        ${item.cost}
+                      </td>
+                      <td style={{ border: "1px solid #ddd", padding: "8px" }}>
+                        {item.paid ? "Yes" : "No"}
+                      </td>
+                      <td style={{ border: "1px solid #ddd", padding: "8px" }}>
+                        ${item.quantity * item.cost}
+                      </td>
+                      <td style={{ border: "1px solid #ddd", padding: "8px" }}>
+                        <EditIcon
+                          style={{
+                            marginRight: "10px",
+                            cursor: "pointer",
+                            color: "black",
+                          }}
+                          onClick={() => handleEditClick(index, item)}
+                        />
+                        <DeleteIcon
+                          style={{ cursor: "pointer", color: "black" }}
+                          onClick={() => handleDeleteClick(item)}
+                        />
+                      </td>
+                    </tr>
+                  ))}
+              </tbody>
+            </table>
           </div>
         </div>
       ))}
@@ -285,7 +327,7 @@ function BudgetSubcategories({
             ? "Edit Details"
             : `Add ${formatCategoryName(category.name)} Details`}
         </DialogTitle>
-        <DialogContent >
+        <DialogContent>
           <TextField
             name="name"
             label="Name"
@@ -334,19 +376,19 @@ function BudgetSubcategories({
             label="Paid"
           />
         </DialogContent>
-        <DialogActions style={{ backgroundColor: "#80d0c7" }}>
+        <DialogActions >
           <Button
-            variant="contained"
-            color="secondary"
+         
             onClick={handleCloseDialog}
             disabled={!isFormValid}
           >
             Cancel
           </Button>{" "}
           <Button
+          style={{backgroundColor: "#13547a", color: "white"}}
             onClick={handleSubmit}
             variant="contained"
-            color="primary"
+            color="#13547a"
             disabled={!isFormValid}
           >
             Submit
