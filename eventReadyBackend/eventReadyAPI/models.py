@@ -1,10 +1,11 @@
 from django.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.utils import timezone
+from django.contrib.auth.models import User
 
 class EventGeneralInfo(models.Model):
     id = models.IntegerField(primary_key=True, editable=False)
-    user = models.CharField(max_length=255, editable=False)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='events')
     name = models.CharField("Name", unique=True, max_length=256)
     doe = models.DateField("Day of Event", null=True, blank=True)
     start_time = models.TimeField("Start Time", null=True, blank=True) 
