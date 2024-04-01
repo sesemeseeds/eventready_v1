@@ -1,16 +1,27 @@
-import React, { useState, useEffect } from "react";
-import { BrowserRouter, Link, Route, Routes, useNavigate } from "react-router-dom";
-import { useUser } from "@clerk/clerk-react";
-import { useForm } from "react-hook-form";
-import { Box, Grid, Card, CardActionArea, CardContent, CardActions, Button, Typography, Menu,
-  MenuItem, TextField, Dialog, DialogActions, DialogContent, DialogTitle } from "@mui/material";
-import AddIcon from "@mui/icons-material/Add";
-import DeleteIcon from "@mui/icons-material/Delete";
+import * as React from "react";
+import Grid from "@mui/material/Grid";
+import Box from "@mui/material/Box";
+import Card from "@mui/material/Card";
+import { Menu, MenuItem } from "@mui/material";
+import CardContent from "@mui/material/CardContent";
+import CardActionArea from "@mui/material/CardActionArea";
+import CardActions from "@mui/material/CardActions";
+import Button from "@mui/material/Button";
+import Typography from "@mui/material/Typography";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
 import AxiosInstance from "../components/Axios";
+import TextField from "@mui/material/TextField";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import AddIcon from "@mui/icons-material/Add";
+import DialogTitle from "@mui/material/DialogTitle";
+import DeleteIcon from "@mui/icons-material/Delete";
+import { BrowserRouter, Link, Route, Routes, useNavigate } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import { useUser } from "@clerk/clerk-react";
 import "../styles/Landing.css";
-
 
 export const LandingPage = () => {
   const [allEvents, setAllEvents] = React.useState([]);
@@ -21,19 +32,16 @@ export const LandingPage = () => {
   const [deleteID, setDeleteID] = React.useState(null);
   const { user } = useUser();
 
-  console.log("User authenticated:", user, "User ID:", user?.id);
-
-  const getAllEvents = async () => {
-    try {
-      setLoading(true);
-      if (user) {
-        const response = await AxiosInstance.get(`/event/user/${user.id}/`);
-        setAllEvents(response.data);
-      }
-    } catch (error) {
-      console.error("Error fetching events:", error);
-    } finally {
-      setLoading(false);
+  const getAllEvents = () => {
+    if (user) {
+      AxiosInstance.get(`/event/user/${user.id}/`)
+        .then((res) => {
+          setAllEvents(res.data);
+          setLoading(false);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
     }
   };
 
@@ -44,38 +52,40 @@ export const LandingPage = () => {
   const { register, handleSubmit } = useForm({});
 
   const onSubmit = async (data) => {
-    try {
-      if (!user) {
-        throw new Error("User not authenticated");
-      }
-
-      setLoading(true);
-      await AxiosInstance.post(`/event/`, {
+    if (user) {
+      AxiosInstance.post(`/event/`, {
         name: data.EventTitle,
         description: data.EventDescription,
         user: user.id,
-      });
-      await getAllEvents();
-      handleClose();
-    } catch (error) {
-      console.error("Error submitting form:", error);
-    } finally {
-      setLoading(false);
+      })
+        .then(() => {
+          getAllEvents();
+          handleClose();
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    } else {
+      console.error("User not authenticated");
     }
   };
 
   const removeData = async () => {
-    try {
-      if (!user) {
-        throw new Error("User not authenticated");
-      }
-      await AxiosInstance.delete(`/event/${deleteID}/`);
-      const del = allEvents.filter((event) => event.id !== deleteID);
-      setAllEvents(del);
+    if (user) {
+      AxiosInstance.delete(`/event/${deleteID}/`)
+        .then((res) => {
+          const del = allEvents.filter((event) => event.id !== deleteID);
+          setAllEvents(del);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+
       setOpenDelete(false);
       setContextMenu(null);
-    } catch (error) {
-      console.error("Error deleting event:", error);
+      getAllEvents();
+    } else {
+      console.error("User not authenticated");
     }
   };
 

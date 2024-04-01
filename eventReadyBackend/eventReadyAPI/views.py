@@ -6,59 +6,55 @@ from rest_framework.response import Response
 from rest_framework.parsers import MultiPartParser, FormParser
 from .models import *
 from django.db.models import Max
-from rest_framework.decorators import action
-from django.contrib.auth.models import User
+
+# @api_view(['GET'])
+# def hello_world(request):
+#     return Response({'message': 'Hello, world!'})
+# Create your views here.
 
 class EventViewset(viewsets.ViewSet):
     permission_classes = [permissions.IsAuthenticated]
+    queryset = EventGeneralInfo.objects.all()
     serializer_class = EventSerializer
+    
+    def get_queryset(self):
+        return EventGeneralInfo.objects.filter(user=self.request.user.id)
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+
 
     def list(self, request):
-        queryset = EventGeneralInfo.objects.filter(user=request.user)
+        queryset = EventGeneralInfo.objects.all()
         serializer = self.serializer_class(queryset, many=True)
         return Response(serializer.data)
-
+    
     def create(self, request):
-        user = request.user
-        data = request.data.copy()
-        data['user'] = user 
-        serializer = self.serializer_class(data=data)
-        if serializer.is_valid():
+        serializer = self.serializer_class(data=request.data)
+        if serializer.is_valid(): 
             serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        else:
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            return Response(serializer.data)
+        else: 
+            return Response(serializer.errors, status=400)
 
     def retrieve(self, request, pk=None):
-        try:
-            event = EventGeneralInfo.objects.get(pk=pk, user=request.user)
-        except EventGeneralInfo.DoesNotExist:
-            return Response({"detail": "Event not found"}, status=status.HTTP_404_NOT_FOUND)
-
+        event = self.queryset.get(pk=pk)
         serializer = self.serializer_class(event)
         return Response(serializer.data)
 
     def update(self, request, pk=None):
-        try:
-            event = EventGeneralInfo.objects.get(pk=pk, user=request.user)
-        except EventGeneralInfo.DoesNotExist:
-            return Response({"detail": "Event not found"}, status=status.HTTP_404_NOT_FOUND)
-
-        serializer = self.serializer_class(event, data=request.data, partial=True)
-        if serializer.is_valid():
+        event = self.queryset.get(pk=pk)
+        serializer = self.serializer_class(event,data=request.data)
+        if serializer.is_valid(): 
             serializer.save()
             return Response(serializer.data)
-        else:
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        else: 
+            return Response(serializer.errors, status=400)
 
     def destroy(self, request, pk=None):
-        try:
-            event = EventGeneralInfo.objects.get(pk=pk, user=request.user)
-        except EventGeneralInfo.DoesNotExist:
-            return Response({"detail": "Event not found"}, status=status.HTTP_404_NOT_FOUND)
-
+        event = self.queryset.get(pk=pk)
         event.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+        return Response(status=204)
     
 class TaskViewSet(viewsets.ModelViewSet):
     serializer_class = TaskSerializer
