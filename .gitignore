@@ -2,3 +2,4 @@ node_modules
 frontend/.env.local
 eventReadyBackend/.env
 eventReadyBackend/node_modules
+.env
