@@ -22,6 +22,7 @@ import AssignmentIcon from '@mui/icons-material/Assignment';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import PersonIcon from '@mui/icons-material/Person';
 import CameraAltIcon from '@mui/icons-material/CameraAlt';
+import CollectionsIcon from '@mui/icons-material/Collections';
 
 import {
   BrowserRouter,
@@ -37,6 +38,7 @@ import Footer from "./Footer";
 import AttendancePage from "../pages/Attendance";
 import TasksPage from "../pages/TasksPage";
 import GoalsPage from "../pages/GoalsPage";
+import GalleryPage from "../pages/GalleryPage";
 import { useLocation } from "react-router-dom";
 import BudgetPage from "../pages/BudgetPage";
 
@@ -131,6 +133,9 @@ export default function PersistentDrawerLeft() {
         break;
       case "goals":
         setHeaderName("Goals");
+        break;
+      case "gallery":
+        setHeaderName("Gallery");
         break;
       case "tasks":
         setHeaderName("Tasks");
@@ -300,6 +305,23 @@ export default function PersistentDrawerLeft() {
             <ListItemText primary="Attendance" />
           </ListItem>
         </List>
+        <Divider />
+        <List>
+          <ListItem
+            button
+            key="gallery"
+            to="gallery"
+            component={Link}
+            onClick={() => {
+              setHeaderName("Gallery");
+            }}
+          >
+            <ListItemIcon>
+              <CollectionsIcon />
+            </ListItemIcon>
+            <ListItemText primary="Gallery" />
+          </ListItem>
+        </List>
       </Drawer>
       <main
         className={clsx(classes.content, {
@@ -313,6 +335,7 @@ export default function PersistentDrawerLeft() {
           <Route path="marketing" element={<MarketingPage />} />
           <Route path="Attendance" element={<AttendancePage />} />
           <Route path="tasks" element={<TasksPage />} />
+          <Route path="gallery" element={<GalleryPage />} />
         </Routes>
       </main>
       <Footer></Footer>
