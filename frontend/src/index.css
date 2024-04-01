@@ -1,13 +1,12 @@
 body, html {
-  font-family: 'Roboto' !important; 
-
+  font-family: 'Montserrat' !important;
 }
 
 .MuiTypography-body1 {
-  font-family: 'Roboto' !important; 
+  font-family: 'Montserrat' !important;
 }
 .MuiTypography-h6 {
-  font-family: 'Roboto' !important; 
+  font-family: 'Montserrat' !important;
 }
 
 .container {

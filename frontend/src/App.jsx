@@ -14,11 +14,12 @@ import GoalsPage from "./pages/GoalsPage";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { DialogTitle } from "@mui/material";
 import './index.css';
+import 'typeface-montserrat'
 
 const theme = createTheme({
   typography: {
     allVariants: {
-      fontFamily: 'Roboto',
+      fontFamily: 'Montserrat'
     },
   },
   components: {

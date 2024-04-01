@@ -94,7 +94,7 @@ const ReminderBox = ({ eventId }) => {
 
   const deleteReminder = async (id) => {
     try {
-      await AxiosInstance.delete(`marketingReminders/${id}`);
+      await AxiosInstance.delete(`marketingReminders/${id}/`);
       const updatedReminders = reminders.filter(reminder => reminder.id !== id);
       setReminders(updatedReminders);
     } catch (error) {
