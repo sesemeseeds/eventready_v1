@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import AddIcon from "@material-ui/icons/Add";
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
+import Paper from "@mui/material/Paper";
 import {
   Dialog,
   DialogTitle,
@@ -15,6 +16,15 @@ import {
   Tooltip,
   DialogActions,
 } from "@material-ui/core";
+import {
+  TableContainer,
+  Table,
+  TableHead,
+  TableBody,
+  TableRow,
+  TableCell,
+} from "@material-ui/core";
+
 import AxiosInstance from "../Axios";
 
 // Format category name with spaces between words
@@ -229,93 +239,49 @@ function BudgetSubcategories({
               scrollbarColor: "#888 transparent",
             }}
           >
-            <table
-              style={{
-                width: "100%",
-                backgroundColor: "white",
-                borderCollapse: "collapse",
-              }}
-            >
-              <thead
-                style={{
-                  position: "sticky",
-                  top: "0",
-                  backgroundColor: "white",
-                  textAlign: "left",
-                  border: "1px solid #ddd",
-                }}
-              >
-                <tr>
-                  <th
-                    style={{
-                      border: "1px solid #ddd",
-                      padding: "8px",
-                 
-                    }}
-                  >
-                    Name
-                  </th>
-                  <th style={{ border: "1px solid #ddd", padding: "8px" }}>
-                    Quantity
-                  </th>
-                  <th style={{ border: "1px solid #ddd", padding: "8px" }}>
-                    Cost
-                  </th>
-                  <th style={{ border: "1px solid #ddd", padding: "8px" }}>
-                    Paid
-                  </th>
-                  <th style={{ border: "1px solid #ddd", padding: "8px" }}>
-                    Total Cost
-                  </th>
-                  <th style={{ border: "1px solid #ddd", padding: "8px",width: "7%" }}>
-                    Actions
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
+            <Table style={{ backgroundColor: "white" }} stickyHeader>
+              <TableHead style={{ backgroundColor: "white" }}>
+                <TableRow>
+                  <TableCell>Name</TableCell>
+                  <TableCell>Quantity</TableCell>
+                  <TableCell>Cost</TableCell>
+                  <TableCell>Paid</TableCell>
+                  <TableCell>Total Cost</TableCell>
+                  <TableCell>Actions</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
                 {category?.items &&
                   category?.items?.map((item, index) => (
-                    <tr key={item.id}>
-                      <td
-                        style={{
-                          border: "1px solid #ddd",
-                          padding: "8px",
-                      
-      
-                        }}
-                      >
-                        {item.name}
-                      </td>
-                      <td style={{ border: "1px solid #ddd", padding: "8px" }}>
-                        {item.quantity}
-                      </td>
-                      <td style={{ border: "1px solid #ddd", padding: "8px" }}>
-                        ${item.cost}
-                      </td>
-                      <td style={{ border: "1px solid #ddd", padding: "8px" }}>
-                        {item.paid ? "Yes" : "No"}
-                      </td>
-                      <td style={{ border: "1px solid #ddd", padding: "8px" }}>
-                        ${item.quantity * item.cost}
-                      </td>
-                      <td style={{ border: "1px solid #ddd", padding: "8px" }}>
-                        <EditIcon
-                          style={{
-                            marginRight: "10px",
-                            cursor: "pointer",
-                            color: "black",
-                          }}
-                          onClick={() => handleEditClick(index, item)}
-                        />
-                        <DeleteIcon
-                          style={{ cursor: "pointer", color: "black" }}
-                          onClick={() => handleDeleteClick(item)}
-                        />
-                      </td>
-                    </tr>
+                    <TableRow key={item.id}>
+                      <TableCell>{item.name}</TableCell>
+                      <TableCell>{item.quantity}</TableCell>
+                      <TableCell>${item.cost}</TableCell>
+                      <TableCell>{item.paid ? "Yes" : "No"}</TableCell>
+                      <TableCell>${item.quantity * item.cost}</TableCell>
+                      <TableCell width="5%">
+                        <Tooltip title="Edit Item">
+                          <EditIcon
+                            style={{
+                              marginRight: "10px",
+                              cursor: "pointer",
+                              color: "black",
+                            }}
+                            onClick={() => handleEditClick(index, item)}
+                          />
+                        </Tooltip>
+                        <Tooltip title="Delete Item">
+                  
+                          <DeleteIcon
+                            style={{ cursor: "pointer", color: "black" }}
+                            onClick={() => handleDeleteClick(item)}
+                          />
+                        </Tooltip>
+                      </TableCell>
+                    </TableRow>
                   ))}
-              </tbody>
-            </table>
+              </TableBody>
+            </Table>
           </div>
         </div>
       ))}
@@ -376,16 +342,12 @@ function BudgetSubcategories({
             label="Paid"
           />
         </DialogContent>
-        <DialogActions >
-          <Button
-         
-            onClick={handleCloseDialog}
-            disabled={!isFormValid}
-          >
+        <DialogActions>
+          <Button onClick={handleCloseDialog} disabled={!isFormValid}>
             Cancel
           </Button>{" "}
           <Button
-          style={{backgroundColor: "#13547a", color: "white"}}
+            style={{ backgroundColor: "#13547a", color: "white" }}
             onClick={handleSubmit}
             variant="contained"
             color="#13547a"
