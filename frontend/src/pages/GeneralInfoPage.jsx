@@ -227,22 +227,15 @@ export default function GeneralInfoComponent() {
             <h1>{eventData.title}</h1>
             <hr />
             <Box
-              sx={{ maxHeight: "150px", overflowY: "auto" }}
+              sx={{ maxHeight: "200px", overflowY: "auto" }}
               dangerouslySetInnerHTML={{ __html: eventData.description }}
             ></Box>
             <hr />
           </Box>
           <Box className="side-section">
             <Tooltip title="Edit Information">
-              <EditOutlinedIcon
-                style={{ float: "right" }}
-                variant="contained"
-                onClick={handleClickOpen}
-                fontSize="large"
-                cursor="pointer"
-              >
-                Edit
-              </EditOutlinedIcon>
+        
+              <Button  variant="contained"   style={{ float: "right" }} onClick={handleClickOpen}>Edit INfo</Button>
             </Tooltip>
 
             <h1> Event Information </h1>

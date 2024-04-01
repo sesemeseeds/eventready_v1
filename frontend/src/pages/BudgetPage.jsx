@@ -118,28 +118,10 @@ function BudgetPage() {
       >
         <Button
           variant="contained"
-          style={{
-            backgroundColor: "#13547a",
-            color: "white",
-            borderRadius: "7px",
-            fontWeight: "bold",
-            fontSize: "16px",
-          }}
+          size="medium"
           onClick={openDialog}
         >
           Budget Categories
-        </Button>
-        <Button
-          variant="contained"
-          style={{
-            backgroundColor: "#13547a",
-            color: "white",
-            borderRadius: "7px",
-            fontWeight: "bold",
-            fontSize: "16px",
-          }}
-        >
-          Upload Budget
         </Button>
       </div>
 

@@ -36,8 +36,7 @@ const theme = createTheme({
     MuiDialogActions: {
       styleOverrides: {
         root: {
-          backgroundColor: "#80d0c7", 
-         
+          backgroundColor: "white", 
         },
       },
     },

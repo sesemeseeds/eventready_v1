@@ -29,16 +29,16 @@ export default function AttendanceCard({ attendance }) {
   useEffect(() => {calculateValue();}, [attendance]);
 
   return (
-    <Card sx={{ boxShadow: 3, width: 300 }}>
+    <Card sx={{ boxShadow: 3, width: 300, height: 300   }}>
       <Box sx={{ backgroundImage: "linear-gradient(15deg, #80d0c7 0%,  #13547a 0%)", paddingLeft: "10px" }}>
         {" "}
-        <Typography fontWeight="bold" variant="h5" component="div" color="white">
+        <Typography  variant="h5" component="div" color="white">
           Attendance
         </Typography>
       </Box>
 
       <CardActionArea>
-        <CardContent sx={{ height: 310 }}>
+        <CardContent sx={{ height: 300 }}>
           <Box sx={{ display: "flex", alignItems: "center", marginTop: 3 }}>
             {" "}
             <FeedIcon sx={{ fontSize: 50 }}> </FeedIcon>

@@ -97,9 +97,13 @@ export default function AddTaskDialog({
 
   return (
     <Dialog maxWidth="md" open={open} onClose={handleClose}>
-      <DialogTitle >
+      <DialogTitle style={{backgroundColor: "#13547a", color: "white" }}>
         {" "}
-        <TextField
+      
+      </DialogTitle>
+      
+      <DialogContent>
+      <TextField
           autoFocus
           required
           margin="dense"
@@ -112,8 +116,6 @@ export default function AddTaskDialog({
           inputProps={{ style: { fontSize: 18, fontWeight: 600 } }}
           onChange={(e) => setTitle(e.target.value)}
         />
-      </DialogTitle>
-      <DialogContent>
         <Box sx={{ display: "flex", height: 325, width: 700 }}>
           {" "}
           <Box sx={{ width: "70%", marginRight: "25px" }}>
@@ -213,7 +215,7 @@ export default function AddTaskDialog({
           </Box>
         </Box>
       </DialogContent>
-      <DialogActions style={{ backgroundColor:  "#80d0c7" }}>
+      <DialogActions >
         <Button  onClick={handleClose} >
           Cancel
         </Button>

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import AddIcon from "@material-ui/icons/Add";
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
+import Paper from "@mui/material/Paper";
 import {
   Dialog,
   DialogTitle,
@@ -15,6 +16,15 @@ import {
   Tooltip,
   DialogActions,
 } from "@material-ui/core";
+import {
+  TableContainer,
+  Table,
+  TableHead,
+  TableBody,
+  TableRow,
+  TableCell,
+} from "@material-ui/core";
+
 import AxiosInstance from "../Axios";
 
 // Format category name with spaces between words
@@ -135,7 +145,7 @@ function BudgetSubcategories({
 
     try {
       if (editIndex !== null) {
-        const response = await AxiosInstance.put(`budgetitems/${editIndex}/`, {
+        await AxiosInstance.put(`budgetitems/${editIndex}/`, {
           name: itemName,
           description: itemDescription,
           quantity: itemQuantity,
@@ -143,7 +153,7 @@ function BudgetSubcategories({
           paid: itemPaid,
         });
       } else {
-        const response = await AxiosInstance.post("budgetitems/", {
+        await AxiosInstance.post("budgetitems/", {
           category: selectedCategory.id,
           name: itemName,
           description: itemDescription,
@@ -182,7 +192,7 @@ function BudgetSubcategories({
               alignItems: "center",
               justifyContent: "space-between",
               marginTop: "10px",
-              height: "50px"
+              height: "50px",
             }}
           >
             <Box
@@ -229,50 +239,49 @@ function BudgetSubcategories({
               scrollbarColor: "#888 transparent",
             }}
           >
-            {category?.items &&
-              category?.items?.map((item, index) => (
-                <Box
-                  key={item.id}
-                  padding={2}
-                  marginTop={2}
-                  borderRadius={10}
-                  position="relative"
-                  style={{
-                    backgroundColor: "white",
-                    boxShadow: "0px 1px 1px ",
-                  }}
-                >
-                  {/* Edit and delete icons */}
-                  <EditIcon
-                    style={{
-                      position: "absolute",
-                      top: 15,
-                      right: 15,
-                      cursor: "pointer",
-                      color: "#456236",
-                    }}
-                    onClick={() => handleEditClick(index, item)}
-                  />
-                  <DeleteIcon
-                    style={{
-                      position: "absolute",
-                      bottom: 15,
-                      right: 15,
-                      cursor: "pointer",
-                      color: "#456236",
-                    }}
-                    onClick={() => handleDeleteClick(item)}
-                  />
-                  {/* Render item details */}
-                  <Typography>Name: {item.name}</Typography>
-                  <Typography>Quantity: {item.quantity}</Typography>
-                  <Typography>Cost: ${item.cost}</Typography>
-                  <Typography>Paid: {item.paid ? "Yes" : "No"}</Typography>
-                  <Typography>
-                    Total Cost: ${item.quantity * item.cost}
-                  </Typography>
-                </Box>
-              ))}
+            <Table style={{ backgroundColor: "white" }} stickyHeader>
+              <TableHead style={{ backgroundColor: "white" }}>
+                <TableRow>
+                  <TableCell>Name</TableCell>
+                  <TableCell>Quantity</TableCell>
+                  <TableCell>Cost</TableCell>
+                  <TableCell>Paid</TableCell>
+                  <TableCell>Total Cost</TableCell>
+                  <TableCell>Actions</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {category?.items &&
+                  category?.items?.map((item, index) => (
+                    <TableRow key={item.id}>
+                      <TableCell>{item.name}</TableCell>
+                      <TableCell>{item.quantity}</TableCell>
+                      <TableCell>${item.cost}</TableCell>
+                      <TableCell>{item.paid ? "Yes" : "No"}</TableCell>
+                      <TableCell>${item.quantity * item.cost}</TableCell>
+                      <TableCell width="5%">
+                        <Tooltip title="Edit Item">
+                          <EditIcon
+                            style={{
+                              marginRight: "10px",
+                              cursor: "pointer",
+                              color: "black",
+                            }}
+                            onClick={() => handleEditClick(index, item)}
+                          />
+                        </Tooltip>
+                        <Tooltip title="Delete Item">
+                  
+                          <DeleteIcon
+                            style={{ cursor: "pointer", color: "black" }}
+                            onClick={() => handleDeleteClick(item)}
+                          />
+                        </Tooltip>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+              </TableBody>
+            </Table>
           </div>
         </div>
       ))}
@@ -284,7 +293,7 @@ function BudgetSubcategories({
             ? "Edit Details"
             : `Add ${formatCategoryName(category.name)} Details`}
         </DialogTitle>
-        <DialogContent >
+        <DialogContent>
           <TextField
             name="name"
             label="Name"
@@ -333,19 +342,15 @@ function BudgetSubcategories({
             label="Paid"
           />
         </DialogContent>
-        <DialogActions style={{ backgroundColor: "#80d0c7" }}>
-          <Button
-            variant="contained"
-            color="secondary"
-            onClick={handleCloseDialog}
-            disabled={!isFormValid}
-          >
+        <DialogActions>
+          <Button onClick={handleCloseDialog} disabled={!isFormValid}>
             Cancel
           </Button>{" "}
           <Button
+            style={{ backgroundColor: "#13547a", color: "white" }}
             onClick={handleSubmit}
             variant="contained"
-            color="primary"
+            color="#13547a"
             disabled={!isFormValid}
           >
             Submit
