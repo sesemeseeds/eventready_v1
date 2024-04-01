@@ -157,7 +157,6 @@ const ImportExcel = (eventID) => {
         attendee.id === updatedAttendee.id ? updatedAttendee : attendee
       );
       setExcelData(updatedData);
- 
 
       console.log("Attendee updated successfully");
     } catch (error) {
@@ -170,18 +169,23 @@ const ImportExcel = (eventID) => {
       const newRow = { name: "", phone_number: "", email: "", attended: false };
       const response = await AxiosInstance.post(`/attendee/`, {
         event_id: eventID.eventID,
-        name: newRow.Name,
-        phone_number: newRow.Phone_Number,
-        email: newRow.Email,
-        attended: newRow.Attended,
+        name: newRow.name,
+        phone_number: newRow.phone_number,
+        email: newRow.email,
+        attended: newRow.attended,
       });
       const newAttendee = response.data;
-      setExcelData([...excelData, newAttendee]);
-      setFilteredData([...filteredData, newAttendee]);
+      
+  
+      setExcelData([newAttendee, ...excelData]);
+      setFilteredData([newAttendee, ...filteredData]);
+      
+ 
       setIsEditingRow((prevIsEditingRow) => ({
         ...prevIsEditingRow,
-        [filteredData.length]: true,
+        0: true, 
       }));
+      
       console.log("Attendee added successfully");
     } catch (error) {
       console.error("Error adding attendee:", error);
@@ -254,10 +258,15 @@ const ImportExcel = (eventID) => {
         }}
       />
       <h2 style={{ marginTop: "20px", marginBottom: "10px" }}>Check-in List</h2>
+
       {filteredData.length > 0 && (
         <>
-          <TableContainer component={Paper} style={{ marginTop: "20px" }}>
-            <Table style={{ minWidth: 650 }} aria-label="simple table">
+          <TableContainer style={{ maxHeight: 400 }}>
+            <Table
+              stickyHeader
+              style={{ backgroundColor: "white" }}
+              aria-label="simple table"
+            >
               <TableHead>
                 <TableRow>
                   <TableCell style={{ width: "25%", fontWeight: "bold" }}>
@@ -353,7 +362,7 @@ const ImportExcel = (eventID) => {
           <Button
             variant="contained"
             onClick={handleAddRow}
-            style={{ marginTop: "20px"}}
+            style={{ marginTop: "20px" }}
           >
             <AddIcon /> Add Row
           </Button>
