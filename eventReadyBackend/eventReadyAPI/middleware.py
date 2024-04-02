@@ -11,7 +11,8 @@ from django.core.cache import cache
 from jwt.algorithms import RSAAlgorithm
 from rest_framework.authentication import BaseAuthentication
 from rest_framework.exceptions import AuthenticationFailed
-from rest_framework_jwt.authentication import JWTAuthentication
+from rest_framework_simplejwt.authentication import JWTAuthentication
+from django.utils.deprecation import MiddlewareMixin
 
 env = environ.Env()
 
@@ -21,7 +22,7 @@ CLERK_SECRET_KEY = env("CLERK_SECRET_KEY")
 CACHE_KEY = "jwks_data"
 
 
-class JWTAuthenticationMiddleware(BaseAuthentication):
+class JWTAuthenticationMiddleware(MiddlewareMixin, BaseAuthentication):
     def authenticate(self, request):
         auth_header = request.headers.get("Authorization")
         if not auth_header:

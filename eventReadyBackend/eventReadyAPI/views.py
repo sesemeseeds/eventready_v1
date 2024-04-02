@@ -19,9 +19,8 @@ class EventViewset(viewsets.ViewSet):
         return Response(serializer.data)
 
     def create(self, request):
-        user = request.user
         data = request.data.copy()
-        data['user'] = user 
+        data['user'] = request.user.id
         serializer = self.serializer_class(data=data)
         if serializer.is_valid():
             serializer.save()

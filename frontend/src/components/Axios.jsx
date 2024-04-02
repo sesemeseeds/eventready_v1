@@ -1,36 +1,18 @@
-import axios from 'axios'
-import { clerkClient } from '@clerk/clerk-react';
+// Axios.jsx
+import axios from 'axios';
+import { configureAxiosInterceptor } from './interceptorConfig.jsx';
 
-const baseUrl = 'http://127.0.0.1:8000/'
-
-// create event case
+const baseUrl = 'http://127.0.0.1:8000/';
 const AxiosInstance = axios.create({
-    baseURL: baseUrl, 
-    timeout: 5000, 
-    headers: {
-        "Content-Type": "application/json", 
-        accept: "application/json"
-    }
+  baseURL: baseUrl,
+  timeout: 5000,
+  headers: {
+    'Content-Type': 'application/json',
+    'Accept': 'application/json',
+  },
 });
 
-// Add an interceptor to include the Clerk JWT token in the request headers
-AxiosInstance.interceptors.request.use(
-    async (config) => {
-        try {
-            const session = await clerkClient.sessions.getSession(); // Retrieve the session
-            const accessToken = session.token; // Extract the access token from the session
-            if (accessToken) {
-                config.headers.Authorization = `Bearer ${accessToken}`;
-                console.log("Clerk Auth token set in request headers:", accessToken);
-            }
-        } catch (error) {
-            console.error("Error fetching Clerk token:", error);
-        }
-        return config;
-    },
-    (error) => {
-        return Promise.reject(error);
-    }
-);
+// Apply the interceptor configuration
+configureAxiosInterceptor(AxiosInstance);
 
-export default AxiosInstance
+export default AxiosInstance;
