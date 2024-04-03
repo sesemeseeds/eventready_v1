@@ -391,6 +391,8 @@
 
 // export default ImportExcel;
 
+// Code with Toggle Button 
+
 import React, { useState, useEffect } from "react";
 import { read, utils } from "xlsx";
 import AddIcon from "@mui/icons-material/Add";
@@ -400,11 +402,10 @@ import SaveIcon from "@mui/icons-material/Save";
 import SearchIcon from "@mui/icons-material/Search";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Switch from '@mui/material/Switch';
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Switch from "@mui/material/Switch";
 
 import {
-  Button,
   Grid,
   IconButton,
   Input,
@@ -448,7 +449,10 @@ const ImportExcel = (eventID) => {
   }, [excelData]);
 
   useEffect(() => {
-    localStorage.setItem("selectAllAttended", JSON.stringify(selectAllAttended));
+    localStorage.setItem(
+      "selectAllAttended",
+      JSON.stringify(selectAllAttended)
+    );
   }, [selectAllAttended]);
 
   useEffect(() => {
@@ -576,7 +580,12 @@ const ImportExcel = (eventID) => {
 
   const handleAddRow = async () => {
     try {
-      const newRow = { name: "", phone_number: "", email: "", attended: selectAllAttended };
+      const newRow = {
+        name: "",
+        phone_number: "",
+        email: "",
+        attended: selectAllAttended,
+      };
       const response = await AxiosInstance.post(`/attendee/`, {
         event_id: eventID.eventID,
         name: newRow.name,
@@ -705,14 +714,35 @@ const ImportExcel = (eventID) => {
                   <TableCell style={{ width: "30%", fontWeight: "bold" }}>
                     Email
                   </TableCell>
-                  <TableCell style={{ width: "10%", fontWeight: "bold" }}>
+                  <TableCell
+                    style={{
+                      width: "10%",
+                      fontWeight: "bold",
+                      textAlign: "center",
+                    }}
+                  >
                     Attended
                     <FormControlLabel
-                      control={<Switch checked={selectAllAttended} onChange={toggleAllAttendedCheckboxes} />}
+                      control={
+                        <Switch
+                          checked={selectAllAttended}
+                          onChange={toggleAllAttendedCheckboxes}
+                          color="primary"
+                        />
+                      }
                       label=""
                     />
                   </TableCell>
-                  <TableCell style={{ width: "10%", fontWeight: "bold" }}>
+                  <TableCell
+                    style={{
+                      width: "10%",
+                      fontWeight: "bold",
+                      textAlign: "center",
+                    }}
+                  >
+                    <IconButton onClick={handleAddRow}>
+                      <AddIcon />
+                    </IconButton>
                     Actions
                   </TableCell>
                 </TableRow>
@@ -756,18 +786,22 @@ const ImportExcel = (eventID) => {
                         info.email
                       )}
                     </TableCell>
-                    <TableCell>
+                    <TableCell style={{ textAlign: "center" }}>
                       {info.attended ? (
-                        <Tooltip title="Click to mark as not attended">
+                        <Tooltip title="Mark as not attended">
                           <IconButton
-                            onClick={() => handleEdit(index, "attended", false)}
+                            style={{ color: "#4caf50" }}
+                            onClick={() =>
+                              handleEdit(index, "attended", false)
+                            }
                           >
                             <CheckCircleIcon />
                           </IconButton>
                         </Tooltip>
                       ) : (
-                        <Tooltip title="Click to mark as attended">
+                        <Tooltip title="Mark as attended">
                           <IconButton
+                            style={{ color: "#757575" }}
                             onClick={() => handleEdit(index, "attended", true)}
                           >
                             <CheckCircleOutlineIcon />
@@ -775,7 +809,7 @@ const ImportExcel = (eventID) => {
                         </Tooltip>
                       )}
                     </TableCell>
-                    <TableCell>
+                    <TableCell style={{ textAlign: "center" }}>
                       {isEditingRow[index] ? (
                         <Tooltip title="Save">
                           <IconButton onClick={() => handleSaveRow(index)}>
@@ -784,13 +818,17 @@ const ImportExcel = (eventID) => {
                         </Tooltip>
                       ) : (
                         <Tooltip title="Edit">
-                          <IconButton onClick={() => toggleEditingRow(index)}>
+                          <IconButton
+                            onClick={() => toggleEditingRow(index)}
+                          >
                             <EditIcon />
                           </IconButton>
                         </Tooltip>
                       )}
                       <Tooltip title="Delete">
-                        <IconButton onClick={() => handleDeleteRow(index)}>
+                        <IconButton
+                          onClick={() => handleDeleteRow(index)}
+                        >
                           <DeleteIcon />
                         </IconButton>
                       </Tooltip>
@@ -800,14 +838,6 @@ const ImportExcel = (eventID) => {
               </TableBody>
             </Table>
           </TableContainer>
-
-          <Button
-            variant="contained"
-            onClick={handleAddRow}
-            style={{ marginTop: "20px" }}
-          >
-            <AddIcon /> Add Row
-          </Button>
         </>
       )}
 
