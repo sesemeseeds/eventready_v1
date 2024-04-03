@@ -398,11 +398,13 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import SaveIcon from "@mui/icons-material/Save";
 import SearchIcon from "@mui/icons-material/Search";
+import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Switch from '@mui/material/Switch';
 
 import {
   Button,
-  Checkbox,
-  FormControlLabel,
   Grid,
   IconButton,
   Input,
@@ -425,16 +427,29 @@ const ImportExcel = (eventID) => {
   const [filteredData, setFilteredData] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [excelError, setExcelError] = useState("");
-
+  const [selectAllAttended, setSelectAllAttended] = useState(() => {
+    const savedState = localStorage.getItem("selectAllAttended");
+    return savedState ? JSON.parse(savedState) : false;
+  }); // State for toggle button
   const [isEditingRow, setIsEditingRow] = useState({});
-  const file_type = [
-    "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-    "application/vnd.ms-excel",
-  ];
 
   useEffect(() => {
-    fetchData();
+    const storedData = localStorage.getItem("excelData");
+    if (storedData) {
+      setExcelData(JSON.parse(storedData));
+      setFilteredData(JSON.parse(storedData));
+    } else {
+      fetchData();
+    }
   }, []);
+
+  useEffect(() => {
+    localStorage.setItem("excelData", JSON.stringify(excelData));
+  }, [excelData]);
+
+  useEffect(() => {
+    localStorage.setItem("selectAllAttended", JSON.stringify(selectAllAttended));
+  }, [selectAllAttended]);
 
   useEffect(() => {
     const filtered = excelData.filter(
@@ -473,6 +488,7 @@ const ImportExcel = (eventID) => {
               name: item.Name,
               phone_number: item.Phone_Number,
               email: item.Email,
+              attended: selectAllAttended,
             }));
 
             try {
@@ -498,7 +514,7 @@ const ImportExcel = (eventID) => {
                     name: attendee.Name,
                     phone_number: attendee.Phone_Number,
                     email: attendee.Email,
-                    attended: attendee.Attended,
+                    attended: selectAllAttended,
                   });
                 } catch (error) {
                   console.error("Error creating attendance:", error);
@@ -560,7 +576,7 @@ const ImportExcel = (eventID) => {
 
   const handleAddRow = async () => {
     try {
-      const newRow = { name: "", phone_number: "", email: "", attended: false };
+      const newRow = { name: "", phone_number: "", email: "", attended: selectAllAttended };
       const response = await AxiosInstance.post(`/attendee/`, {
         event_id: eventID.eventID,
         name: newRow.name,
@@ -569,17 +585,15 @@ const ImportExcel = (eventID) => {
         attended: newRow.attended,
       });
       const newAttendee = response.data;
-      
-  
+
       setExcelData([newAttendee, ...excelData]);
       setFilteredData([newAttendee, ...filteredData]);
-      
- 
+
       setIsEditingRow((prevIsEditingRow) => ({
         ...prevIsEditingRow,
-        0: true, 
+        0: true,
       }));
-      
+
       console.log("Attendee added successfully");
     } catch (error) {
       console.error("Error adding attendee:", error);
@@ -693,6 +707,10 @@ const ImportExcel = (eventID) => {
                   </TableCell>
                   <TableCell style={{ width: "10%", fontWeight: "bold" }}>
                     Attended
+                    <FormControlLabel
+                      control={<Switch checked={selectAllAttended} onChange={toggleAllAttendedCheckboxes} />}
+                      label=""
+                    />
                   </TableCell>
                   <TableCell style={{ width: "10%", fontWeight: "bold" }}>
                     Actions
@@ -739,12 +757,23 @@ const ImportExcel = (eventID) => {
                       )}
                     </TableCell>
                     <TableCell>
-                      <Checkbox
-                        checked={info.attended}
-                        onChange={(e) =>
-                          handleEdit(index, "attended", e.target.checked)
-                        }
-                      />
+                      {info.attended ? (
+                        <Tooltip title="Click to mark as not attended">
+                          <IconButton
+                            onClick={() => handleEdit(index, "attended", false)}
+                          >
+                            <CheckCircleIcon />
+                          </IconButton>
+                        </Tooltip>
+                      ) : (
+                        <Tooltip title="Click to mark as attended">
+                          <IconButton
+                            onClick={() => handleEdit(index, "attended", true)}
+                          >
+                            <CheckCircleOutlineIcon />
+                          </IconButton>
+                        </Tooltip>
+                      )}
                     </TableCell>
                     <TableCell>
                       {isEditingRow[index] ? (
@@ -792,4 +821,4 @@ const ImportExcel = (eventID) => {
   );
 };
 
- export default ImportExcel;
+export default ImportExcel;
