@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 
 class EventGeneralInfo(models.Model):
     id = models.IntegerField(primary_key=True, editable=False)
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='events')
+    user_id = models.CharField(default='user_2dkFQzcVpWIx6zYlWdeJxIRzuZs',max_length=255, null=False, editable=False)
     name = models.CharField("Name", unique=True, max_length=256)
     doe = models.DateField("Day of Event", null=True, blank=True)
     start_time = models.TimeField("Start Time", null=True, blank=True) 

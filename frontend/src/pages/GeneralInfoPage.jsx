@@ -20,6 +20,7 @@ import AxiosInstance from "../components/Axios";
 import { useParams } from "react-router-dom";
 import Tooltip from "@mui/material/Tooltip";
 import ReactQuill from "react-quill";
+import { useAuth, useUser } from "@clerk/clerk-react";
 
 export default function GeneralInfoComponent() {
   const [open, setOpen] = React.useState(false);
@@ -41,6 +42,8 @@ export default function GeneralInfoComponent() {
 
   const MyParam = useParams();
   const MyId = MyParam.id;
+  const userId = useAuth().userId;
+  console.log("User ID:",userId);
 
   const StartTime = new Date(
     "1970-01-01T" + EventStartTime + "Z"
@@ -168,16 +171,27 @@ export default function GeneralInfoComponent() {
   const daysRemaining = getDaysDifference(EventDate);
 
   const onSubmit = async (data) => {
-    AxiosInstance.put(`event/${MyId}/`, {
-      name: data.EventTitle,
-      doe: data.EventDate,
-      start_time: data.EventStartTime,
-      end_time: data.EventEndTime,
-      description: data.EventDescription,
-      location: data.EventLocation,
-    });
-    GetData();
-    handleClose();
+    try {
+      if (!userId) {
+        throw new Error("User ID not found");
+      }
+      console.log("User  - on submit:",userId);
+      const eventData = {
+        name: data.EventTitle,
+        doe: data.EventDate,
+        start_time: data.EventStartTime,
+        end_time: data.EventEndTime,
+        description: data.EventDescription,
+        location: data.EventLocation,
+        // user_id: userId, // Include user ID fetched from Clerk
+      };
+  
+      await AxiosInstance.put(`event/${MyId}/`, eventData);
+      GetData();
+      handleClose();
+    } catch (error) {
+      console.error("Error submitting form:", error);
+    }
   };
 
   const handleClickOpen = () => {

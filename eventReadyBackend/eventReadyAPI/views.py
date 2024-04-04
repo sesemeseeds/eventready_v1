@@ -1,26 +1,31 @@
 from django.shortcuts import render
-from django.http import HttpResponse
 from rest_framework import viewsets, permissions, status
 from .serializers import *
 from rest_framework.response import Response
 from rest_framework.parsers import MultiPartParser, FormParser
 from .models import *
-from django.db.models import Max
-from rest_framework.decorators import action
-from django.contrib.auth.models import User
+from django.shortcuts import get_object_or_404
 
 class EventViewset(viewsets.ViewSet):
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.AllowAny]
     serializer_class = EventSerializer
+    
+    def get_queryset(self):
+        # user_id = self.request.user.id
+        # return EventGeneralInfo.objects.filter(user_id=user_id)
+        event_id = self.request.query_params.get('event_id')
+        if event_id:
+            return EventGeneralInfo.objects.filter(event_id=event_id)
+        return EventGeneralInfo.objects.all()      
 
     def list(self, request):
-        queryset = EventGeneralInfo.objects.filter(user=request.user)
+        queryset = self.get_queryset()
         serializer = self.serializer_class(queryset, many=True)
         return Response(serializer.data)
 
     def create(self, request):
         data = request.data.copy()
-        data['user'] = request.user.id
+        data['user_id'] = request.user.id  # Set user_id in the event data
         serializer = self.serializer_class(data=data)
         if serializer.is_valid():
             serializer.save()
@@ -29,20 +34,14 @@ class EventViewset(viewsets.ViewSet):
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def retrieve(self, request, pk=None):
-        try:
-            event = EventGeneralInfo.objects.get(pk=pk, user=request.user)
-        except EventGeneralInfo.DoesNotExist:
-            return Response({"detail": "Event not found"}, status=status.HTTP_404_NOT_FOUND)
-
+        queryset = self.get_queryset()
+        event = get_object_or_404(queryset, pk=pk)
         serializer = self.serializer_class(event)
         return Response(serializer.data)
 
     def update(self, request, pk=None):
-        try:
-            event = EventGeneralInfo.objects.get(pk=pk, user=request.user)
-        except EventGeneralInfo.DoesNotExist:
-            return Response({"detail": "Event not found"}, status=status.HTTP_404_NOT_FOUND)
-
+        queryset = self.get_queryset()
+        event = get_object_or_404(queryset, pk=pk)
         serializer = self.serializer_class(event, data=request.data, partial=True)
         if serializer.is_valid():
             serializer.save()
@@ -51,11 +50,8 @@ class EventViewset(viewsets.ViewSet):
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def destroy(self, request, pk=None):
-        try:
-            event = EventGeneralInfo.objects.get(pk=pk, user=request.user)
-        except EventGeneralInfo.DoesNotExist:
-            return Response({"detail": "Event not found"}, status=status.HTTP_404_NOT_FOUND)
-
+        queryset = self.get_queryset()
+        event = get_object_or_404(queryset, pk=pk)
         event.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
     
