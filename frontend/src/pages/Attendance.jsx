@@ -113,7 +113,7 @@ const AttendancePage = () => {
   };
 
   return (
-    <div className='container'>
+    <div className='container' style={{marginBottom: "5%"}}>
 
       {/* Organizer's Guide Section */}
 
@@ -127,12 +127,13 @@ const AttendancePage = () => {
               fullWidth
               value={attendanceLink}
               onChange={handleLinkChange}
+              style={{backgroundColor: "white"}}
               onKeyPress={handleKeyPress}
             />
           </Box>
 
           <Box mt={2}>
-            <Button variant="contained" color="primary" style={{ backgroundColor: 'red' }} onClick={generateQRCode}>
+            <Button variant="contained" color="primary"  onClick={generateQRCode}>
               Generate QR Code
             </Button>
           </Box>
@@ -145,10 +146,10 @@ const AttendancePage = () => {
 
           {generatedQR && (
             <Box mt={2}>
-              <Button variant="contained" color="primary" style={{ backgroundColor: 'red' }} onClick={downloadQRCode}>
+              <Button variant="contained"  onClick={downloadQRCode}>
                 Download QR Code
               </Button>
-              <Button variant="contained" color="primary" style={{ marginLeft: '10px', backgroundColor: 'red' }} onClick={openShareDialog}>
+              <Button variant="contained"  style={{ marginLeft: '10px',  }} onClick={openShareDialog}>
                 Share QR Code
               </Button>
             </Box>
@@ -164,7 +165,7 @@ const AttendancePage = () => {
       {/* Components/dialogs*/}
 
       <Dialog open={shareDialogOpen} onClose={closeShareDialog}>
-        <DialogTitle style={{ backgroundColor: 'red', color: 'white', fontWeight: 'bold' }}>
+        <DialogTitle style={{  fontWeight: 'bold' }}>
           Share Options
         </DialogTitle>
         <DialogContent>
@@ -188,7 +189,7 @@ const AttendancePage = () => {
       </Dialog>
 
       <Dialog open={Boolean(errorMessage)} onClose={closeErrorMessage}>
-        <DialogTitle style={{ backgroundColor: 'red', color: 'white', fontWeight: 'bold' }}>
+        <DialogTitle style={{  color: 'white', fontWeight: 'bold' }}>
           Error
         </DialogTitle>
         <DialogContent style={{ marginTop: '10px' }}>
