@@ -66,7 +66,7 @@ export default function TaskCard({ tasks }) {
           Tasks
         </Typography>
       </Box>
-      <CardActionArea>
+    
         <CardContent sx={{ height: 310, textAlign: "-webkit-center" }}>
           <Box>
             <Typography fontSize="15px">
@@ -107,7 +107,7 @@ export default function TaskCard({ tasks }) {
             />
           </Box>
         </CardContent>
-      </CardActionArea>
+   
     </Card>
   );
 }

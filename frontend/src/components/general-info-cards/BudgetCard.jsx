@@ -41,7 +41,7 @@ export default function BudgetCard({ budget }) {
         </Typography>
       </Box>
 
-      <CardActionArea>
+ 
         <CardContent sx={{ height: 310, textAlign: "-webkit-center" }}>
           <Box>
             <Typography fontWeight="bold" marginBottom="20px" fontSize="20px">
@@ -72,7 +72,7 @@ export default function BudgetCard({ budget }) {
             />
           </Box>
         </CardContent>
-      </CardActionArea>
+     
     </Card>
   );
 }
