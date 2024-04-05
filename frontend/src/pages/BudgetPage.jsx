@@ -96,7 +96,7 @@ function BudgetPage() {
               className="tooltip"
               style={{ left: `calc(${pointerPosition} - 20px)` }}
             >
-              Left over amount: ${remainingBudget}
+              Left over amount: ${remainingBudget.toFixed(2)}
             </div>
           )}
           <div className="pointer" style={{ left: pointerPosition }}></div>

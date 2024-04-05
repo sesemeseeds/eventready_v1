@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import AddIcon from "@material-ui/icons/Add";
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
+import SaveIcon from "@material-ui/icons/Save";
 import Paper from "@mui/material/Paper";
 import {
   Accordion,
@@ -34,6 +35,7 @@ import {
 
 import AxiosInstance from "../Axios";
 
+
 // Format category name with spaces between words
 const formatCategoryName = (name) => {
   if (!name) return ""; // Return an empty string if name is undefined
@@ -50,7 +52,7 @@ function BudgetSubcategories({
   budgetID,
 }) {
   const [openDialog, setOpenDialog] = useState(false);
-  const [editIndex, setEditIndex] = useState(null); // State to track the index of the category being edited
+  const [editIndex, setEditIndex] = useState(null); 
   const [category, setCategories] = useState([]);
   const [itemName, setItemName] = useState("");
   const [itemDescription, setItemDescription] = useState("");
@@ -59,6 +61,8 @@ function BudgetSubcategories({
   const [itemPaid, setItemPaid] = useState(false);
   const [totalCost, setTotalCost] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState(false);
+  const [editBudgetIndex, setEditBudgetIndex] = useState(null);
+  const [budgetValue, setBudgetValue] = useState("");
 
   const getCategories = async () => {
     try {
@@ -116,6 +120,11 @@ function BudgetSubcategories({
     setItemQuantity(data.quantity);
     setItemCost(data.cost);
     setItemPaid(data.paid);
+  };
+
+  const handleBudgetEditClick = (index) => {
+    setEditBudgetIndex(index);
+    setBudgetValue(category[index].total || "");
   };
 
   const handleDeleteClick = async (item) => {
@@ -177,6 +186,40 @@ function BudgetSubcategories({
     }
   };
 
+  const handleBudgetEditSubmit = async () => {
+    const newCategoryTotal = parseFloat(budgetValue);
+
+    const otherCategoryTotals = category.reduce((acc, cat, index) => {
+      if (index !== editBudgetIndex) {
+        return acc + parseFloat(cat.total || 0);
+      }
+      return acc;
+    }, 0);
+
+    if (otherCategoryTotals + newCategoryTotal > totalBudget) {
+      alert(
+        `Total of all categories ($${
+          otherCategoryTotals + newCategoryTotal
+        }) exceeds the overall budget $${totalBudget}`
+      );
+      return;
+    }
+
+    try {
+      await AxiosInstance.put(
+        `budgetcategory/${category[editBudgetIndex].id}/`,
+        {
+          name: category[editBudgetIndex].name,
+          total: budgetValue,
+        }
+      );
+      setEditBudgetIndex(null);
+      getCategories();
+    } catch (error) {
+      console.error("Error updating budget:", error);
+    }
+  };
+
   // Check if all required fields are filled and valid
   const isFormValid = itemName && itemDescription && itemQuantity && itemCost;
 
@@ -184,7 +227,7 @@ function BudgetSubcategories({
     <div>
       <h2>Budget </h2>
       {/* Render selected categories */}
-      {category?.map((category) => (
+      {category?.map((category, index) => (
         <Accordion
           style={{
             backgroundColor: "aliceblue",
@@ -193,9 +236,7 @@ function BudgetSubcategories({
           }}
           key={category.id}
         >
-          <AccordionSummary
-            expandIcon={<ExpandMoreIcon />}
-          >
+          <AccordionSummary expandIcon={<ExpandMoreIcon />}>
             <div
               style={{
                 position: "sticky",
@@ -217,25 +258,73 @@ function BudgetSubcategories({
                 sx={{
                   display: "flex",
                   width: "100%",
-                  justifyContent: "space-between",
                   alignItems: "center",
                   marginRight: "20px",
+                  justifyContent: "space-between",
                 }}
               >
-                <p
-                  style={{
-                    fontWeight: "bold",
-                    fontSize: "1.2rem",
-                    marginRight: "8px",
-                  }}
-                >
-                  {formatCategoryName(category.name)}
-                </p>
-                <p style={{}}>
-                  {`Paid Items: ${
+                <div style={{ display: "flex", alignItems: "center" }}>
+                  <p
+                    style={{
+                      fontWeight: "bold",
+                      fontSize: "1.2rem",
+                      marginRight: "8px",
+                      
+                    }}
+                  >
+                    {formatCategoryName(category.name)}
+                  </p>
+                  Allocated Budget: $
+                  {editBudgetIndex === index ? (
+                    <TextField
+                      size="small"
+                      margin="none"
+                      style={{
+                        backgroundColor: "white",
+                        marginLeft: "5px",
+                        marginRight: "5px",
+                        width: "20%",
+                      }}
+                      variant="outlined"
+                      type="number"
+                      value={budgetValue}
+                      onChange={(e) => {
+                        setBudgetValue(e.target.value);
+                      }}
+                      onClick={(e) => e.stopPropagation()}
+                    />
+                  ) : (
+                    <p style={{ marginRight: "5px" }}>{`${
+                      category.total || 0
+                    }`}</p>
+                  )}
+                  {editBudgetIndex === index ? (
+                    <Tooltip title="Save Budget">
+                      <SaveIcon
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleBudgetEditSubmit();
+                        }}
+                      ></SaveIcon>
+                    </Tooltip>
+                  ) : (
+                    <Tooltip title="Edit Budget">
+                      <EditIcon
+                        style={{ cursor: "pointer" }}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleBudgetEditClick(index);
+                        }}
+                      />
+                    </Tooltip>
+                  )}
+                </div>
+
+                <p style={{ display: "flex", alignItems: "center" }}>
+                  {` Paid Items: ${
                     category.items.filter((item) => item.paid).length
                   } / ${category.items.length} `}
-                  {`  | Total Cost: $${category.items
+                  {`  | Total Used: $${category.items
                     .filter((item) => item.paid)
                     .reduce(
                       (acc, item) => acc + item.quantity * item.cost,

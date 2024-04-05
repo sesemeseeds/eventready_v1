@@ -41,11 +41,11 @@ export default function BudgetCard({ budget }) {
         </Typography>
       </Box>
 
-      <CardActionArea>
+ 
         <CardContent sx={{ height: 310, textAlign: "-webkit-center" }}>
           <Box>
             <Typography fontWeight="bold" marginBottom="20px" fontSize="20px">
-              ${availableBudget} Available
+            ${availableBudget.toFixed(2)} Available
             </Typography>
           </Box>
           <Box sx={{ width: 190 }}>
@@ -72,7 +72,7 @@ export default function BudgetCard({ budget }) {
             />
           </Box>
         </CardContent>
-      </CardActionArea>
+     
     </Card>
   );
 }

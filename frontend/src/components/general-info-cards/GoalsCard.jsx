@@ -57,7 +57,7 @@ export default function GoalsCard({ goals }) {
         </Typography>
       </Box>
 
-      <CardActionArea>
+
         <CardContent sx={{ height: 310, textAlign: "-webkit-center" }}>
           <Box >
             <Typography marginBottom="32px" fontSize="15px">
@@ -92,7 +92,7 @@ export default function GoalsCard({ goals }) {
             />
           </Box>
         </CardContent>
-      </CardActionArea>
+
     </Card>
   );
 }

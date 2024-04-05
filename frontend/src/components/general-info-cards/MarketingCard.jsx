@@ -39,7 +39,7 @@ export default function MarketingCard({ marketingPoster, marketingReminders }) {
         </Typography>
       </Box>
 
-      <CardActionArea>
+  
         <CardContent sx={{ height: 310}}>
           <Typography>
             {hasImage ? (
@@ -123,7 +123,7 @@ export default function MarketingCard({ marketingPoster, marketingReminders }) {
             <Typography>No Marketing Reminders</Typography>
           )}
         </CardContent>
-      </CardActionArea>
+  
     </Card>
   );
 }

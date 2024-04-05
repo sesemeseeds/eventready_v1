@@ -37,7 +37,7 @@ export default function AttendanceCard({ attendance }) {
         </Typography>
       </Box>
 
-      <CardActionArea>
+  
         <CardContent sx={{ height: 300 }}>
           <Box sx={{ display: "flex", alignItems: "center", marginTop: 3 }}>
             {" "}
@@ -54,7 +54,7 @@ export default function AttendanceCard({ attendance }) {
             </Typography>
           </Box>
         </CardContent>
-      </CardActionArea>
+      
     </Card>
   );
 }
