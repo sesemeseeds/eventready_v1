@@ -1,12 +1,18 @@
-body, html {
-  font-family: 'Roboto' !important;
+body,
+html {
+  font-family: "Roboto" !important;
 }
 
 .MuiTypography-body1 {
-  font-family: 'Roboto' !important;
+  font-family: "Roboto" !important;
 }
 .MuiTypography-h6 {
-  font-family: 'Roboto' !important;
+  font-family: "Roboto" !important;
+}
+
+.MuiAccordionSummary-root.Mui-expanded {
+  margin: 0;
+  height: 40px;
 }
 
 .container {
@@ -17,7 +23,7 @@ body, html {
   display: inline-block;
   border-radius: 10px;
   overflow: hidden;
-  width: 100%;  
+  width: 100%;
 }
 
 /* Styling for all scrollbars */
