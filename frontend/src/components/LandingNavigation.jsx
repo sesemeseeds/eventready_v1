@@ -30,6 +30,7 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import Button from "@mui/material/Button";
+import { UserButton, useUser } from "@clerk/clerk-react";
 
 const drawerWidth = 240;
 
@@ -88,6 +89,7 @@ export default function PersistentDrawerLeft() {
   const [openDialog, setOpenDialog] = React.useState(false);
   const { signOut } = useClerk();
   const navigate = useNavigate();
+  const { isSignedIn, user, isLoaded } = useUser();
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -132,6 +134,15 @@ export default function PersistentDrawerLeft() {
           >
             Event Ready!
           </Typography>
+          <div className="user-info">
+        {isLoaded && isSignedIn ? (
+          <div>
+            <UserButton />
+          </div>
+        ) : (
+          <p>Not signed in</p>
+        )}
+      </div>
         </Toolbar>
       </AppBar>
       <Drawer
@@ -151,7 +162,10 @@ export default function PersistentDrawerLeft() {
         open={open}
       >
         <DrawerHeader sx={{backgroundImage: "linear-gradient(15deg, #80d0c7 0%,  #13547a 0%)" }}>
-          <IconButton onClick={handleDrawerClose}>
+        <div className="logo-container">
+        <img src="../src/images/ERlogo.png" alt="Event Ready Logo" className="logo" />
+        </div>          
+      <IconButton onClick={handleDrawerClose}>
             {theme.direction === "ltr" ? (
               <ChevronLeftIcon style={{ color: "white", fontSize: "larger" }} />
             ) : (
