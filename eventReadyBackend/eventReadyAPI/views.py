@@ -23,10 +23,15 @@ class EventViewset(viewsets.ViewSet):
         serializer = self.serializer_class(queryset, many=True)
         return Response(serializer.data)
 
+    def validate_user_id(self, value):
+        if not value:
+            raise serializers.ValidationError("user_id must not be empty")
+        elif isinstance(value, str) and value.strip() == "":
+            raise serializers.ValidationError("user_id must not be an empty string")
+        return value
+    
     def create(self, request):
-        data = request.data.copy()
-        data['user_id'] = request.user.id  # Set user_id in the event data
-        serializer = self.serializer_class(data=data)
+        serializer = self.serializer_class(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)

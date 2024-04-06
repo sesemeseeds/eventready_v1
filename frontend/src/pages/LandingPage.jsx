@@ -16,15 +16,22 @@ export const LandingPage = () => {
   const [open, setOpen] = useState(false);
   const [openDelete, setOpenDelete] = useState(false);
   const [deleteID, setDeleteID] = useState(null);
-  const { user, isLoaded } = useUser();
+  const {user, isLoaded, isSignedIn} = useUser();
+  
+  console.log('User - Loaded:', isLoaded);
+  const UserID = user.id;
+
   useEffect(() => {
-    if (isLoaded && user) {
+    console.log('User - Loaded:', isLoaded);
+    console.log('User - Sign In:', isSignedIn);
+    console.log('User - in Use Effect:', user);
+    if (isSignedIn && isLoaded) {
       getAllEvents();
     }
     else{
       console.log('User is not loaded or not authenticated');
     }
-  }, [isLoaded, user]);
+  },[user, isLoaded, isSignedIn]);
 
 
   const getAllEvents = async () => {
@@ -32,11 +39,12 @@ export const LandingPage = () => {
       setLoading(true);
       const response = await AxiosInstance.get(`/event/`);
       console.log('Response:', response.data);
-      console.log('Response:', response.data[1].user_id);
+      //console.log('Response:', response.data[1].user_id);
       const userEvents = response.data.filter(event => event.user_id === user.id);
-      console.log('User:', user);
-      console.log('User ID:', user.id);
-      console.log('User Events:', userEvents);
+      console.log('User events:', userEvents);
+      //console.log('User ID:', user.id);
+      //console.log('User Events:', userEvents);
+      // setAllEvents(response.data);
       setAllEvents(userEvents);
       setLoading(false);
     } catch (error) {
@@ -51,13 +59,15 @@ export const LandingPage = () => {
 
   const { register, handleSubmit } = useForm({});
   
-  const onSubmit = async (data) => {
+  const onSubmit = async (data,user) => {
     try {
       setLoading(true);
+      console.log('User ID - on submit:', user.id);
+      console.log('Is loaded - on submit:', user.isLoaded);
       await AxiosInstance.post(`/event/`, {
         name: data.EventTitle,
         description: data.EventDescription,
-        user_id: user.Id,
+        user_id: UserID
       });
       await getAllEvents(); // Wait for events to be fetched after creation
       handleClose();
@@ -86,6 +96,7 @@ const removeData = async () => {
 };
 
   const handleClickOpen = () => {
+    setLoading(false);
     setOpen(true);
   };
 
