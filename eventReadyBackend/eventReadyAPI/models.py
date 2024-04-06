@@ -4,7 +4,7 @@ from django.utils import timezone
 
 class EventGeneralInfo(models.Model):
     id = models.IntegerField(primary_key=True, editable=False)
-    
+    user_id = models.CharField(default='user_2dkFQzcVpWIx6zYlWdeJxIRzuZs',max_length=255,null = False, blank=False)
     name = models.CharField("Name", unique=True, max_length=256)
     doe = models.DateField("Day of Event", null=True, blank=True)
     start_time = models.TimeField("Start Time", null=True, blank=True) 

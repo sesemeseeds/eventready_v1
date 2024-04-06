@@ -20,7 +20,7 @@ import DialogTitle from "@mui/material/DialogTitle";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ArchiveIcon from "@mui/icons-material/Archive";
 import Tooltip from "@mui/material/Tooltip";
-
+import { useUser } from "@clerk/clerk-react";
 import ReactQuill from "react-quill";
 import {
   BrowserRouter,
@@ -43,16 +43,18 @@ export const LandingPage = (display = "ActiveEvents") => {
   const [error, setError] = React.useState(false);
   const [eventTitle, setEventTitle] = React.useState("");
   const [eventDescription, setEventDescription] = React.useState("");
+  const {user, isLoaded, isSignedIn} = useUser();
 
   const getAllEvents = () => {
+    console.log('User:',user.id);
     AxiosInstance.get(`/event/`).then((res) => {
       if (display.display === "ActiveEvents") {
-        const activeEvents = res.data.filter((event) => event.active);
+        const activeEvents = res.data.filter((event) => event.active && event.user_id === user.id);
         setAllEvents(activeEvents);
       }
 
       if (display.display === "InactiveEvents") {
-        const inactiveEvents = res.data.filter((event) => !event.active);
+        const inactiveEvents = res.data.filter((event) => !event.active && event.user_id === user.id);
         setAllEvents(inactiveEvents);
       }
 
@@ -61,14 +63,20 @@ export const LandingPage = (display = "ActiveEvents") => {
   };
 
   React.useEffect(() => {
-    getAllEvents();
-  }, [open, display]);
+    if (isSignedIn && isLoaded) {
+      getAllEvents();
+    }
+    else{
+      console.log('User is not loaded or not authenticated');
+    }
+  },[ user, isSignedIn, isLoaded, open, display]);
 
   const onSubmit = async () => {
     try {
       await AxiosInstance.post(`/event/`, {
         name: eventTitle,
         description: eventDescription,
+        user: user.id,
       });
 
       handleClose();
