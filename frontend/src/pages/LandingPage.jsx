@@ -284,7 +284,7 @@ export const LandingPage = (display = "ActiveEvents") => {
               name="EventTitle"
               label="Event Title"
               type="text"
-              required="true"
+              required
               fullWidth
               variant="outlined"
               value={eventTitle}

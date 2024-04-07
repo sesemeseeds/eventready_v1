@@ -4,7 +4,6 @@ import { Box, Typography, Button } from '@mui/material';
 
 import "../../styles/Marketing.css";
 
-// TODO: add functionality to save recap images per repository using static images and eventId
 const RecapImagesBox = ({ eventId }) => {
     const [recapImages, setRecapImages] = useState([]);
     const [showUploadRecapImages, setShowUploadRecapImages] = useState(false);
