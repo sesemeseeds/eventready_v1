@@ -180,32 +180,12 @@ export default function PersistentDrawerLeft() {
               🎉 Welcome to EventReady! 🎉
             </Typography>
             <Typography variant="body1" style={{ color: "black" }}>
-              Get ready to dive into the ultimate event-planning experience! 🚀
+              Click on "Edit Info" to customize event details.
             </Typography>
             <Typography variant="body1" style={{ color: "black" }}>
-              In this page, you'll discover the heart and soul of our web app, EventReady! Here, you can peek behind the curtain and explore everything you need to know about your upcoming event.
+              Below, explore other aspects of your event such as goals, tasks, budget, and more.
             </Typography>
-            <Typography variant="body1" style={{ color: "black" }}>
-              📅 Get a sneak peek at event dates, locations, and more!
-            </Typography>
-            <Typography variant="body1" style={{ color: "black" }}>
-              🎯 Dive into the details of your event goals and aspirations.
-            </Typography>
-            <Typography variant="body1" style={{ color: "black" }}>
-              ✅ Stay on top of your to-do list with tasks galore!
-            </Typography>
-            <Typography variant="body1" style={{ color: "black" }}>
-              💰 Keep your event finances in check with our handy budget tracker.
-            </Typography>
-            <Typography variant="body1" style={{ color: "black" }}>
-              📣 Master the art of event marketing with our expert tips and tricks.
-            </Typography>
-            <Typography variant="body1" style={{ color: "black" }}>
-              👥 Track attendance and manage your guest list like a pro!
-            </Typography>
-            <Typography variant="body1" style={{ color: "black" }}>
-              So, buckle up and get ready for an unforgettable journey as you bring your event dreams to life with EventReady! 🎉✨
-            </Typography>
+                
           </>
         );
       
@@ -219,23 +199,9 @@ export default function PersistentDrawerLeft() {
                 Here, you can set and track your event goals with ease. Assign names, priorities, statuses, assignees, and deadlines to each goal to keep your event planning on track and your team motivated.
               </Typography>
               <Typography variant="body1" style={{ color: "black" }}>
-                📝 Give each goal a catchy name that captures its essence.
+                Click on the 'Add Goal' button to set and track event objectives, ensuring seamless progress tracking within your organization.
               </Typography>
-              <Typography variant="body1" style={{ color: "black" }}>
-                ⏰ Set deadlines to keep yourself accountable and motivated.
-              </Typography>
-              <Typography variant="body1" style={{ color: "black" }}>
-                🌟 Prioritize your goals to focus on what matters most.
-              </Typography>
-              <Typography variant="body1" style={{ color: "black" }}>
-                🎉 Assign goals to team members and celebrate progress together.
-              </Typography>
-              <Typography variant="body1" style={{ color: "black" }}>
-                📊 Monitor goal statuses to ensure everything is on track.
-              </Typography>
-              <Typography variant="body1" style={{ color: "black" }}>
-                Let's start shaping your event vision into tangible goals. Together, we'll make your event dreams a reality! 🌟✨
-              </Typography>
+
             </>
           );
       
@@ -249,22 +215,19 @@ export default function PersistentDrawerLeft() {
                 With our intuitive Task Board, you'll stay organized, efficient, and on top of your event planning tasks.
                 </Typography>
                 <Typography variant="body1" style={{ color: "black" }}>
-                  Our Task Board is divided into three sections: To Do, In Progress, and Done. Easily move task cards between columns as you make progress on your event planning journey. 🔄
+                  Our Task Board is divided into three sections: To Do, In Progress, and Done.
                 </Typography>
                 <Typography variant="body1" style={{ color: "black" }}>
-                  📝 Create tasks and assign them to the appropriate columns based on their current status.
+                 To add tasks within each section, click on the ➕ button located at the top right corner of the respective column. 
                 </Typography>
                 <Typography variant="body1" style={{ color: "black" }}>
-                  💡 Prioritize your tasks using our filtering options to focus on what matters most.
+                  Once you've filled in the details such as name, assignee, priority level, etc., click on the 'Add Task' button to finalize.                
                 </Typography>
                 <Typography variant="body1" style={{ color: "black" }}>
-                  🌟 Search for tasks by filtering them based on priority, making it easier to tackle high-priority items first.
+                  🔍 Search for tasks by filtering them based on priority, making it easier to tackle high-priority items first.
                 </Typography>
                 <Typography variant="body1" style={{ color: "black" }}>
                   🔄 Move task cards seamlessly between columns to reflect their progress and status changes.
-                </Typography>
-                <Typography variant="body1" style={{ color: "black" }}>
-                  Let's make your event a success, one task at a time! 🌟✨
                 </Typography>
               </>
             );
@@ -290,12 +253,6 @@ export default function PersistentDrawerLeft() {
             <Typography variant="body1" style={{ color: "black" }}>
               ✅ Mark subcategories as "Paid" to reflect the amount spent and update the progress bar accordingly.
             </Typography>
-            <Typography variant="body1" style={{ color: "black" }}>
-              💳 Stay on top of your event finances and make informed decisions to ensure your budget is managed efficiently.
-            </Typography>
-            <Typography variant="body1" style={{ color: "black" }}>
-               Let's make your event a financial success! 💪💼
-            </Typography>
           </>
         );
       
@@ -312,16 +269,13 @@ export default function PersistentDrawerLeft() {
                 💡 With our comprehensive Marketing Page, you'll have everything you need to create compelling campaigns and maximize attendance at your event.
               </Typography>
               <Typography variant="body1" style={{ color: "black" }}>
-                📅 Use the Reminders section to keep your team members on track with important marketing tasks and deadlines.
+                📅 Use the Reminders section to keep your team members on track with marketing tasks and deadlines.
               </Typography>
               <Typography variant="body1" style={{ color: "black" }}>
-                🖼️ Upload eye-catching graphics and posters in the Upload Poster section to grab the attention of your target audience.
+                🖼️ Upload eye-catching graphics and posters in the Upload Poster section for your audience.
               </Typography>
               <Typography variant="body1" style={{ color: "black" }}>
-                🔗 Explore the Helpful Links section for access to valuable external resources and tools to enhance your marketing efforts.
-              </Typography>
-              <Typography variant="body1" style={{ color: "black" }}>
-                Get ready to boost your event's visibility and make a lasting impression on your audience. 🌟
+                🔗 Explore the Helpful Links section to enhance your marketing efforts.
               </Typography>
             </>
           );
@@ -333,7 +287,7 @@ export default function PersistentDrawerLeft() {
                   👥 Welcome to the Attendance Page! 👥
                 </Typography>
                 <Typography variant="body1" style={{ color: "black" }}>
-                  Keep track of attendance at your event with ease!📋
+                  Let's get ready to welcome guests and make your event a success! 🌟
                 </Typography>
                 <Typography variant="body1" style={{ color: "black" }}>                  
                   Two convenient methods are available for tracking attendance:
@@ -345,10 +299,10 @@ export default function PersistentDrawerLeft() {
                   2. 📥 Import an Excel sheet containing attendee data to view who has checked in ✅
                 </Typography>
                 <Typography variant="body1" style={{ color: "black" }}>
-                  Whether you prefer a digital form or an Excel sheet, our Attendance Page makes it simple to monitor attendance and ensure a seamless event experience for all attendees.
+                  🔍 You can also search attendee by filtering the entries.
                 </Typography>
                 <Typography variant="body1" style={{ color: "black" }}>
-                  Let's get ready to welcome guests and make your event a success! 🌟
+                  📋 "Check-In List" will provide you an overview of all attendees' details in a tabular form.
                 </Typography>
               </>
             );     
