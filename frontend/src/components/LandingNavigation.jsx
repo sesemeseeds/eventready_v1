@@ -192,7 +192,7 @@ export default function PersistentDrawerLeft() {
           </ListItemButton>
         </List>
         <Divider />
-        <List>
+        {/* <List>
           <ListItemButton onClick={() => setOpenDialog(true)}>
             <ListItemIcon>
               <PersonIcon />
@@ -200,7 +200,7 @@ export default function PersistentDrawerLeft() {
             <ListItemText primary="Sign Out" />
           </ListItemButton>
         </List>
-        <Divider />
+        <Divider /> */}
       </Drawer>
       <Main open={open}>
         <DrawerHeader />
