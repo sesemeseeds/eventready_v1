@@ -76,7 +76,7 @@ export const LandingPage = (display = "ActiveEvents") => {
       await AxiosInstance.post(`/event/`, {
         name: eventTitle,
         description: eventDescription,
-        user: user.id,
+        user_id: user.id,
       });
 
       handleClose();
