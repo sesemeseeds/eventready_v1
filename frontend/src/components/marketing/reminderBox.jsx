@@ -3,15 +3,19 @@ import { Button, TextField, Typography, Box, Card, Table, TableBody, TableCell, 
 import AxiosInstance from "../Axios";
 import CloseIcon from '@mui/icons-material/Close';
 
-
 const ReminderBox = ({ eventId }) => {
   const [reminders, setReminders] = useState([]);
   const [reminderName, setReminderName] = useState('');
   const [reminderDateTime, setReminderDateTime] = useState('');
+  const [isAddButtonDisabled, setIsAddButtonDisabled] = useState(true);
 
   useEffect(() => {
     getReminders();
   }, []);
+
+  useEffect(() => {
+    setIsAddButtonDisabled(!reminderName || !reminderDateTime);
+  }, [reminderName, reminderDateTime]);
 
   const addReminder = async () => {
     try {
@@ -95,75 +99,76 @@ const ReminderBox = ({ eventId }) => {
 
   return (
     <Card>
-    <Typography
-      variant="h6"
-      style={{
-        color: 'white',
-        fontWeight: 'bold',
-        marginBottom: '10px',
-        backgroundImage: 'linear-gradient(15deg, #80d0c7 0%,  #13547a 0%)',
-        padding: '10px',
-        borderRadius: '5px',
-        paddingLeft: '20px',
-      }}
-    >
-      Reminders
-    </Typography>
-    <Box style={{ display: 'flex' }}>
-      {/* Left side with input fields */}
-
-      <Box style={{ flex: 1, backgroundColor: 'white', paddingLeft: '20px', overflowY: 'auto' }}>
-        <TableContainer style={{ maxHeight: '220px' }}>
-          <Table>
-            <TableHead>
-              <TableRow>
-              <TableCell style={{ padding: 0, midWidth: '30px' }}>Name</TableCell>
+      <Typography
+        variant="h6"
+        style={{
+          color: 'white',
+          fontWeight: 'bold',
+          marginBottom: '10px',
+          backgroundImage: 'linear-gradient(15deg, #80d0c7 0%,  #13547a 0%)',
+          padding: '10px',
+          borderRadius: '5px',
+          paddingLeft: '20px',
+        }}
+      >
+        Reminders
+      </Typography>
+      <Box style={{ display: 'flex' }}>
+        {/* Left side with input fields */}
+        <Box style={{ flex: 1, backgroundColor: 'white', paddingLeft: '20px', overflowY: 'auto' }}>
+          <TableContainer style={{ maxHeight: '220px' }}>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableCell style={{ padding: 0, midWidth: '30px' }}>Name</TableCell>
                   <TableCell style={{ padding: 0 }}>Date</TableCell>
                   <TableCell style={{ padding: 0 }}></TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {reminders.map((reminder, index) => (
-                <TableRow key={index}>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {reminders.map((reminder, index) => (
+                  <TableRow key={index}>
                     <TableCell style={{ padding: 0, midWidth: '30px' }}>{reminder.name}</TableCell>
                     <TableCell style={{ padding: 0 }}>{new Date(reminder.dateTime).toLocaleString()}</TableCell>
-                    <TableCell style={{ padding: 0 }}>    
-                      <CloseIcon  onClick={() => deleteReminder(reminder.id)} style={{ verticalAlign: 'middle', cursor: 'pointer'}} />
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
+                    <TableCell style={{ padding: 0 }}>
+                      <CloseIcon onClick={() => deleteReminder(reminder.id)} style={{ verticalAlign: 'middle', cursor: 'pointer' }} />
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </Box>
+        <Box style={{ flex: 1, padding: '0px 20px 20px 20px' }}>
+          <TextField
+            type="text"
+            placeholder="Name"
+            value={reminderName}
+            onChange={(e) => setReminderName(e.target.value)}
+            fullWidth
+            style={{ marginTop: '10px' }}
+          />
+          <TextField
+            type="datetime-local"
+            value={reminderDateTime}
+            onChange={(e) => setReminderDateTime(e.target.value)}
+            InputLabelProps={{ shrink: true }}
+            fullWidth
+            style={{ marginTop: '10px' }}
+          />
+          <Button
+            onClick={addReminder}
+            variant="contained"
+            color="primary"
+            disabled={isAddButtonDisabled}
+            style={{ marginTop: '40px', float: 'right' }}
+            >
+            Add Reminder
+          </Button>
+        </Box>
       </Box>
-      <Box style={{ flex: 1, padding: '0px 20px 20px 20px' }}>
-        <TextField
-          type="text"
-          placeholder="Name"
-          value={reminderName}
-          onChange={(e) => setReminderName(e.target.value)}
-          fullWidth
-          style={{ marginTop: '10px' }}
-        />
-        <TextField
-          type="datetime-local"
-          value={reminderDateTime}
-          onChange={(e) => setReminderDateTime(e.target.value)}
-          InputLabelProps={{ shrink: true }}
-          fullWidth
-          style={{ marginTop: '10px' }}
-        />
-        <Button
-          style={{ background: 'linear-gradient(15deg, #80d0c7 0%,  #13547a 0%)', color: '#FFFFFF', marginTop: '40px', float: 'right'}}
-          variant="contained"
-          onClick={addReminder}
-        >
-          Add Reminder
-        </Button>
-      </Box>
-    </Box>
-  </Card>
-);
+    </Card>
+  );
 };
 
 export default ReminderBox;

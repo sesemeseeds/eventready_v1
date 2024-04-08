@@ -5,11 +5,12 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import SaveIcon from "@mui/icons-material/Save";
 import SearchIcon from "@mui/icons-material/Search";
+import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Switch from "@mui/material/Switch";
 
 import {
-  Button,
-  Checkbox,
-  FormControlLabel,
   Grid,
   IconButton,
   Input,
@@ -32,7 +33,10 @@ const ImportExcel = (eventID) => {
   const [filteredData, setFilteredData] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [excelError, setExcelError] = useState("");
-
+  const [selectAllAttended, setSelectAllAttended] = useState(() => {
+    const savedState = localStorage.getItem("selectAllAttended");
+    return savedState ? JSON.parse(savedState) : false;
+  }); // State for toggle button
   const [isEditingRow, setIsEditingRow] = useState({});
   const file_type = [
     "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
@@ -40,8 +44,25 @@ const ImportExcel = (eventID) => {
   ];
 
   useEffect(() => {
-    fetchData();
+    const storedData = localStorage.getItem("excelData");
+    if (storedData) {
+      setExcelData(JSON.parse(storedData));
+      setFilteredData(JSON.parse(storedData));
+    } else {
+      fetchData();
+    }
   }, []);
+
+  useEffect(() => {
+    localStorage.setItem("excelData", JSON.stringify(excelData));
+  }, [excelData]);
+
+  useEffect(() => {
+    localStorage.setItem(
+      "selectAllAttended",
+      JSON.stringify(selectAllAttended)
+    );
+  }, [selectAllAttended]);
 
   useEffect(() => {
     const filtered = excelData.filter(
@@ -80,6 +101,7 @@ const ImportExcel = (eventID) => {
               name: item.Name,
               phone_number: item.Phone_Number,
               email: item.Email,
+              attended: selectAllAttended,
             }));
 
             try {
@@ -105,7 +127,7 @@ const ImportExcel = (eventID) => {
                     name: attendee.Name,
                     phone_number: attendee.Phone_Number,
                     email: attendee.Email,
-                    attended: attendee.Attended,
+                    attended: selectAllAttended,
                   });
                 } catch (error) {
                   console.error("Error creating attendance:", error);
@@ -167,7 +189,12 @@ const ImportExcel = (eventID) => {
 
   const handleAddRow = async () => {
     try {
-      const newRow = { name: "", phone_number: "", email: "", attended: false };
+      const newRow = {
+        name: "",
+        phone_number: "",
+        email: "",
+        attended: selectAllAttended,
+      };
       const response = await AxiosInstance.post(`/attendee/`, {
         event_id: eventID.eventID,
         name: newRow.name,
@@ -176,17 +203,15 @@ const ImportExcel = (eventID) => {
         attended: newRow.attended,
       });
       const newAttendee = response.data;
-      
-  
+
       setExcelData([newAttendee, ...excelData]);
       setFilteredData([newAttendee, ...filteredData]);
-      
- 
+
       setIsEditingRow((prevIsEditingRow) => ({
         ...prevIsEditingRow,
-        0: true, 
+        0: true,
       }));
-      
+
       console.log("Attendee added successfully");
     } catch (error) {
       console.error("Error adding attendee:", error);
@@ -218,6 +243,28 @@ const ImportExcel = (eventID) => {
     await handleEdit(index, "email", attendee.email);
     await handleEdit(index, "attended", attendee.attended);
     toggleEditingRow(index);
+  };
+
+  const toggleAllAttendedCheckboxes = async () => {
+    const updatedData = filteredData.map((attendee) => ({
+      ...attendee,
+      attended: !selectAllAttended,
+    }));
+    setExcelData(updatedData);
+    setFilteredData(updatedData);
+    setSelectAllAttended(!selectAllAttended);
+
+    try {
+      await Promise.all(
+        filteredData.map(async (attendee) => {
+          try {
+            await AxiosInstance.patch(`/attendee/${attendee.id}/`, {
+              attended: !selectAllAttended,
+            });
+          } catch (error) {}
+        })
+      );
+    } catch (error) {}
   };
 
   return (
@@ -288,11 +335,39 @@ const ImportExcel = (eventID) => {
                   <TableCell style={{ width: "30%", fontWeight: "bold" }}>
                     Email
                   </TableCell>
-                  <TableCell style={{ width: "10%", fontWeight: "bold" }}>
+                  <TableCell
+                    style={{
+                      width: "15%",
+                      fontWeight: "bold",
+                      textAlign: "center",
+                    }}
+                  >
                     Attended
+                    <FormControlLabel
+                      control={
+                        <Switch
+                          checked={selectAllAttended}
+                          onChange={toggleAllAttendedCheckboxes}
+                          color="primary"
+                        />
+                      }
+                      label=""
+                      sx={{ marginLeft: "5px" }}
+                    />
                   </TableCell>
-                  <TableCell style={{ width: "10%", fontWeight: "bold" }}>
-                    Actions
+                  <TableCell
+                    style={{
+                      width: "10%",
+                      fontWeight: "bold",
+                      textAlign: "center",
+                    }}
+                  >
+                    <Tooltip title="Add Row">
+                      {" "}
+                      <IconButton onClick={handleAddRow}>
+                        <AddIcon />
+                      </IconButton>
+                    </Tooltip>
                   </TableCell>
                 </TableRow>
               </TableHead>
@@ -335,15 +410,28 @@ const ImportExcel = (eventID) => {
                         info.email
                       )}
                     </TableCell>
-                    <TableCell>
-                      <Checkbox
-                        checked={info.attended}
-                        onChange={(e) =>
-                          handleEdit(index, "attended", e.target.checked)
-                        }
-                      />
+                    <TableCell style={{ textAlign: "center" }}>
+                      {info.attended ? (
+                        <Tooltip title="Mark as not attended">
+                          <IconButton
+                            style={{ color: "#4caf50" }}
+                            onClick={() => handleEdit(index, "attended", false)}
+                          >
+                            <CheckCircleIcon />
+                          </IconButton>
+                        </Tooltip>
+                      ) : (
+                        <Tooltip title="Mark as attended">
+                          <IconButton
+                            style={{ color: "#757575" }}
+                            onClick={() => handleEdit(index, "attended", true)}
+                          >
+                            <CheckCircleOutlineIcon />
+                          </IconButton>
+                        </Tooltip>
+                      )}
                     </TableCell>
-                    <TableCell>
+                    <TableCell style={{ textAlign: "center" }}>
                       {isEditingRow[index] ? (
                         <Tooltip title="Save">
                           <IconButton onClick={() => handleSaveRow(index)}>
@@ -368,14 +456,6 @@ const ImportExcel = (eventID) => {
               </TableBody>
             </Table>
           </TableContainer>
-
-          <Button
-            variant="contained"
-            onClick={handleAddRow}
-            style={{ marginTop: "20px" }}
-          >
-            <AddIcon /> Add Row
-          </Button>
         </>
       )}
 
@@ -390,366 +470,3 @@ const ImportExcel = (eventID) => {
 };
 
 export default ImportExcel;
-
-// import React, { useState, useEffect } from "react";
-// import { read, utils } from "xlsx";
-// import AddIcon from "@mui/icons-material/Add";
-// import DeleteIcon from "@mui/icons-material/Delete";
-// import EditIcon from "@mui/icons-material/Edit";
-// import SaveIcon from "@mui/icons-material/Save";
-// import CheckBoxIcon from "@mui/icons-material/CheckBox";
-// import CheckBoxOutlineBlankIcon from "@mui/icons-material/CheckBoxOutlineBlank";
-// import { Button, Checkbox, FormControlLabel, Grid, IconButton, Input, InputAdornment, InputLabel, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Tooltip } from "@mui/material";
-// import AxiosInstance from "../Axios";
-
-// const ImportExcel = (eventID) => {
-//   const [excelData, setExcelData] = useState([]);
-//   const [filteredData, setFilteredData] = useState([]);
-//   const [searchQuery, setSearchQuery] = useState("");
-//   const [excelError, setExcelError] = useState("");
-
-//   const [isEditingRow, setIsEditingRow] = useState({});
-//   const [selectAllAttended, setSelectAllAttended] = useState(false);
-//   const file_type = [
-//     "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-//     "application/vnd.ms-excel",
-//   ];
-
-//   useEffect(() => {
-//     fetchData();
-//   }, []);
-
-//   const fetchData = async () => {
-//     try {
-//       const response = await AxiosInstance.get(
-//         `/attendee/?event_id=${eventID.eventID}`
-//       );
-//       setExcelData(response.data);
-//       setFilteredData(response.data);
-//     } catch (error) {
-//       console.error("Error fetching data:", error);
-//     }
-//   };
-
-//   const handleChange = (e) => {
-//     const selectedFile = e.target.files[0];
-//     if (selectedFile) {
-//       if (selectedFile && file_type.includes(selectedFile.type)) {
-//         let reader = new FileReader();
-
-//         reader.onload = async (e) => {
-//           const workbook = read(e.target.result);
-//           const sheet = workbook.SheetNames;
-//           if (sheet.length) {
-//             const data = utils.sheet_to_json(workbook.Sheets[sheet[0]]);
-//             const tempData = data.map((item) => ({
-//               name: item.Name,
-//               phone_number: item.Phone_Number,
-//               email: item.Email,
-//               attended: false,
-//             }));
-
-//             try {
-//               await Promise.all(
-//                 filteredData.map(async (attendee) => {
-//                   try {
-//                     await AxiosInstance.delete(`/attendee/${attendee.id}/`);
-//                     console.log("Attendee deleted successfully");
-//                   } catch (error) {
-//                     console.error("Error deleting attendee:", error);
-//                   }
-//                 })
-//               );
-//             } catch (error) {
-//               console.error("Error deleting attendees:", error);
-//             }
-
-//             await Promise.all(
-//               data.map(async (attendee) => {
-//                 try {
-//                   await AxiosInstance.post(`/attendee/`, {
-//                     event_id: eventID.eventID,
-//                     name: attendee.Name,
-//                     phone_number: attendee.Phone_Number,
-//                     email: attendee.Email,
-//                     attended: attendee.Attended,
-//                   });
-//                 } catch (error) {
-//                   console.error("Error creating attendance:", error);
-//                 }
-//               })
-//             );
-
-//             setExcelData(tempData);
-//             setFilteredData(tempData);
-//             setExcelError("");
-//           }
-//         };
-
-//         reader.onloadend = () => {
-//           e.target.value = "";
-//         };
-
-//         reader.readAsArrayBuffer(selectedFile);
-//       } else {
-//         setExcelError("Please upload only Excel files");
-//         setExcelData([]);
-//         setFilteredData([]);
-//       }
-//     }
-//   };
-
-//   const handleSearch = (e) => {
-//     const query = e.target.value.toLowerCase();
-//     setSearchQuery(query);
-//     const filtered = excelData.filter(
-//       (item) =>
-//         item.name?.toLowerCase().includes(query) ||
-//         item.phone_number?.toString().includes(query) ||
-//         item.email?.toLowerCase().includes(query)
-//     );
-//     setFilteredData(filtered);
-//   };
-
-//   const handleEdit = async (index, field, value) => {
-//     try {
-//       const attendeeId = filteredData[index].id;
-//       const updatedField = { [field]: value };
-//       const response = await AxiosInstance.patch(
-//         `/attendee/${attendeeId}/`,
-//         updatedField
-//       );
-//       const updatedAttendee = response.data;
-
-//       const updatedData = excelData.map((attendee) =>
-//         attendee.id === updatedAttendee.id ? updatedAttendee : attendee
-//       );
-//       setExcelData(updatedData);
-//       setFilteredData(updatedData);
-
-//       console.log("Attendee updated successfully");
-//     } catch (error) {
-//       console.error("Error updating attendee:", error);
-//     }
-//   };
-
-//   const handleAddRow = async () => {
-//     try {
-//       const newRow = { name: "", phone_number: "", email: "", attended: false };
-//       const response = await AxiosInstance.post(`/attendee/`, {
-//         event_id: eventID.eventID,
-//         name: newRow.Name,
-//         phone_number: newRow.Phone_Number,
-//         email: newRow.Email,
-//         attended: newRow.Attended,
-//       });
-//       const newAttendee = response.data;
-//       setExcelData([...excelData, newAttendee]);
-//       setFilteredData([...filteredData, newAttendee]);
-//       setIsEditingRow((prevIsEditingRow) => ({
-//         ...prevIsEditingRow,
-//         [filteredData.length]: true,
-//       }));
-//       console.log("Attendee added successfully");
-//     } catch (error) {
-//       console.error("Error adding attendee:", error);
-//     }
-//   };
-
-//   const handleDeleteRow = async (index) => {
-//     try {
-//       const deletedAttendee = filteredData[index];
-//       await AxiosInstance.delete(`/attendee/${deletedAttendee.id}/`);
-//       console.log("Attendee deleted successfully");
-//       fetchData();
-//     } catch (error) {
-//       console.error("Error deleting attendee:", error);
-//     }
-//   };
-
-//   const toggleEditingRow = (index) => {
-//     setIsEditingRow((prevIsEditingRow) => ({
-//       ...prevIsEditingRow,
-//       [index]: !prevIsEditingRow[index],
-//     }));
-//   };
-
-//   const handleSaveRow = async (index) => {
-//     const attendee = filteredData[index];
-//     await handleEdit(index, "name", attendee.name);
-//     await handleEdit(index, "phone_number", attendee.phone_number);
-//     await handleEdit(index, "email", attendee.email);
-//     await handleEdit(index, "attended", attendee.attended);
-//     toggleEditingRow(index);
-//   };
-
-//   const toggleAllAttendedCheckboxes = () => {
-//     const updatedData = filteredData.map((attendee) => ({
-//       ...attendee,
-//       attended: !selectAllAttended,
-//     }));
-//     setExcelData(updatedData);
-//     setFilteredData(updatedData);
-//     setSelectAllAttended(!selectAllAttended);
-//   };
-
-//   return (
-//     <div
-//       style={{
-//         display: "flex",
-//         flexDirection: "column",
-//         alignItems: "center",
-//         marginTop: "20px",
-//       }}
-//     >
-//       <label
-//         style={{
-//           backgroundColor: "red",
-//           color: "white",
-//           padding: "10px 20px",
-//           borderRadius: "5px",
-//           cursor: "pointer",
-//           transition: "background-color 0.3s ease",
-//         }}
-//       >
-//         Import Excel
-//         <input
-//           type="file"
-//           onChange={handleChange}
-//           style={{ display: "none" }}
-//         />
-//       </label>
-//       <TextField
-//         type="text"
-//         placeholder="Search..."
-//         value={searchQuery}
-//         onChange={handleSearch}
-//         style={{
-//           marginTop: "10px",
-//           marginBottom: "10px",
-//           width: "100%",
-//           maxWidth: "400px",
-//         }}
-//       />
-//       <h2 style={{ marginTop: "20px", marginBottom: "10px" }}>Check-in List</h2>
-//       {filteredData.length > 0 && (
-//         <>
-//           <TableContainer component={Paper} style={{ marginTop: "20px" }}>
-//             <Table style={{ minWidth: 650 }} aria-label="simple table">
-//               <TableHead>
-//                 <TableRow>
-//                   <TableCell style={{ width: "25%", fontWeight: "bold" }}>
-//                     Name
-//                   </TableCell>
-//                   <TableCell style={{ width: "25%", fontWeight: "bold" }}>
-//                     Phone Number
-//                   </TableCell>
-//                   <TableCell style={{ width: "30%", fontWeight: "bold" }}>
-//                     Email
-//                   </TableCell>
-//                   <TableCell style={{ width: "10%", fontWeight: "bold" }}>
-//                     <IconButton onClick={toggleAllAttendedCheckboxes}>
-//                       {selectAllAttended ? <CheckBoxIcon /> : <CheckBoxOutlineBlankIcon />}
-//                     </IconButton>
-//                     Attended
-//                   </TableCell>
-//                   <TableCell style={{ width: "10%", fontWeight: "bold" }}>
-//                     Actions
-//                   </TableCell>
-//                 </TableRow>
-//               </TableHead>
-//               <TableBody>
-//                 {filteredData.map((info, index) => (
-//                   <TableRow key={index}>
-//                     <TableCell>
-//                       {isEditingRow[index] ? (
-//                         <TextField
-//                           value={info.name}
-//                           onChange={(e) =>
-//                             handleEdit(index, "name", e.target.value)
-//                           }
-//                         />
-//                       ) : (
-//                         info.name
-//                       )}
-//                     </TableCell>
-//                     <TableCell>
-//                       {isEditingRow[index] ? (
-//                         <TextField
-//                           value={info.phone_number}
-//                           onChange={(e) =>
-//                             handleEdit(index, "phone_number", e.target.value)
-//                           }
-//                         />
-//                       ) : (
-//                         info.phone_number
-//                       )}
-//                     </TableCell>
-//                     <TableCell>
-//                       {isEditingRow[index] ? (
-//                         <TextField
-//                           value={info.email}
-//                           onChange={(e) =>
-//                             handleEdit(index, "email", e.target.value)
-//                           }
-//                         />
-//                       ) : (
-//                         info.email
-//                       )}
-//                     </TableCell>
-//                     <TableCell>
-//                       <Checkbox
-//                         checked={info.attended}
-//                         onChange={(e) =>
-//                           handleEdit(index, "attended", e.target.checked)
-//                         }
-//                       />
-//                     </TableCell>
-//                     <TableCell>
-//                       {isEditingRow[index] ? (
-//                         <Tooltip title="Save">
-//                           <IconButton onClick={() => handleSaveRow(index)}>
-//                             <SaveIcon />
-//                           </IconButton>
-//                         </Tooltip>
-//                       ) : (
-//                         <Tooltip title="Edit">
-//                           <IconButton onClick={() => toggleEditingRow(index)}>
-//                             <EditIcon />
-//                           </IconButton>
-//                         </Tooltip>
-//                       )}
-//                       <Tooltip title="Delete">
-//                         <IconButton onClick={() => handleDeleteRow(index)}>
-//                           <DeleteIcon />
-//                         </IconButton>
-//                       </Tooltip>
-//                     </TableCell>
-//                   </TableRow>
-//                 ))}
-//               </TableBody>
-//             </Table>
-//           </TableContainer>
-
-//           <Button
-//             variant="contained"
-//             onClick={handleAddRow}
-//             style={{ marginTop: "20px", backgroundColor: "red" }}
-//           >
-//             <AddIcon /> Add Row
-//           </Button>
-//         </>
-//       )}
-
-//       {excelError && (
-//         <p style={{ color: "red", marginTop: "10px" }}>{excelError}</p>
-//       )}
-//       {filteredData.length === 0 && !excelError && (
-//         <p style={{ marginTop: "10px" }}>No user data is present</p>
-//       )}
-//     </div>
-//   );
-// };
-
-// export default ImportExcel;
-

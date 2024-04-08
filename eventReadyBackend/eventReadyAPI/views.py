@@ -6,6 +6,8 @@ from rest_framework.response import Response
 from rest_framework.parsers import MultiPartParser, FormParser
 from .models import *
 from django.db.models import Max
+from django.shortcuts import get_object_or_404
+
 
 # @api_view(['GET'])
 # def hello_world(request):
@@ -23,11 +25,18 @@ class EventViewset(viewsets.ModelViewSet):
         serializer = self.serializer_class(queryset, many=True)
         return Response(serializer.data)
     
+    # def validate_user_id(self, value):
+    #     if not value:
+    #         raise serializers.ValidationError("user_id must not be empty")
+    #     elif isinstance(value, str) and value.strip() == "":
+    #         raise serializers.ValidationError("user_id must not be an empty string")
+    #     return value
+    
     def create(self, request):
         serializer = self.serializer_class(data=request.data)
         if serializer.is_valid(): 
             serializer.save()
-            return Response(serializer.data)
+            return Response(serializer.data, status=201)
         else: 
             return Response(serializer.errors, status=400)
 
@@ -64,9 +73,12 @@ class MarketingPosterViewset(viewsets.ModelViewSet):
         return MarketingPoster.objects.all()
                 
     def destroy(self, request, pk=None):
-        poster = self.queryset.get(pk=pk)
-        poster.delete()
-        return Response(status=204)
+        try:
+            poster = get_object_or_404(self.get_queryset(), pk=pk)
+            poster.delete()
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        except Exception as e:
+            return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
     
 class MarketingRemindersViewset(viewsets.ModelViewSet):
     permission_classes = [permissions.AllowAny]
@@ -97,27 +109,23 @@ class MarketingRecapPhotoViewset(viewsets.ModelViewSet):
     parser_classes = (MultiPartParser, FormParser)
     serializer_class = MarketingRecapPhotoSerializer
 
+    
+
     def get_queryset(self):
         event_id = self.request.query_params.get('event')
         if event_id:
             return MarketingRecapPhotos.objects.filter(event_id=event_id)
         return MarketingRecapPhotos.objects.all()
 
-
-    def create(self, request):
-        serializer = self.serializer_class(data=request.data)
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
         if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
+            event_id = request.data.get('event_id')
+            event_instance = EventGeneralInfo.objects.get(pk=event_id)  # Retrieve the EventGeneralInfo instance
+            serializer.save(event_id=event_instance)  # Save with correct event_id instance
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
         else:
-            print('error', serializer.errors)
-            return Response(self.serializer_class.errors, status=400)
-        
-                
-    def destroy(self, request, pk=None):
-        photo = self.queryset.get(pk=pk)
-        photo.delete()
-        return Response(status=204)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
 class GoalsViewset(viewsets.ModelViewSet):
     permission_classes = [permissions.AllowAny]

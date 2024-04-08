@@ -9,4 +9,17 @@
     text-decoration: none;
     color: white;
   }
+  .logo-container {
+    margin-right: auto; /* Pushes the logo to the left as much as possible */
+  }
+  
+  .logo {
+    width: 50px; /* Adjust width as needed */
+    height: auto;
+  }
+  .user-info {
+    display: flex;
+    align-items:flex-start; /* Align user info vertically */
+    justify-content: center; /* Align contents of user-info to center */
+  }
   

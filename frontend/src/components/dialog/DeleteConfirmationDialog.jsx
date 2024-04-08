@@ -9,7 +9,7 @@ const DeleteConfirmationDialog = ({ isOpen, onClose, onDeleteConfirmation, name,
     const MAX_NAME_LENGTH = 32;
 
     return (
-        <Dialog open={isOpen} onClose={onClose}>
+        <Dialog open={isOpen} onClose={onClose} PaperProps={{ style: { borderRadius: '5px' } }}>
             <DialogTitle>
                 Delete {objectName.charAt(0).toUpperCase() + objectName.slice(1)}
             </DialogTitle>
