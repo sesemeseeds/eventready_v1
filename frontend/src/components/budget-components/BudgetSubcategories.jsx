@@ -3,6 +3,7 @@ import AddIcon from "@material-ui/icons/Add";
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
 import SaveIcon from "@material-ui/icons/Save";
+import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';
 import Paper from "@mui/material/Paper";
 import {
   Accordion,
@@ -63,6 +64,8 @@ function BudgetSubcategories({
   const [selectedCategory, setSelectedCategory] = useState(false);
   const [editBudgetIndex, setEditBudgetIndex] = useState(null);
   const [budgetValue, setBudgetValue] = useState("");
+  const [uploadedFile, setUploadedFile] = useState(null);
+  const [uploadedFileName, setUploadedFileName] = useState("");
 
   const getCategories = async () => {
     try {
@@ -120,6 +123,15 @@ function BudgetSubcategories({
     setItemQuantity(data.quantity);
     setItemCost(data.cost);
     setItemPaid(data.paid);
+  
+    // Check if there's an attachment
+    if (data.attachment) {
+      // Split the attachment URL by '/' and get the last part (filename)
+      const filename = data.attachment.split('/').pop();
+      setUploadedFileName(filename);
+    } else {
+      setUploadedFileName(""); // Reset filename if there's no attachment
+    }
   };
 
   const handleBudgetEditClick = (index) => {
@@ -148,6 +160,8 @@ function BudgetSubcategories({
     setItemQuantity("");
     setItemCost("");
     setItemPaid(false);
+    setUploadedFile(null);
+    setUploadedFileName("");
   };
 
   const handleSubmit = async () => {
@@ -158,27 +172,31 @@ function BudgetSubcategories({
       );
       return;
     }
-
+  
     try {
+      const formData = new FormData();
+      formData.append('category', selectedCategory.id);
+      formData.append('name', itemName);
+      formData.append('description', itemDescription);
+      formData.append('quantity', itemQuantity);
+      formData.append('cost', itemCost);
+      formData.append('paid', itemPaid);
+      formData.append('attachment', uploadedFile); // Assuming uploadedFile is the file object
+  
       if (editIndex !== null) {
-        await AxiosInstance.put(`budgetitems/${editIndex}/`, {
-          name: itemName,
-          description: itemDescription,
-          quantity: itemQuantity,
-          cost: itemCost,
-          paid: itemPaid,
+        await AxiosInstance.put(`budgetitems/${editIndex}/`, formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data' // Important for file upload
+          }
         });
       } else {
-        await AxiosInstance.post("budgetitems/", {
-          category: selectedCategory.id,
-          name: itemName,
-          description: itemDescription,
-          quantity: itemQuantity,
-          cost: itemCost,
-          paid: itemPaid,
+        await AxiosInstance.post("budgetitems/", formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data' // Important for file upload
+          }
         });
       }
-
+  
       handleCloseDialog();
       getCategories();
     } catch (error) {
@@ -222,6 +240,13 @@ function BudgetSubcategories({
 
   // Check if all required fields are filled and valid
   const isFormValid = itemName && itemDescription && itemQuantity && itemCost;
+
+  // Function to handle file selection
+  const handleFileSelect = (event) => {
+    const file = event.target.files[0];
+    setUploadedFile(file);
+    setUploadedFileName(file.name);
+  };
 
   return (
     <div>
@@ -375,17 +400,34 @@ function BudgetSubcategories({
                         <TableCell>${item.cost}</TableCell>
                         <TableCell>{item.paid ? "Yes" : "No"}</TableCell>
                         <TableCell>${item.quantity * item.cost}</TableCell>
-                        <TableCell width="5%">
+                        <TableCell width="10%">
                           <Tooltip title="Edit Item">
                             <EditIcon
                               style={{
-                                marginRight: "10px",
                                 cursor: "pointer",
                                 color: "black",
                               }}
                               onClick={() => handleEditClick(index, item)}
                             />
                           </Tooltip>
+                          {item.attachment && ( 
+                            <Tooltip title="Download Attachment">
+                              <a
+                                href={item.attachment} 
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                download
+                              >
+                                <InsertDriveFileIcon
+                                  style={{
+                                    cursor: "pointer",
+                                    color: "black",
+                                    alignContent: "center"
+                                  }}
+                                />
+                              </a>
+                            </Tooltip>
+                          )}
                           <Tooltip title="Delete Item">
                             <DeleteIcon
                               style={{ cursor: "pointer", color: "black" }}
@@ -446,17 +488,39 @@ function BudgetSubcategories({
             fullWidth
             required
           />
-          <FormControlLabel
-            control={
-              <Checkbox
-                checked={itemPaid}
-                onChange={(e) => setItemPaid(e.target.checked)}
-                name="paid"
-                style={{ color: "green" }}
+          {/* File upload */}
+          <Box style={{ display: 'flex', alignItems: 'center', marginTop: '10px' }}>
+            <input
+              type="file"
+              id="file"
+              style={{ display: "none" }}
+              onChange={handleFileSelect}
+            />
+            <label htmlFor="file">
+              <Button
+                variant="contained"
+                component="span"
+                style={{ backgroundColor: "#13547a", color: "white" }}
+              >
+                Upload File
+              </Button>
+            </label>
+            {uploadedFileName && <Typography style={{ marginLeft: '10px' }}>{uploadedFileName}</Typography>}
+            <Box style={{ marginLeft: 'auto', marginRight: '50px' }}>
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={itemPaid}
+                    onChange={(e) => setItemPaid(e.target.checked)}
+                    name="paid"
+                    style={{ color: "green" }}
+                  />
+                }
+                label="Paid"
+                labelPlacement="end"
               />
-            }
-            label="Paid"
-          />
+            </Box>
+          </Box>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleCloseDialog} disabled={!isFormValid}>
