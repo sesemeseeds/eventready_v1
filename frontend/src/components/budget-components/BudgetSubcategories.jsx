@@ -181,7 +181,10 @@ function BudgetSubcategories({
       formData.append('quantity', itemQuantity);
       formData.append('cost', itemCost);
       formData.append('paid', itemPaid);
-      formData.append('attachment', uploadedFile); // Assuming uploadedFile is the file object
+      
+      if (uploadedFile) {
+        formData.append('attachment', uploadedFile);
+      }
   
       if (editIndex !== null) {
         await AxiosInstance.put(`budgetitems/${editIndex}/`, formData, {

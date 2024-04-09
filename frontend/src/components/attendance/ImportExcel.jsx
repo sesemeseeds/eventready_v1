@@ -44,25 +44,9 @@ const ImportExcel = (eventID) => {
   ];
 
   useEffect(() => {
-    const storedData = localStorage.getItem("excelData");
-    if (storedData) {
-      setExcelData(JSON.parse(storedData));
-      setFilteredData(JSON.parse(storedData));
-    } else {
-      fetchData();
-    }
+    fetchData();
   }, []);
 
-  useEffect(() => {
-    localStorage.setItem("excelData", JSON.stringify(excelData));
-  }, [excelData]);
-
-  useEffect(() => {
-    localStorage.setItem(
-      "selectAllAttended",
-      JSON.stringify(selectAllAttended)
-    );
-  }, [selectAllAttended]);
 
   useEffect(() => {
     const filtered = excelData.filter(
@@ -80,6 +64,7 @@ const ImportExcel = (eventID) => {
         `/attendee/?event_id=${eventID.eventID}`
       );
       setExcelData(response.data);
+      console.log(response.data)
       setFilteredData(response.data);
     } catch (error) {
       console.error("Error fetching data:", error);
