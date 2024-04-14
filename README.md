@@ -80,7 +80,7 @@ Fall (45 Hours): Weekly project check-ins to determine project and scope feature
 **Karthika:**
 
 Fall (45 Hours): Weekly project check-ins to determine project and scope features, Design and create database after research and designed out FE UI/UX mock-up Task List/Goals page, Document and monitor project progression 
-
+Spring (45 Hours): Participated in all the team meetings and project advisor meetings. Researching on how to start with the tools and interactions between the front end and back end.  Worked on the front end for budget, attendance, and marketing. Researching on how to incorporate components within the frontend User interface.
 
 
 ## References
