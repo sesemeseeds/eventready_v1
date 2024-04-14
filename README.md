@@ -67,7 +67,8 @@ Spring (45 Hours): Attended all team meetings and advisor check in meetings, Res
 
 **Emilio:**
 
-Fall (45 Hours):Weekly project checkins to determine project and scope features, Investigate gap features and conduct survey, update project advisor with progress, and designed out FE UI/UX mock-up marketing page 
+Fall (45 Hours):Weekly project checkins to determine project and scope features, Investigate gap features and conduct survey, update project advisor with progress, and designed out FE UI/UX mock-up marketing page
+Spring (45 Hours): Attended all team meeting and advisor check-in meetings, worked on programming the individual features assigned to me, pushed back end models (all) & front-end pages (Goals & Marketing), created and assigned defects
 
 [Survey Responses](Campus%20Event%20Application%20Survey%20Responses.xlsx)
 
