@@ -43,6 +43,8 @@ This project is designed to assist newcomers to the event planning field. This w
 
 ### [ABET Essay](Project%20Constraints.md)
 
+### [Test Plan](Test%20Plan.pdf)
+
 ### [Final PPT Slideshow](https://www.canva.com/design/DAF8hNYd3k8/cw8Pe-m3046xSSV8yCP-uQ/view)
 
 ### [Self-Assessment Essays](./Team%20Homework%20Assignments)
