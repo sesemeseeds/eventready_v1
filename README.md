@@ -81,6 +81,8 @@ Spring (45 Hours): Attended all team meetings and advisor check in meetings, Res
 **Ritika:** 
 
 Fall (45 Hours): Weekly project check-ins to determine project and scope features, Research methods to host the web application, canva integration to Event Ready and designed out FE UI/UX mock-up attendance RSVP 
+Spring (45 Hours): Attended all team meetings alongside fellow members and advisor, engaged in weekly progress checks, and dedicated efforts to developing the individual components of the front end, focusing on attendance, budget, and marketing pages.
+
 
 **Karthika:**
 
