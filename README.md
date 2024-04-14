@@ -58,7 +58,7 @@ At the moment there will be no expenses.
 
 **Kevin:**
 
-Fall (45 Hours): Weekly project checkins to determine project and scope features, designed FE UI/UX mock up landing page, project documentation and scheduled team meetings. 
+Fall (45 Hours): Weekly project checkins to determine project and scope features, designed FE UI/UX mock up landing page, project documentation and scheduled team meetings. \
 Spring (45 Hours): Attended all team meetings and advisor check in meetings, Researched React / Python, contributed to the both the frontend and backend of the Landing, General Info, Tasks, Budget and Attendance page of web app. 
 
 **Emilio:**
