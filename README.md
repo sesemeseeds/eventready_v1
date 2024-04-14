@@ -67,20 +67,20 @@ Spring (45 Hours): Attended all team meetings and advisor check in meetings, Res
 
 **Emilio:**
 
-Fall (45 Hours):Weekly project checkins to determine project and scope features, Investigate gap features and conduct survey, update project advisor with progress, and designed out FE UI/UX mock-up marketing page
+Fall (45 Hours):Weekly project checkins to determine project and scope features, Investigate gap features and conduct survey, update project advisor with progress, and designed out FE UI/UX mock-up marketing page \
 Spring (45 Hours): Attended all team meeting and advisor check-in meetings, worked on programming the individual features assigned to me, pushed back end models (all) & front-end pages (Goals & Marketing), created and assigned defects
 
 [Survey Responses](Campus%20Event%20Application%20Survey%20Responses.xlsx)
 
 **Haneesha:**
 
-Fall (45 Hours): Weekly project check-ins to determine project and scope features, Identify the Gaps based on the survey responses and create list of features that can be included, and designed out FE UI/UX mock-up budget page 
+Fall (45 Hours): Weekly project check-ins to determine project and scope features, Identify the Gaps based on the survey responses and create list of features that can be included, and designed out FE UI/UX mock-up budget page \
 
 Spring (45 Hours): Attended all team meetings and advisor check in meetings, Researched Clerk Authentication for User Management and integration with React Javascript and Python, contributed to the both the frontend and backend of the Landing, Events Page. Worked on migration from React Create App to Vite for React Javascript. 
 
 **Ritika:** 
 
-Fall (45 Hours): Weekly project check-ins to determine project and scope features, Research methods to host the web application, canva integration to Event Ready and designed out FE UI/UX mock-up attendance RSVP 
+Fall (45 Hours): Weekly project check-ins to determine project and scope features, Research methods to host the web application, canva integration to Event Ready and designed out FE UI/UX mock-up attendance RSVP \
 
 Spring (45 Hours): Attended all team meetings alongside fellow members and advisor, engaged in weekly progress checks, and dedicated efforts to developing the individual components of the front end, focusing on attendance, budget, and marketing pages.
 
