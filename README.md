@@ -49,6 +49,8 @@ This project is designed to assist newcomers to the event planning field. This w
 
 ### [Professional Biographies](Professional-Bios)
 
+### [Expo Poster](EventReady%20Demo%20Poster.jpg)
+
 ## Budget
 
 At the moment there will be no expenses.
