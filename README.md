@@ -33,7 +33,7 @@ This project is designed to assist newcomers to the event planning field. This w
 
 
 
-### [User Doc](User_Doc.md)
+### [User Doc](User%20Doc.md)
 
 ### [User Stories](User_Stories.md)
 
