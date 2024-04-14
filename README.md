@@ -63,11 +63,13 @@ At the moment there will be no expenses.
 **Kevin:**
 
 Fall (45 Hours): Weekly project checkins to determine project and scope features, designed FE UI/UX mock up landing page, project documentation and scheduled team meetings. \
+
 Spring (45 Hours): Attended all team meetings and advisor check in meetings, Researched React / Python, contributed to the both the frontend and backend of the Landing, General Info, Tasks, Budget and Attendance page of web app. 
 
 **Emilio:**
 
 Fall (45 Hours):Weekly project checkins to determine project and scope features, Investigate gap features and conduct survey, update project advisor with progress, and designed out FE UI/UX mock-up marketing page \
+
 Spring (45 Hours): Attended all team meeting and advisor check-in meetings, worked on programming the individual features assigned to me, pushed back end models (all) & front-end pages (Goals & Marketing), created and assigned defects
 
 [Survey Responses](Campus%20Event%20Application%20Survey%20Responses.xlsx)
@@ -88,6 +90,7 @@ Spring (45 Hours): Attended all team meetings alongside fellow members and advis
 **Karthika:**
 
 Fall (45 Hours): Weekly project check-ins to determine project and scope features, Design and create database after research and designed out FE UI/UX mock-up Task List/Goals page, Document and monitor project progression \
+
 Spring (45 Hours): Participated in all the team meetings and project advisor meetings. Researching on how to start with the tools and interactions between the front end and back end.  Worked on the front end for budget, attendance, and marketing. Researching on how to incorporate components within the frontend User interface.
 
 
