@@ -54,6 +54,7 @@ This project is designed to assist newcomers to the event planning field. This w
 At the moment there will be no expenses.
 
 # Appendix
+### [Meeting Summary Screenshots](Meeting%20Attendance.md)
 
 ## Summary of Hours
 
