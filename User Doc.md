@@ -34,50 +34,56 @@
 # Using the Project
 
 
-## User Authentication (WIP)
+## User Authentication 
 
-Will be added in the future
+1. Sign in using email or google and go through the prompts. ![image](https://github.com/kbnguyen1423/Capstone-Project/assets/98423738/a3a2fd38-6084-44c8-9695-21b5f77dfd28)
 
-## Landing Page (WIP)
 
-1. Main page where events are displayed and created. (WIP) ![image](https://github.com/kbnguyen1423/Capstone-Project/assets/98423738/9bb3cb23-a201-4c79-984c-28dd9d5d7527)
+## Landing Page 
 
-2. Click Add Event Button to create event (WIP)
-      1. Fill out information listed. After submission you will be redirected to the event page. ![image](https://github.com/kbnguyen1423/Capstone-Project/assets/98423738/e43a124a-2d81-4a70-8309-db0cbeeb100a)
+1. Main page where events are displayed and created. Click on the cards to access the event or click on the Add Event button to create an event ![image](https://github.com/kbnguyen1423/Capstone-Project/assets/98423738/21a4f2bf-828c-47bd-aee0-5920c3dde93c)
+
+
 
 ## Event Page – Navigation Bar
 
 1. Use this sidebar to navigate between all the pages listed
-   1. ![image](https://github.com/kbnguyen1423/Capstone-Project/assets/98423738/7aaef085-ed32-408f-99bf-2a9eb7565c5f)
+   1. ![image](https://github.com/kbnguyen1423/Capstone-Project/assets/98423738/474121b3-f32c-45d7-b760-6b96cdd812e0)
+
 
 ## Event Page – General Info
 
-1. Event Basic Info is displayed on this page. ![image](https://github.com/kbnguyen1423/Capstone-Project/assets/98423738/ac15d45c-7fd7-4f3d-a582-80bc2e0e05b8)
+1. Event Basic Info is displayed on this page along with summary cards of the other pages. Click edit info to fill out information of the event. ![image](https://github.com/kbnguyen1423/Capstone-Project/assets/98423738/0ba6f8e4-3f56-43d8-a7d8-d97d4473fb91)
 
-2. Click on edit button to make changes to information on the page
-    1. On submission the information on the page will be updated ![image](https://github.com/kbnguyen1423/Capstone-Project/assets/98423738/4e35516a-2ddc-4035-9317-64a258a176be)
 
 
 ## Event Page – Goals
 
-Will be added in the future
+1. Goals can be added on this page through the Add Goal Button
+   ![image](https://github.com/kbnguyen1423/Capstone-Project/assets/98423738/7d8a445b-e1b7-4db4-ac63-22b2d1a00c9b)
+
 
 ## Event Page – Tasks
 
-Will be added in the future
+1. Tasks can be added and dragged and dropped between columns on this page.
+   ![image](https://github.com/kbnguyen1423/Capstone-Project/assets/98423738/fcf2ea43-f91d-4e32-bcbd-2dec50ecbff1)
+
 
 ## Event Page – Budget
 
-Will be added in the future
-
-## Event Page – Marketing (WIP)
-
-1. A repository where you can add reminders and save photos for your event ![image](https://github.com/kbnguyen1423/Capstone-Project/assets/98423738/eee6aa62-54ac-4ff5-8383-541293534970)
+1. Budget categories and items and can be set on this page.
+   ![image](https://github.com/kbnguyen1423/Capstone-Project/assets/98423738/7c24d32f-4144-4d81-b05b-345bb7af28d2)
 
 
-## Event Page – Attendance (WIP)
+## Event Page – Marketing 
 
-1. A QR Code that can be scanned to fill out attendance list. ![image](https://github.com/kbnguyen1423/Capstone-Project/assets/98423738/60f6852c-937c-4851-9380-3e95901a293f)
+1. A repository where you can add reminders and save photos for your event ![image](https://github.com/kbnguyen1423/Capstone-Project/assets/98423738/d25b634d-b7e3-48cb-89f0-3dcd843a8375)
+
+
+## Event Page – Attendance 
+
+1. A QR Code that can be scanned to fill out attendance list and an excel can uploaded to record attendance. ![image](https://github.com/kbnguyen1423/Capstone-Project/assets/98423738/5739b0a9-f3e6-4872-8e97-122de091dcd0)
+
 
 
 ## FAQ
