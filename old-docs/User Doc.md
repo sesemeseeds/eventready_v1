@@ -16,7 +16,7 @@
 
 1. In a new terminal run the following:
    ```bash
-   cd .\eventReadyBackend\  # to move to the backend folder
+   cd .\backend\  # to move to the backend folder
    py manage.py runserver   # to start the backend server
    ```
 2. Leave the terminal open while running the project

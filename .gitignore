@@ -1,5 +1,5 @@
 node_modules
 frontend/.env.local
-eventReadyBackend/eventReadyAPI/__pycache__/
-eventReadyBackend/eventReadyAPI/migrations/__pycache__/
-eventReadyBackend/eventReadyBackend/__pycache__/
+backend/eventReadyAPI/__pycache__/
+backend/eventReadyAPI/migrations/__pycache__/
+backend/backend/__pycache__/
