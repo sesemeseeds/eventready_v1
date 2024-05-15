@@ -2,4 +2,4 @@ node_modules
 frontend/.env.local
 backend/eventReadyAPI/__pycache__/
 backend/eventReadyAPI/migrations/__pycache__/
-backend/backend/__pycache__/
+backend/eventReadyBackend/__pycache__/
