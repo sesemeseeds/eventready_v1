@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button, TextField, Grid, Typography } from '@mui/material';
-import ReactQuill from "react-quill";
-import "react-quill/dist/quill.snow.css";
+import { CKEditor } from '@ckeditor/ckeditor5-react';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
 import AxiosInstance from "../Axios";
 
@@ -179,12 +179,13 @@ const AddEditGoalDialog = ({ isOpen, onClose, eventId, setAllGoals, goal  }) => 
                         />
                     </Grid>
                     <Grid item xs={6} style={{paddingTop: '8px'}}>
-                    <ReactQuill
-                        theme="snow"
-                        value={newGoalData.description}
-                        onChange={value => setNewGoalData({...newGoalData, description: value})}
-                        placeholder="Enter your description here!"
-                        style={{ marginTop: 8, marginBottom: 16, height: 345 }}
+                    <CKEditor
+                        editor={ClassicEditor}
+                        data={newGoalData.description}
+                        onChange={(event, editor) => {
+                            const data = editor.getData();
+                            setNewGoalData({ ...newGoalData, description: data });
+                        }}
                     />
                     </Grid>
                     <Grid item xs={6} style={{ height: '400px' }}>

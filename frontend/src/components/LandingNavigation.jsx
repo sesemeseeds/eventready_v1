@@ -140,7 +140,7 @@ export default function PersistentDrawerLeft() {
             <UserButton />
           </div>
         ) : (
-          <p>Not signed in</p>
+          <span>Not signed in</span>
         )}
       </div>
         </Toolbar>

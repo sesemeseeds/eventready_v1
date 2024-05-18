@@ -23,13 +23,13 @@ const UserLoginPage = () => {
         {isSignedIn ? (
           <div>
             <UserButton />
-            <p>Hello {user.fullName}!</p>
+            <span>Hello {user.fullName}!</span>
        
           </div>
         ) : (
           <div>
             <SignInButton />
-            <p>Not signed in</p>
+            <span>Not signed in</span>
           </div>
         )}
       </header>

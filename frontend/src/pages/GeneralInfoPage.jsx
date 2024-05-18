@@ -5,9 +5,7 @@ import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
-import axios from "axios";
-import { Box, Container } from "@mui/material";
-import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
+import { Box } from "@mui/material";
 import "../styles/GeneralInfo.css";
 import AttendanceCard from "../components/general-info-cards/AttendanceCard";
 import GoalsCard from "../components/general-info-cards/GoalsCard";
@@ -15,9 +13,10 @@ import TaskCard from "../components/general-info-cards/TaskCard";
 import BudgetCard from "../components/general-info-cards/BudgetCard";
 import MarketingCard from "../components/general-info-cards/MarketingCard";
 import AxiosInstance from "../components/Axios";
-import { useParams } from "react-router-dom";
 import Tooltip from "@mui/material/Tooltip";
-import ReactQuill from "react-quill";
+import { useParams } from "react-router-dom";
+import { CKEditor } from '@ckeditor/ckeditor5-react';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import "../index.css"
 
 export default function GeneralInfoComponent() {
@@ -234,7 +233,6 @@ export default function GeneralInfoComponent() {
           </Box>
           <Box className="side-section">
             <Tooltip title="Edit Information">
-        
               <Button  variant="contained"   style={{ float: "right" }} onClick={handleClickOpen}>Edit INfo</Button>
             </Tooltip>
 
@@ -283,8 +281,9 @@ export default function GeneralInfoComponent() {
           <DialogTitle>Edit Event Properties</DialogTitle>
           <DialogContent sx={{ height: 500, width: 500 }}>
             <>
-              {loading ? (
-                <p>Loading data...</p>
+              {loading ? ( <span>
+                "Loading data..."
+              </span>
               ) : (
                 <>
                   <TextField
@@ -361,15 +360,13 @@ export default function GeneralInfoComponent() {
                       setEventData({ ...eventData, location: e.target.value })
                     }
                   />
-
-                  <ReactQuill
-                    theme="snow"
-                    value={eventData.description}
-                    onChange={(value) =>
-                      setEventData({ ...eventData, description: value })
-                    }
-                    placeholder="Enter your description here!"
-                    style={{ marginTop: 8, marginBottom: 16, height: 175 }}
+                  <CKEditor
+                    editor={ClassicEditor}
+                    data={eventData.description}
+                    onChange={(event, editor) => {
+                        const data = editor.getData();
+                        setEventData({ ...eventData, description: data });
+                    }}
                   />
                 </>
               )}

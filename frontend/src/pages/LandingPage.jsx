@@ -21,7 +21,8 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import ArchiveIcon from "@mui/icons-material/Archive";
 import Tooltip from "@mui/material/Tooltip";
 import { useUser } from "@clerk/clerk-react";
-import ReactQuill from "react-quill";
+import { CKEditor } from '@ckeditor/ckeditor5-react';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import {
   BrowserRouter,
   Link,
@@ -222,26 +223,23 @@ export const LandingPage = (display = "ActiveEvents") => {
                         </CardContent>
                       </CardActionArea>
                       <CardActions sx={{ backgroundImage: "linear-gradient(15deg, #80d0c7 0%,  #13547a 0%)" }}>
-                        <Tooltip title="Delete">
-                          {" "}
+                      <Tooltip title="Delete">
+                        <div>
                           <Button
                             sx={{ float: "right" }}
                             size="medium"
                             onClick={(e) => handleDeleteOpen(e, event.id)}
                             cursor="pointer"
-                            startIcon={
-                              <DeleteIcon style={{ color: "white" }} />
-                            }
+                            startIcon={<DeleteIcon style={{ color: "white" }} />}
                           ></Button>
-                        </Tooltip>
-                        <Tooltip
-                          title={
-                            display.display === "ActiveEvents"
-                              ? "Archive"
-                              : "Unarchive"
-                          }
-                        >
-                          {" "}
+                        </div>
+                      </Tooltip>
+                      <Tooltip
+                        title={
+                          display.display === "ActiveEvents" ? "Archive" : "Unarchive"
+                        }
+                      >
+                        <div>
                           <Button
                             sx={{ float: "right" }}
                             size="medium"
@@ -249,11 +247,10 @@ export const LandingPage = (display = "ActiveEvents") => {
                               handleArchiveButtonClick(e, event.id, event.name)
                             }
                             cursor="pointer"
-                            startIcon={
-                              <ArchiveIcon style={{ color: "white" }} />
-                            }
+                            startIcon={<ArchiveIcon style={{ color: "white" }} />}
                           ></Button>
-                        </Tooltip>
+                        </div>
+                      </Tooltip>
                       </CardActions>
                     </Card>
                     <Menu
@@ -284,7 +281,7 @@ export const LandingPage = (display = "ActiveEvents") => {
               name="EventTitle"
               label="Event Title"
               type="text"
-              required
+              required={true}
               fullWidth
               variant="outlined"
               value={eventTitle}
@@ -292,14 +289,23 @@ export const LandingPage = (display = "ActiveEvents") => {
               error={error}
               helperText={errorMessage}
             />
-
-            <ReactQuill
-              theme="snow"
-              value={eventDescription}
-              onChange={(value) => setEventDescription(value)}
-              placeholder="Enter your description here!"
-              style={{ marginTop: 8, marginBottom: 16, height: 175 }}
-            />
+            <div style={{height: '175px'}}>
+              <CKEditor
+                editor={ClassicEditor}
+                data={eventDescription}
+                onChange={(event, editor) => {
+                  const data = editor.getData();
+                  setEventDescription(data);
+                }}
+                config={{
+                  extraPlugins: [function CustomHeightPlugin(editor) {
+                    editor.on('ready', () => {
+                      editor.ui.view.editable.element.style.height = '100%';
+                    });
+                  }],
+                }}
+              />
+            </div>
           </DialogContent>
           <DialogActions >
             <Button  onClick={handleClose}>

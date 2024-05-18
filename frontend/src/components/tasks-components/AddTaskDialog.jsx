@@ -11,8 +11,8 @@ import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
 import AxiosInstance from "../Axios";
 import { Box } from "@mui/material";
-import ReactQuill from "react-quill";
-import "react-quill/dist/quill.snow.css";
+import { CKEditor } from '@ckeditor/ckeditor5-react';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
 export default function AddTaskDialog({
   open,
@@ -119,12 +119,13 @@ export default function AddTaskDialog({
         <Box sx={{ display: "flex", height: 325, width: 700 }}>
           {" "}
           <Box sx={{ width: "70%", marginRight: "25px" }}>
-            <ReactQuill
-              theme="snow"
-              value={description}
-              onChange={setDescription}
-              placeholder="Enter your description here!"
-              style={{ marginTop: 8, marginBottom: 16, height: 258 }}
+            <CKEditor
+                editor={ClassicEditor}
+                data={description}
+                onChange={(event, editor) => {
+                    const data = editor.getData();
+                    setDescription({ ...description, data });
+                }}
             />
           </Box>
           <Box sx={{ width: "30%" }}>
