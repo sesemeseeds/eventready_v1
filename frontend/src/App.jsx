@@ -60,7 +60,7 @@ function App() {
         <Routes>
           <Route path="dashboard/event/:id" element={<Navigation />}>
             <Route path="marketing" element={<MarketingPage />} />
-            <Route path="generalinfo" element={<GeneralInfoPage />} />
+            <Route path="info" element={<GeneralInfoPage />} />
             <Route path="attendance" element={<Attendance />} />
             <Route path="tasks" element={<TasksPage />} />
             <Route path="goals" element={<GoalsPage />} />

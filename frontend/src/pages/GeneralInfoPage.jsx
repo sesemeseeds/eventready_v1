@@ -293,7 +293,7 @@ export default function GeneralInfoComponent() {
                     type="text"
                     fullWidth
                     variant="outlined"
-                    InputLabelProps={{ required: "true" }}
+                    InputLabelProps={{ required: true }}
                     value={eventData.title}
                     onChange={(e) =>
                       setEventData({ ...eventData, title: e.target.value })

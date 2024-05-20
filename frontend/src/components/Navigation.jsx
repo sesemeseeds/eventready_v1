@@ -145,7 +145,7 @@ export default function PersistentDrawerLeft() {
     let sections = url.split("/");
     let name = sections[sections.length - 1];
     switch (name) {
-      case "generalinfo":
+      case "info":
         setHeaderName("General Information");
         break;
       case "goals":
@@ -372,8 +372,8 @@ export default function PersistentDrawerLeft() {
         <List>
           <ListItem
             button
-            key="generalinfo"
-            to="generalinfo"
+            key="info"
+            to="info"
             component={Link}
             onClick={() => {
               setHeaderName("General Information");
@@ -494,7 +494,7 @@ export default function PersistentDrawerLeft() {
         })}
       >
         <Routes>
-          <Route path="generalinfo" element={<GeneralInfoPage />} />
+          <Route path="info" element={<GeneralInfoPage />} />
           <Route path="goals" element={<GoalsPage />} />
           <Route path="budget" element={<BudgetPage />} />
           <Route path="marketing" element={<MarketingPage />} />

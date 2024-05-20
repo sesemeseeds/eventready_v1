@@ -21,7 +21,7 @@ import {
   Tooltip,
 } from "@mui/material";
 import AxiosInstance from "../Axios"; 
-import ReactFileReader from 'react-file-reader';s
+import ReactFileReader from 'react-file-reader';
 
 const ImportExcel = ({ eventID }) => {
   const [excelData, setExcelData] = useState([]);

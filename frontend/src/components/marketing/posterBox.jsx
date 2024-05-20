@@ -141,7 +141,7 @@ const PosterBox = ({ eventId }) => {
                       <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                         <Button
                           variant="outlined"
-                          style={{ alignSelf: 'center', alignSelf: 'flex-start' }}
+                          style={{ alignSelf: 'flex-start' }}
                           onClick={handleDeleteImage}
                           >
                           Delete

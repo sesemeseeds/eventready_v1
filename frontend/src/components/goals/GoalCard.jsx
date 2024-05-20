@@ -79,7 +79,6 @@ const GoalCard = ({ eventId, goal, handleDeleteGoal, setAllGoals }) => {
           flexDirection: "column",
           justifyContent: "center",
           alignItems: "center",
-          height: "100%",
           height: "250px",
         }}
       >

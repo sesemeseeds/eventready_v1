@@ -47,7 +47,7 @@ export const LandingPage = (display = "ActiveEvents") => {
   const {user, isLoaded, isSignedIn} = useUser();
 
   const getAllEvents = () => {
-    console.log('User:',user.id);
+    // console.log('User:',user.id);
     AxiosInstance.get(`/event/`).then((res) => {
       if (display.display === "ActiveEvents") {
         const activeEvents = res.data.filter((event) => event.active && event.user_id === user.id);
@@ -205,7 +205,7 @@ export const LandingPage = (display = "ActiveEvents") => {
                     >
                       <CardActionArea
                         component={Link}
-                        to={`event/${event.id}/generalinfo`}
+                        to={`event/${event.id}/info`}
                         reloadDocument
                       >
                         <CardContent sx={{ height: "225px" }}>
