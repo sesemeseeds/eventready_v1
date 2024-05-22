@@ -24,7 +24,7 @@ import {
   Box,
   Tooltip,
   DialogActions,
-} from "@material-ui/core";
+} from "@mui/material";
 import {
   TableContainer,
   Table,
@@ -447,99 +447,101 @@ function BudgetSubcategories({
         </Accordion>
       ))}
 
-      {/* Dialog for entering category details */}
-      <Dialog open={openDialog} onClose={handleCloseDialog}>
-        <DialogTitle style={{ backgroundColor: "#13547a", color: "white" }}>
-          {editIndex !== null
-            ? "Edit Details"
-            : `Add ${formatCategoryName(category.name)} Details`}
-        </DialogTitle>
-        <DialogContent>
-          <TextField
-            name="name"
-            label="Name"
-            value={itemName}
-            onChange={(e) => setItemName(e.target.value)}
-            fullWidth
-            required
+<Dialog open={openDialog} onClose={handleCloseDialog}>
+      <DialogTitle style={{ backgroundColor: "#13547a", color: "white" }}>
+        {editIndex !== null
+          ? "Edit Details"
+          : `Add ${formatCategoryName(category.name)} Details`}
+      </DialogTitle>
+      <DialogContent>
+        <TextField
+          name="name"
+          label="Name"
+          value={itemName}
+          onChange={(e) => setItemName(e.target.value)}
+          fullWidth
+          required
+          margin="normal" // Added margin
+        />
+        <TextField
+          name="description"
+          label="Description"
+          value={itemDescription}
+          onChange={(e) => setItemDescription(e.target.value)}
+          fullWidth
+          multiline
+          minRows={3}
+          required
+          margin="normal" // Added margin
+        />
+        <TextField
+          name="quantity"
+          label="Quantity"
+          type="number"
+          value={itemQuantity}
+          onChange={(e) => setItemQuantity(e.target.value)}
+          fullWidth
+          required
+          margin="normal" // Added margin
+        />
+        <TextField
+          name="cost"
+          label="Cost"
+          type="number"
+          value={itemCost}
+          onChange={(e) => setItemCost(e.target.value)}
+          fullWidth
+          required
+          margin="normal" // Added margin
+        />
+        {/* File upload */}
+        <Box style={{ display: 'flex', alignItems: 'center', marginTop: '10px' }}>
+          <input
+            type="file"
+            id="file"
+            style={{ display: "none" }}
+            onChange={handleFileSelect}
           />
-          <TextField
-            name="description"
-            label="Description"
-            value={itemDescription}
-            onChange={(e) => setItemDescription(e.target.value)}
-            fullWidth
-            multiline
-            rows={2}
-            required
-          />
-          <TextField
-            name="quantity"
-            label="Quantity"
-            type="number"
-            value={itemQuantity}
-            onChange={(e) => setItemQuantity(e.target.value)}
-            fullWidth
-            required
-          />
-          <TextField
-            name="cost"
-            label="Cost"
-            type="number"
-            value={itemCost}
-            onChange={(e) => setItemCost(e.target.value)}
-            fullWidth
-            required
-          />
-          {/* File upload */}
-          <Box style={{ display: 'flex', alignItems: 'center', marginTop: '10px' }}>
-            <input
-              type="file"
-              id="file"
-              style={{ display: "none" }}
-              onChange={handleFileSelect}
+          <label htmlFor="file">
+            <Button
+              variant="contained"
+              component="span"
+              style={{ backgroundColor: "#13547a", color: "white" }}
+            >
+              Upload File
+            </Button>
+          </label>
+          {uploadedFileName && <Typography style={{ marginLeft: '10px' }}>{uploadedFileName}</Typography>}
+          <Box style={{ marginLeft: 'auto', marginRight: '50px' }}>
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={itemPaid}
+                  onChange={(e) => setItemPaid(e.target.checked)}
+                  name="paid"
+                  style={{ color: "green" }}
+                />
+              }
+              label="Paid"
+              labelPlacement="end"
             />
-            <label htmlFor="file">
-              <Button
-                variant="contained"
-                component="span"
-                style={{ backgroundColor: "#13547a", color: "white" }}
-              >
-                Upload File
-              </Button>
-            </label>
-            {uploadedFileName && <Typography style={{ marginLeft: '10px' }}>{uploadedFileName}</Typography>}
-            <Box style={{ marginLeft: 'auto', marginRight: '50px' }}>
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={itemPaid}
-                    onChange={(e) => setItemPaid(e.target.checked)}
-                    name="paid"
-                    style={{ color: "green" }}
-                  />
-                }
-                label="Paid"
-                labelPlacement="end"
-              />
-            </Box>
           </Box>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleCloseDialog} disabled={!isFormValid}>
-            Cancel
-          </Button>{" "}
-          <Button
-            style={{ backgroundColor: "#13547a", color: "white" }}
-            onClick={handleSubmit}
-            variant="contained"
-            color="#13547a"
-            disabled={!isFormValid}
-          >
-            Submit
-          </Button>
-        </DialogActions>
-      </Dialog>
+        </Box>
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={handleCloseDialog}>
+          Cancel
+        </Button>
+        <Button
+          onClick={handleSubmit}
+          variant="contained"
+          color="primary"
+          disabled={!isFormValid}
+        >
+          Submit
+        </Button>
+      </DialogActions>
+    </Dialog>
     </div>
   );
 }

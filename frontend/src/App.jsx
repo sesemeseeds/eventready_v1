@@ -58,7 +58,7 @@ function App() {
     <ThemeProvider theme={theme}>
       <Router>
         <Routes>
-          <Route path="dashboard/event/:id" element={<Navigation />}>
+          <Route path="dashboard/event/:id/*" element={<Navigation />}>
             <Route path="marketing" element={<MarketingPage />} />
             <Route path="info" element={<GeneralInfoPage />} />
             <Route path="attendance" element={<Attendance />} />
