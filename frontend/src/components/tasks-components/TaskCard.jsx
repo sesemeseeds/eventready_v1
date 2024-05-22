@@ -100,7 +100,6 @@ export default function TaskCard({ task, index, refreshTasks, goals }) {
           {...provided.draggableProps}
           {...provided.dragHandleProps}
           ref={provided.innerRef}
-          isDragging={snapshot.isDragging}
         >
           <Box sx={{ display: "flex", justifyContent: "space-between" }}>
             <Box
@@ -178,13 +177,23 @@ export default function TaskCard({ task, index, refreshTasks, goals }) {
 
             <Box sx={{ display: "flex" }}>
               <Tooltip title="Edit Task">
-                <IconButton size="small" className="" color="inherit">
-                  <EditIcon onClick={openEditDialog} />
+                <IconButton
+                    size="small"
+                    className=""
+                    color="inherit"
+                    onClick={openEditDialog}
+                >
+                  <EditIcon />
                 </IconButton>
               </Tooltip>
               <Tooltip title="Delete Task">
-                <IconButton size="small" className="" color="inherit">
-                  <DeleteIcon onClick={openDeleteDialog} />
+                <IconButton
+                    size="small"
+                    className=""
+                    color="inherit"
+                    onClick={openDeleteDialog}
+                >
+                  <DeleteIcon />
                 </IconButton>
               </Tooltip>
             </Box>

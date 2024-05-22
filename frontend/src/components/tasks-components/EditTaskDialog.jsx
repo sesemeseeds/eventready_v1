@@ -24,10 +24,10 @@ export default function EditTaskDialog({
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [priority, setPriority] = useState(5);
-  const [completionDate, setCompletionDate] = useState(String);
-  const [deadlineDate, setDeadlineDate] = useState(String);
+  const [completionDate, setCompletionDate] = useState(undefined);
+  const [deadlineDate, setDeadlineDate] = useState(undefined);  
   const [assignedTo, setAssignedTo] = useState("");
-  const [goal, setGoal] = useState(null);
+  const [goal, setGoal] = useState(task ? task.goal : '');
 
   useEffect(() => {
     if (open) {
@@ -57,7 +57,6 @@ export default function EditTaskDialog({
       assigned_to: assignedTo,
       goal: goal,
     };
-    console.log(updatedTask);
     try {
       await AxiosInstance.put(`tasks/${task.id}/`, updatedTask);
       onClose();
@@ -72,16 +71,15 @@ export default function EditTaskDialog({
   };
 
   return (
-    <Dialog maxWidth="md" backgr open={open} onClose={handleClose}>
+    <Dialog maxWidth="md" open={open} onClose={handleClose}>
       <DialogTitle style={{backgroundColor: "#13547a", color: "white" }}>
-        {" "}
-
+        Edit Task
       </DialogTitle>
       <DialogContent>
       <TextField
           size="medium"
           autoFocus
-          required="true"
+          required={true}
           margin="dense"
           label="Task Name"
           type="text"
@@ -95,14 +93,14 @@ export default function EditTaskDialog({
         <Box sx={{ display: "flex", height: 325, width: 700 }}>
           {" "}
           <Box sx={{ width: "70%", marginRight: "25px" }}>
-            <CKEditor
-                editor={ClassicEditor}
-                data={description}
-                onChange={(event, editor) => {
-                    const data = editor.getData();
-                    setDescription({ ...description, data });
-                }}
-            />
+          <CKEditor
+              editor={ClassicEditor}
+              data={description}
+              onChange={(event, editor) => {
+                  const data = editor.getData();
+                  setDescription(data);
+              }}
+          />
           </Box>
           <Box sx={{ width: "30%" }}>
             <TextField
@@ -138,11 +136,10 @@ export default function EditTaskDialog({
               margin="dense"
               label="Completion Date"
               type="date"
-              format="mm/dd/yyyy"
               variant="outlined"
               fullWidth
               style={{ paddingBottom: 10 }}
-              value={completionDate}
+              value={completionDate || ''}
               InputLabelProps={{ shrink: true, required: false }}
               onChange={(e) => setCompletionDate(e.target.value)}
             />
@@ -152,16 +149,15 @@ export default function EditTaskDialog({
               label="Deadline Date"
               type="date"
               variant="outlined"
-              format="mm/dd/yyyy"
               fullWidth
-              value={deadlineDate}
+              value={deadlineDate || ''}
               InputLabelProps={{ shrink: true, required: false }}
               onChange={(e) => setDeadlineDate(e.target.value)}
             />
             <FormControl fullWidth variant="outlined">
               <InputLabel shrink={true}>Associated Goal</InputLabel>
               <Select
-                value={goal}
+                value={goal || ''}
                 onChange={(e) => setGoal(e.target.value)}
                 label="Associated Goal"
                 notched={true}

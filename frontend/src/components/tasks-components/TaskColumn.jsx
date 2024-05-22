@@ -40,8 +40,12 @@ export default function TaskColumn({ title, tasks, columnId, refreshTasks }) {
         <div>{title}</div>
 
         <Tooltip title="Add Task">
-          <IconButton className="add-task-button" color="inherit">
-            <AddIcon onClick={() => setAddDialogOpen(true)} />
+          <IconButton
+              className="add-task-button"
+              color="inherit"
+              onClick={() => setAddDialogOpen(true)}
+          >
+            <AddIcon />
           </IconButton>
         </Tooltip>
       </div>
@@ -51,7 +55,6 @@ export default function TaskColumn({ title, tasks, columnId, refreshTasks }) {
             className="task-list"
             ref={provided.innerRef}
             {...provided.droppableProps}
-            isDraggingOver={snapshot.isDraggingOver}
           >
             {tasks.map((task, index) => (
               <TaskCard

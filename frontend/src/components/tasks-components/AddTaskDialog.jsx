@@ -98,34 +98,31 @@ export default function AddTaskDialog({
   return (
     <Dialog maxWidth="md" open={open} onClose={handleClose}>
       <DialogTitle style={{backgroundColor: "#13547a", color: "white" }}>
-        {" "}
-      
+        Add Task
       </DialogTitle>
-      
       <DialogContent>
       <TextField
           autoFocus
-          required
           margin="dense"
           label="Task Name"
           type="text"
           variant="outlined"
           fullWidth
           value={title}
-          InputLabelProps={{ shrink: true, style: { fontSize: 15 } }}
+          InputLabelProps={{ shrink: true, required: true, style: { fontSize: 15 } }}
           inputProps={{ style: { fontSize: 18, fontWeight: 600 } }}
           onChange={(e) => setTitle(e.target.value)}
         />
         <Box sx={{ display: "flex", height: 325, width: 700 }}>
           {" "}
           <Box sx={{ width: "70%", marginRight: "25px" }}>
-            <CKEditor
-                editor={ClassicEditor}
-                data={description}
-                onChange={(event, editor) => {
-                    const data = editor.getData();
-                    setDescription({ ...description, data });
-                }}
+          <CKEditor
+              editor={ClassicEditor}
+              data={description}
+              onChange={(event, editor) => {
+                const data = editor.getData();
+                setDescription(data);
+              }}
             />
           </Box>
           <Box sx={{ width: "30%" }}>
@@ -135,7 +132,7 @@ export default function AddTaskDialog({
               type="text"
               variant="outlined"
               fullWidth
-              value={assignedTo || ''}
+              value={assignedTo !== null ? assignedTo : ''}
               InputLabelProps={{ shrink: true, required: false }}
               style={{ paddingBottom: 10 }}
               onChange={(e) => setAssignedTo(e.target.value)}
@@ -147,7 +144,7 @@ export default function AddTaskDialog({
             >
               <InputLabel>Priority</InputLabel>
               <Select
-                value={priority || ''}
+                value={priority !== null ? priority : ''}
                 onChange={(e) => setPriority(e.target.value)}
                 label="Priority"
               >
@@ -166,10 +163,14 @@ export default function AddTaskDialog({
               variant="outlined"
               fullWidth
               style={{ paddingBottom: 10 }}
-              value={completionDate || ''}
-              InputLabelProps={{ shrink: true, required: false }}
-              onChange={(e) => setCompletionDate(e.target.value)}
+              value={completionDate !== null ? completionDate : ''}
+              InputLabelProps={{ shrink: true }}
+              required={false}
+              onChange={(e) => {
+                setCompletionDate(e.target.value || null);
+              }}
             />
+
             <TextField
               margin="dense"
               label="Deadline Date"
@@ -178,9 +179,12 @@ export default function AddTaskDialog({
               variant="outlined"
               format="mm/dd/yyyy"
               fullWidth
-              value={deadlineDate || ''}
-              InputLabelProps={{ shrink: true, required: false }}
-              onChange={(e) => setDeadlineDate(e.target.value)}
+              value={deadlineDate !== null ? deadlineDate : ''}
+              InputLabelProps={{ shrink: true }}
+              required={false}
+              onChange={(e) => {
+                setDeadlineDate(e.target.value || null);
+              }}
             />
             <FormControl fullWidth variant="outlined">
               <InputLabel shrink={true}>
@@ -189,7 +193,9 @@ export default function AddTaskDialog({
               {defaultGoal ? (
                   <Select
                   value={defaultGoal.id}
-                  onChange={(e) => setSelectedGoal(e.target.value)}
+                  onChange={(e) => {
+                    setSelectedGoal(e.target.value || null);
+                  }}
                   label="Associated Goal"
                   notched={true}
                   disabled={true}
@@ -200,8 +206,10 @@ export default function AddTaskDialog({
                 </Select>
                 ) : (
                 <Select
-                  value={selectedGoal}
-                  onChange={(e) => setSelectedGoal(e.target.value)}
+                  value={selectedGoal !== null ? selectedGoal : ''}
+                  onChange={(e) => {
+                    setSelectedGoal(e.target.value || null);
+                  }}
                   label="Associated Goal"
                   notched={true}
                 >
